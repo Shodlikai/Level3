@@ -4,7 +4,203 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Learning Time</title>
-    <link rel="stylesheet" href="stylex.css">
+    <!-- Inline CSS for styling -->
+    <style>
+        /* Barcha body elementlarini markazga joylash */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+
+        /* Navbar */
+        nav {
+            position: fixed;  
+            top: 0;
+            left: 0;
+            width: 100%;     
+            background: rgba(20, 20, 20, 0.7);
+            padding: 1px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            text-transform: uppercase;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            width: 100%;
+            height: calc(100vh - 60px);
+            padding-top: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+        }
+        /* Fona rasm */
+        .background-image {
+            width: 100%;
+            height: 100vh;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        /* Video fon */
+        .background-video {
+            width: 100%;
+            height: 100vh;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        /* Lesson buttons */
+        .lesson-buttons {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .lesson-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 20px 20px;
+            font-size: 10px;
+            width: 100px;
+            height: 50px;
+            cursor: pointer;
+            border-radius: 15px;
+            opacity: 0.8;
+            transition: 0.3s;
+
+            /* Minimal o‘lchamlar */
+            min-width: 80px;
+            min-height: 40px;
+        }
+
+        .lesson-btn:hover {
+            opacity: 1;
+        }
+
+        /* Modal oyna */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        /* Modal content */
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Modal tugmalar */
+        .modal button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        #option1-btn {
+            background: #3498db;
+            color: white;
+        }
+
+        #option2-btn {
+            background: #2ecc71;
+            color: white;
+        }
+
+        #option3-btn { /* Grammar */
+            background: #9b59b6;
+            color: white;
+        }
+
+        #option4-btn { /* Reading */
+            background: #f39c12;
+            color: white;
+        }
+
+        #option5-btn { /* New Writing button */
+            background: #e74c3c; /* Example color, you can change this */
+            color: white;
+        }
+
+        #close-btn {
+            background: #7f8c8d; /* A neutral color for close */
+            color: white;
+        }
+
+        .modal button:hover {
+            opacity: 0.8;
+        }
+
+        /* ============================
+           MOSLASHUVCHANLIK (Responsive)
+           ============================ */
+
+        /* Planshetlar (≤ 768px) */
+        @media screen and (max-width: 768px) {
+            .lesson-buttons {
+                max-width: 90%;
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .lesson-btn {
+                width: 28vw;
+                height: 7vh;
+                font-size: 1.6vw;
+            }
+        }
+
+        /* Telefonlar (≤ 480px) */
+        @media screen and (max-width: 480px) {
+            .lesson-buttons {
+                max-width: 95%;
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .lesson-btn {
+                width: 30vw;
+                height: 7vh;
+                font-size: 2.8vw;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -20,70 +216,145 @@
 
         <!-- Video fon -->
         <video id="background-video" autoplay muted loop class="background-video" style="display:none;">
-            <source src="background.mp4" type="video/mp4">
+            <source src=background.mp4 " type="video/mp4">
             Sizning brauzeringiz videoni qo‘llab-quvvatlamaydi.
         </video>
 
         <div class="lesson-buttons">
-    <button class="lesson-btn" onclick="showOptions(1)">Lesson 1</button>
-    <button class="lesson-btn" onclick="showOptions(2)">Lesson 2</button>
-    <button class="lesson-btn" onclick="showOptions(3)">Lesson 3</button>
-    <button class="lesson-btn" onclick="showOptions(4)">Lesson 4</button>
-    <button class="lesson-btn" onclick="showOptions(5)">Lesson 5</button>
-    <button class="lesson-btn" onclick="showOptions(6)">Lesson 6</button>
-    <button class="lesson-btn" onclick="showOptions(7)">Lesson 7</button>
-    <button class="lesson-btn" onclick="showOptions(8)">Lesson 8</button>
-    <button class="lesson-btn" onclick="showOptions(9)">Lesson 9</button>
-    <button class="lesson-btn" onclick="showOptions(10)">Lesson 10</button>
-    <button class="lesson-btn" onclick="showOptions(11)">Lesson 11</button>
-    <button class="lesson-btn" onclick="showOptions(12)">Lesson 12</button>
-    <button class="lesson-btn" onclick="showOptions(13)">Lesson 13</button>
-    <button class="lesson-btn" onclick="showOptions(14)">Lesson 14</button>
-    <button class="lesson-btn" onclick="showOptions(15)">Lesson 15</button>
-    <button class="lesson-btn" onclick="showOptions(16)">Lesson 16</button>
-    <button class="lesson-btn" onclick="showOptions(17)">Lesson 17</button>
-    <button class="lesson-btn" onclick="showOptions(18)">Lesson 18</button>
-    <button class="lesson-btn" onclick="showOptions(19)">Lesson 19</button>
-    <button class="lesson-btn" onclick="showOptions(20)">Lesson 20</button>
-    <button class="lesson-btn" onclick="showOptions(21)">Lesson 21</button>
-    <button class="lesson-btn" onclick="showOptions(22)">Lesson 22</button>
-    <button class="lesson-btn" onclick="showOptions(23)">Lesson 23</button>
-    <button class="lesson-btn" onclick="showDasturchi()">Dastur</button>
-</div>
+            <button class="lesson-btn" onclick="showOptions(1)">Lesson 1</button>
+            <button class="lesson-btn" onclick="showOptions(2)">Lesson 2</button>
+            <button class="lesson-btn" onclick="showOptions(3)">Lesson 3</button>
+            <button class="lesson-btn" onclick="showOptions(4)">Lesson 4</button>
+            <button class="lesson-btn" onclick="showOptions(5)">Lesson 5</button>
+            <button class="lesson-btn" onclick="showOptions(6)">Lesson 6</button>
+            <button class="lesson-btn" onclick="showOptions(7)">Lesson 7</button>
+            <button class="lesson-btn" onclick="showOptions(8)">Lesson 8</button>
+            <button class="lesson-btn" onclick="showOptions(9)">Lesson 9</button>
+            <button class="lesson-btn" onclick="showOptions(10)">Lesson 10</button>
+            <button class="lesson-btn" onclick="showOptions(11)">Lesson 11</button>
+            <button class="lesson-btn" onclick="showOptions(12)">Lesson 12</button>
+            <button class="lesson-btn" onclick="showOptions(13)">Lesson 13</button>
+            <button class="lesson-btn" onclick="showOptions(14)">Lesson 14</button>
+            <button class="lesson-btn" onclick="showOptions(15)">Lesson 15</button>
+            <button class="lesson-btn" onclick="showOptions(16)">Lesson 16</button>
+            <button class="lesson-btn" onclick="showOptions(17)">Lesson 17</button>
+            <button class="lesson-btn" onclick="showOptions(18)">Lesson 18</button>
+            <button class="lesson-btn" onclick="showOptions(19)">Lesson 19</button>
+            <button class="lesson-btn" onclick="showOptions(20)">Lesson 20</button>
+            <button class="lesson-btn" onclick="showOptions(21)">Lesson 21</button>
+            <button class="lesson-btn" onclick="showOptions(22)">Lesson 22</button>
+            <button class="lesson-btn" onclick="showOptions(23)">Lesson 23</button>
+            <button class="lesson-btn" onclick="showDasturchi()">Dastur</button>
+        </div>
     </header>
 
     <!-- Modal oyna (pop-up) -->
-    <!-- Update the modal content in index.html -->
-<div id="modal" class="modal">
-    <div class="modal-content">
-        <h3>Qaysi turdagi darsni tanlaysiz?</h3>
-        <button id="option1-btn">Fleshcard</button>
-        <button id="option2-btn">Listening</button>
-        <button id="option3-btn">Grammar</button>
-        <button id="option4-btn">Reading</button>
-        <button id="close-btn">Bekor qilish</button>
-    </div>
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h3>Qaysi turdagi darsni tanlaysiz?</h3>
+            <button id="option1-btn">Fleshcard</button>
+            <button id="option2-btn">Listening</button>
+            <button id="option3-btn">Grammar</button>
+            <button id="option4-btn">Reading</button>
+            <button id="option5-btn">Writing</button> <!-- New Writing button -->
+            <button id="close-btn">Bekor qilish</button>
         </div>
     </div>
 
-    <script src="scriptx.js"></script>
+    <!-- Inline JavaScript for modal logic and video handling -->
     <script>
-        // Video yuklangach rasmni video bilan almashtirish
-        const video = document.getElementById("background-video");
-        const image = document.getElementById("background-image");
+        // Get all modal elements
+        const modal = document.getElementById("modal");
+        const option1Btn = document.getElementById("option1-btn");
+        const option2Btn = document.getElementById("option2-btn");
+        const option3Btn = document.getElementById("option3-btn");
+        const option4Btn = document.getElementById("option4-btn");
+        const option5Btn = document.getElementById("option5-btn"); // New Writing button
+        const closeBtn = document.getElementById("close-btn");
 
-        video.oncanplaythrough = function() {
-            // Video tayyor bo'lgach, rasmni yashirish va videoni ko'rsatish
-            image.style.display = "none";
-            video.style.display = "block";
-        };
+        // Store the selected lesson number
+        let selectedLesson = 1;
 
-        // Sahifa ochilganda 2 sekundlik kutish va video boshlash
-        setTimeout(function() {
-            video.style.display = "block";
-            image.style.display = "none";
-        }, 2000); // 2 soniya kutish
+        // Function to show modal with options for the selected lesson
+        function showOptions(lessonNumber) {
+            selectedLesson = lessonNumber;
+            modal.style.display = "flex";
+            
+            // Set up event listeners for all options
+            setupOptionButtons();
+        }
+
+        // Function to set up all option button click handlers
+        function setupOptionButtons() {
+            // Fleshcard option - goes to index[lesson].html
+            option1Btn.onclick = function() {
+                redirectToLesson(`index${selectedLesson}.html`);
+            };
+
+            // Words option - goes to [lesson]pod.html
+            option2Btn.onclick = function() {
+                redirectToLesson(`${selectedLesson}pod.html`);
+            };
+
+            // Story option - goes to [lesson]gramm.html
+            option3Btn.onclick = function() {
+                redirectToLesson(`${selectedLesson}gramm.html`);
+            };
+
+            // Reading option - goes to [lesson]read.html
+            option4Btn.onclick = function() {
+                redirectToLesson(`${selectedLesson}read.html`);
+            };
+
+            // New Writing option - goes to index-[lesson].html
+            option5Btn.onclick = function() {
+                redirectToLesson(`index-${selectedLesson}.html`); // Changed to index-[lesson].html as per request
+            };
+        }
+
+        // Function to handle redirection with error checking
+        function redirectToLesson(url) {
+            // Hide modal before redirecting
+            modal.style.display = "none";
+            
+            // You could add additional checks here to verify the file exists
+            // before redirecting, but that would require more advanced JavaScript
+            
+            // Redirect to the selected lesson page
+            window.location.href = url;
+        }
+
+        // Close modal when clicking the cancel button
+        closeBtn.addEventListener("click", function() {
+            modal.style.display = "none";
+        });
+
+        // Developer page redirection
+        function showDasturchi() {
+            window.location.href = "dastur.html";
+        }
+
+        // Video loading handler (moved from HTML to here for better organization)
+        document.addEventListener("DOMContentLoaded", function() {
+            const video = document.getElementById("background-video");
+            const image = document.getElementById("background-image");
+
+            // When video is ready to play, switch from image to video
+            video.oncanplaythrough = function() {
+                image.style.display = "none";
+                video.style.display = "block";
+                video.play().catch(e => console.log("Video autoplay prevented:", e));
+            };
+
+            // Fallback in case oncanplaythrough doesn't fire
+            setTimeout(function() {
+                if (video.readyState >= 3) { // HAVE_FUTURE_DATA
+                    image.style.display = "none";
+                    video.style.display = "block";
+                    video.play().catch(e => console.log("Video autoplay prevented:", e));
+                }
+            }, 2000);
+        });
     </script>
-    <div id="sfc785hp8khlkjdx64xadjxpcsclgjh1cam"></div><script type="text/javascript" src="https://counter1.optistats.ovh/private/counter.js?c=785hp8khlkjdx64xadjxpcsclgjh1cam&down=async" async></script><noscript><a href="https://www.freecounterstat.com" title="website view counter"><img src="https://counter1.optistats.ovh/private/freecounterstat.php?c=785hp8khlkjdx64xadjxpcsclgjh1cam" border="0" title="website view counter" alt="website view counter"></a></noscript>
 </body>
 </html>
