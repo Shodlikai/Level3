@@ -1,0 +1,675 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Interactive English Text</title>
+   <script src="https://code.responsivevoice.org/responsivevoice.js?key=ftro4Sxr"></script>
+   <style>
+       body {
+           font-family: Arial, sans-serif;
+           line-height: 1.6;
+           margin: 20px;
+           background-color: #f4f4f4;
+           color: #333;
+       }
+       .container {
+           max-width: 800px;
+           margin: auto;
+           background: #fff;
+           padding: 30px;
+           border-radius: 8px;
+           box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+       }
+       .text-section {
+           margin-bottom: 20px;
+       }
+       .word {
+           cursor: pointer;
+           position: relative;
+           display: inline-block;
+           border-bottom: 1px dotted #007bff;
+       }
+       .word:hover {
+           color: #0056b3;
+       }
+       .modal {
+           display: none; /* Hidden by default */
+           position: fixed; /* Stay in place */
+           z-index: 1; /* Sit on top */
+           left: 0;
+           top: 0;
+           width: 100%; /* Full width */
+           height: 100%; /* Full height */
+           overflow: auto; /* Enable scroll if needed */
+           background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+       }
+       .modal-content {
+           background-color: #fefefe;
+           margin: 15% auto; /* 15% from the top and centered */
+           padding: 20px;
+           border: 1px solid #888;
+           width: 80%; /* Could be more or less, depending on screen size */
+           max-width: 400px;
+           border-radius: 8px;
+           box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+           text-align: center;
+       }
+       .close-button {
+           color: #aaa;
+           float: right;
+           font-size: 28px;
+           font-weight: bold;
+       }
+       .close-button:hover,
+       .close-button:focus {
+           color: black;
+           text-decoration: none;
+           cursor: pointer;
+       }
+       .play-button {
+           background: none;
+           border: none;
+           cursor: pointer;
+           font-size: 1.2em;
+           margin-right: 5px;
+           color: #28a745;
+       }
+       .play-button:hover {
+           color: #218838;
+       }
+       #toggle-lang-button {
+           display: block;
+           margin: 20px auto;
+           padding: 10px 20px;
+           font-size: 16px;
+           background-color: #007bff;
+           color: white;
+           border: none;
+           border-radius: 5px;
+           cursor: pointer;
+       }
+       #toggle-lang-button:hover {
+           background-color: #0056b3;
+       }
+       #dynamic-image {
+           display: block;
+           margin: 0 auto 30px auto;
+           max-width: 100%;
+           height: auto;
+           border-radius: 8px;
+           box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+       }
+       h2 {
+           text-align: center;
+           color: #007bff;
+           margin-bottom: 25px;
+       }
+       p {
+           margin-bottom: 15px;
+           text-align: justify;
+       }
+   </style>
+</head>
+<body>
+   <div class="container">
+       <img id="dynamic-image" src="https://image.pollinations.ai/prompt/Kate%20Middleton%20and%20Prince%20William%20football%20rugby" alt="Kate Middleton and Prince William related to football and rugby">
+
+       <h2>The Royal Family & British Sports</h2>
+
+       <div id="english-text" class="text-section">
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">She's one of the best-known women in the world.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Her official name is Catherine, her original name, Kate Middleton.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">One day, "Kate" will be the Queen of England.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Middleton, the daughter of Mr. & Mrs. Middleton.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">It is short for Catherine, or for Katherine, and Kate is written with a "K".</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Children.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Born in 1982, the first of three children.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Both her parents worked for British Airways.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Her mother is from an ordinary family from the north of England; some of her ancestors worked in the coal mines.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Kate's father comes from a family of lawyers and businessmen.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Kate was educated in private schools, and as a teenager she went to Marlborough College, a good at sport, in the south of England.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">She was a hockey team, and was captain of the girls' hockey team.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">In 2001 she went to St. Andrew's University, in the east of Scotland.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">She studied Art History, and met another student called William.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">William was actually Prince William, the grandson of the Queen, and he was studying geography.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">The two lived in an apartment with some other students.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">After university Kate and William went different ways, but they were in contact.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">By then Kate, William's girlfriend, was a celebrity, the most famous woman in Britain.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Wherever she went there were people with cameras... too many cameras.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">In 2010 William asked Kate to marry him, and she said yes.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">They were married next year on St. Catherine's Day in Westminster Abbey, London.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">After their wedding, they became the Duke and Duchess of Cambridge.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">In 2013 their first son was born, they called him George, after his great-grandfather King George VI.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Later Kate had two other children, Charlotte and Louis.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Then in 2022 Queen Elizabeth II died, and William's father, Prince Charles, became King Charles.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Soon after, William became the Prince of Wales, the historic name of the first son of the English king.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Kate had a very busy life; they were very popular, so lots of people wanted to meet them.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">They went on official visits; they opened new buildings; they went to conferences... so that they had a very life indeed.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Doctors announced that she had a type of cancer, and she had to stop her public life.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Soon doctors treated her condition.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">They were successful, and in the summer Kate began doing things in public again.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Everyone hopes that her cancer will not come back.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">One day Prince William will become the next King of England, and then "Kate Middleton" will become queen.</span>
+           </p>
+
+           <h2>The origins of Football and Rugby</h2>
+           <h3>Games that England gave the world</h3>
+
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Football and rugby began their lives in England, hundreds of years ago.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">In those days, there were different ball games in different places; and even today, there are some places in England where people still play ancient forms of the game.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Early football had very few rules, and the rules changed from one place to another.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">The basic rule was simple; a team tried to move a ball past the other team's line.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Sometimes the lines were a long way apart.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">In the age of Queen Victoria, public schools began to use standard rules.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">In some schools, players were not allowed to carry the ball; in other schools, like Rugby College, they were allowed to carry it.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">So two different games emerged; on the one hand football, on the other hand, "rugby football".</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">In 1863, some men formed the Football Association in London, and fixed the rules.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Eighteen years later, the first F.A. Cup took place.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Football was very popular with workers in the north of England, particularly in industrial cities like Manchester and Liverpool.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">By 1888, the Football League was established with 12 clubs.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Today, football is the most popular ball game in the world, and rugby is a very international sport too.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Fact: More than 4 billion people watch or play football, making it the most popular sport globally!</span>
+           </p>
+       </div>
+
+       <div id="uzbek-text" class="text-section" style="display:none;">
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">U dunyodagi eng taniqli ayollardan biri.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Uning rasmiy ismi Ketrin, asl ismi Keyt Midlton.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bir kun "Keyt" Angliya qirolichasi bo'ladi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Midlton, janob va xonim Midltonning qizi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bu Ketrin yoki Katerinaning qisqartmasi, va Keyt "K" harfi bilan yoziladi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bolalar.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">1982-yilda tug'ilgan, uch farzandning birinchisi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ikkala ota-onasi ham British Airways'da ishlagan.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Uning onasi Angliyaning shimolidagi oddiy oiladan; uning ba'zi ajdodlari ko'mir konlarida ishlagan.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Keytning otasi huquqshunoslar va tadbirkorlar oilasidan.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Keyt xususiy maktablarda ta'lim olgan, va o'smirlik chog'ida Angliyaning janubidagi Marlborough kollejiga, sportga yaxshi bo'lgan joyga borgan.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">U xokkey jamoasida bo'lgan va qizlar xokkey jamoasining sardori bo'lgan.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">2001-yilda u Shotlandiyaning sharqidagi St. Andrew's universitetiga bordi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">U san'at tarixi bo'yicha tahsil oldi va Uilyam ismli boshqa talaba bilan tanishdi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Uilyam aslida qirolichaning nabirasi shahzoda Uilyam bo'lib, geografiya bo'yicha tahsil olayotgan edi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ikkovlon boshqa talabalar bilan bir kvartirada yashagan.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Universitetdan so'ng Keyt va Uilyam turli yo'llarga ketishdi, ammo ular aloqada bo'lishdi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">O'shanda Keyt, Uilyamning qiz do'sti, Britaniyaning eng mashhur ayoli sifatida mashhur bo'lgan edi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">U qayerga borsa, kamerali odamlar bor edi... juda ko'p kameralar.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">2010-yilda Uilyam Keytga turmushga chiqishni so'radi, va u rozi bo'ldi.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ular keyingi yili London, Vestminster Abbeydagi Avliyo Ketrin kunida turmush qurishdi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">To'yidan so'ng, ular Kembridj gersogi va gersoginyasi bo'lishdi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">2013-yilda ularning birinchi o'g'li tug'ildi, ular unga bobosi qirol Georg VI sharafiga Jorj deb ism qo'yishdi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Keyinroq Keytning yana ikki farzandi, Sharlotta va Lui, tug'ildi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Keyin 2022-yilda qirolicha Yelizaveta II vafot etdi, va Uilyamning otasi, shahzoda Charlz, qirol Charlzga aylandi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ko'p o'tmay, Uilyam Uels shahzodasi bo'ldi, bu Angliya qirolining birinchi o'g'lining tarixiy nomi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Keytning juda band hayoti bor edi; ular juda mashhur edi, shuning uchun ko'p odamlar ular bilan uchrashishni xohlashdi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ular rasmiy tashriflarga borishdi; yangi binolarni ochishdi; konferensiyalarga borishdi... shuning uchun ularning hayoti juda sermahsul bo'lgan.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Shifokorlar unda saraton turi borligini e'lon qilishdi, va u jamoat hayotini to'xtatishi kerak edi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ko'p o'tmay, shifokorlar uning ahvolini davolashdi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ular muvaffaqiyatli bo'lishdi, va yozda Keyt yana jamoat ishlarida ishtirok eta boshladi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Hamma uning saratoni qaytmasligiga umid qilmoqda.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bir kun shahzoda Uilyam Angliyaning keyingi qiroli bo'ladi, va keyin "Keyt Midlton" qirolicha bo'ladi.</span>
+           </p>
+
+           <h2>Futbol va Regbi kelib chiqishi</h2>
+           <h3>Angliya dunyoga bergan o'yinlar</h3>
+
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Futbol va regbi Angliyada, yuzlab yillar avval paydo bo'lgan.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">O'sha kunlarda turli joylarda turli xil to'p o'yinlari bor edi; va hatto bugungi kunda ham, Angliyada odamlar hali ham o'yinning qadimiy shakllarini o'ynaydigan joylar bor.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Dastlabki futbol juda kam qoidalarga ega edi, va qoidalar bir joydan ikkinchisiga o'zgarib turardi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Asosiy qoida oddiy edi; jamoa to'pni boshqa jamoaning chizig'idan o'tkazishga harakat qilardi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ba'zan chiziqlar uzoq masofada joylashgan edi.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Qirolicha Viktoriya davrida, jamoat maktablari standart qoidalardan foydalana boshladi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ba'zi maktablarda o'yinchilarga to'pni olib yurishga ruxsat berilmagan; boshqa maktablarda, masalan, Regbi kollejida, ularga to'pni olib yurishga ruxsat berilgan.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Shunday qilib, ikki xil o'yin paydo bo'ldi; bir tomondan futbol, boshqa tomondan, "regbi futboli".</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">1863-yilda ba'zi erkaklar Londonda Futbol Assotsiatsiyasini tuzdilar va qoidalarni belgilashdi.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">O'n sakkiz yil o'tib, birinchi F.A. Kubogi bo'lib o'tdi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Futbol Angliyaning shimolidagi ishchilar orasida, ayniqsa Manchester va Liverpul kabi sanoat shaharlarida juda mashhur edi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">1888-yilga kelib, Futbol Ligasi 12 ta klub bilan tashkil etildi.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bugungi kunda futbol dunyodagi eng mashhur to'p o'yini, va regbi ham juda xalqaro sport turi.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Fact: More than 4 billion people watch or play football, making it the most popular sport globally!</span>
+           </p>
+       </div>
+
+       <button id="toggle-lang-button">Uzbekcha</button>
+
+       <div id="wordModal" class="modal">
+           <div class="modal-content">
+               <span class="close-button">×</span>
+               <p id="modalWord"></p>
+               <p id="modalTranslation"></p>
+           </div>
+       </div>
+
+   </div>
+
+   <script>
+       // Lug'at obyekti: Kalit so'zlar kichik harflarda bo'lishi kerak.
+       const words = {
+           // Kate Middleton matni
+           "she's": { translation: "U", meaning: "She is (U)", pronunciation: "shiz" },
+           "one": { translation: "bir", meaning: "single, a (bir)", pronunciation: "wan" },
+           "of": { translation: "ning", meaning: "of, 's (ning)", pronunciation: "ov" },
+           "the": { translation: "bu", meaning: "the (bu)", pronunciation: "dha" },
+           "best-known": { translation: "eng mashhur", meaning: "most famous (eng mashhur)", pronunciation: "best-nown" },
+           "women": { translation: "ayollar", meaning: "plural of woman (ayollar)", pronunciation: "wim-in" },
+           "in": { translation: "da", meaning: "in (da)", pronunciation: "in" },
+           "world": { translation: "dunyo", meaning: "world (dunyo)", pronunciation: "werld" },
+           "her": { translation: "Uning", meaning: "Her (Uning)", pronunciation: "her" },
+           "official": { translation: "rasmiy", meaning: "official (rasmiy)", pronunciation: "uh-fish-uhl" },
+           "name": { translation: "ismi", meaning: "name (ismi)", pronunciation: "naym" },
+           "is": { translation: "dir", meaning: "is (dir)", pronunciation: "iz" },
+           "catherine": { translation: "Ketrin", meaning: "Catherine (Ketrin)", pronunciation: "kath-rin" },
+           "original": { translation: "asl", meaning: "original (asl)", pronunciation: "uh-rij-uh-nuhl" },
+           "kate": { translation: "Keyt", meaning: "Kate (Keyt)", pronunciation: "kayt" },
+           "middleton": { translation: "Midlton", meaning: "Middleton (Midlton)", pronunciation: "mid-l-tuhn" },
+           "day": { translation: "kun", meaning: "day (kun)", pronunciation: "day" },
+           "will": { translation: "bo'ladi", meaning: "will (bo'ladi)", pronunciation: "wil" },
+           "be": { translation: "bo'lish", meaning: "be (bo'lish)", pronunciation: "bee" },
+           "queen": { translation: "Qirolicha", meaning: "Queen (Qirolicha)", pronunciation: "kween" },
+           "england": { translation: "Angliya", meaning: "England (Angliya)", pronunciation: "ing-gluhnd" },
+           "daughter": { translation: "qizi", meaning: "daughter (qizi)", pronunciation: "daw-ter" },
+           "mr.": { translation: "Janob", meaning: "Mr. (Janob)", pronunciation: "mis-ter" },
+           "mrs.": { translation: "Xonim", meaning: "Mrs. (Xonim)", pronunciation: "mis-iz" },
+           "it": { translation: "Bu", meaning: "It (Bu)", pronunciation: "it" },
+           "short": { translation: "qisqartmasi", meaning: "short (qisqartmasi)", pronunciation: "short" },
+           "for": { translation: "uchun", meaning: "for (uchun)", pronunciation: "for" },
+           "or": { translation: "yoki", meaning: "or (yoki)", pronunciation: "or" },
+           "and": { translation: "va", meaning: "and (va)", pronunciation: "and" },
+           "written": { translation: "yozilgan", meaning: "written (yozilgan)", pronunciation: "rit-n" },
+           "with": { translation: "bilan", meaning: "with (bilan)", pronunciation: "with" },
+           "a": { translation: "bir", meaning: "a (bir)", pronunciation: "uh" },
+           "born": { translation: "Tug'ilgan", meaning: "Born (Tug'ilgan)", pronunciation: "born" },
+           "first": { translation: "birinchi", meaning: "first (birinchi)", pronunciation: "ferst" },
+           "three": { translation: "uch", meaning: "three (uch)", pronunciation: "three" },
+           "children": { translation: "bolalar", meaning: "children (bolalar)", pronunciation: "chil-drun" },
+           "both": { translation: "Ikkala", meaning: "Both (Ikkala)", pronunciation: "boath" },
+           "parents": { translation: "ota-onasi", meaning: "parents (ota-onasi)", pronunciation: "pair-uhnts" },
+           "worked": { translation: "ishlagan", meaning: "worked (ishlagan)", pronunciation: "werkt" },
+           "british": { translation: "Britaniya", meaning: "British (Britaniya)", pronunciation: "brit-ish" },
+           "airways": { translation: "Havo yo'llari", meaning: "Airways (Havo yo'llari)", pronunciation: "air-wayz" },
+           "mother": { translation: "onasi", meaning: "mother (onasi)", pronunciation: "muhth-er" },
+           "from": { translation: "dan", meaning: "from (dan)", pronunciation: "frum" },
+           "an": { translation: "bir", meaning: "an (bir)", pronunciation: "an" },
+           "ordinary": { translation: "oddiy", meaning: "ordinary (oddiy)", pronunciation: "awr-dn-er-ee" },
+           "family": { translation: "oilasi", meaning: "family (oilasi)", pronunciation: "fam-uh-lee" },
+           "north": { translation: "shimol", meaning: "north (shimol)", pronunciation: "nawrth" },
+           "some": { translation: "ba'zi", meaning: "some (ba'zi)", pronunciation: "suhm" },
+           "ancestors": { translation: "ajdodlari", meaning: "ancestors (ajdodlari)", pronunciation: "an-ses-terz" },
+           "coal": { translation: "ko'mir", meaning: "coal (ko'mir)", pronunciation: "kohl" },
+           "mines": { translation: "konlari", meaning: "mines (konlari)", pronunciation: "mynz" },
+           "father": { translation: "otasi", meaning: "father (otasi)", pronunciation: "fahth-er" },
+           "comes": { translation: "keladi", meaning: "comes (keladi)", pronunciation: "kuhmz" },
+           "lawyers": { translation: "huquqshunoslar", meaning: "lawyers (huquqshunoslar)", pronunciation: "law-yerz" },
+           "businessmen": { translation: "tadbirkorlar", meaning: "businessmen (tadbirkorlar)", pronunciation: "biz-nis-men" },
+           "educated": { translation: "ta'lim olgan", meaning: "educated (ta'lim olgan)", pronunciation: "ej-oo-key-tid" },
+           "private": { translation: "xususiy", meaning: "private (xususiy)", pronunciation: "pry-vit" },
+           "schools": { translation: "maktablar", meaning: "schools (maktablar)", pronunciation: "skoolz" },
+           "as": { translation: "sifatida", meaning: "as (sifatida)", pronunciation: "az" },
+           "teenager": { translation: "o'smirlik", meaning: "teenager (o'smirlik)", pronunciation: "teen-ey-jer" },
+           "went": { translation: "bordi", meaning: "went (bordi)", pronunciation: "went" },
+           "marlborough": { translation: "Marlborough", meaning: "Marlborough (Marlborough)", pronunciation: "marl-bur-oh" },
+           "college": { translation: "Kollej", meaning: "College (Kollej)", pronunciation: "kol-ij" },
+           "good": { translation: "yaxshi", meaning: "good (yaxshi)", pronunciation: "good" },
+           "at": { translation: "da", meaning: "at (da)", pronunciation: "at" },
+           "sport": { translation: "sport", meaning: "sport (sport)", pronunciation: "sport" },
+           "south": { translation: "janub", meaning: "south (janub)", pronunciation: "south" },
+           "she": { translation: "U", meaning: "She (U)", pronunciation: "shee" },
+           "hockey": { translation: "xokkey", meaning: "hockey (xokkey)", pronunciation: "hok-ee" },
+           "team": { translation: "jamoa", meaning: "team (jamoa)", pronunciation: "teem" },
+           "was": { translation: "edi", meaning: "was (edi)", pronunciation: "wuz" },
+           "captain": { translation: "sardori", meaning: "captain (sardori)", pronunciation: "kap-tin" },
+           "girls'": { translation: "qizlar", meaning: "girls' (qizlar)", pronunciation: "gerlz" },
+           "2001": { translation: "2001", meaning: "2001 (2001)", pronunciation: "two thousand one" },
+           "st.": { translation: "Avliyo", meaning: "St. (Avliyo)", pronunciation: "saynt" },
+           "andrew's": { translation: "Endryu", meaning: "Andrew's (Endryu)", pronunciation: "an-drooz" },
+           "university": { translation: "Universitet", meaning: "University (Universitet)", pronunciation: "yoo-nuh-ver-si-tee" },
+           "east": { translation: "sharq", meaning: "east (sharq)", pronunciation: "eest" },
+           "scotland": { translation: "Shotlandiya", meaning: "Scotland (Shotlandiya)", pronunciation: "skot-luhnd" },
+           "studied": { translation: "tahsil oldi", meaning: "studied (tahsil oldi)", pronunciation: "stuhd-eed" },
+           "art": { translation: "San'at", meaning: "Art (San'at)", pronunciation: "art" },
+           "history": { translation: "Tarix", meaning: "History (Tarix)", pronunciation: "his-tuh-ree" },
+           "met": { translation: "uchrashdi", meaning: "met (uchrashdi)", pronunciation: "met" },
+           "another": { translation: "boshqa", meaning: "another (boshqa)", pronunciation: "uh-nuhth-er" },
+           "student": { translation: "talaba", meaning: "student (talaba)", pronunciation: "stood-nt" },
+           "called": { translation: "deb atalgan", meaning: "called (deb atalgan)", pronunciation: "kawld" },
+           "william": { translation: "Uilyam", meaning: "William (Uilyam)", pronunciation: "wil-yuhm" },
+           "actually": { translation: "aslida", meaning: "actually (aslida)", pronunciation: "ak-choo-uh-lee" },
+           "prince": { translation: "Shahzoda", meaning: "Prince (Shahzoda)", pronunciation: "prins" },
+           "grandson": { translation: "nabirasi", meaning: "grandson (nabirasi)", pronunciation: "gran-suhn" },
+           "studying": { translation: "tahsil olayotgan", meaning: "studying (tahsil olayotgan)", pronunciation: "stuhd-ee-ing" },
+           "geography": { translation: "geografiya", meaning: "geografiya (geografiya)", pronunciation: "jee-og-ruh-fee" },
+           "two": { translation: "ikki", meaning: "two (ikki)", pronunciation: "too" },
+           "lived": { translation: "yashagan", meaning: "lived (yashagan)", pronunciation: "livd" },
+           "apartment": { translation: "kvartirada", meaning: "apartment (kvartirada)", pronunciation: "uh-part-muhnt" },
+           "other": { translation: "boshqa", meaning: "other (boshqa)", pronunciation: "uhth-er" },
+           "students": { translation: "talabalar", meaning: "students (talabalar)", pronunciation: "stood-nts" },
+           "after": { translation: "So'ng", meaning: "After (So'ng)", pronunciation: "af-ter" },
+           "different": { translation: "turli", meaning: "different (turli)", pronunciation: "dif-er-uhnt" },
+           "ways": { translation: "yo'llar", meaning: "ways (yo'llar)", pronunciation: "wayz" },
+           "but": { translation: "ammo", meaning: "but (ammo)", pronunciation: "buht" },
+           "they": { translation: "ular", meaning: "they (ular)", pronunciation: "they" },
+           "were": { translation: "edi", meaning: "were (edi)", pronunciation: "wer" },
+           "contact": { translation: "aloqada", meaning: "contact (aloqada)", pronunciation: "kon-takt" },
+           "by": { translation: "Ga", meaning: "By (Ga)", pronunciation: "by" },
+           "then": { translation: "o'shanda", meaning: "then (o'shanda)", pronunciation: "then" },
+           "girlfriend": { translation: "qiz do'sti", meaning: "girlfriend (qiz do'sti)", pronunciation: "gerl-frend" },
+           "celebrity": { translation: "mashhur", meaning: "celebrity (mashhur)", pronunciation: "suh-leb-ri-tee" },
+           "most": { translation: "eng", meaning: "most (eng)", pronunciation: "mohst" },
+           "famous": { translation: "mashhur", meaning: "famous (mashhur)", pronunciation: "fey-muhs" },
+           "woman": { translation: "ayol", meaning: "woman (ayol)", pronunciation: "woo-muhn" },
+           "britain": { translation: "Britaniya", meaning: "Britain (Britaniya)", pronunciation: "brit-n" },
+           "wherever": { translation: "Qayerga", meaning: "Wherever (Qayerga)", pronunciation: "wher-ev-er" },
+           "people": { translation: "odamlar", meaning: "people (odamlar)", pronunciation: "pee-puhl" },
+           "cameras": { translation: "kameralar", meaning: "cameras (kameralar)", pronunciation: "kam-uh-ruz" },
+           "too": { translation: "juda", meaning: "too (juda)", pronunciation: "too" },
+           "many": { translation: "ko'p", meaning: "many (ko'p)", pronunciation: "men-ee" },
+           "2010": { translation: "2010", meaning: "2010 (2010)", pronunciation: "two thousand ten" },
+           "asked": { translation: "so'radi", meaning: "asked (so'radi)", pronunciation: "askt" },
+           "marry": { translation: "turmushga chiqish", meaning: "marry (turmushga chiqish)", pronunciation: "mar-ee" },
+           "him": { translation: "unga", meaning: "him (unga)", pronunciation: "him" },
+           "said": { translation: "dedi", meaning: "said (dedi)", pronunciation: "sed" },
+           "yes": { translation: "ha", meaning: "yes (ha)", pronunciation: "yes" },
+           "married": { translation: "turmush qurishdi", meaning: "married (turmush qurishdi)", pronunciation: "mar-eed" },
+           "next": { translation: "keyingi", meaning: "next (keyingi)", pronunciation: "nekst" },
+           "year": { translation: "yil", meaning: "year (yil)", pronunciation: "yeer" },
+           "on": { translation: "da", meaning: "on (da)", pronunciation: "on" },
+           "day": { translation: "Kuni", meaning: "Day (Kuni)", pronunciation: "day" },
+           "westminster": { translation: "Vestminster", meaning: "Westminster (Vestminster)", pronunciation: "west-min-ster" },
+           "abbey": { translation: "Abbey", meaning: "Abbey (Abbey)", pronunciation: "ab-ee" },
+           "london": { translation: "London", meaning: "London (London)", pronunciation: "luhn-duhn" },
+           "their": { translation: "ularning", meaning: "their (ularning)", pronunciation: "thair" },
+           "wedding": { translation: "to'yi", meaning: "wedding (to'yi)", pronunciation: "wed-ing" },
+           "became": { translation: "bo'lishdi", meaning: "became (bo'lishdi)", pronunciation: "bi-kaym" },
+           "duke": { translation: "Gersog", meaning: "Duke (Gersog)", pronunciation: "dook" },
+           "duchess": { translation: "Gersoginya", meaning: "Duchess (Gersoginya)", pronunciation: "duhch-is" },
+           "cambridge": { translation: "Kembridj", meaning: "Cambridge (Kembridj)", pronunciation: "kaym-brij" },
+           "2013": { translation: "2013", meaning: "2013 (2013)", pronunciation: "two thousand thirteen" },
+           "son": { translation: "o'g'li", meaning: "son (o'g'li)", pronunciation: "suhn" },
+           "called": { translation: "deb ism qo'yishdi", meaning: "called (deb ism qo'yishdi)", pronunciation: "kawld" },
+           "george": { translation: "Jorj", meaning: "George (Jorj)", pronunciation: "jorj" },
+           "his": { translation: "uning", meaning: "his (uning)", pronunciation: "hiz" },
+           "great-grandfather": { translation: "bobosi", meaning: "great-grandfather (bobosi)", pronunciation: "greyt-gran-fahth-er" },
+           "king": { translation: "Qirol", meaning: "King (Qirol)", pronunciation: "king" },
+           "vi": { translation: "VI", meaning: "VI (VI)", pronunciation: "six" },
+           "later": { translation: "Keyinroq", meaning: "Later (Keyinroq)", pronunciation: "ley-ter" },
+           "had": { translation: "bor edi", meaning: "had (bor edi)", pronunciation: "had" },
+           "charlotte": { translation: "Sharlotta", meaning: "Charlotte (Sharlotta)", pronunciation: "shar-lot" },
+           "louis": { translation: "Lui", meaning: "Louis (Lui)", pronunciation: "loo-ee" },
+           "then": { translation: "Keyin", meaning: "Then (Keyin)", pronunciation: "then" },
+           "2022": { translation: "2022", meaning: "2022 (2022)", pronunciation: "two thousand twenty-two" },
+           "elizabeth": { translation: "Yelizaveta", meaning: "Elizabeth (Yelizaveta)", pronunciation: "ih-liz-uh-beth" },
+           "ii": { translation: "II", meaning: "II (II)", pronunciation: "second" },
+           "died": { translation: "vafot etdi", meaning: "died (vafot etdi)", pronunciation: "dyd" },
+           "charles": { translation: "Charlz", meaning: "Charles (Charlz)", pronunciation: "charlz" },
+           "soon": { translation: "Ko'p o'tmay", meaning: "Soon (Ko'p o'tmay)", pronunciation: "soon" },
+           "wales": { translation: "Uels", meaning: "Wales (Uels)", pronunciation: "waylz" },
+           "historic": { translation: "tarixiy", meaning: "historic (tarixiy)", pronunciation: "hi-stor-ik" },
+           "english": { translation: "Angliya", meaning: "English (Angliya)", pronunciation: "ing-glish" },
+           "busy": { translation: "band", meaning: "busy (band)", pronunciation: "biz-ee" },
+           "life": { translation: "hayot", meaning: "life (hayot)", pronunciation: "lyf" },
+           "very": { translation: "juda", meaning: "very (juda)", pronunciation: "ver-ee" },
+           "popular": { translation: "mashhur", meaning: "popular (mashhur)", pronunciation: "pop-yuh-ler" },
+           "so": { translation: "shuning uchun", meaning: "so (shuning uchun)", pronunciation: "soh" },
+           "lots": { translation: "ko'p", meaning: "lots (ko'p)", pronunciation: "lots" },
+           "wanted": { translation: "xohlashdi", meaning: "wanted (xohlashdi)", pronunciation: "wawn-tid" },
+           "meet": { translation: "uchrashish", meaning: "meet (uchrashish)", pronunciation: "meet" },
+           "them": { translation: "ular bilan", meaning: "them (ular bilan)", pronunciation: "them" },
+           "visits": { translation: "tashriflar", meaning: "visits (tashriflar)", pronunciation: "viz-its" },
+           "opened": { translation: "ochishdi", meaning: "opened (ochishdi)", pronunciation: "oh-puhnd" },
+           "new": { translation: "yangi", meaning: "new (yangi)", pronunciation: "noo" },
+           "buildings": { translation: "binolar", meaning: "buildings (binolar)", pronunciation: "bild-ingz" },
+           "conferences": { translation: "konferensiyalar", meaning: "conferences (konferensiyalar)", pronunciation: "kon-fer-uhns-iz" },
+           "indeed": { translation: "darhaqiqat", meaning: "indeed (darhaqiqat)", pronunciation: "in-deed" },
+           "doctors": { translation: "Shifokorlar", meaning: "Doctors (Shifokorlar)", pronunciation: "dok-terz" },
+           "announced": { translation: "e'lon qilishdi", meaning: "announced (e'lon qilishdi)", pronunciation: "uh-nowns-t" },
+           "cancer": { translation: "saraton", meaning: "cancer (saraton)", pronunciation: "kan-ser" },
+           "stop": { translation: "to'xtatishi", meaning: "stop (to'xtatishi)", pronunciation: "stop" },
+           "public": { translation: "jamoat", meaning: "public (jamoat)", pronunciation: "puhb-lik" },
+           "treated": { translation: "davolashdi", meaning: "treated (davolashdi)", pronunciation: "tree-tid" },
+           "condition": { translation: "ahvolini", meaning: "condition (ahvolini)", pronunciation: "kuhn-dish-uhn" },
+           "successful": { translation: "muvaffaqiyatli", meaning: "successful (muvaffaqiyatli)", pronunciation: "suhk-ses-fuhl" },
+           "summer": { translation: "yoz", meaning: "summer (yoz)", pronunciation: "suhm-er" },
+           "doing": { translation: "qilish", meaning: "doing (qilish)", pronunciation: "doo-ing" },
+           "things": { translation: "narsalar", meaning: "things (narsalar)", pronunciation: "thingz" },
+           "again": { translation: "yana", meaning: "again (yana)", pronunciation: "uh-gen" },
+           "everyone": { translation: "Hamma", meaning: "Everyone (Hamma)", pronunciation: "ev-ree-wuhn" },
+           "hopes": { translation: "umid qilmoqda", meaning: "hopes (umid qilmoqda)", pronunciation: "hohps" },
+           "that": { translation: "ki", meaning: "that (ki)", pronunciation: "that" },
+           "come": { translation: "qaytmasligiga", meaning: "come (qaytmasligiga)", pronunciation: "kuhm" },
+           "back": { translation: "orqaga", meaning: "back (orqaga)", pronunciation: "bak" },
+           // Futbol va Regbi matni
+           "the": { translation: "Bu", meaning: "The (Bu)", pronunciation: "dha" },
+           "origins": { translation: "kelib chiqishi", meaning: "origins (kelib chiqishi)", pronunciation: "or-i-jinz" },
+           "football": { translation: "Futbol", meaning: "Football (Futbol)", pronunciation: "foot-bawl" },
+           "rugby": { translation: "Regbi", meaning: "Rugby (Regbi)", pronunciation: "rug-bee" },
+           "games": { translation: "O'yinlar", meaning: "Games (O'yinlar)", pronunciation: "gaymz" },
+           "gave": { translation: "bergan", meaning: "gave (bergan)", pronunciation: "geyv" },
+           "began": { translation: "boshlandi", meaning: "began (boshlandi)", pronunciation: "bi-gan" },
+           "lives": { translation: "hayotlari", meaning: "lives (hayotlari)", pronunciation: "lyvz" },
+           "hundreds": { translation: "yuzlab", meaning: "hundreds (yuzlab)", pronunciation: "huhn-dredz" },
+           "years": { translation: "yillar", meaning: "years (yillar)", pronunciation: "yeerz" },
+           "ago": { translation: "avval", meaning: "ago (avval)", pronunciation: "uh-goh" },
+           "those": { translation: "o'sha", meaning: "those (o'sha)", pronunciation: "thohz" },
+           "days": { translation: "kunlarda", meaning: "days (kunlarda)", pronunciation: "dayz" },
+           "there": { translation: "bor edi", meaning: "there (bor edi)", pronunciation: "thair" },
+           "ball": { translation: "to'p", meaning: "ball (to'p)", pronunciation: "bawl" },
+           "places": { translation: "joylarda", meaning: "places (joylarda)", pronunciation: "pley-sis" },
+           "even": { translation: "hatto", meaning: "even (hatto)", pronunciation: "ee-vuhn" },
+           "today": { translation: "bugungi kunda", meaning: "today (bugungi kunda)", pronunciation: "tuh-day" },
+           "still": { translation: "hali ham", meaning: "still (hali ham)", pronunciation: "stil" },
+           "play": { translation: "o'ynaydi", meaning: "play (o'ynaydi)", pronunciation: "pley" },
+           "ancient": { translation: "qadimiy", meaning: "ancient (qadimiy)", pronunciation: "eyn-shuhnt" },
+           "forms": { translation: "shakllarini", meaning: "forms (shakllarini)", pronunciation: "formz" },
+           "game": { translation: "o'yin", meaning: "game (o'yin)", pronunciation: "gaym" },
+           "early": { translation: "Dastlabki", meaning: "Early (Dastlabki)", pronunciation: "er-lee" },
+           "had": { translation: "ega edi", meaning: "had (ega edi)", pronunciation: "had" },
+           "few": { translation: "kam", meaning: "few (kam)", pronunciation: "fyoo" },
+           "rules": { translation: "qoidalarga", meaning: "rules (qoidalarga)", pronunciation: "roolz" },
+           "changed": { translation: "o'zgarib turardi", meaning: "changed (o'zgarib turardi)", pronunciation: "cheynjd" },
+           "from": { translation: "dan", meaning: "from (dan)", pronunciation: "frum" },
+           "another": { translation: "boshqasiga", meaning: "another (boshqasiga)", pronunciation: "uh-nuhth-er" },
+           "basic": { translation: "Asosiy", meaning: "Basic (Asosiy)", pronunciation: "bey-sik" },
+           "rule": { translation: "qoida", meaning: "rule (qoida)", pronunciation: "rool" },
+           "simple": { translation: "oddiy", meaning: "simple (oddiy)", pronunciation: "sim-puhl" },
+           "a": { translation: "bir", meaning: "a (bir)", pronunciation: "uh" },
+           "team": { translation: "jamoa", meaning: "team (jamoa)", pronunciation: "teem" },
+           "tried": { translation: "harakat qilardi", meaning: "tried (harakat qilardi)", pronunciation: "tryd" },
+           "move": { translation: "o'tkazishga", meaning: "move (o'tkazishga)", pronunciation: "moov" },
+           "past": { translation: "o'tkazish", meaning: "past (o'tkazish)", pronunciation: "past" },
+           "other": { translation: "boshqa", meaning: "other (boshqa)", pronunciation: "uhth-er" },
+           "team's": { translation: "jamoaning", meaning: "team's (jamoaning)", pronunciation: "teemz" },
+           "line": { translation: "chizig'idan", meaning: "line (chizig'idan)", pronunciation: "lyn" },
+           "sometimes": { translation: "Ba'zan", meaning: "Sometimes (Ba'zan)", pronunciation: "suhm-tymz" },
+           "lines": { translation: "chiziqlar", meaning: "lines (chiziqlar)", pronunciation: "lynz" },
+           "long": { translation: "uzoq", meaning: "long (uzoq)", pronunciation: "long" },
+           "way": { translation: "masofada", meaning: "way (masofada)", pronunciation: "wey" },
+           "apart": { translation: "joylashgan edi", meaning: "apart (joylashgan edi)", pronunciation: "uh-part" },
+           "age": { translation: "davrida", meaning: "age (davrida)", pronunciation: "eyj" },
+           "victoria": { translation: "Viktoriya", meaning: "Victoria (Viktoriya)", pronunciation: "vik-tor-ee-uh" },
+           "public": { translation: "jamoat", meaning: "public (jamoat)", pronunciation: "puhb-lik" },
+           "began": { translation: "boshladi", meaning: "began (boshladi)", pronunciation: "bi-gan" },
+           "use": { translation: "foydalana", meaning: "use (foydalana)", pronunciation: "yoos" },
+           "standard": { translation: "standart", meaning: "standard (standart)", pronunciation: "stan-derd" },
+           "allowed": { translation: "ruxsat berilmagan", meaning: "allowed (ruxsat berilmagan)", pronunciation: "uh-lowd" },
+           "carry": { translation: "olib yurishga", meaning: "carry (olib yurishga)", pronunciation: "kar-ee" },
+           "it": { translation: "uni", meaning: "it (uni)", pronunciation: "it" },
+           "so": { translation: "Shunday qilib", meaning: "So (Shunday qilib)", pronunciation: "soh" },
+           "emerged": { translation: "paydo bo'ldi", meaning: "emerged (paydo bo'ldi)", pronunciation: "ih-merjd" },
+           "one": { translation: "bir", meaning: "one (bir)", pronunciation: "wan" },
+           "hand": { translation: "tomondan", meaning: "hand (tomondan)", pronunciation: "hand" },
+           "rugby": { translation: "regbi", meaning: "rugby (regbi)", pronunciation: "rug-bee" },
+           "1863": { translation: "1863-yilda", meaning: "1863 (1863-yilda)", pronunciation: "eighteen sixty-three" },
+           "men": { translation: "erkaklar", meaning: "men (erkaklar)", pronunciation: "men" },
+           "formed": { translation: "tuzdilar", meaning: "formed (tuzdilar)", pronunciation: "formd" },
+           "association": { translation: "Assotsiatsiyasini", meaning: "Association (Assotsiatsiyasini)", pronunciation: "uh-soh-see-ey-shuhn" },
+           "fixed": { translation: "belgilashdi", meaning: "fixed (belgilashdi)", pronunciation: "fikst" },
+           "eighteen": { translation: "O'n sakkiz", meaning: "Eighteen (O'n sakkiz)", pronunciation: "ey-teen" },
+           "later": { translation: "o'tib", meaning: "later (o'tib)", pronunciation: "ley-ter" },
+           "f.a.": { translation: "F.A.", meaning: "F.A. (F.A.)", pronunciation: "ef ey" },
+           "cup": { translation: "Kubogi", meaning: "Cup (Kubogi)", pronunciation: "kuhp" },
+           "took": { translation: "bo'lib o'tdi", meaning: "took (bo'lib o'tdi)", pronunciation: "took" },
+           "place": { translation: "o'tdi", meaning: "place (o'tdi)", pronunciation: "pleys" },
+           "popular": { translation: "mashhur", meaning: "popular (mashhur)", pronunciation: "pop-yuh-ler" },
+           "workers": { translation: "ishchilar", meaning: "workers (ishchilar)", pronunciation: "wer-kerz" },
+           "particularly": { translation: "ayniqsa", meaning: "particularly (ayniqsa)", pronunciation: "per-tik-yuh-ler-lee" },
+           "industrial": { translation: "sanoat", meaning: "industrial (sanoat)", pronunciation: "in-duhs-tree-uhl" },
+           "cities": { translation: "shaharlarida", meaning: "cities (shaharlarida)", pronunciation: "sit-eez" },
+           "like": { translation: "kabi", meaning: "like (kabi)", pronunciation: "lyk" },
+           "manchester": { translation: "Manchester", meaning: "Manchester (Manchester)", pronunciation: "man-ches-ter" },
+           "liverpool": { translation: "Liverpul", meaning: "Liverpool (Liverpul)", pronunciation: "liv-er-pool" },
+           "by": { translation: "Ga", meaning: "By (Ga)", pronunciation: "by" },
+           "1888": { translation: "1888", meaning: "1888 (1888)", pronunciation: "eighteen eighty-eight" },
+           "league": { translation: "Ligasi", meaning: "League (Ligasi)", pronunciation: "leeg" },
+           "established": { translation: "tashkil etildi", meaning: "established (tashkil etildi)", pronunciation: "ih-stab-lisht" },
+           "12": { translation: "12", meaning: "12 (12)", pronunciation: "twelve" },
+           "clubs": { translation: "klub bilan", meaning: "clubs (klub bilan)", pronunciation: "kluhbz" },
+           "today": { translation: "Bugungi kunda", meaning: "Today (Bugungi kunda)", pronunciation: "tuh-day" },
+           "most": { translation: "eng", meaning: "most (eng)", pronunciation: "mohst" },
+           "international": { translation: "xalqaro", meaning: "international (xalqaro)", pronunciation: "in-ter-nash-uh-nl" },
+           "fact": { translation: "Fakt", meaning: "Fact (Fakt)", pronunciation: "fakt" },
+           "more": { translation: "Ortiq", meaning: "More (Ortiq)", pronunciation: "mor" },
+           "than": { translation: "dan", meaning: "than (dan)", pronunciation: "than" },
+           "4": { translation: "4", meaning: "4 (4)", pronunciation: "four" },
+           "billion": { translation: "milliard", meaning: "billion (milliard)", pronunciation: "bil-yuhn" },
+           "watch": { translation: "tomosha qiladi", meaning: "watch (tomosha qiladi)", pronunciation: "woch" },
+           "making": { translation: "bu uni", meaning: "making (bu uni)", pronunciation: "mey-king" },
+           "globally": { translation: "global miqyosda", pronunciation: "gloh-buh-lee" },
+       };
+
+       const modal = document.getElementById("wordModal");
+       const span = document.getElementsByClassName("close-button")[0];
+       const modalWord = document.getElementById("modalWord");
+       const modalTranslation = document.getElementById("modalTranslation");
+        
+       // So'zlarni bosish mumkin qilish funksiyasi
+       function makeWordsClickable(textSectionId) {
+           const textSection = document.getElementById(textSectionId);
+           // Har bir .sentence spanini topamiz
+           textSection.querySelectorAll('.sentence').forEach(sentenceSpan => {
+               let originalText = sentenceSpan.textContent;
+               let newHtml = '';
+               // So'zlarni va tinish belgilarini ajratish uchun regex
+               // \b\w+\b so'z chegarasidagi harflarni, [.,!?;:\s]+ esa tinish belgilari va bo'shliqlarni topadi
+               const parts = originalText.split(/(\b\w+\b|[.,!?;:\s]+)/g);
+
+               parts.forEach(part => {
+                   if (part.trim() === '') {
+                       newHtml += part; // Bo'shliqlarni saqlaymiz
+                       return;
+                   }
+                   // So'zni lug'atda qidirish uchun tinish belgilarini olib tashlaymiz va kichik harfga o'tkazamiz
+                   const cleanedWord = part.replace(/[.,!?;:]/g, '').toLowerCase();
+                   if (words[cleanedWord]) {
+                       // Agar so'z lug'atda bo'lsa, uni .word klassi bilan span ichiga olamiz
+                       newHtml += `<span class="word" data-word="${cleanedWord}">${part}</span>`;
+                   } else {
+                       newHtml += part; // Aks holda, so'zni o'zgarishsiz qoldiramiz
+                   }
+               });
+               sentenceSpan.innerHTML = newHtml; // Yangilangan HTMLni span ichiga joylaymiz
+           });
+       }
+       
+       // Dastlab inglizcha matn uchun so'zlarni bosish mumkin qilamiz
+       makeWordsClickable('english-text');
+
+       // Inglizcha matn bo'limiga click event listener qo'shamiz
+       document.getElementById('english-text').addEventListener('click', function(event) {
+           // Agar bosilgan element .word klassiga ega bo'lsa
+           if (event.target.classList.contains('word')) {
+               const word = event.target.dataset.word; // data-word atributidagi so'zni olamiz
+               const wordInfo = words[word]; // Lug'atdan so'z ma'lumotlarini olamiz
+               if (wordInfo) {
+                   // Modal oynadagi elementlarni ma'lumotlar bilan to'ldiramiz
+                   modalWord.textContent = `Word: ${event.target.textContent.trim()}`; // Asl so'zni ko'rsatamiz
+                   modalTranslation.textContent = `Translation: ${wordInfo.translation}`;
+                   
+                   modal.style.display = "block"; // Modal oynani ko'rsatamiz
+               }
+           }
+       });
+
+       // Modal oynani yopish tugmasi
+       span.onclick = function() {
+           modal.style.display = "none";
+       }
+
+       // Modal oynadan tashqarida bosilganda oynani yopish
+       window.onclick = function(event) {
+           if (event.target == modal) {
+               modal.style.display = "none";
+           }
+       }
+
+       // Matnni o'qish funksiyasi (erkak ovozi va tezlik 0.8)
+       function speakSentence(button) {
+           const sentenceSpan = button.nextElementSibling; // Gap spanini olamiz
+           if (sentenceSpan && responsiveVoice.isPlaying()) {
+               responsiveVoice.cancel(); // Agar o'qiyotgan bo'lsa, to'xtatamiz
+           } else if (sentenceSpan) {
+               // UK English Male ovozi va 0.8 tezlikda o'qish
+               responsiveVoice.speak(sentenceSpan.textContent, "UK English Male", {rate: 0.8});
+           }
+       }
+
+       const toggleButton = document.getElementById('toggle-lang-button');
+       const englishText = document.getElementById('english-text');
+       const uzbekText = document.getElementById('uzbek-text');
+       let isEnglish = true;
+
+       toggleButton.addEventListener('click', function() {
+           if (isEnglish) {
+               englishText.style.display = 'none';
+               uzbekText.style.display = 'block';
+               toggleButton.textContent = 'English';
+           } else {
+               englishText.style.display = 'block';
+               uzbekText.style.display = 'none';
+               toggleButton.textContent = 'Uzbekcha';
+           }
+           isEnglish = !isEnglish;
+       });
+       // ResponsiveVoice'ni ishga tushirish
+       responsiveVoice.enableSpeech();
+   </script>
+</body>
+</html>
