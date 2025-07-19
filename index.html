@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Time</title>
+    <link rel="stylesheet" href="stylex.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav>
+        <div class="logo"><h2>Learning Time</h2></div>
+    </nav>
+
+    <!-- Hero section with video background -->
+    <header class="hero">
+        <!-- Fona rasmini ko'rsatamiz, video yuklanguncha -->
+        <img id="background-image" class="background-image" src="shodlik.jpg" alt="Background Image">
+
+        <!-- Video fon -->
+        <video id="background-video" autoplay muted loop class="background-video" style="display:none;">
+            <source src="background.mp4" type="video/mp4">
+            Sizning brauzeringiz videoni qo‘llab-quvvatlamaydi.
+        </video>
+
+        <div class="lesson-buttons">
+    <button class="lesson-btn" onclick="showOptions(1)">Lesson 1</button>
+    <button class="lesson-btn" onclick="showOptions(2)">Lesson 2</button>
+    <button class="lesson-btn" onclick="showOptions(3)">Lesson 3</button>
+    <button class="lesson-btn" onclick="showOptions(4)">Lesson 4</button>
+    <button class="lesson-btn" onclick="showOptions(5)">Lesson 5</button>
+    <button class="lesson-btn" onclick="showOptions(6)">Lesson 6</button>
+    <button class="lesson-btn" onclick="showOptions(7)">Lesson 7</button>
+    <button class="lesson-btn" onclick="showOptions(8)">Lesson 8</button>
+    <button class="lesson-btn" onclick="showOptions(9)">Lesson 9</button>
+    <button class="lesson-btn" onclick="showOptions(10)">Lesson 10</button>
+    <button class="lesson-btn" onclick="showOptions(11)">Lesson 11</button>
+    <button class="lesson-btn" onclick="showOptions(12)">Lesson 12</button>
+    <button class="lesson-btn" onclick="showOptions(13)">Lesson 13</button>
+    <button class="lesson-btn" onclick="showOptions(14)">Lesson 14</button>
+    <button class="lesson-btn" onclick="showOptions(15)">Lesson 15</button>
+    <button class="lesson-btn" onclick="showOptions(16)">Lesson 16</button>
+    <button class="lesson-btn" onclick="showOptions(17)">Lesson 17</button>
+    <button class="lesson-btn" onclick="showOptions(18)">Lesson 18</button>
+    <button class="lesson-btn" onclick="showOptions(19)">Lesson 19</button>
+    <button class="lesson-btn" onclick="showOptions(20)">Lesson 20</button>
+    <button class="lesson-btn" onclick="showOptions(21)">Lesson 21</button>
+    <button class="lesson-btn" onclick="showOptions(22)">Lesson 22</button>
+    <button class="lesson-btn" onclick="showOptions(23)">Lesson 23</button>
+    <button class="lesson-btn" onclick="showDasturchi()">Dastur</button>
+</div>
+    </header>
+
+    <!-- Modal oyna (pop-up) -->
+    <!-- Update the modal content in index.html -->
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <h3>Qaysi turdagi darsni tanlaysiz?</h3>
+        <button id="option1-btn">Fleshcard</button>
+        <button id="option2-btn">Listening</button>
+        <button id="option3-btn">Grammar</button>
+        <button id="option4-btn">Reading/ Verb</button>
+        <button id="close-btn">Bekor qilish</button>
+    </div>
+        </div>
+    </div>
+
+    <script src="scriptx.js"></script>
+    <script>
+        // Video yuklangach rasmni video bilan almashtirish
+        const video = document.getElementById("background-video");
+        const image = document.getElementById("background-image");
+
+        video.oncanplaythrough = function() {
+            // Video tayyor bo'lgach, rasmni yashirish va videoni ko'rsatish
+            image.style.display = "none";
+            video.style.display = "block";
+        };
+
+        // Sahifa ochilganda 2 sekundlik kutish va video boshlash
+        setTimeout(function() {
+            video.style.display = "block";
+            image.style.display = "none";
+        }, 2000); // 2 soniya kutish
+    </script>
+    <div id="sfc785hp8khlkjdx64xadjxpcsclgjh1cam"></div><script type="text/javascript" src="https://counter1.optistats.ovh/private/counter.js?c=785hp8khlkjdx64xadjxpcsclgjh1cam&down=async" async></script><noscript><a href="https://www.freecounterstat.com" title="website view counter"><img src="https://counter1.optistats.ovh/private/freecounterstat.php?c=785hp8khlkjdx64xadjxpcsclgjh1cam" border="0" title="website view counter" alt="website view counter"></a></noscript>
+</body>
+</html>

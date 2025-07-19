@@ -1,0 +1,123 @@
+/* Barcha sahifaga umumiy sozlamalar */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header (Tepa qism) */
+header {
+    text-align: center;
+    padding: 20px;
+    color: black;
+    margin-top: 50px; /* Header pastga tushadi */
+}
+/* O‘yin konteyneri */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 0px;
+}
+
+/* O‘yin qismi */
+.game {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    width: 300px;
+}
+
+h2 {
+    color: #333;
+}
+
+input {
+    width: 80%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* Tugmalar */
+button {
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: #27ae60;
+}
+
+/* Natija (to‘g‘ri yoki xato javob) */
+#result {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+body {
+    background-image: url('background.jpg'); /* Orqa fon rasmi */
+    background-size: cover; /* Rasm ekran o‘lchamiga moslashadi */
+    background-position: center; /* Rasm markazda joylashadi */
+    background-repeat: no-repeat; /* Rasm qayta takrorlanmaydi */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Footer */
+footer {
+    background-color: #2c3e50;
+    color: white;
+    padding: 20px;
+    margin-top: 90px;
+}
+
+.socials img {
+    width: 24px;
+    height: 24px;
+    margin: 5px;
+}
+    /* Navbar uchun */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Qoramtir fon */
+    padding: 15px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    height: 40px; /* Navbar balandligi */
+    cursor: pointer;
+}
+
+.nav-title {
+    font-size: 10px;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Elementlar orasida joylashish */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    z-index: 2;
