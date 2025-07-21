@@ -1,0 +1,1406 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>English Listening Practice - Smell Conversation</title>
+  <style>
+      /* CSS kodlari shu yerda joylashadi */
+      * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+      }
+
+      body {
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          min-height: 100vh;
+          padding: 20px;
+      }
+
+      .container {
+          max-width: 1200px;
+          margin: 0 auto;
+          background: white;
+          border-radius: 20px;
+          box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+          overflow: hidden;
+      }
+
+      .header {
+          background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+          color: white;
+          padding: 3px;
+          text-align: center;
+      }
+
+      .header h1 {
+          font-size: 2.5em;
+          margin-bottom: 5px;
+          text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      }
+
+      .header p {
+          font-size: 1.2em;
+          opacity: 0.9;
+      }
+
+      .content {
+          display: grid;
+          grid-template-columns: 1fr; 
+          gap: 30px;
+          padding: 30px;
+      }
+
+      .transcript-section,
+      .uzbek-transcript-section, 
+      .vocabulary-section 
+       {
+          background: #f8f9fa;
+          border-radius: 15px;
+          padding: 25px;
+          max-height: 600px;
+          overflow-y: auto;
+          border: 2px solid #e9ecef;
+          display: none; 
+          margin-bottom: 30px; 
+      }
+      
+      .transcript-section {
+          max-height: 600px;
+      }
+
+
+      .transcript-section h2,
+      .uzbek-transcript-section h2,
+      .vocabulary-section h2 {
+          color: #2c3e50;
+          margin-bottom: 20px;
+          font-size: 1.8em;
+          border-bottom: 3px solid #3498db;
+          padding-bottom: 10px;
+      }
+      .uzbek-transcript-section h2 {
+          border-bottom: 3px solid #e74c3c;
+      }
+      .vocabulary-section h2 {
+          border-bottom: 3px solid #f39c12;
+      }
+
+
+      .transcript p,
+      .uzbek-transcript p,
+      .vocabulary ul li {
+          margin-bottom: 15px;
+          line-height: 1.6;
+          padding: 10px;
+          border-radius: 8px;
+          transition: all 0.3s ease;
+      }
+
+      .transcript p:hover,
+      .uzbek-transcript p:hover,
+      .vocabulary ul li:hover {
+          background: #e3f2fd;
+          transform: translateX(5px);
+      }
+      .vocabulary ul {
+          list-style: none; 
+          padding-left: 0;
+      }
+      .vocabulary ul li {
+          border-left: 5px solid #f39c12;
+          background: #fffaf0;
+          margin-bottom: 10px;
+          padding: 12px;
+          font-size: 1.1em;
+      }
+      .vocabulary ul li strong {
+          color: #d35400; 
+          font-weight: bold;
+          margin-right: 8px;
+      }
+
+
+      .transcript strong {
+          color: #e74c3c;
+          font-weight: bold;
+          background: #fff3cd;
+          padding: 2px 6px;
+          border-radius: 4px;
+          margin-right: 10px;
+      }
+      
+      .exercises-section {
+          background: #fff;
+          border-radius: 15px;
+          padding: 0px; 
+          border: 2px solid #e9ecef;
+      }
+
+      .exercises-section h2 {
+          color: #2c3e50;
+          margin-bottom: 20px;
+          font-size: 1.8em;
+          border-bottom: 3px solid #27ae60;
+          padding-bottom: 10px;
+      }
+
+      .exercise {
+          background: #f8f9fa;
+          border-radius: 10px;
+          padding: 20px;
+          margin-bottom: 20px;
+          border-left: 5px solid #27ae60;
+      }
+
+      .exercise h3 {
+          color: #2c3e50;
+          margin-bottom: 15px;
+          font-size: 1.3em;
+      }
+
+      .question {
+          margin-bottom: 15px;
+          padding: 15px;
+          background: white;
+          border-radius: 8px;
+          border: 1px solid #dee2e6;
+      }
+
+      .question p {
+          margin-bottom: 10px;
+          font-weight: 500;
+      }
+
+      .options {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+      }
+
+      .option {
+          padding: 10px 15px;
+          background: #f1f3f4;
+          border-radius: 6px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          border: 2px solid transparent;
+      }
+
+      .option:hover {
+          background: #e8f5e8;
+          border-color: #27ae60;
+      }
+
+      .option.selected {
+          background: #d4edda;
+          border-color: #27ae60;
+          color: #155724;
+      }
+
+      .option.correct {
+          background: #d4edda;
+          border-color: #27ae60;
+          color: #155724;
+      }
+
+      .option.incorrect {
+          background: #f8d7da;
+          border-color: #dc3545;
+          color: #721c24;
+      }
+
+      .check-btn {
+          background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+          color: white;
+          border: none;
+          padding: 12px 30px;
+          border-radius: 25px;
+          cursor: pointer;
+          font-size: 16px;
+          font-weight: 600;
+          transition: all 0.3s ease;
+          margin-top: 15px;
+      }
+
+      .check-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+      }
+
+      .check-btn:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+      }
+
+      .result {
+          margin-top: 15px;
+          padding: 15px;
+          border-radius: 8px;
+          font-weight: 600;
+          text-align: center;
+      }
+
+      .result.correct {
+          background: #d4edda;
+          color: #155724;
+          border: 1px solid #c3e6cb;
+      }
+
+      .result.incorrect {
+          background: #f8d7da;
+          color: #721c24;
+          border: 1px solid #f5c6cb;
+      }
+
+      .controls {
+          text-align: center;
+          padding: 20px;
+          background: #f8f9fa;
+          border-bottom: 1px solid #dee2e6;
+          display: flex; 
+          flex-wrap: wrap; 
+          justify-content: center; 
+          gap: 10px; 
+      }
+
+      .control-btn {
+          background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+          color: white;
+          border: none;
+          padding: 12px 25px;
+          border-radius: 25px;
+          cursor: pointer;
+          font-size: 16px;
+          font-weight: 600;
+          margin: 0 5px; 
+          transition: all 0.3s ease;
+      }
+
+      .control-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+      }
+
+      .progress-bar {
+          width: 100%;
+          height: 8px;
+          background: #e9ecef;
+          border-radius: 4px;
+          overflow: hidden;
+          margin-bottom: 20px;
+      }
+
+      .progress-fill {
+          height: 100%;
+          background: linear-gradient(90deg, #27ae60, #2ecc71);
+          transition: width 0.3s ease;
+      }
+
+      .gap-input {
+          width: 100%;
+          padding: 12px;
+          margin: 10px 0;
+          border: 2px solid #dee2e6;
+          border-radius: 8px;
+          font-size: 16px;
+          transition: all 0.3s ease;
+      }
+
+      .gap-input:focus {
+          border-color: #3498db;
+          outline: none;
+          box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+      }
+
+      .gap-input.correct {
+          border-color: #27ae60;
+          background-color: #d4edda;
+      }
+
+      .gap-input.incorrect {
+          border-color: #dc3545;
+          background-color: #f8d7da;
+      }
+      
+      .vocabulary-section h2 {
+          border-bottom: 3px solid #f39c12; 
+      }
+
+      .flashcard-container {
+          perspective: 1000px; 
+          width: 100%;
+          max-width: 400px; 
+          height: 250px; 
+          margin: 30px auto; 
+          position: relative; 
+      }
+
+      .flashcard {
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          transform-style: preserve-3d; 
+          transition: transform 0.6s; 
+          box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+          border-radius: 15px;
+          cursor: pointer;
+      }
+
+      .flashcard.flipped {
+          transform: rotateY(180deg); 
+      }
+
+      .flashcard-front, .flashcard-back {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          -webkit-backface-visibility: hidden; 
+          backface-visibility: hidden;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          padding: 20px;
+          border-radius: 15px;
+          font-size: 1.8em;
+          font-weight: bold;
+          color: #2c3e50;
+      }
+
+      .flashcard-front {
+          background: linear-gradient(135deg, #f0f9ff 0%, #cbebff 100%); 
+          border: 2px solid #a0d8ff;
+      }
+
+      .flashcard-back {
+          background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%); 
+          border: 2px solid #ef9a9a;
+          transform: rotateY(180deg); 
+          color: #e74c3c;
+      }
+
+      .flashcard-back p { 
+          font-size: 0.7em;
+          font-weight: normal;
+          margin-top: 10px;
+          color: #333;
+      }
+
+      .flashcard-controls {
+          text-align: center;
+          margin-top: 20px;
+          display: flex; 
+          justify-content: center; 
+          gap: 15px; 
+          flex-wrap: wrap; 
+      }
+      .flashcard-controls .control-btn {
+          margin: 0 10px;
+          background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%); 
+      }
+      .flashcard-controls .control-btn:hover {
+          box-shadow: 0 5px 15px rgba(243, 156, 18, 0.3);
+      }
+
+      #audio-player {
+          position: fixed;
+          bottom: 20px;
+          right: 20px;
+          background-color: #333;
+          color: white;
+          border-radius: 50%;
+          padding: 15px;
+          display: flex;
+          gap: 10px;
+          align-items: center;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+          z-index: 1000;
+      }
+      #audio-player button {
+          background: none;
+          border: none;
+          color: white;
+          font-size: 18px;
+          cursor: pointer;
+      }
+
+      /* Custom Message Box styling */
+      .custom-message-box {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.6);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 9999;
+      }
+      .message-content {
+          background: white;
+          padding: 30px;
+          border-radius: 10px;
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+          text-align: center;
+          max-width: 80%;
+      }
+      .message-content p {
+          font-size: 1.2em;
+          margin-bottom: 20px;
+          color: #333;
+      }
+      .close-message-btn {
+          background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+          color: white;
+          border: none;
+          padding: 10px 20px;
+          border-radius: 20px;
+          cursor: pointer;
+          font-size: 1em;
+          font-weight: 600;
+          transition: all 0.3s ease;
+      }
+      .close-message-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 3px 10px rgba(52, 152, 219, 0.3);
+      }
+
+      /* Text sync specific styles */
+      .text-container {
+           background: rgba(255, 255, 255, 0.95);
+           border-radius: 15px;
+           padding: 25px;
+           box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+           backdrop-filter: blur(10px);
+           line-height: 1.8;
+           font-size: 1.1rem;
+           max-height: 500px; /* Transkript oynasining balandligini cheklash */
+           overflow-y: auto; /* Agar matn ko'p bo'lsa, aylantirishni yoqish */
+       }
+
+       .sentence {
+           margin-bottom: 15px;
+           padding: 10px;
+           border-radius: 8px;
+           transition: all 0.3s ease;
+       }
+
+       .sentence.active {
+           background: linear-gradient(45deg, #e3f2fd, #bbdefb);
+           border-left: 4px solid #2196F3;
+           transform: translateX(5px);
+       }
+
+       .word {
+           display: inline;
+           padding: 2px 4px;
+           border-radius: 4px;
+           transition: all 0.2s ease;
+           cursor: pointer;
+       }
+
+       .word.current {
+           background: linear-gradient(45deg, #FFD54F, #FFC107);
+           font-weight: bold;
+           transform: scale(1.05);
+           box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3);
+       }
+
+       .word:hover {
+           background: rgba(33, 150, 243, 0.1);
+       }
+
+       .music-indicator {
+           color: #9C27B0;
+           font-style: italic;
+           background: linear-gradient(45deg, #f3e5f5, #e1bee7);
+           padding: 5px 10px;
+           border-radius: 20px;
+           display: inline-block;
+           margin: 5px 0;
+       }
+
+       .loading {
+           text-align: center;
+           color: #666;
+           font-style: italic;
+       }
+
+       @keyframes pulse {
+           0% { opacity: 1; }
+           50% { opacity: 0.7; }
+           100% { opacity: 1; }
+       }
+
+       .pulse {
+           animation: pulse 1s infinite;
+       }
+
+  </style>
+</head>
+
+<body>
+  <div class="container">
+      <div class="header">
+          <h3>🎧 English Listening Practice</h3>
+          <p>Smell Conversation - Richard & Jackie</p>
+
+          <audio id="myAudio" src="smell.mp3" preload="auto"></audio>
+
+          <div id="audio-player">
+              <button id="rewind">⏪</button>
+              <button id="playPause">▶️</button>
+              <button id="forward">⏩</button>
+          </div>
+      </div>
+
+      <div class="controls">
+          <button class="control-btn" onclick="showSection('transcript-section')">📝 Show Transcript</button>
+          <button class="control-btn" onclick="showSection('uzbek-transcript-section')">🇺🇿 Uzbek Transcript</button>
+          <button class="control-btn" onclick="showSection('vocabulary-section')">📚 Lug'at</button>
+          <button class="control-btn" onclick="hideAllSections()">🙈 Hide All</button>
+          <button class="control-btn" onclick="resetExercises()">🔄 Reset All</button>
+      </div>
+      
+      <div class="content">
+          <!-- Transcript Section for Audio Sync -->
+          <div class="transcript-section" id="transcript-section" style="display: block;">
+              <h2>📝 Transcript</h2>
+              <div class="text-container" id="textContainer">
+                  <div class="loading pulse">Audio yuklanmoqda...</div>
+              </div>
+          </div>
+
+          <div class="uzbek-transcript-section" id="uzbek-transcript-section">
+              <h2>🇺🇿 O'zbekcha Transkript</h2>
+              <div class="uzbek-transcript">
+                  <p><strong>00:00</strong> Kasal bo'lganingizda sodir bo'lishi mumkin bo'lgan narsalardan biri, masalan, agar siz COVID-19 virusini yuqtirsangiz,</p>
+                  <p><strong>00:12</strong> yoki hatto qattiq shamollasangiz ham,</p>
+                  <p><strong>00:14</strong> siz hech narsani hidlay olmaysiz.</p>
+                  <p><strong>00:18</strong> Ha. Demak, bu haftalik English.com podkastimizda biz hid haqida gaplashamiz.</p>
+                  <p><strong>00:25</strong> Richard, sizning sevimli hidingiz bormi?</p>
+                  <p><strong>00:28</strong> Ha, bor. O'rilgan maysaning hidi.</p>
+                  <p><strong>00:33</strong> Oh, bu yaxshi.</p>
+                  <p><strong>00:34</strong> Ha. Bu menga yozni va yoshligimda o'sib ulg'ayganimni eslatadi.</p>
+                  <p><strong>00:39</strong> Fantastik. Uni yaxshi ko'raman.</p>
+                  <p><strong>00:41</strong> Ajoyib.</p>
+                  <p><strong>00:42</strong> Siz-chi, Jackie? Siz nimani hidlashni yoqtirasiz?</p>
+                  <p><strong>00:45</strong> Xo'sh, um, bu biroz eski tuyulishi mumkin,</p>
+                  <p><strong>00:49</strong> lekin men gullarning hidini yaxshi ko'raman.</p>
+                  <p><strong>00:53</strong> Sizning sevimli hidingiz bormi? Ha. Hid uchun sevimli gulim</p>
+                  <p><strong>00:58</strong> shirin no'xat gullari.</p>
+                  <p><strong>01:00</strong> Yaxshi.</p>
+                  <p><strong>01:00</strong> Ular ko'rinishidan ham chiroyli.</p>
+                  <p><strong>01:03</strong> Hamma hidlar ham yoqimli emas.</p>
+                  <p><strong>01:06</strong> Ha.</p>
+                  <p><strong>01:07</strong> Sizga yoqmaydigan hid bormi, Richard?</p>
+                  <p><strong>01:10</strong> Xo'sh, yana bolaligimdan, ota-onam chekuvchi edilar.</p>
+                  <p><strong>01:14</strong> Oh, tutun.</p>
+                  <p><strong>01:15</strong> Va men sigaret tutunining hidini yomon ko'raman.</p>
+                  <p><strong>01:19</strong> Ha. Men buni deyarli unutganman</p>
+                  <p><strong>01:22</strong> chunki hozir pablar va jamoat joylarida</p>
+                  <p><strong>01:25</strong> odamlar endi chekmaydi. Kiyimlaringizda, Richard. Ertasi kuni,</p>
+                  <p><strong>01:29</strong> shukrki, bu hidni hozirgi kunda tez-tez uchratmaymiz.</p>
+                  <p><strong>01:35</strong> Siz-chi? Siz nimani yoqtirmaysiz?</p>
+                  <p><strong>01:37</strong> Bilasizmi, bu kulgili tuyulishi mumkin, lekin men</p>
+                  <p><strong>01:40</strong> benzin hidini umuman yoqtirmayman.</p>
+                  <p><strong>01:43</strong> Tasavvur qila olaman. Yo'q, bu yaxshi.</p>
+                  <p><strong>01:45</strong> Ba'zan eski mashinada bo'lganimda,</p>
+                  <p><strong>01:49</strong> va bilmayman, mashinada benzin hidini his qilasiz. Bu meni</p>
+                  <p><strong>01:52</strong> kasal qiladi.</p>
+                  <p><strong>01:55</strong> Bu juda kuchli ham, shunday emasmi?</p>
+                  <p><strong>01:58</strong> Men buni yomon ko'raman. Albatta, Richard, ovqatning hidi har doim yoqimli. Men</p>
+                  <p><strong>02:03</strong> ertalab yangi qahva hidini yaxshi ko'raman.</p>
+                  <p><strong>02:05</strong> Ha. Yoki tovada qovurilayotgan bekon.</p>
+                  <p><strong>02:09</strong> Mening sevimli hidlarimdan biri.</p>
+                  <p><strong>02:10</strong> Agar hiddan mahrum bo'lsangiz, bu muhimmi?</p>
+                  <p><strong>02:14</strong> Xo'sh, siz ovqat haqida gapirasiz va menimcha, bu hidning eng muhim sababi.</p>
+                  <p><strong>02:21</strong> To'g'ri.</p>
+                  <p><strong>02:21</strong> Chunki ovqat buzilgan bo'lsa, uni hidlay olasiz.</p>
+                  <p><strong>02:26</strong> To'g'ri. Xo'p. Demak, bu xavfsizlik masalasi.</p>
+                  <p><strong>02:29</strong> Ha. Agar siz pishloq yoki biror narsani hidlasangiz,</p>
+                  <p><strong>02:30</strong> u buzilganida dahshatli hid beradi.</p>
+                  <p><strong>02:33</strong> Va go'sht, albatta.</p>
+                  <p><strong>02:34</strong> Va baliq.</p>
+                  <p><strong>02:35</strong> To'g'ri.</p>
+                  <p><strong>02:36</strong> Va albatta, men tostning hidini yaxshi ko'raman,</p>
+                  <p><strong>02:39</strong> lekin keyin kuygan tost bor, uni yemaslik kerak. Demak, hid sizga agar</p>
+                  <p><strong>02:42</strong> ovqat kuyayotgan bo'lsa, biror narsa kuyayotgan bo'lsa, aytadi. Ha. Yana, bu xavfsizlik masalasi.</p>
+                  <p><strong>02:49</strong> Shuningdek, agar uyingiz yonayotgan bo'lsa.</p>
+                  <p><strong>02:52</strong> Ha. Va va va shuningdek, menimcha, Richard,</p>
+                  <p><strong>02:55</strong> ta'm bilish uchun hid kerak.</p>
+                  <p><strong>02:58</strong> Ha, albatta.</p>
+                  <p><strong>02:59</strong> Ya'ni, men kichikligimda, onam</p>
+                  <p><strong>03:01</strong> dori ichganimda burnimni ushlab turishimni so'ragan, chunki agar hid bo'lmasa,</p>
+                  <p><strong>03:07</strong> ta'm ham bo'lmasdi.</p>
+                  <p><strong>03:08</strong> Shunday qilib, siz dori ichishingiz mumkin edi.</p>
+                  <p><strong>03:10</strong> Bu mantiqan to'g'ri.</p>
+                  <p><strong>03:11</strong> Ha. Ha. Va shamollagan paytingizda,</p>
+                  <p><strong>03:13</strong> ovqatning ta'mini bilish qiyin.</p>
+                  <p><strong>03:16</strong> Shunday.</p>
+                  <p><strong>03:18</strong> Demak, o'sha qahva va bekon, siz nafaqat uning hididan zavqlana olmaysiz, balki</p>
+                  <p><strong>03:24</strong> ta'midan ham zavqlana olmaysiz.</p>
+                  <p><strong>03:26</strong> Juda achinarli. Va va va Jackie, hid haqida gapiradigan bo'lsak,</p>
+                  <p><strong>03:29</strong> bu qanday hid? Men hozir hidlayapman.</p>
+                  <p><strong>03:34</strong> Bu bizning itimiz Yussy. U tashqariga chiqishi kerak.</p>
+              </div>
+          </div>
+
+          <div class="vocabulary-section" id="vocabulary-section">
+              <h2>📚 Lug'at</h2>
+              <div class="flashcard-container" id="flashcard-container">
+              </div>
+              <div class="flashcard-controls">
+                  <button class="control-btn" onclick="prevFlashcard()">⬅️ Avvalgi</button>
+                  <button class="control-btn" onclick="markAsLearned()">✅ Yodladim</button>
+                  <button class="control-btn" onclick="nextFlashcard()">➡️ Keyingi</button>
+              </div>
+          </div>
+
+          <div class="exercises-section">
+              <h2>🎯 Exercises</h2>
+              <div class="progress-bar">
+                  <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+              </div>
+
+              <div class="exercise" id="exercise1">
+                  <h3>Question 1</h3>
+                  <div class="question">
+                      <p>What is the main topic of this week's podcast?</p>
+                      <div class="options">
+                          <div class="option" data-answer="incorrect">Taste</div>
+                          <div class="option" data-answer="correct">Smell</div>
+                          <div class="option" data-answer="incorrect">Hearing</div>
+                          <div class="option" data-answer="incorrect">Sight</div>
+                      </div>
+                      <button class="check-btn" onclick="checkAnswer(1)">Check Answer</button>
+                      <div class="result" id="result1" style="display: none;"></div>
+                  </div>
+              </div>
+
+              <div class="exercise" id="exercise2">
+                  <h3>Question 2</h3>
+                  <div class="question">
+                      <p>What is Richard's favorite smell?</p>
+                      <div class="options">
+                          <div class="option" data-answer="incorrect">Fresh coffee</div>
+                          <div class="option" data-answer="correct">Cut grass</div>
+                          <div class="option" data-answer="incorrect">Flowers</div>
+                          <div class="option" data-answer="incorrect">Bacon</div>
+                      </div>
+                      <button class="check-btn" onclick="checkAnswer(2)">Check Answer</button>
+                      <div class="result" id="result2" style="display: none;"></div>
+                  </div>
+              </div>
+
+              <div class="exercise" id="exercise3">
+                  <h3>Question 3</h3>
+                  <div class="question">
+                      <p>What kind of flowers does Jackie like the smell of most?</p>
+                      <div class="options">
+                          <div class="option" data-answer="incorrect">Roses</div>
+                          <div class="option" data-answer="correct">Sweet peas</div>
+                          <div class="option" data-answer="incorrect">Lilies</div>
+                          <div class="option" data-answer="incorrect">Tulips</div>
+                      </div>
+                      <button class="check-btn" onclick="checkAnswer(3)">Check Answer</button>
+                      <div class="result" id="result3" style="display: none;"></div>
+                  </div>
+              </div>
+
+              <div class="exercise" id="exercise4">
+                  <h3>Question 4</h3>
+                  <div class="question">
+                      <p>What smell does Richard hate from his childhood?</p>
+                      <div class="options">
+                          <div class="option" data-answer="incorrect">Burnt toast</div>
+                          <div class="option" data-answer="correct">Cigarette smoke</div>
+                          <div class="option" data-answer="incorrect">Petrol</div>
+                          <div class="option" data-answer="incorrect">Bad food</div>
+                      </div>
+                      <button class="check-btn" onclick="checkAnswer(4)">Check Answer</button>
+                      <div class="result" id="result4" style="display: none;"></div>
+                  </div>
+              </div>
+
+              <div class="exercise" id="exercise5">
+                  <h3>Question 5</h3>
+                  <div class="question">
+                      <p>What smell does Jackie dislike that makes her feel sick?</p>
+                      <div class="options">
+                          <div class="option" data-answer="incorrect">Fish</div>
+                          <div class="option" data-answer="correct">Petrol</div>
+                          <div class="option" data-answer="incorrect">Cheese</div>
+                          <div class="option" data-answer="incorrect">Meat</div>
+                      </div>
+                      <button class="check-btn" onclick="checkAnswer(5)">Check Answer</button>
+                      <div class="result" id="result5" style="display: none;"></div>
+                  </div>
+              </div>
+
+              <div class="exercise" id="exercise6">
+                  <h3>Question 6 - True/False</h3>
+                  <div class="question">
+                      <p>Losing your sense of smell can be a safety issue related to food.</p>
+                      <div class="options">
+                          <div class="option" data-answer="correct">True</div>
+                          <div class="option" data-answer="incorrect">False</div>
+                      </div>
+                      <button class="check-btn" onclick="checkAnswer(6)">Check Answer</button>
+                      <div class="result" id="result6" style="display: none;"></div>
+                  </div>
+              </div>
+
+              <div class="exercise" id="exercise7">
+                  <h3>Question 7 - True/False</h3>
+                  <div class="question">
+                      <p>Richard loves the smell of burnt toast.</p>
+                      <div class="options">
+                          <div class="option" data-answer="incorrect">True</div>
+                          <div class="option" data-answer="correct">False</div>
+                      </div>
+                      <button class="check-btn" onclick="checkAnswer(7)">Check Answer</button>
+                      <div class="result" id="result7" style="display: none;"></div>
+                  </div>
+              </div>
+
+              <div class="exercise" id="exercise8">
+                  <h3>Question 8 - True/False</h3>
+                  <div class="question">
+                      <p>You need your sense of smell to properly taste food.</p>
+                      <div class="options">
+                          <div class="option" data-answer="correct">True</div>
+                          <div class="option" data-answer="incorrect">False</div>
+                      </div>
+                      <button class="check-btn" onclick="checkAnswer(8)">Check Answer</button>
+                      <div class="result" id="result8" style="display: none;"></div>
+                  </div>
+              </div>
+
+              <div class="exercise" id="exercise9">
+                  <h3>Question 9 - True/False</h3>
+                  <div class="question">
+                      <p>Jackie's mother made her hold her nose when taking medicine to improve the taste.</p>
+                      <div class="options">
+                          <div class="option" data-answer="correct">True</div>
+                          <div class="option" data-answer="incorrect">False</div>
+                      </div>
+                      <button class="check-btn" onclick="checkAnswer(9)">Check Answer</button>
+                      <div class="result" id="result9" style="display: none;"></div>
+                  </div>
+              </div>
+
+              <div class="exercise" id="exercise10">
+                  <h3>Question 10 - Fill in the Gap</h3>
+                  <div class="question">
+                      <p>Complete the sentence from the transcript:</p>
+                      <p><em>"One of the things that can happen when you are _______, for example, if you catch the _______ virus..."</em></p>
+                      <input type="text" class="gap-input" id="gap1" placeholder="First word...">
+                      <input type="text" class="gap-input" id="gap2" placeholder="Second word...">
+                      <button class="check-btn" onclick="checkDoubleGapAnswer(10, 'gap1', 'gap2', 'ill', 'COVID')">Check Answer</button>
+                      <div class="result" id="result10" style="display: none;"></div>
+                  </div>
+              </div>
+          </div>
+      </div>       
+  </div>
+
+  <script>
+      /* JavaScript kodlari shu yerda joylashadi */
+      let completedExercises = 0;
+      const totalExercises = 10; 
+
+      function checkAnswer(exerciseNum) {
+          const exercise = document.getElementById(`exercise${exerciseNum}`);
+          const options = exercise.querySelectorAll('.option');
+          const result = document.getElementById(`result${exerciseNum}`);
+          const button = exercise.querySelector('.check-btn');
+          
+          let selectedOption = null;
+          let isCorrect = false;
+
+          options.forEach(option => {
+              if (option.classList.contains('selected')) {
+                  selectedOption = option;
+                  if (option.dataset.answer === 'correct') {
+                      isCorrect = true;
+                      option.classList.add('correct');
+                  } else {
+                      option.classList.add('incorrect');
+                  }
+              }
+          });
+
+          if (!selectedOption) {
+              showMessageBox('Please select an answer first!');
+              return;
+          }
+
+          options.forEach(option => {
+              if (option.dataset.answer === 'correct') {
+                  option.classList.add('correct');
+              }
+              option.style.pointerEvents = 'none';
+          });
+
+          result.style.display = 'block';
+          if (isCorrect) {
+              result.textContent = '✅ Correct! Well done!';
+              result.className = 'result correct';
+              if (!button.disabled) {
+                  completedExercises++;
+                  updateProgress();
+              }
+          } else {
+              result.textContent = '❌ Incorrect. The correct answer is highlighted.';
+              result.className = 'result incorrect';
+          }
+
+          button.disabled = true;
+      }
+
+      function updateProgress() {
+          const progress = (completedExercises / totalExercises) * 100;
+          document.getElementById('progressFill').style.width = progress + '%';
+          
+          if (completedExercises === totalExercises) {
+              setTimeout(() => {
+                  showMessageBox('🎉 Congratulations! You completed all exercises!');
+              }, 500);
+          }
+      }
+
+      function checkGapAnswer(exerciseNum, inputId, correctAnswer) {
+          const input = document.getElementById(inputId);
+          const result = document.getElementById(`result${exerciseNum}`);
+          const button = document.querySelector(`#exercise${exerciseNum} .check-btn`);
+          
+          const userAnswer = input.value.trim().toLowerCase();
+          const correct = correctAnswer.toLowerCase();
+          
+          if (!userAnswer) {
+              showMessageBox('Please enter your answer!');
+              return;
+          }
+          
+          const isCorrect = userAnswer === correct;
+          
+          if (isCorrect) {
+              input.classList.add('correct');
+              input.classList.remove('incorrect');
+              result.textContent = '✅ Correct! Well done!';
+              result.className = 'result correct';
+              if (!button.disabled) {
+                  completedExercises++;
+                  updateProgress();
+              }
+          } else {
+              input.classList.add('incorrect');
+              input.classList.remove('correct');
+              result.textContent = `❌ Incorrect. The correct answer is: "${correctAnswer}"`;
+              result.className = 'result incorrect';
+          }
+          
+          result.style.display = 'block';
+          button.disabled = true;
+          input.disabled = true;
+      }
+
+      function checkDoubleGapAnswer(exerciseNum, inputId1, inputId2, correctAnswer1, correctAnswer2) {
+          const input1 = document.getElementById(inputId1);
+          const input2 = document.getElementById(inputId2);
+          const result = document.getElementById(`result${exerciseNum}`);
+          const button = document.querySelector(`#exercise${exerciseNum} .check-btn`);
+          
+          const userAnswer1 = input1.value.trim().toLowerCase();
+          const userAnswer2 = input2.value.trim().toLowerCase();
+          const correct1 = correctAnswer1.toLowerCase();
+          const correct2 = correctAnswer2.toLowerCase();
+          
+          if (!userAnswer1 || !userAnswer2) {
+              showMessageBox('Please fill in both gaps!');
+              return;
+          }
+          
+          const isCorrect1 = userAnswer1 === correct1;
+          const isCorrect2 = userAnswer2 === correct2;
+          const bothCorrect = isCorrect1 && isCorrect2;
+          
+          if (isCorrect1) {
+              input1.classList.add('correct');
+              input1.classList.remove('incorrect');
+          } else {
+              input1.classList.add('incorrect');
+              input1.classList.remove('correct');
+          }
+          
+          if (isCorrect2) {
+              input2.classList.add('correct');
+              input2.classList.remove('incorrect');
+          } else {
+              input2.classList.add('incorrect');
+              input2.classList.remove('correct');
+          }
+          
+          if (bothCorrect) {
+              result.textContent = '✅ Correct! Well done!';
+              result.className = 'result correct';
+              if (!button.disabled) {
+                  completedExercises++;
+                  updateProgress();
+              }
+          } else {
+              result.textContent = `❌ Incorrect. The correct answers are: "${correctAnswer1}" and "${correctAnswer2}"`;
+              result.className = 'result incorrect';
+          }
+          
+          result.style.display = 'block';
+          button.disabled = true;
+          input1.disabled = true;
+          input2.disabled = true;
+      }
+
+      function resetExercises() {
+          completedExercises = 0;
+          updateProgress();
+          
+          for (let i = 1; i <= totalExercises; i++) { 
+              const exercise = document.getElementById(`exercise${i}`);
+              if (exercise) { 
+                  const options = exercise.querySelectorAll('.option');
+                  const inputs = exercise.querySelectorAll('.gap-input');
+                  const result = document.getElementById(`result${i}`);
+                  const button = exercise.querySelector('.check-btn');
+                  
+                  options.forEach(option => {
+                      option.classList.remove('selected', 'correct', 'incorrect');
+                      option.style.pointerEvents = 'auto';
+                  });
+                  
+                  inputs.forEach(input => {
+                      input.value = '';
+                      input.classList.remove('correct', 'incorrect');
+                      input.disabled = false;
+                  });
+                  
+                  if (result) { 
+                      result.style.display = 'none';
+                  }
+                  if (button) { 
+                      button.disabled = false;
+                  }
+              }
+          }
+          initializeFlashcards(); // Flesh kartalarni ham reset qilamiz
+      }
+
+      function showSection(sectionIdToShow) {
+          const sections = ['transcript-section', 'uzbek-transcript-section', 'vocabulary-section'];
+          sections.forEach(id => {
+              const section = document.getElementById(id);
+              if (section) {
+                  section.style.display = 'none';
+              }
+          });
+          const targetSection = document.getElementById(sectionIdToShow);
+          if (targetSection) {
+              targetSection.style.display = 'block';
+          }
+
+          if (sectionIdToShow === 'vocabulary-section') {
+              initializeFlashcards(); 
+          }
+      }
+
+      function hideAllSections() {
+          const sections = ['transcript-section', 'uzbek-transcript-section', 'vocabulary-section'];
+          sections.forEach(id => {
+              const section = document.getElementById(id);
+              if (section) {
+                  section.style.display = 'none';
+              }
+          });
+      }
+
+      document.addEventListener('DOMContentLoaded', function() {
+          const allOptions = document.querySelectorAll('.option');
+          allOptions.forEach(option => {
+              option.addEventListener('click', function() {
+                  const siblings = this.parentElement.querySelectorAll('.option');
+                  siblings.forEach(sibling => {
+                      sibling.classList.remove('selected');
+                  });
+                  this.classList.add('selected');
+              });
+          });
+
+          initializeFlashcards();
+      });
+
+      const vocabularyWords = [
+          { word: "Ill", meaning: "Kasal" },
+          { word: "Catch a virus", meaning: "Virus yuqtirmoq" },
+          { word: "Bad cold", meaning: "Qattiq shamollash" },
+          { word: "Smell", meaning: "Hid" },
+          { word: "Cut grass", meaning: "O'rilgan maysa" },
+          { word: "Corny", meaning: "Eski, jo'n" },
+          { word: "Sweet peas", meaning: "Shirin no'xat gullari" },
+          { word: "Smokers", meaning: "Chekuvchilar" },
+          { word: "Cigarette smoke", meaning: "Sigaret tutuni" },
+          { word: "Petrol", meaning: "Benzin" },
+          { word: "Frying pan", meaning: "Tovada qovurish" },
+          { word: "Sense of smell", meaning: "Hid bilish hissi" },
+          { word: "Gone bad", meaning: "Buzilgan" },
+          { word: "Safety thing", meaning: "Xavfsizlik masalasi" },
+          { word: "Burnt toast", meaning: "Kuygan tost" },
+          { word: "House is on fire", meaning: "Uy yonmoqda" },
+          { word: "Taste", meaning: "Ta'm" },
+          { word: "Hold my nose", meaning: "Burnimni ushlab turmoq" },
+          { word: "Makes sense", meaning: "Mantiqan to'g'ri" },
+          { word: "Yussy", meaning: "Yussi (itning ismi)" }
+      ];
+
+      let currentFlashcardIndex = 0;
+      let shuffledWords = []; 
+      let learnedWords = []; 
+
+      function initializeFlashcards() {
+          shuffledWords = shuffleArray([...vocabularyWords]); 
+          currentFlashcardIndex = 0;
+          renderFlashcard();
+      }
+
+      function renderFlashcard() {
+          const container = document.getElementById('flashcard-container');
+          container.innerHTML = ''; 
+
+          if (shuffledWords.length === 0) {
+              container.innerHTML = '<p style="text-align:center; font-size:1.2em; color:#555;">Barcha soʻzlar yodlandi! Yangidan boshlash uchun sahifani yangilang.</p>';
+              return;
+          }
+
+          const wordData = shuffledWords[currentFlashcardIndex];
+          const flashcard = document.createElement('div');
+          flashcard.classList.add('flashcard');
+          flashcard.innerHTML = `
+              <div class="flashcard-front">${wordData.word}</div>
+              <div class="flashcard-back">${wordData.meaning}</div>
+          `;
+          
+          flashcard.addEventListener('click', () => {
+              flashcard.classList.toggle('flipped');
+          });
+
+          container.appendChild(flashcard);
+      }
+
+      function nextFlashcard() {
+          currentFlashcardIndex++;
+          if (currentFlashcardIndex >= shuffledWords.length) {
+              if (learnedWords.length > 0 && shuffledWords.length === 0) {
+                  showMessageBox('Barcha soʻzlar yodlangan. Sahifani yangilasangiz, qayta boshlay olasiz.');
+                  return;
+              } else if (shuffledWords.length === 0) {
+                  showMessageBox('Barcha soʻzlar yodlandi!');
+                  currentFlashcardIndex = shuffledWords.length; 
+                  renderFlashcard(); 
+                  return;
+              }
+              currentFlashcardIndex = 0; 
+          }
+          renderFlashcard();
+      }
+
+      function prevFlashcard() {
+          currentFlashcardIndex--;
+          if (currentFlashcardIndex < 0) {
+              currentFlashcardIndex = shuffledWords.length - 1; 
+          }
+          renderFlashcard();
+      }
+
+      function markAsLearned() {
+          if (shuffledWords.length === 0) {
+              showMessageBox('Yodlash uchun soʻzlar qolmadi.');
+              return;
+          }
+
+          const learnedWord = shuffledWords.splice(currentFlashcardIndex, 1)[0]; 
+          learnedWords.push(learnedWord); 
+
+          if (shuffledWords.length === 0) {
+              showMessageBox('Tabriklaymiz! Barcha soʻzlar yodlandi!');
+          } else if (currentFlashcardIndex >= shuffledWords.length) {
+              currentFlashcardIndex = 0; 
+          }
+          renderFlashcard();
+      }
+
+      function shuffleArray(array) {
+          for (let i = array.length - 1; i > 0; i--) {
+              const j = Math.floor(Math.random() * (i + 1));
+              [array[i], array[j]] = [array[j], array[i]];
+          }
+          return array;
+      }
+
+      function showMessageBox(message) {
+          const messageBox = document.createElement('div');
+          messageBox.classList.add('custom-message-box');
+          messageBox.innerHTML = `
+              <div class="message-content">
+                  <p>${message}</p>
+                  <button class="close-message-btn">OK</button>
+              </div>
+          `;
+          document.body.appendChild(messageBox);
+
+          messageBox.querySelector('.close-message-btn').addEventListener('click', () => {
+              document.body.removeChild(messageBox);
+          });
+      }
+
+      const audio = document.getElementById("myAudio");
+      const playPauseBtn = document.getElementById("playPause");
+      const forwardBtn = document.getElementById("forward");
+      const rewindBtn = document.getElementById("rewind");
+
+      let isPlaying = false;
+
+      // Audio sinxronizatsiyasi uchun yangi o'zgaruvchilar va funksiyalar
+      const textContainer = document.getElementById('textContainer');
+      let currentSentenceIndex = -1;
+      let currentWordIndex = -1;
+
+      // Audio transkript ma'lumotlari (pod.html dan olindi va 2pod.html transkriptiga moslashtirildi)
+      const audioData = [
+           {time: 0, text: "One of the things that can happen when"},
+           {time: 7, text: "you are ill, for example, if you catch"},
+           {time: 10, text: "the COVID 19 virus"},
+           {time: 12, text: "or or even if you get a bad cold"},
+           {time: 14, text: "is that you can no longer smell"},
+           {time: 17, text: "anything."},
+           {time: 18, text: "Yes. So, for this week's podcast in"},
+           {time: 20, text: "English.com, we're talking about smell."},
+           {time: 25, text: "Richard, do you have a favorite smell?"},
+           {time: 28, text: "I do. Yes. The smell of cut grass."},
+           {time: 33, text: "Oh, that's good."},
+           {time: 34, text: "M. It reminds me of the summer and when"},
+           {time: 37, text: "I was a young boy growing up in the"},
+           {time: 39, text: "summer. Fantastic. Love it."},
+           {time: 41, text: "Great."},
+           {time: 42, text: "What about you, Jackie? What do you like"},
+           {time: 44, text: "to smell?"},
+           {time: 45, text: "Well, um, it sounds a bit corny really,"},
+           {time: 49, text: "but I do like the smell of flowers."},
+           {time: 53, text: "Do you have a favorite? Yeah. My"},
+           {time: 55, text: "favorite flower for for the smell are"},
+           {time: 58, text: "sweet peas."},
+           {time: 60, text: "Nice."},
+           {time: 60, text: "They're beautiful to look at as well."},
+           {time: 63, text: "Not all smells are nice."},
+           {time: 66, text: "Yes."},
+           {time: 67, text: "Something you don't like the smell of,"},
+           {time: 69, text: "Richard."},
+           {time: 70, text: "Well, again, from my childhood, my"},
+           {time: 72, text: "parents were smokers."},
+           {time: 74, text: "Oh, smoke."},
+           {time: 75, text: "And I hate the smell of cigarette smoke."},
+           {time: 79, text: "Yes. I mean almost forgotten about it"},
+           {time: 82, text: "now because pubs and public places"},
+           {time: 85, text: "people don't smoke anymore on your"},
+           {time: 87, text: "clothes, Richard. The next day,"},
+           {time: 89, text: "thankfully it is a smell that we don't"},
+           {time: 92, text: "get that often nowadays."},
+           {time: 95, text: "What about you? What don't you like?"},
+           {time: 97, text: "You know, this may sound funny, but I"},
+           {time: 100, text: "really don't like the smell of petrol."},
+           {time: 103, text: "I can imagine that. No, that's okay."},
+           {time: 105, text: "Sometimes when I've been in an old car,"},
+           {time: 109, text: "we and I don't know, you can smell the"},
+           {time: 112, text: "petrol in the car. It makes me feel"},
+           {time: 114, text: "sick."},
+           {time: 115, text: "It's quite strong as well, isn't it?"},
+           {time: 118, text: "I hate that. Of course, Richard, there's"},
+           {time: 121, text: "the smell of food is always nice. I like"},
+           {time: 123, text: "the smell of fresh coffee in the"},
+           {time: 124, text: "morning."},
+           {time: 125, text: "Yes. Or bacon frying in a frying pan."},
+           {time: 129, text: "One of my favorites."},
+           {time: 130, text: "Does it matter if you lose your sense of"},
+           {time: 134, text: "smell? Well, you talk about food and I"},
+           {time: 137, text: "think that's the most important reason"},
+           {time: 140, text: "we have smell."},
+           {time: 141, text: "All right."},
+           {time: 141, text: "Because you can smell the food if it has"},
+           {time: 144, text: "gone bad."},
+           {time: 146, text: "Right. Okay. So, that's a safety thing."},
+           {time: 149, text: "Yes. If you smell cheese or something,"},
+           {time: 150, text: "it smells horrible when it's when it's"},
+           {time: 152, text: "gone bad."},
+           {time: 153, text: "And meat, of course."},
+           {time: 154, text: "And fish."},
+           {time: 155, text: "Right."},
+           {time: 156, text: "And of course, I love the smell of"},
+           {time: 158, text: "toast,"},
+           {time: 159, text: "but then you have burnt toast, which you"},
+           {time: 162, text: "shouldn't eat. So the smell tells you if"},
+           {time: 165, text: "the food is is burning, something's"},
+           {time: 167, text: "burning. Yes. Again, a safety thing"},
+           {time: 169, text: "then."},
+           {time: 170, text: "Also, if your house is on fire."},
+           {time: 172, text: "Yes. And and and also I suppose Richard,"},
+           {time: 175, text: "you need smell to taste."},
+           {time: 178, text: "Yes, definitely."},
+           {time: 179, text: "I mean, when I was little, my mother"},
+           {time: 181, text: "made me hold my nose when I took"},
+           {time: 184, text: "medicine because if there was no smell,"},
+           {time: 187, text: "there was no taste."},
+           {time: 188, text: "So you could take the medicine."},
+           {time: 190, text: "That makes sense."},
+           {time: 191, text: "Yeah. Yeah. And because when you have a"},
+           {time: 193, text: "cold, it's difficult to taste the food."},
+           {time: 196, text: "It is."},
+           {time: 198, text: "So that coffee and bacon, not only do"},
+           {time: 201, text: "you not enjoy the smell of it, but you"},
+           {time: 204, text: "can't enjoy the taste either."},
+           {time: 206, text: "Very sad. And and and Jackie, talking"},
+           {time: 209, text: "about smell, what is that smell? I I can"},
+           {time: 213, text: "smell now."},
+           {time: 214, text: "That's our dog, Yussy. She needs to go"},
+           {time: 218, text: "outside."},
+      ];
+
+      // Matnni dastlabki holatga keltirish
+      function initializeText() {
+          let html = '';
+          audioData.forEach((item, index) => {
+              const words = item.text.split(' ');
+              html += `<div class="sentence" data-index="${index}">`;
+              words.forEach((word, wordIndex) => {
+                  html += `<span class="word" data-sentence="${index}" data-word="${wordIndex}" onclick="seekToWord(${index}, ${wordIndex})">${word}</span> `;
+              });
+              html += '</div>';
+          });
+          textContainer.innerHTML = html;
+      }
+
+      // Joriy so'z va gapni ajratib ko'rsatish
+      function updateTextHighlight(currentTimeSeconds) {
+          // Joriy gapni topish
+          let newSentenceIndex = -1;
+          for (let i = audioData.length - 1; i >= 0; i--) {
+              if (currentTimeSeconds >= audioData[i].time) {
+                  newSentenceIndex = i;
+                  break;
+              }
+          }
+
+          // Gapni ajratib ko'rsatishni yangilash
+          if (newSentenceIndex !== currentSentenceIndex) {
+              // Oldingi ajratib ko'rsatishni o'chirish
+              document.querySelectorAll('.sentence.active').forEach(el => {
+                  el.classList.remove('active');
+              });
+              document.querySelectorAll('.word.current').forEach(el => {
+                  el.classList.remove('current');
+              });
+
+              // Yangi ajratib ko'rsatishni qo'shish
+              if (newSentenceIndex >= 0) {
+                  const sentenceEl = document.querySelector(`[data-index="${newSentenceIndex}"]`);
+                  if (sentenceEl) {
+                      sentenceEl.classList.add('active');
+                      sentenceEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  }
+              }
+              currentSentenceIndex = newSentenceIndex;
+          }
+
+          // Gap ichidagi so'zni ajratib ko'rsatishni yangilash
+          if (currentSentenceIndex >= 0) {
+              const sentence = audioData[currentSentenceIndex];
+              const words = sentence.text.split(' ');
+              const timeInSentence = currentTimeSeconds - sentence.time;
+              
+              // Vaqtga qarab so'zni taxmin qilish (oddiy taxmin)
+              // Har bir gap uchun o'rtacha 3 soniya vaqt ajratilgan deb hisoblaymiz
+              const wordsPerSecond = words.length / 3; 
+              const estimatedWordIndex = Math.floor(timeInSentence * wordsPerSecond);
+              const wordIndex = Math.max(0, Math.min(estimatedWordIndex, words.length - 1));
+
+              if (wordIndex !== currentWordIndex) {
+                  // Oldingi so'zni ajratib ko'rsatishni o'chirish
+                  document.querySelectorAll('.word.current').forEach(el => {
+                      el.classList.remove('current');
+                  });
+
+                  // Yangi so'zni ajratib ko'rsatishni qo'shish
+                  const wordEl = document.querySelector(`[data-sentence="${currentSentenceIndex}"][data-word="${wordIndex}"]`);
+                  if (wordEl) {
+                      wordEl.classList.add('current');
+                  }
+                  currentWordIndex = wordIndex;
+              }
+          }
+      }
+
+      // Muayyan so'zga o'tish
+      function seekToWord(sentenceIndex, wordIndex) {
+          const sentence = audioData[sentenceIndex];
+          if (sentence) {
+              const words = sentence.text.split(' ');
+              // So'zning vaqtini taxmin qilish
+              const wordTime = sentence.time + (wordIndex / words.length) * 3; 
+              audio.currentTime = wordTime;
+              // Agar audio to'xtatilgan bo'lsa, ijro etishni boshlash
+              if (audio.paused) {
+                  audio.play();
+                  playPauseBtn.textContent = "⏸️";
+                  isPlaying = true;
+              }
+          }
+      }
+
+      playPauseBtn.addEventListener("click", () => {
+        if (isPlaying) {
+          audio.pause();
+          playPauseBtn.textContent = "▶️";
+        } else {
+          audio.play();
+          playPauseBtn.textContent = "⏸️";
+        }
+        isPlaying = !isPlaying;
+      });
+
+      forwardBtn.addEventListener("click", () => {
+        audio.currentTime += 15;
+      });
+
+      rewindBtn.addEventListener("click", () => {
+        audio.currentTime -= 15;
+      });
+
+      // Audio vaqti yangilanganda matnni yangilash
+      audio.addEventListener('timeupdate', () => {
+          updateTextHighlight(audio.currentTime);
+      });
+
+      // Audio tugaganda ajratib ko'rsatishni tiklash
+      audio.addEventListener('ended', () => {
+          playPauseBtn.textContent = '▶️';
+          isPlaying = false;
+          document.querySelectorAll('.sentence.active, .word.current').forEach(el => {
+              el.classList.remove('active', 'current');
+          });
+      });
+
+      // Sahifa yuklanganda matnni boshlash
+      initializeText();
+  </script>
+</body>
+</html>
