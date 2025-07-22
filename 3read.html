@@ -1,0 +1,1367 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive English Text</title>
+  <script src="https://code.responsivevoice.org/responsivevoice.js?key=ftro4Sxr"></script>
+  <style>
+      body {
+          font-family: Arial, sans-serif;
+          line-height: 1.6;
+          margin: 20px;
+          background-color: #f4f4f4;
+          color: #333;
+      }
+      .container {
+          max-width: 800px;
+          margin: auto;
+          background: #fff;
+          padding: 30px;
+          border-radius: 8px;
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+          position: relative; /* Tugmalarni joylashtirish uchun */
+      }
+      .text-section {
+          margin-bottom: 20px;
+      }
+      .word {
+          cursor: pointer;
+          position: relative;
+          display: inline-block;
+          border-bottom: 1px dotted #007bff;
+      }
+      .word:hover {
+          color: #0056b3;
+      }
+      .modal {
+          display: none; /* Hidden by default */
+          position: fixed; /* Stay in place */
+          z-index: 1; /* Sit on top */
+          left: 0;
+          top: 0;
+          width: 100%; /* Full width */
+          height: 100%; /* Full height */
+          overflow: auto; /* Enable scroll if needed */
+          background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+      }
+      .modal-content {
+          background-color: #fefefe;
+          margin: 15% auto; /* 15% from the top and centered */
+          padding: 20px;
+          border: 1px solid #888;
+          width: 80%; /* Could be more or less, depending on screen size */
+          max-width: 400px;
+          border-radius: 8px;
+          box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+          text-align: center;
+      }
+      .close-button {
+          color: #aaa;
+          float: right;
+          font-size: 28px;
+          font-weight: bold;
+      }
+      .close-button:hover,
+      .close-button:focus {
+          color: black;
+          text-decoration: none;
+          cursor: pointer;
+      }
+      .play-button {
+          background: none;
+          border: none;
+          cursor: pointer;
+          font-size: 1.2em;
+          margin-right: 5px;
+          color: #28a745;
+      }
+      .play-button:hover {
+          color: #218838;
+      }
+
+      /* Tugmalar uchun umumiy stillar */
+      .control-buttons-wrapper {
+          display: flex;
+          justify-content: center; /* Tugmalarni markazga joylash */
+          margin-top: 20px; /* Yuqoridan bo'sh joy */
+          width: 100%;
+          clear: both; /* Oldingi floatlarni tozalash */
+          position: relative; /* Absolute joylashuv uchun */
+          z-index: 10; /* Boshqa elementlar ustida turishi uchun */
+      }
+
+      .control-buttons-wrapper.flashcard-active {
+          position: absolute; /* Konteynerga nisbatan joylashuv */
+          bottom: 20px; /* Pastdan 20px */
+          left: 50%;
+          transform: translateX(-50%); /* Gorizontal markazga joylash */
+          width: auto; /* Kontentga mos kenglik */
+          margin-top: 0; /* Yuqori marginni olib tashlash */
+      }
+
+      #toggle-lang-button, #show-flashcards-button {
+          padding: 10px 20px;
+          font-size: 16px;
+          color: white;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          margin: 0 5px; /* Tugmalar orasidagi bo'sh joy */
+      }
+      #toggle-lang-button {
+          background-color: #007bff;
+      }
+      #toggle-lang-button:hover {
+          background-color: #0056b3;
+      }
+      #show-flashcards-button {
+          background-color: #ffc107;
+          color: #333;
+      }
+      #show-flashcards-button:hover {
+          background-color: #e0a800;
+      }
+      #dynamic-image {
+          display: block;
+          margin: 0 auto 30px auto;
+          max-width: 100%;
+          height: auto;
+          border-radius: 8px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      }
+      h2 {
+          text-align: center;
+          color: #007bff;
+          margin-bottom: 25px;
+      }
+      p {
+          margin-bottom: 15px;
+          text-align: justify;
+      }
+
+      /* Fleshcard stillari (original style.css dan olingan va moslashtirilgan) */
+      #flashcard-container {
+          display: flex; /* Ichki elementlarni moslashuvchan qatorga joylaydi */
+          flex-direction: column; /* Elementlar ustun (vertikal) bo‘ylab joylashadi */
+          align-items: center; /* Elementlarni markazga tekislaydi */
+          /* height: 90vh; */ /* Konteynerga moslashish uchun o'chirildi */
+          background-color: white; /* Oq fon rangi */
+          max-width: 450px; /* Asl fleshcard kengligiga yaqinroq */
+          margin: 20px auto; /* Markazga joylash va yuqoridan margin */
+          padding: 30px;
+          border-radius: 8px;
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+          position: relative; /* Absolute tugma uchun */
+          min-height: 600px; /* Minimal balandlik */
+          box-sizing: border-box; /* Padding hisobga olinsin */
+      }
+
+      #flashcard-container .slider-wrapper {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin-bottom: 20px;
+      }
+
+      #flashcard-container .slider {
+          display: flex; /* Slider va tegishli elementlarni yonma-yon qiladi */
+          align-items: center; /* Vertikal markazga tekislaydi */
+          gap: 10px; /* Elementlar orasida 10px bo‘shliq */
+      }
+
+      #flashcard-container .slider input[type="range"] {
+          width: 200px; /* Slider eni */
+      }
+
+      #flashcard-container .card {
+          position: relative; /* Harakatga tayyor holat */
+          width: 100%; /* Konteynerning 100% i */
+          max-width: 400px; /* Maksimal eni 400px */
+          height: 450px; /* Kartaning bo‘yi */
+          background-color: white; /* Fon rangi */
+          border-radius: 20px; /* Burchaklar yumaloqlashtirilgan */
+          box-shadow: 0 0 16px rgba(0, 0, 0, 0.15); /* Tashqi soyasi */
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: flex-start;
+          padding: 10px; /* Ichki bo‘shliq */
+          perspective: 1000px; /* 3D effekt uchun */
+          overflow: hidden; /* Tashqariga chiqqan elementlar yashiriladi */
+          transition: transform 0.3s ease, left 0.3s ease; /* Siljish va burilishlar uchun animatsiya */
+          left: 0; /* Chapga-o‘ngga siljish holatiga tayyor */
+      }
+
+      #flashcard-container .card::after {
+          content: ""; /* Qoshimcha effekt berish uchun bo‘sh kontent */
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          border-radius: 20px;
+          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Pastdan soya effekti */
+          pointer-events: none; /* Hodisalarni tutmaydi */
+      }
+
+      #flashcard-container .card-inner {
+          width: 100%;
+          height: 100%;
+          transform-style: preserve-3d; /* 3D effektni saqlash */
+          transition: transform 0.6s; /* Aylanish effekti */
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+      }
+
+      #flashcard-container .card.flipped .card-inner {
+          transform: rotateY(180deg); /* Orqaga aylantirish */
+      }
+
+      #flashcard-container .card-front,
+      #flashcard-container .card-back {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          backface-visibility: hidden; /* Orqa taraf ko‘rinmasligi */
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+      }
+
+      #flashcard-container .card-front .image {
+          display: none; /* Old tomonda rasm yashirilgan */
+      }
+
+      #flashcard-container .card-back {
+          transform: rotateY(180deg); /* Orqa tarafni 180 gradus aylantirish */
+      }
+
+      #flashcard-container .top-circle,
+      #flashcard-container .bottom-circle {
+          position: absolute;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 100%;
+          height: 100px;
+          background-color: #40c4ff;
+          border-radius: 0 0 100% 100%; /* Pastki qismni yumaloq qilish */
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      #flashcard-container .top-circle {
+          top: 0;
+          transform: translate(-50%, -50%);
+      }
+
+      #flashcard-container .bottom-circle {
+          bottom: 0;
+          transform: translate(-50%, 50%) rotate(180deg);
+      }
+
+      #flashcard-container .content {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 10px; /* Elementlar orasidagi bo‘shliq */
+      }
+
+      #flashcard-container .word-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 5px;
+      }
+
+      /* Inglizcha so‘zlar (old tomonda) */
+      #flashcard-container .en-word {
+          font-size: 32px;       /* Kattaroq shrift */
+          font-weight: bold;     /* Qalin shrift */
+          color: #000;           /* Qora rang */
+          text-align: center;
+      }
+
+      /* O‘zbekcha tarjimalar (orqa tomonda) */
+      #flashcard-container .uz-word {
+          font-size: 22px;       /* Kichikroq shrift */
+          font-weight: bold;     /* Qalin shrift */
+          color: red;        /* Yashil tusli matn */
+          text-align: center;
+      }
+
+      #flashcard-container .pronunciation {
+          font-size: 16px; /* Talaffuz shrift o‘lchami */
+          color: #888;
+          margin-top: 5px; /* Yuqoridan bo‘shliq */
+      }
+
+      #flashcard-container .type {
+          background-color: #40c4ff;
+          color: white;
+          font-size: 15px;
+          padding: 1px 2px;
+          border-radius: 5px;
+      }
+
+      #flashcard-container .definition {
+          text-align: center;
+          color: #808080;
+          font-size: 10px; /* Ta’rif kichik yozuvda */
+          line-height: 1.4;
+          max-width: 90%;
+      }
+
+      #flashcard-container .card-buttons {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 20px;
+          width: 100%;
+          padding: 20px;
+      }
+
+      #flashcard-container #next-button-flashcard,
+      #flashcard-container #audio-button-flashcard {
+          padding: 15px 30px;
+          border: none;
+          border-radius: 10px;
+          background-color: #40c4ff;
+          color: white;
+          cursor: pointer;
+          font-size: 16px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+          transition: background-color 0.3s ease;
+      }
+
+      #flashcard-container #next-button-flashcard:hover,
+      #flashcard-container #audio-button-flashcard:hover {
+          background-color: #29b6f6; /* Hover paytida biroz to‘qroq ko‘k */
+      }
+
+      #flashcard-container .image {
+          width: 150px;
+          height: 150px;
+          border-radius: 10px;
+          margin-bottom: 10px;
+      }
+
+      #flashcard-container .card.swiping-left {
+          left: -100%; /* Chapga siljish */
+          transform: rotate(-10deg); /* Chapga biroz burilish */
+      }
+
+      #flashcard-container .card.swiping-right {
+          left: 100%; /* O‘ngga siljish */
+          transform: rotate(10deg); /* O‘ngga biroz burilish */
+      }
+
+      /* Modal oynani butun ekranni qoplab, markazda ko‘rsatish */
+      #instruction-modal {
+          display: none; /* Dastlab yashiringan */
+          position: fixed;
+          z-index: 1000; /* Har doim yuqorida turadi */
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.5); /* Qoramtir fon */
+          justify-content: center;
+          align-items: center;
+      }
+
+      /* Modalning asosiy blokini bezash */
+      #instruction-modal .modal-content {
+          background-color: white;
+          padding: 20px;
+          border-radius: 10px;
+          text-align: center;
+          box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+          max-width: 80%;
+      }
+
+      /* Modal yopish tugmasi */
+      #close-instruction-modal {
+          margin-top: 10px;
+          padding: 10px 20px;
+          background-color: #40c4ff;
+          color: white;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+      }
+
+      #close-instruction-modal:hover {
+          background-color: #29b6f6;
+      }
+
+      /* Taymer stillari */
+      #timer-display {
+          text-align: center;
+          margin-top: 30px;
+          font-size: 1.3em;
+          font-weight: bold;
+          color: #007bff;
+          clear: both;
+      }
+  </style>
+</head>
+<body>
+  <div class="container">
+      <img id="dynamic-image" src="https://image.pollinations.ai/prompt/money%20coins%20currency" alt="Money and coins">
+
+      <!-- Pul haqidagi matnlar -->
+      <h2>Where money has no value</h2>
+      <div id="english-text" class="text-section">
+          <p>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Strangely, or perhaps, not very strangely, there is a place in Britain where money has no value.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">It's called the Royal Mint, and it's situated in South Wales.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">The Mint stands behind high security fences.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">It is not open to tourists, but as a journalist, I was able to organise a visit.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Tourists can visit the recent visitor centre, next door.</span>
+          </p>
+          <p>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">In many ways, the Mint is a very odd place!</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">As I walked round, I could see silver coins lying on the ground!</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Nobody stops to pick them up, they might as well be stones!</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Indeed, on the road outside the main building, there are streets squared into the surface!</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Here the streets actually are paved with money!</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Coins and banknotes are poured into the Royal Mint.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">People who go into the Royal Mint, visitors and people who work there.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">They are not allowed to take money in with them.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">They cannot take it out with them either!</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">As a visitor, I had to leave all my money in a security locker, before I could enter.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Inside the buildings, people must use special plastic coins!</span>
+          </p>
+          <p>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">The Royal Mint has been making coins for over 1,100 years, since the year 886.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">It's one of the oldest factories in the world!</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">For hundreds of years, the Mint belonged to the Kings of England.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Today's King has nothing to do with it, except that his head appears on all new British coins.</span>
+          </p>
+
+          <h2>Money and the British Royal Mint (Continuation)</h2>
+          <p>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Until the 1960s, the Mint was in London, close to the Tower of London; but as it developed, the London site became too small.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">The Mint had to move to a bigger factory in Llantrisant, in South Wales.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Today it is among the biggest coin-making factories in the world, but things are changing.</span>
+          </p>
+          <p>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">In the age of credit cards, people use fewer banknotes and fewer coins.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">In the 1980s, the British Royal Mint made coins for about 60 countries, including some European countries.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">But the last foreign coins were made in 2024.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Now the Royal Mint only makes British coins - pounds, pennies, and special coins.</span>
+          </p>
+          <p>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">A new activity is being developed too.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">The Mint now extracts gold from old unwanted electronic goods like phones and computers.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">It's a very specialised job... a part of the new "circular economy".</span>
+          </p>
+      </div>
+
+      <!-- Iqlim o'zgarishi haqidagi matn -->
+      <h2>Climate Change and Our Future</h2>
+      <div id="english-text-climate" class="text-section">
+          <p>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Some people say that climate change is not real.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Others think it is real, but they believe we cannot stop it.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">A few people even say that humans are not the cause of climate change.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">But today, most people understand that the Earth is getting hotter, and we must do something about it.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">We only have one planet, and we need to take care of it.</span>
+          </p>
+          <p>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Twenty years ago, some scientists were not sure if climate change was real.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">But now almost all scientists agree: the world is getting hotter because of human activity.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">If we do nothing, the climate will become very dangerous.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">However, we can still stop the worst effects if we act now.</span>
+          </p>
+          <p>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">In November 2021, leaders from many countries met in Glasgow, Scotland for the COP26 summit.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">They made decisions to slow down climate change.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Many countries promised to stop adding more carbons to the air before 2050.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Some countries want to do this even sooner.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">World leaders agree that we should stop using coal and oil for energy.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Instead, we should use clean energy like solar power, wind power, and water power.</span>
+          </p>
+          <p>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">By the year 2100, we might get all our energy from these renewable sources.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">The green energy revolution has already started, but it will take a lot of time and money.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Some people are afraid that it will be too expensive or too difficult.</span>
+          </p>
+          <p>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Most people want to protect the Earth, but not everyone agrees on what to do.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Some people think about themselves more than the planet.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Big companies often care more about money than the environment.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Some politicians do not want to make difficult decisions because they are afraid people will not like them.</span>
+          </p>
+          <p>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Even though there are challenges, we must work together to fight climate change.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Our future depends on it!</span>
+          </p>
+      </div>
+
+      <!-- O'zbekcha matnlar -->
+      <div id="uzbek-text" class="text-section" style="display:none;">
+          <h2>Pulning qadri bo'lmagan joy</h2>
+          <p>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">G'alati, yoki balki, unchalik ham g'alati emas, Britaniyada pulning qadri bo'lmagan joy bor.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bu Royal Mint deb ataladi va Janubiy Uelsda joylashgan.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Mint yuqori xavfsizlik panjaralari ortida turadi.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">U sayyohlar uchun ochiq emas, lekin jurnalist sifatida men tashrifni tashkil qila oldim.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Sayyohlar yaqin joydagi yangi tashrif markaziga tashrif buyurishlari mumkin.</span>
+          </p>
+          <p>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ko'p jihatdan, Mint juda g'alati joy!</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Men aylanib yurganimda, yerda yotgan kumush tangalarni ko'rdim!</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Hech kim ularni terish uchun to'xtamaydi, ular toshlar kabi!</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Darhaqiqat, asosiy bino tashqarisidagi yo'lda ko'chalar sirtga to'g'irlangan!</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bu yerda ko'chalar aslida pul bilan qoplangan!</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Tanga va banknotlar Royal Mintga quyiladi.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Royal Mintga kiradigan odamlar, tashrifchilar va u yerda ishlaydigan odamlar.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ular o'zlari bilan pul olib kirishlariga ruxsat berilmaydi.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ular o'zlari bilan olib chiqishlari ham mumkin emas!</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Tashrifchi sifatida men kirishdan oldin barcha pullarimni seyfga qoldirishim kerak edi.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Binolar ichida odamlar maxsus plastik tangalardan foydalanishlari kerak!</span>
+          </p>
+          <p>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Royal Mint 886-yildan beri 1100 yildan ortiq vaqtdan buyon tanga yasab kelmoqda.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bu dunyodagi eng qadimgi zavodlardan biri!</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Yuzlab yillar davomida Mint Angliya qirollariga tegishli edi.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bugungi qirolning unga hech qanday aloqasi yo'q, faqatgina uning boshi barcha yangi Britaniya tangalarida paydo bo'ladi.</span>
+          </p>
+
+          <h2>Pul va Britaniya Qirollik Zargarlik Uyi (Davomi)</h2>
+          <p>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">1960-yillargacha Zargarlik Uyi Londonda, London minorasi yaqinida joylashgan edi; ammo u rivojlangan sari, London maydoni juda kichik bo'lib qoldi.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Zargarlik Uyi Janubiy Uelsdagi Llantrisantdagi kattaroq zavodga ko'chishga majbur bo'ldi.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bugungi kunda u dunyodagi eng yirik tanga yasash zavodlari qatoriga kiradi, ammo vaziyat o'zgarmoqda.</span>
+          </p>
+          <p>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Kredit kartalari davrida odamlar kamroq banknot va kamroq tangalardan foydalanishadi.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">1980-yillarda Britaniya Qirollik Zargarlik Uyi 60 ga yaqin mamlakat uchun tanga yasagan, shu jumladan ba'zi Yevropa mamlakatlari uchun ham.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ammo oxirgi xorijiy tangalar 2024-yilda yasalgan.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Hozirda Qirollik Zargarlik Uyi faqat Britaniya tangalarini - funt, pens va maxsus tangalarni yasaydi.</span>
+          </p>
+          <p>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Yangi faoliyat ham rivojlanmoqda.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Zargarlik Uyi hozirda eski keraksiz elektron tovarlardan, masalan, telefon va kompyuterlardan oltin ajratib oladi.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bu juda ixtisoslashgan ish... yangi "dumaloq iqtisodiyot"ning bir qismi.</span>
+          </p>
+      </div>
+
+      <h2>Iqlim o'zgarishi va bizning kelajagimiz</h2>
+      <div id="uzbek-text-climate" class="text-section" style="display:none;">
+          <p>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ba'zi odamlar iqlim o'zgarishi haqiqiy emas deydilar.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Boshqalar esa u haqiqiy deb o'ylashadi, lekin uni to'xtata olmaymiz deb hisoblashadi.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Hatto ba'zi odamlar iqlim o'zgarishiga insonlar sababchi emas deydilar.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ammo bugungi kunda ko'pchilik Yerning issiqroq bo'layotganini tushunadi va biz bu borada biror narsa qilishimiz kerak.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bizda faqat bitta sayyora bor va biz unga g'amxo'rlik qilishimiz kerak.</span>
+          </p>
+          <p>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Yigirma yil oldin, ba'zi olimlar iqlim o'zgarishi haqiqiy ekanligiga ishonch hosil qilishmagan.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Lekin hozir deyarli barcha olimlar bir fikrga kelishdi: inson faoliyati tufayli dunyo issiqroq bo'lmoqda.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Agar hech narsa qilmasak, iqlim juda xavfli bo'ladi.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Biroq, agar hozir harakat qilsak, eng yomon oqibatlarni to'xtata olamiz.</span>
+          </p>
+          <p>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">2021-yil noyabr oyida ko'plab mamlakatlar rahbarlari Shotlandiyaning Glazgoda COP26 sammitida uchrashishdi.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ular iqlim o'zgarishini sekinlashtirish bo'yicha qarorlar qabul qilishdi.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ko'plab mamlakatlar 2050-yilgacha havoga ko'proq karbon qo'shishni to'xtatishga va'da berishdi.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ba'zi mamlakatlar buni yanada tezroq qilishni xohlashadi.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Dunyo rahbarlari energiya uchun ko'mir va neftdan foydalanishni to'xtatishimiz kerakligiga rozi.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Buning o'rniga, biz quyosh energiyasi, shamol energiyasi va suv energiyasi kabi toza energiyadan foydalanishimiz kerak.</span>
+          </p>
+          <p>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">2100-yilga kelib, biz barcha energiyamizni ushbu qayta tiklanadigan manbalardan olishimiz mumkin.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Yashil energiya inqilobi allaqachon boshlangan, ammo bu ko'p vaqt va pul talab qiladi.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ba'zi odamlar bu juda qimmat yoki juda qiyin bo'lishidan qo'rqishadi.</span>
+          </p>
+          <p>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ko'pchilik Yerni himoya qilishni xohlaydi, lekin nima qilish kerakligi haqida hamma ham kelisha olmaydi.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ba'zi odamlar sayyora haqida ko'proq o'zlarini o'ylashadi.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Katta kompaniyalar ko'pincha atrof-muhitdan ko'proq pul haqida qayg'urishadi.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ba'zi siyosatchilar qiyin qarorlar qabul qilishni xohlamaydilar, chunki ular odamlar ularni yoqtirmasliklaridan qo'rqishadi.</span>
+          </p>
+          <p>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Qiyinchiliklar mavjud bo'lsa-da, biz iqlim o'zgarishiga qarshi kurashish uchun birgalikda ishlashimiz kerak.</span>
+              <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Kelajagimiz bunga bog'liq!</span>
+          </p>
+      </div>
+      <div style="clear: both;"></div>
+
+      <div class="control-buttons-wrapper">
+           <button id="show-flashcards-button">Lug'at</button>
+           <button id="toggle-lang-button">Uzbekcha</button>
+      </div>
+
+      <!-- Fleshcard Container - Original structure and styles from index17.html and style.css -->
+      <div id="flashcard-container" style="display:none;">
+          <div class="header"></div>
+
+          <div class="slider-wrapper">
+              <div class="slider">
+                  <span id="slider-value">1 / 50</span>
+                  <input type="range" id="word-slider" min="0" value="0">
+                  <span id="slider-max">50</span>
+              </div>
+          </div>
+
+          <div class="card" id="flashcard-card">
+              <div class="card-inner">
+                  <div class="card-front">
+                      <div class="top-circle"></div>
+                      <img src="" alt="Flashcard Image" class="image" id="front-image-flashcard">
+                      <div class="content">
+                          <div class="word-container">
+                              <div class="word en-word" id="word-front-flashcard"></div>
+                              <span class="pronunciation" id="pronunciation-flashcard"></span>
+                          </div>
+                          <div class="type" id="type-front-flashcard"></div>
+                      </div>
+                      <div class="bottom-circle"></div>
+                      <div class="definition">Tarjimani ko'rish uchun bosing</div>
+                  </div>
+                  <div class="card-back">
+                      <div class="top-circle"></div>
+                      <img src="" alt="Flashcard Image" class="image" id="back-image-flashcard">
+                      <div class="content">
+                          <div class="word uz-word" id="word-back-flashcard"></div>
+                          <div class="type" id="type-back-flashcard"></div>
+                      </div>
+                      <div class="bottom-circle"></div>
+                      <div class="definition">Definition</div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="card-buttons">
+              <button id="audio-button-flashcard">Ovoz</button>
+              <button id="next-button-flashcard">Keyingi</button>
+          </div>
+      </div>
+
+      <!-- Instruction Modal - Original from index17.html -->
+      <div id="instruction-modal" class="modal">
+           <div class="modal-content">
+               <h2>Fleshcarddan foydalanish bo'yicha yo'riqnoma</h2>
+               <p>▶ O'ngga sursangiz keyingi so'z chiqadi.</p>
+               <p>◀ Chapga sursangiz so'z yodlangan hisoblanadi va qayta chiqmaydi.</p>
+               <p>&#x1F504; Kartani ustiga bosing va so'zning tarjimasini ko'rasiz.</p>
+               <button id="close-instruction-modal">Tushunarli</button>
+           </div>
+       </div>
+
+      <div id="wordModal" class="modal">
+          <div class="modal-content">
+              <span class="close-button">×</span>
+              <p id="modalWord"></p>
+              <p id="modalTranslation"></p>
+          </div>
+      </div>
+
+      <div id="timer-display">
+          Vaqt: 00:00:00
+      </div>
+
+  </div>
+
+  <script>
+      // Lug'at obyekti: Kalit so'zlar kichik harflarda bo'lishi kerak.
+      const words = {
+          // "Where money has no value" va "Money and the British Royal Mint" matnlari uchun lug'at
+          "strangely": { translation: "g'alati", meaning: "in a strange manner", pronunciation: "streynj-lee" },
+          "perhaps": { translation: "balki", meaning: "possibly", pronunciation: "per-haps" },
+          "value": { translation: "qadri", meaning: "worth", pronunciation: "val-yoo" },
+          "britain": { translation: "Britaniya", meaning: "United Kingdom", pronunciation: "brit-n" },
+          "royal": { translation: "Qirollik", meaning: "of or relating to a king or queen", pronunciation: "roi-uhl" },
+          "mint": { translation: "Zargarlik Uyi", meaning: "a place where coins are made", pronunciation: "mint" },
+          "situated": { translation: "joylashgan", meaning: "located", pronunciation: "sich-oo-ey-tid" },
+          "south": { translation: "Janubiy", meaning: "the direction to your left when facing east", pronunciation: "south" },
+          "wales": { translation: "Uels", meaning: "a country that is part of the United Kingdom", pronunciation: "waylz" },
+          "stands": { translation: "turadi", meaning: "is located", pronunciation: "standz" },
+          "high": { translation: "yuqori", meaning: "tall, elevated", pronunciation: "hy" },
+          "security": { translation: "xavfsizlik", meaning: "the state of being free from danger or threat", pronunciation: "si-kyoor-i-tee" },
+          "fences": { translation: "panjaralari", meaning: "barriers, enclosures", pronunciation: "fen-siz" },
+          "open": { translation: "ochiq", meaning: "not closed or restricted", pronunciation: "oh-puhn" },
+          "tourists": { translation: "sayyohlar", meaning: "people who travel for pleasure", pronunciation: "toor-ists" },
+          "journalist": { translation: "jurnalist", meaning: "a person who writes for newspapers or magazines", pronunciation: "jer-nuh-list" },
+          "able": { translation: "qodir", meaning: "having the power or skill to do something", pronunciation: "ey-buhl" },
+          "organise": { translation: "tashkil qila olmoq", meaning: "to arrange or set up", pronunciation: "or-guh-nahyz" },
+          "visit": { translation: "tashrif", meaning: "an act of going to see someone or something", pronunciation: "viz-it" },
+          "recent": { translation: "yangi", meaning: "having happened or been done a short time ago", pronunciation: "ree-suhnt" },
+          "centre": { translation: "markaz", meaning: "the middle point", pronunciation: "sen-ter" },
+          "next": { translation: "keyingi", meaning: "immediately following in time or order", pronunciation: "nekst" },
+          "door": { translation: "eshik", meaning: "a movable barrier", pronunciation: "dor" },
+          "ways": { translation: "jihatdan", meaning: "respects, aspects", pronunciation: "wayz" },
+          "odd": { translation: "g'alati", meaning: "unusual, strange", pronunciation: "od" },
+          "place": { translation: "joy", meaning: "a particular position or point in space", pronunciation: "pleys" },
+          "walked": { translation: "aylanib yurdim", meaning: "moved by foot", pronunciation: "wawkt" },
+          "round": { translation: "atrofida", meaning: "around", pronunciation: "rownd" },
+          "could": { translation: "ko'rdim", meaning: "past tense of can", pronunciation: "kood" },
+          "see": { translation: "ko'rmoq", meaning: "to perceive with the eyes", pronunciation: "see" },
+          "silver": { translation: "kumush", meaning: "a precious greyish-white metal", pronunciation: "sil-ver" },
+          "coins": { translation: "tangalar", meaning: "flat, typically round pieces of metal used as money", pronunciation: "koinz" },
+          "lying": { translation: "yotgan", meaning: "resting in a flat position", pronunciation: "ly-ing" },
+          "ground": { translation: "yerda", meaning: "the solid surface of the earth", pronunciation: "grownd" },
+          "nobody": { translation: "hech kim", meaning: "no person", pronunciation: "noh-bod-ee" },
+          "stops": { translation: "to'xtamaydi", meaning: "ceases to move or operate", pronunciation: "stops" },
+          "pick": { translation: "terish", meaning: "to gather or collect", pronunciation: "pik" },
+          "them": { translation: "ularni", meaning: "used as the object of a verb or preposition to refer to two or more people or things previously mentioned or easily identified", pronunciation: "them" },
+          "might": { translation: "kabi", meaning: "used to express possibility", pronunciation: "myt" },
+          "well": { translation: "kabi", meaning: "in a good or satisfactory way", pronunciation: "wel" },
+          "stones": { translation: "toshlar", meaning: "small pieces of rock", pronunciation: "stohnz" },
+          "indeed": { translation: "Darhaqiqat", meaning: "in fact; actually", pronunciation: "in-deed" },
+          "road": { translation: "yo'lda", meaning: "a wide way leading from one place to another", pronunciation: "rohd" },
+          "outside": { translation: "tashqarisidagi", meaning: "on the outer side of", pronunciation: "owt-syd" },
+          "main": { translation: "asosiy", meaning: "chief in size or importance", pronunciation: "meyn" },
+          "building": { translation: "bino", meaning: "a structure with a roof and walls", pronunciation: "bild-ing" },
+          "streets": { translation: "ko'chalar", meaning: "public roads in a city or town", pronunciation: "streets" },
+          "squared": { translation: "to'g'irlangan", meaning: "made straight or rectangular", pronunciation: "skwaird" },
+          "surface": { translation: "sirtga", meaning: "the outer or topmost layer of something", pronunciation: "ser-fis" },
+          "here": { translation: "Bu yerda", meaning: "in, at, or to this place or position", pronunciation: "heer" },
+          "actually": { translation: "aslida", meaning: "in fact or really", pronunciation: "ak-choo-uh-lee" },
+          "paved": { translation: "qoplangan", meaning: "covered with a hard, level surface", pronunciation: "peyvd" },
+          "with": { translation: "bilan", meaning: "accompanied by", pronunciation: "with" },
+          "banknotes": { translation: "banknotlar", meaning: "pieces of paper money", pronunciation: "bank-nohts" },
+          "poured": { translation: "quyuladi", meaning: "flowed rapidly", pronunciation: "pord" },
+          "into": { translation: "ichiga", meaning: "to the inside of", pronunciation: "in-too" },
+          "people": { translation: "odamlar", meaning: "human beings in general", pronunciation: "pee-puhl" },
+          "who": { translation: "kim", meaning: "what or which person or people", pronunciation: "hoo" },
+          "go": { translation: "kiradigan", meaning: "move from one place to another", pronunciation: "goh" },
+          "work": { translation: "ishlaydigan", meaning: "activity involving mental or physical effort done in order to achieve a purpose or result", pronunciation: "werk" },
+          "allowed": { translation: "ruxsat berilmaydi", meaning: "given permission to do something", pronunciation: "uh-lowd" },
+          "take": { translation: "olib kirish", meaning: "to carry or bring with one", pronunciation: "tey-k" },
+          "cannot": { translation: "mumkin emas", meaning: "unable to", pronunciation: "kan-not" },
+          "either": { translation: "ham", meaning: "used in negative statements instead of 'also' or 'too'", pronunciation: "ee-ther" },
+          "had": { translation: "kerak edi", meaning: "past tense of have", pronunciation: "had" },
+          "leave": { translation: "qoldirish", meaning: "to go away from", pronunciation: "leev" },
+          "all": { translation: "barcha", meaning: "the whole quantity or extent of", pronunciation: "awl" },
+          "my": { translation: "mening", meaning: "belonging to me", pronunciation: "my" },
+          "security": { translation: "seyfga", meaning: "the state of being free from danger or threat", pronunciation: "si-kyoor-i-tee" },
+          "locker": { translation: "seyf", meaning: "a small lockable cupboard or compartment", pronunciation: "lok-er" },
+          "before": { translation: "oldin", meaning: "during the period of time preceding a particular event or time", pronunciation: "bi-for" },
+          "enter": { translation: "kirish", meaning: "to come or go into (a place)", pronunciation: "en-ter" },
+          "inside": { translation: "Ichida", meaning: "on the inner side or part of", pronunciation: "in-syd" },
+          "must": { translation: "kerak", meaning: "used to express necessity or compulsion", pronunciation: "muhst" },
+          "use": { translation: "foydalanishlari", meaning: "take, hold, or deploy (something) as a means of accomplishing a purpose or achieving a result", pronunciation: "yoos" },
+          "special": { translation: "maxsus", meaning: "better, greater, or otherwise different from what is usual", pronunciation: "spesh-uhl" },
+          "plastic": { translation: "plastik", meaning: "a synthetic material", pronunciation: "plas-tik" },
+          "making": { translation: "yasab kelmoqda", meaning: "creating or producing", pronunciation: "mey-king" },
+          "over": { translation: "ortiq", meaning: "more than", pronunciation: "oh-ver" },
+          "years": { translation: "yildan", meaning: "a period of 365 or 366 days", pronunciation: "yeerz" },
+          "since": { translation: "beri", meaning: "from a definite past time until now", pronunciation: "sins" },
+          "886": { translation: "886", meaning: "the year 886", pronunciation: "eight eighty-six" },
+          "oldest": { translation: "eng qadimgi", meaning: "having existed for the longest time", pronunciation: "ohl-dist" },
+          "factories": { translation: "zavodlardan", meaning: "buildings where goods are manufactured", pronunciation: "fak-tuh-reez" },
+          "world": { translation: "dunyodagi", meaning: "the earth, together with all of its countries and peoples", pronunciation: "werld" },
+          "hundreds": { translation: "Yuzlab", meaning: "many hundreds", pronunciation: "huhn-dredz" },
+          "belonged": { translation: "tegishli edi", meaning: "was the property of", pronunciation: "bi-longd" },
+          "kings": { translation: "qirollariga", meaning: "male rulers of a country", pronunciation: "kingz" },
+          "england": { translation: "Angliya", meaning: "a country that is part of the United Kingdom", pronunciation: "ing-gluhnd" },
+          "today's": { translation: "Bugungi", meaning: "of or belonging to the present day", pronunciation: "tuh-deyhz" },
+          "king": { translation: "qirolning", meaning: "a male ruler of an independent state, especially one who inherits the position by right of birth", pronunciation: "king" },
+          "nothing": { translation: "hech narsa", meaning: "not anything", pronunciation: "nuhth-ing" },
+          "do": { translation: "aloqasi", meaning: "perform (an action, task, or duty)", pronunciation: "doo" },
+          "except": { translation: "faqa", meaning: "not including; other than", pronunciation: "ik-sept" },
+          "his": { translation: "uning", meaning: "belonging to or associated with a male person or animal previously mentioned or easily identified", pronunciation: "hiz" },
+          "head": { translation: "boshi", meaning: "the upper part of the human body, or the front part of an animal's body, containing the brain, mouth, and sense organs", pronunciation: "hed" },
+          "appears": { translation: "paydo bo'ladi", meaning: "becomes visible or noticeable", pronunciation: "uh-peers" },
+          "on": { translation: "da", meaning: "positioned at or attached to", pronunciation: "on" },
+          "new": { translation: "yangi", meaning: "not existing before; made, introduced, or discovered recently or for the first time", pronunciation: "noo" },
+          "british": { translation: "Britaniya", meaning: "of or relating to Great Britain or the United Kingdom", pronunciation: "brit-ish" },
+          "until": { translation: "gacha", meaning: "up to (the point in time or the event mentioned)", pronunciation: "uhn-til" },
+          "1960s": { translation: "1960-yillargacha", meaning: "the decade of the 1960s", pronunciation: "nineteen sixties" },
+          "london": { translation: "Londonda", meaning: "the capital and largest city of England and the United Kingdom", pronunciation: "luhn-duhn" },
+          "close": { translation: "yaqinida", meaning: "at a short distance or interval", pronunciation: "klohs" },
+          "tower": { translation: "minarasi", meaning: "a tall, narrow building or part of a building", pronunciation: "tow-er" },
+          "developed": { translation: "rivojlangan", meaning: "grew or became more advanced", pronunciation: "di-vel-uhpt" },
+          "site": { translation: "maydoni", meaning: "a piece of ground set aside for a specific purpose", pronunciation: "syt" },
+          "bigger": { translation: "kattaroq", meaning: "larger in size", pronunciation: "big-er" },
+          "llantrisant": { translation: "Llantrisantdagi", meaning: "a town in South Wales", pronunciation: "lan-tris-ant" },
+          "among": { translation: "qatoriga", meaning: "situated in the middle of or surrounded by", pronunciation: "uh-muhng" },
+          "biggest": { translation: "eng yirik", meaning: "largest in size", pronunciation: "big-ist" },
+          "coin-making": { translation: "tanga yasash", meaning: "the process of producing coins", pronunciation: "koin-mey-king" },
+          "changing": { translation: "o'zgarmoqda", meaning: "becoming different", pronunciation: "cheynj-ing" },
+          "age": { translation: "davrida", meaning: "a particular period of history", pronunciation: "eyj" },
+          "credit": { translation: "kredit", meaning: "the ability of a customer to obtain goods or services before payment, based on the trust that payment will be made in the future", pronunciation: "kred-it" },
+          "cards": { translation: "kartalari", meaning: "small plastic cards", pronunciation: "kardz" },
+          "fewer": { translation: "kamroq", meaning: "a smaller number of", pronunciation: "fyoo-er" },
+          "banknotes": { translation: "banknot", meaning: "pieces of paper money", pronunciation: "bank-nohts" },
+          "1980s": { translation: "1980-yillarda", meaning: "the decade of the 1980s", pronunciation: "nineteen eighties" },
+          "60": { translation: "60", meaning: "the number 60", pronunciation: "sik-stee" },
+          "including": { translation: "shu jumladan", meaning: "containing as part of the whole", pronunciation: "in-kloo-ding" },
+          "european": { translation: "Yevropa", meaning: "of or relating to Europe", pronunciation: "yoo-ruh-pee-uhn" },
+          "last": { translation: "oxirgi", meaning: "most recent in time; latest", pronunciation: "last" },
+          "foreign": { translation: "xorijiy", meaning: "of, from, in, or characteristic of a country or language other than one's own", pronunciation: "for-in" },
+          "2024": { translation: "2024-yilda", meaning: "the year 2024", pronunciation: "two thousand twenty-four" },
+          "pounds": { translation: "funt", meaning: "the basic monetary unit of the UK", pronunciation: "paʊndz" },
+          "pennies": { translation: "pens", meaning: "plural of penny, a small British coin", pronunciation: "pen-eez" },
+          "activity": { translation: "faoliyat", meaning: "the condition in which things are happening or being done", pronunciation: "ak-tiv-i-tee" },
+          "being": { translation: "rivojlanmoqda", meaning: "present participle of be", pronunciation: "bee-ing" },
+          "extracts": { translation: "ajratib oladi", meaning: "removes or takes out, especially by effort or force", pronunciation: "ik-strakts" },
+          "gold": { translation: "oltin", meaning: "a yellow precious metal", pronunciation: "gohld" },
+          "old": { translation: "eski", meaning: "having lived for a long time; no longer young", pronunciation: "ohld" },
+          "unwanted": { translation: "keraksiz", meaning: "not desired or needed", pronunciation: "uhn-won-tid" },
+          "electronic": { translation: "elektron", meaning: "having or operating with components such as microchips and transistors that control and regulate the flow of electric currents", pronunciation: "i-lek-tron-ik" },
+          "goods": { translation: "tovarlardan", meaning: "merchandise or possessions", pronunciation: "goodz" },
+          "phones": { translation: "telefon", meaning: "telephones", pronunciation: "fohnz" },
+          "computers": { translation: "kompyuterlardan", meaning: "electronic devices for storing and processing data", pronunciation: "kuhm-pyoo-terz" },
+          "very": { translation: "juda", meaning: "in a high degree; extremely", pronunciation: "ver-ee" },
+          "specialised": { translation: "ixtisoslashgan", meaning: "concentrating on a particular field of study or type of product", pronunciation: "spesh-uh-lyzd" },
+          "job": { translation: "ish", meaning: "a paid position of regular employment", pronunciation: "job" },
+          "part": { translation: "qismi", meaning: "a piece or segment of something", pronunciation: "part" },
+          "circular": { translation: "dumaloq", meaning: "having the form of a circle; round", pronunciation: "ser-kyuh-ler" },
+          "economy": { translation: "iqtisodiyot", meaning: "the wealth and resources of a country or region, especially in terms of the production and consumption of goods and services", pronunciation: "i-kon-uh-mee" },
+
+          // "Climate Change and Our Future" matni uchun lug'at
+          "climate": { translation: "iqlim", meaning: "the weather conditions prevailing in an area in general or over a long period", pronunciation: "kly-mit" },
+          "change": { translation: "o'zgarishi", meaning: "the act or instance of changing or being changed", pronunciation: "cheynj" },
+          "future": { translation: "kelajagimiz", meaning: "the time yet to come", pronunciation: "fyoo-cher" },
+          "say": { translation: "deydilar", meaning: "to express (something) in words", pronunciation: "sey" },
+          "not": { translation: "emas", meaning: "used to make a statement negative", pronunciation: "not" },
+          "real": { translation: "haqiqiy", meaning: "actually existing as a thing or occurring in fact; not imagined or supposed", pronunciation: "reel" },
+          "others": { translation: "Boshqalar", meaning: "other people or things", pronunciation: "uhth-erz" },
+          "think": { translation: "o'ylashadi", meaning: "to have a particular opinion, belief, or idea", pronunciation: "think" },
+          "believe": { translation: "ishonishadi", meaning: "accept (something) as true; feel sure of the truth of (something)", pronunciation: "bi-leev" },
+          "cannot": { translation: "olmaymiz", meaning: "unable to", pronunciation: "kan-not" },
+          "stop": { translation: "to'xtata", meaning: "bring or come to an end", pronunciation: "stop" },
+          "even": { translation: "Hatto", meaning: "used to emphasize something unexpected or surprising", pronunciation: "ee-vuhn" },
+          "humans": { translation: "insonlar", meaning: "human beings", pronunciation: "hyoo-muhnz" },
+          "cause": { translation: "sababchi", meaning: "a person or thing that gives rise to an action, phenomenon, or condition", pronunciation: "kawz" },
+          "today": { translation: "bugungi kunda", meaning: "the present day", pronunciation: "tuh-day" },
+          "understand": { translation: "tushunadi", meaning: "perceive the intended meaning of (words, a language, or a speaker)", pronunciation: "uhn-der-stand" },
+          "earth": { translation: "Yerning", meaning: "the planet on which we live", pronunciation: "erth" },
+          "getting": { translation: "bo'layotganini", meaning: "becoming", pronunciation: "get-ing" },
+          "hotter": { translation: "issiqroq", meaning: "more hot", pronunciation: "hot-er" },
+          "must": { translation: "kerak", meaning: "used to express necessity or compulsion", pronunciation: "muhst" },
+          "do": { translation: "qilishimiz", meaning: "perform (an action, task, or duty)", pronunciation: "doo" },
+          "something": { translation: "biror narsa", meaning: "a thing of an unspecified kind", pronunciation: "suhm-thing" },
+          "about": { translation: "borada", meaning: "on the subject of; concerning", pronunciation: "uh-bowt" },
+          "only": { translation: "faqat", meaning: "and no one or nothing more besides", pronunciation: "ohn-lee" },
+          "one": { translation: "bitta", meaning: "a single unit or thing", pronunciation: "wuhn" },
+          "planet": { translation: "sayyora", meaning: "a celestial body moving in an elliptical orbit around a star", pronunciation: "plan-it" },
+          "need": { translation: "kerak", meaning: "require (something) because it is essential or very important", pronunciation: "need" },
+          "take": { translation: "g'amxo'rlik qilish", meaning: "perform (an action, task, or duty)", pronunciation: "tey-k" },
+          "care": { translation: "g'amxo'rlik", meaning: "the provision of what is necessary for the health, welfare, maintenance, and protection of someone or something", pronunciation: "kair" },
+          "it": { translation: "unga", meaning: "used to refer to a thing previously mentioned or easily identified", pronunciation: "it" },
+          "twenty": { translation: "Yigirma", meaning: "the number 20", pronunciation: "twen-tee" },
+          "years": { translation: "yil", meaning: "a period of 365 or 366 days", pronunciation: "yeerz" },
+          "ago": { translation: "oldin", meaning: "before the present time", pronunciation: "uh-goh" },
+          "scientists": { translation: "olimlar", meaning: "people who are experts in science", pronunciation: "sy-uhn-tists" },
+          "sure": { translation: "ishonch hosil qilishmagan", meaning: "confident in one's own knowledge or judgment; having no doubt", pronunciation: "shoor" },
+          "now": { translation: "hozir", meaning: "at the present time or moment", pronunciation: "now" },
+          "almost": { translation: "deyarli", meaning: "very nearly", pronunciation: "awl-mohst" },
+          "all": { translation: "barcha", meaning: "the whole quantity or extent of", pronunciation: "awl" },
+          "agree": { translation: "bir fikrga kelishdi", meaning: "have the same opinion about something; concur", pronunciation: "uh-gree" },
+          "world": { translation: "dunyo", meaning: "the earth, together with all of its countries and peoples", pronunciation: "werld" },
+          "because": { translation: "tufayli", meaning: "for the reason that", pronunciation: "bi-koz" },
+          "human": { translation: "inson", meaning: "of or relating to human beings", pronunciation: "hyoo-muhn" },
+          "activity": { translation: "faoliyati", meaning: "the condition in which things are happening or being done", pronunciation: "ak-tiv-i-tee" },
+          "dangerous": { translation: "xavfli", meaning: "able or likely to cause harm or injury", pronunciation: "deyn-jer-uhs" },
+          "however": { translation: "Biroq", meaning: "in whatever way; by whatever means", pronunciation: "how-ev-er" },
+          "still": { translation: "haligacha", meaning: "continuing to happen or exist; remaining in existence", pronunciation: "stil" },
+          "worst": { translation: "eng yomon", meaning: "of the poorest quality or lowest standard; least good or acceptable", pronunciation: "werst" },
+          "effects": { translation: "oqibat", meaning: "a change which is a result or consequence of an action or other cause", pronunciation: "i-fekts" },
+          "act": { translation: "harakat qilsak", meaning: "take action; do something", pronunciation: "akt" },
+          "november": { translation: "noyabr", meaning: "the eleventh month of the year", pronunciation: "noh-vem-ber" },
+          "2021": { translation: "2021", meaning: "the year 2021", pronunciation: "two thousand twenty-one" },
+          "leaders": { translation: "rahbarlari", meaning: "people who lead", pronunciation: "lee-derz" },
+          "from": { translation: "dan", meaning: "indicating the point of departure or origin", pronunciation: "frum" },
+          "countries": { translation: "mamlakatlar", meaning: "nations or states", pronunciation: "kuhn-treez" },
+          "met": { translation: "uchrashishdi", meaning: "came together; encountered", pronunciation: "met" },
+          "glasgow": { translation: "Glazgoda", meaning: "a city in Scotland", pronunciation: "glaz-goh" },
+          "scotland": { translation: "Shotlandiyaning", meaning: "a country that is part of the United Kingdom", pronunciation: "skot-luhnd" },
+          "cop26": { translation: "COP26", meaning: "26th UN Climate Change Conference of the Parties", pronunciation: "kohp twenty-six" },
+          "summit": { translation: "sammitida", meaning: "a meeting between heads of government", pronunciation: "suhm-it" },
+          "made": { translation: "qilishdi", meaning: "past tense of make", pronunciation: "meyd" },
+          "decisions": { translation: "qarorlar", meaning: "choices or judgments", pronunciation: "di-sizh-uhnz" },
+          "slow": { translation: "sekinlashtirish", meaning: "moving or operating at a low speed", pronunciation: "sloh" },
+          "down": { translation: "pastga", meaning: "to a lower level or position", pronunciation: "down" },
+          "promised": { translation: "va'da berishdi", meaning: "given a commitment to something", pronunciation: "prom-ist" },
+          "adding": { translation: "qo'shishni", meaning: "joining (something) to something else so as to increase the size, amount, or number", pronunciation: "ad-ing" },
+          "carbons": { translation: "karbon", meaning: "carbon dioxide or carbon compounds, especially as pollutants", pronunciation: "kar-buhnz" },
+          "air": { translation: "havoga", meaning: "the invisible gaseous substance surrounding the earth, a mixture of nitrogen and oxygen", pronunciation: "air" },
+          "before": { translation: "oldinga", meaning: "earlier than in time", pronunciation: "bi-for" },
+          "2050": { translation: "2050-yilgacha", meaning: "the year 2050", pronunciation: "two thousand fifty" },
+          "want": { translation: "xohlashadi", meaning: "have a desire to possess or do (something); wish for", pronunciation: "wont" },
+          "sooner": { translation: "tezroq", meaning: "earlier than expected", pronunciation: "soon-er" },
+          "world": { translation: "Dunyo", meaning: "the earth, together with all of its countries and peoples", pronunciation: "werld" },
+          "agree": { translation: "rozi", meaning: "have the same opinion about something; concur", pronunciation: "uh-gree" },
+          "should": { translation: "kerakligiga", meaning: "used to indicate obligation, duty, or correctness", pronunciation: "shood" },
+          "using": { translation: "foydalanishni", meaning: "employing (something) for a purpose", pronunciation: "yoos" },
+          "coal": { translation: "ko'mir", meaning: "a combustible black or brownish-black sedimentary rock", pronunciation: "kohl" },
+          "oil": { translation: "neftdan", meaning: "a viscous liquid derived from petroleum, used as a fuel or lubricant", pronunciation: "oil" },
+          "energy": { translation: "energiya", meaning: "the power derived from the utilization of physical or chemical resources", pronunciation: "en-er-jee" },
+          "instead": { translation: "Buning o'rniga", meaning: "as an alternative or substitute", pronunciation: "in-sted" },
+          "clean": { translation: "toza", meaning: "free from dirt, marks, or stains", pronunciation: "kleen" },
+          "like": { translation: "kabi", meaning: "similar to; in the manner of", pronunciation: "lyk" },
+          "solar": { translation: "quyosh", meaning: "of or relating to the sun", pronunciation: "soh-ler" },
+          "power": { translation: "energiya", meaning: "ability or capacity to do something or act in a particular way", pronunciation: "pow-er" },
+          "wind": { translation: "shamol", meaning: "the natural movement of the air", pronunciation: "wind" },
+          "water": { translation: "suv", meaning: "a colorless, transparent, odorless liquid that forms the seas, lakes, rivers, and rain", pronunciation: "waw-ter" },
+          "by": { translation: "Ga", meaning: "indicating the means of achieving something", pronunciation: "by" },
+          "year": { translation: "yilga", meaning: "a period of 365 or 366 days", pronunciation: "yeer" },
+          "2100": { translation: "2100", meaning: "the year 2100", pronunciation: "twenty-one hundred" },
+          "might": { translation: "mumkin", meaning: "used to express possibility", pronunciation: "myt" },
+          "get": { translation: "olishimiz", meaning: "obtain, acquire", pronunciation: "get" },
+          "our": { translation: "bizning", meaning: "belonging to or associated with the speaker and one or more other people", pronunciation: "owr" },
+          "all": { translation: "barcha", meaning: "the whole quantity or extent of", pronunciation: "awl" },
+          "from": { translation: "dan", meaning: "indicating the point of departure or origin", pronunciation: "frum" },
+          "these": { translation: "ushbu", meaning: "referring to a specific group of people or things close at hand or just mentioned", pronunciation: "theez" },
+          "renewable": { translation: "qayta tiklanadigan", meaning: "of a natural resource or source of energy) not depleted when used", pronunciation: "ri-noo-uh-buhl" },
+          "sources": { translation: "manbalardan", meaning: "places, people, or things from which something originates or can be obtained", pronunciation: "sors-iz" },
+          "green": { translation: "Yashil", meaning: "of the color between blue and yellow in the spectrum", pronunciation: "green" },
+          "revolution": { translation: "inqilobi", meaning: "a fundamental change in power or organizational structures that takes place in a relatively short period of time", pronunciation: "rev-uh-loo-shuhn" },
+          "already": { translation: "allaqachon", meaning: "before or by now", pronunciation: "awl-red-ee" },
+          "started": { translation: "boshlangan", meaning: "begun", pronunciation: "star-tid" },
+          "will": { translation: "talab qiladi", meaning: "used to express the future tense", pronunciation: "wil" },
+          "lot": { translation: "ko'p", meaning: "a large amount or number", pronunciation: "lot" },
+          "time": { translation: "vaqt", meaning: "the indefinite continued progress of existence and events in the past, present and future regarded as a whole", pronunciation: "tym" },
+          "money": { translation: "pul", meaning: "a current medium of exchange in the form of coins and banknotes", pronunciation: "muhn-ee" },
+          "afraid": { translation: "qo'rqishadi", meaning: "feeling fear or apprehension", pronunciation: "uh-frayd" },
+          "too": { translation: "juda", meaning: "to a higher degree than is desirable, permissible, or possible; excessively", pronunciation: "too" },
+          "expensive": { translation: "qimmat", meaning: "costing a lot of money", pronunciation: "ik-spen-siv" },
+          "difficult": { translation: "qiyin", meaning: "needing considerable effort and skill to do or achieve", pronunciation: "dif-i-kult" },
+          "protect": { translation: "himoya qilishni", meaning: "keep safe from harm or injury", pronunciation: "pruh-tekt" },
+          "earth": { translation: "Yerni", meaning: "the planet on which we live", pronunciation: "erth" },
+          "everyone": { translation: "hamma", meaning: "every person", pronunciation: "ev-ree-wuhn" },
+          "agrees": { translation: "kelisha olmaydi", meaning: "has the same opinion", pronunciation: "uh-greez" },
+          "on": { translation: "haqida", meaning: "indicating position above or in contact with", pronunciation: "on" },
+          "what": { translation: "nima", meaning: "asking for information specifying something", pronunciation: "wuh-t" },
+          "themselves": { translation: "o'zlarini", meaning: "used as the object of a verb or preposition to refer to a group of people or things previously mentioned as the subject of the clause", pronunciation: "them-selvz" },
+          "than": { translation: "ko'proq", meaning: "introducing the second element of a comparison", pronunciation: "than" },
+          "companies": { translation: "kompaniyalar", meaning: "commercial businesses", pronunciation: "kuhm-puh-neez" },
+          "often": { translation: "ko'pincha", meaning: "frequently; on many occasions", pronunciation: "of-uhn" },
+          "care": { translation: "qayg'urishadi", meaning: "feel concern or interest", pronunciation: "kair" },
+          "environment": { translation: "atrof-muhitdan", meaning: "the surroundings or conditions in which a person, animal, or plant lives or operates", pronunciation: "in-vy-ruhn-muhnt" },
+          "politicians": { translation: "siyosatchilar", meaning: "people involved in politics", pronunciation: "pol-i-tish-uhnz" },
+          "make": { translation: "qilishni", meaning: "form (something) by putting parts together or combining substances", pronunciation: "meyk" },
+          "decisions": { translation: "qarorlar", meaning: "choices or judgments", pronunciation: "di-sizh-uhnz" },
+          "because": { translation: "chunki", meaning: "for the reason that", pronunciation: "bi-koz" },
+          "like": { translation: "yoqtirmasliklaridan", meaning: "find agreeable, enjoyable, or satisfactory", pronunciation: "lyk" },
+          "though": { translation: "bo'lsa-da", meaning: "despite the fact that; although", pronunciation: "thoh" },
+          "challenges": { translation: "Qiyinchiliklar", meaning: "demanding tasks or situations", pronunciation: "chal-inj-iz" },
+          "we": { translation: "biz", meaning: "used by a speaker to refer to himself or herself and one or more other people collectively", pronunciation: "wee" },
+          "work": { translation: "ishlashimiz", meaning: "activity involving mental or physical effort done in order to achieve a purpose or result", pronunciation: "werk" },
+          "together": { translation: "birgalikda", meaning: "with or near each other", pronunciation: "tuh-geth-er" },
+          "fight": { translation: "kurashish", meaning: "take part in a violent struggle", pronunciation: "fyt" },
+          "our": { translation: "Bizning", meaning: "belonging to or associated with the speaker and one or more other people collectively", pronunciation: "owr" },
+          "depends": { translation: "bog'liq", meaning: "be contingent on or determined by", pronunciation: "di-pendz" },
+      };
+
+      const PIXABAY_API_KEY = "49146347-e05e26bd1aae0010e8163774c"; // Sizning Pixabay API kalitingiz
+
+      // Pixabay API dan rasm olish funksiyasi
+      async function getPixabayImage(query) {
+          const url = `https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=${encodeURIComponent(query)}&image_type=photo&per_page=3`;
+          try {
+              const response = await fetch(url);
+              const data = await response.json();
+              return (data.hits && data.hits.length > 0) ? data.hits[0].webformatURL : "https://placehold.co/150x150/cccccc/333333?text=No+Image"; // Fallback placeholder
+          } catch (error) {
+              console.error("Pixabay API error:", error);
+              return "https://placehold.co/150x150/cccccc/333333?text=Error"; // Fallback on error
+          }
+      }
+
+      // Fleshcardlar uchun muhim so'zlar ro'yxati (original index17.html dan olingan)
+      const wordsForFlashcards = [
+          { english: "call for", uzbek: "chaqirmoq, talab qilmoq", type: "fe'l", pronunciation: "/koːl fɔːr/", query: "demand" },
+          { english: "district", uzbek: "tuman, okrug", type: "ot", pronunciation: "/'dɪstrɪkt/", query: "city district" },
+          { english: "profit", uzbek: "foyda ko'rmoq, foydalanmoq", type: "fe'l/ot", pronunciation: "/'prɒfɪt/", query: "profit money" },
+          { english: "existence", uzbek: "mavjudlik, borlik", type: "ot", pronunciation: "/ɪɡ'zɪstəns/", query: "existence life" },
+          { english: "incident", uzbek: "noqulay voqea, mojaro", type: "ot", pronunciation: "/'ɪnsɪdənt/", query: "incident event" },
+          { english: "individual", uzbek: "shaxs, bir kishi", type: "ot/sifat", pronunciation: "/ˌɪndɪ'vɪdʒuəl/", query: "person individual" },
+          { english: "judge", uzbek: "baho bermoq, xulosa qilmoq", type: "fe'l", pronunciation: "/dʒʌdʒ/", query: "judge court" },
+          { english: "side by side", uzbek: "yonma-yon", type: "ifoda", pronunciation: "/saɪd baɪ saɪd/", query: "side by side" },
+          { english: "murder", uzbek: "o'ldirmoq, qotillik", type: "fe'l/ot", pronunciation: "/'mɜːrdər/", query: "murder crime" },
+          { english: "reputation", uzbek: "obro', e'tibor", type: "ot", pronunciation: "/ˌrepjʊ'teɪʃən/", query: "reputation respect" },
+          { english: "tend to", uzbek: "odatlanmoq", type: "fe'l", pronunciation: "/tend tuː/", query: "tend to habit" },
+          { english: "justified", uzbek: "asosli, o'rinli", type: "sifat", pronunciation: "/'dʒʌstɪfaɪd/", query: "justified reason" },
+          { english: "state", uzbek: "bildirmoq, bayon etmoq", type: "fe'l", pronunciation: "/steɪt/", query: "state declare" },
+          { english: "widespread", uzbek: "keng tarqalgan", type: "sifat", pronunciation: "/'waɪdspred/", query: "widespread common" },
+          { english: "plenty", uzbek: "juda ko'p", type: "ot", pronunciation: "/'plenti/", query: "plenty abundance" },
+          { english: "handy", uzbek: "qulay, kerakli", type: "sifat", pronunciation: "/'hændi/", query: "handy convenient" },
+          { english: "diverse", uzbek: "turli-tuman", type: "sifat", pronunciation: "/daɪ'vɜːrs/", query: "diverse variety" },
+          { english: "incredibly", uzbek: "aql bovar qilmaydigan", type: "hol", pronunciation: "/ɪn'kredəbli/", query: "incredibly amazing" },
+          { english: "truly", uzbek: "rostdan ham", type: "hol", pronunciation: "/'truːli/", query: "truly genuine" },
+          { english: "unique", uzbek: "yagona, takrorlanmas", type: "sifat", pronunciation: "/juː'niːk/", query: "unique special" },
+          { english: "spirit", uzbek: "ruhiyat", type: "ot", pronunciation: "/'spɪrɪt/", query: "spirit soul" },
+          { english: "laid-back", uzbek: "xotirjam", type: "sifat", pronunciation: "/ˌleɪd'bæk/", query: "laid back relaxed" },
+          { english: "easy-going", uzbek: "bag'ri keng", type: "sifat", pronunciation: "/ˌiːzi'ɡəʊɪŋ/", query: "easy going friendly" },
+          { english: "vital", uzbek: "hayotiy ahamiyatga ega", type: "sifat", pronunciation: "/'vaɪtl/", query: "vital important" },
+          { english: "outlook", uzbek: "dunyoqarash", type: "ot", pronunciation: "/'aʊtlʊk/", query: "outlook perspective" },
+          { english: "turn up", uzbek: "kelmoq, ko'rinmoq", type: "fe'l", pronunciation: "/tɜːrn ʌp/", query: "turn up appear" },
+          { english: "exchange", uzbek: "almashmoq", type: "fe'l/ot", pronunciation: "/ɪks'tʃeɪndʒ/", query: "exchange trade" },
+          { english: "appreciate", uzbek: "qadrlamoq", type: "fe'l", pronunciation: "/ə'priːʃieɪt/", query: "appreciate value" },
+          { english: "mate", uzbek: "o'rtoq", type: "ot", pronunciation: "/meɪt/", query: "mate friend" },
+          { english: "welcoming", uzbek: "mehribon", type: "sifat", pronunciation: "/'welkəmɪŋ/", query: "welcoming hospitable" },
+          // Yangi qo'shilgan so'zlar (pul va iqlim matnlaridan)
+          { english: "Strangely", uzbek: "G'alati", type: "ravish", pronunciation: "/ˈstreɪndʒli/", query: "strange" },
+          { english: "Value", uzbek: "Qadri", type: "ot", pronunciation: "/ˈvæljuː/", query: "money value" },
+          { english: "Royal Mint", uzbek: "Qirollik Zargarlik Uyi", type: "ot", pronunciation: "/ˌrɔɪəl ˈmɪnt/", query: "royal mint building" },
+          { english: "Situated", uzbek: "Joylashgan", type: "sifat", pronunciation: "/ˈsɪtʃueɪtɪd/", query: "location situated" },
+          { english: "Security fences", uzbek: "Xavfsizlik panjaralari", type: "ot", pronunciation: "/sɪˈkjʊərɪti ˈfensɪz/", query: "security fence" },
+          { english: "Journalist", uzbek: "Jurnalist", type: "ot", pronunciation: "/ˈdʒɜːnəlɪst/", query: "journalist writing" },
+          { english: "Odd", uzbek: "G'alati", type: "sifat", pronunciation: "/ɒd/", query: "odd strange" },
+          { english: "Coins", uzbek: "Tangalar", type: "ot", pronunciation: "/kɔɪnz/", query: "coins currency" },
+          { english: "Banknotes", uzbek: "Banknotlar", type: "ot", pronunciation: "/ˈbæŋknəʊts/", query: "banknotes money" },
+          { english: "Security locker", uzbek: "Seyf", type: "ot", pronunciation: "/sɪˈkjʊərɪti ˈlɒkə/", query: "security locker" },
+          { english: "Plastic coins", uzbek: "Plastik tangalar", type: "ot", pronunciation: "/ˈplæstɪk kɔɪnz/", query: "plastic coins" },
+          { english: "Factories", uzbek: "Zavodlardan", type: "ot", pronunciation: "/ˈfæktəriz/", query: "factory building" },
+          { english: "Developed", uzbek: "Rivojlangan", type: "sifat", pronunciation: "/dɪˈveləpt/", query: "developed city" },
+          { english: "Site", uzbek: "Maydoni", type: "ot", pronunciation: "/saɪt/", query: "construction site" },
+          { english: "Llantrisant", uzbek: "Llantrisantdagi", type: "ot", pronunciation: "/lænˈtrɪsænt/", query: "Llantrisant Wales" },
+          { english: "Coin-making", uzbek: "Tanga yasash", type: "sifat", pronunciation: "/kɔɪn ˈmeɪkɪŋ/", query: "coin making machine" },
+          { english: "Credit cards", uzbek: "Kredit kartalari", type: "ot", pronunciation: "/ˈkredɪt kɑːdz/", query: "credit card" },
+          { english: "Foreign coins", uzbek: "Xorijiy tangalar", type: "ot", pronunciation: "/ˈfɒrɪn kɔɪnz/", query: "foreign currency" },
+          { english: "Pounds", uzbek: "Funt", type: "ot", pronunciation: "/paʊndz/", query: "british pounds" },
+          { english: "Pennies", uzbek: "Pens", type: "ot", pronunciation: "/ˈpeniz/", query: "pennies coins" },
+          { english: "Extracts", uzbek: "Ajratib oladi", type: "fe'l", pronunciation: "/ɪkˈstrækts/", query: "extracting gold" },
+          { english: "Electronic goods", uzbek: "Elektron tovarlar", type: "ot", pronunciation: "/ɪˌlekˈtrɒnɪk ɡʊdz/", query: "electronic waste" },
+          { english: "Circular economy", uzbek: "Dumaloq iqtisodiyot", type: "ot", pronunciation: "/ˈsɜːkjʊlə ɪˈkɒnəmi/", query: "circular economy concept" },
+          { english: "Climate change", uzbek: "Iqlim o'zgarishi", type: "ot", pronunciation: "/ˈklaɪmət tʃeɪndʒ/", query: "global warming" },
+          { english: "Dangerous", uzbek: "Xavfli", type: "sifat", pronunciation: "/ˈdeɪndʒərəs/", query: "dangerous situation" },
+          { english: "COP26 summit", uzbek: "COP26 sammiti", type: "ot", pronunciation: "/kɒp twenti sɪks ˈsʌmɪt/", query: "COP26 conference" },
+          { english: "Carbons", uzbek: "Karbon", type: "ot", pronunciation: "/ˈkɑːbənz/", query: "carbon emissions" },
+          { english: "Coal", uzbek: "Ko'mir", type: "ot", pronunciation: "/kəʊl/", query: "coal energy" },
+          { english: "Oil", uzbek: "Neft", type: "ot", pronunciation: "/ɔɪl/", query: "oil barrel" },
+          { english: "Solar power", uzbek: "Quyosh energiyasi", type: "ot", pronunciation: "/ˈsəʊlə ˈpaʊə/", query: "solar panels" },
+          { english: "Wind power", uzbek: "Shamol energiyasi", type: "ot", pronunciation: "/wɪnd ˈpaʊə/", query: "wind turbines" },
+          { english: "Water power", uzbek: "Suv energiyasi", type: "ot", pronunciation: "/ˈwɔːtə ˈpaʊə/", query: "hydroelectric power" },
+          { english: "Renewable sources", uzbek: "Qayta tiklanadigan manbalar", type: "ot", pronunciation: "/rɪˈnjuːəbl ˈsɔːsɪz/", query: "renewable energy" },
+          { english: "Green energy revolution", uzbek: "Yashil energiya inqilobi", type: "ot", pronunciation: "/ɡriːn ˈenədʒi ˌrevəˈluːʃən/", query: "green energy" },
+          { english: "Expensive", uzbek: "Qimmat", type: "sifat", pronunciation: "/ɪkˈspensɪv/", query: "expensive price" },
+          { english: "Environment", uzbek: "Atrof-muhit", type: "ot", pronunciation: "/ɪnˈvaɪərənəmənt/", query: "natural environment" },
+          { english: "Politicians", uzbek: "Siyosatchilar", type: "ot", pronunciation: "/ˌpɒlɪˈtɪʃnz/", query: "politician speaking" },
+          { english: "Challenges", uzbek: "Qiyinchiliklar", type: "ot", pronunciation: "/ˈtʃælɪndʒɪz/", query: "challenges obstacle" },
+      ];
+
+
+      const modal = document.getElementById("wordModal");
+      const span = document.getElementsByClassName("close-button")[0];
+      const modalWord = document.getElementById("modalWord");
+      const modalTranslation = document.getElementById("modalTranslation");
+       
+      // So'zlarni bosish mumkin qilish funksiyasi
+      function makeWordsClickable(textSectionId) {
+          const textSection = document.getElementById(textSectionId);
+          // Har bir .sentence spanini topamiz
+          textSection.querySelectorAll('.sentence').forEach(sentenceSpan => {
+              let originalText = sentenceSpan.textContent;
+              let newHtml = '';
+              // So'zlarni va tinish belgilarini ajratish uchun regex
+              // \b\w+\b so'z chegarasidagi harflarni, [.,!?;:\s]+ esa tinish belgilari va bo'shliqlarni topadi
+              const parts = originalText.split(/(\b\w+\b|[.,!?;:\s]+)/g);
+
+              parts.forEach(part => {
+                  if (part.trim() === '') {
+                      newHtml += part; // Bo'shliqlarni saqlaymiz
+                      return;
+                  }
+                  // So'zni lug'atda qidirish uchun tinish belgilarini olib tashlaymiz va kichik harfga o'tkazamiz
+                  const cleanedWord = part.replace(/[.,!?;:]/g, '').toLowerCase();
+                  if (words[cleanedWord]) {
+                      // Agar so'z lug'atda bo'lsa, uni .word klassi bilan span ichiga olamiz
+                      newHtml += `<span class="word" data-word="${cleanedWord}">${part}</span>`;
+                  } else {
+                      newHtml += part; // Aks holda, so'zni o'zgarishsiz qoldiramiz
+                  }
+              });
+              sentenceSpan.innerHTML = newHtml; // Yangilangan HTMLni span ichiga joylaymiz
+          });
+      }
+      
+      // Dastlab inglizcha matn uchun so'zlarni bosish mumkin qilamiz
+      makeWordsClickable('english-text');
+      makeWordsClickable('english-text-climate');
+
+      // Inglizcha matn bo'limiga click event listener qo'shamiz
+      document.getElementById('english-text').addEventListener('click', function(event) {
+          // Agar bosilgan element .word klassiga ega bo'lsa
+          if (event.target.classList.contains('word')) {
+              const word = event.target.dataset.word; // data-word atributidagi so'zni olamiz
+              const wordInfo = words[word]; // Lug'atdan so'z ma'lumotlarini olamiz
+              if (wordInfo) {
+                  // Modal oynadagi elementlarni ma'lumotlar bilan to'ldiramiz
+                  modalWord.textContent = `Word: ${event.target.textContent.trim()}`; // Asl so'zni ko'rsatamiz
+                  modalTranslation.textContent = `Translation: ${wordInfo.translation}`;
+                  
+                  modal.style.display = "block"; // Modal oynani ko'rsatamiz
+              }
+          }
+      });
+
+      // Iqlim matn bo'limiga click event listener qo'shamiz
+      document.getElementById('english-text-climate').addEventListener('click', function(event) {
+          if (event.target.classList.contains('word')) {
+              const word = event.target.dataset.word;
+              const wordInfo = words[word];
+              if (wordInfo) {
+                  modalWord.textContent = `Word: ${event.target.textContent.trim()}`;
+                  modalTranslation.textContent = `Translation: ${wordInfo.translation}`;
+                  modal.style.display = "block";
+              }
+          }
+      });
+
+
+      // Modal oynani yopish tugmasi
+      span.onclick = function() {
+          modal.style.display = "none";
+      }
+
+      // Modal oynadan tashqarida bosilganda oynani yopish
+      window.onclick = function(event) {
+          if (event.target == modal) {
+              modal.style.display = "none";
+          }
+      }
+
+      // Matnni o'qish funksiyasi (erkak ovozi va tezlik 0.8)
+      function speakSentence(button) {
+          const sentenceSpan = button.nextElementSibling; // Gap spanini olamiz
+          if (sentenceSpan && responsiveVoice.isPlaying()) {
+              responsiveVoice.cancel(); // Agar o'qiyotgan bo'lsa, to'xtatamiz
+          } else if (sentenceSpan) {
+              // UK English Male ovozi va 0.8 tezlikda o'qish
+              responsiveVoice.speak(sentenceSpan.textContent, "UK English Male", {rate: 0.8});
+          }
+      }
+
+      const toggleButton = document.getElementById('toggle-lang-button');
+      const englishText = document.getElementById('english-text');
+      const englishTextClimate = document.getElementById('english-text-climate');
+      const uzbekText = document.getElementById('uzbek-text');
+      const uzbekTextClimate = document.getElementById('uzbek-text-climate');
+      const showFlashcardsButton = document.getElementById('show-flashcards-button');
+      const flashcardContainer = document.getElementById('flashcard-container');
+      const timerDisplay = document.getElementById('timer-display');
+      const controlButtonsWrapper = document.querySelector('.control-buttons-wrapper');
+
+
+      let isEnglish = true;
+      let isFlashcardMode = false;
+      let currentFlashcardIndex = 0;
+
+      // Fleshcard elementlarini olish (ID'lar original index17.html ga moslashtirildi)
+      const flashcardCard = document.getElementById('flashcard-card');
+      const cardFrontWord = document.getElementById('word-front-flashcard');
+      const cardFrontType = document.getElementById('type-front-flashcard');
+      const cardFrontPronunciation = document.getElementById('pronunciation-flashcard');
+      const cardFrontImage = document.getElementById('front-image-flashcard');
+
+      const cardBackWord = document.getElementById('word-back-flashcard');
+      const cardBackType = document.getElementById('type-back-flashcard');
+      const cardBackImage = document.getElementById('back-image-flashcard');
+
+      const nextFlashcardButton = document.getElementById('next-button-flashcard');
+      const audioFlashcardButton = document.getElementById('audio-button-flashcard');
+      const sliderValueFlashcard = document.getElementById('slider-value');
+      const sliderMaxFlashcard = document.getElementById('slider-max');
+      const wordSliderFlashcard = document.getElementById('word-slider');
+      const instructionModal = document.getElementById('instruction-modal');
+      const closeInstructionModal = document.getElementById('close-instruction-modal');
+
+
+      // Fleshcard kontentini yangilash funksiyasi
+      async function updateFlashcard(index) {
+          const word = wordsForFlashcards[index];
+          if (word) {
+              cardFrontWord.textContent = word.english;
+              cardFrontType.textContent = word.type;
+              cardFrontPronunciation.textContent = word.pronunciation;
+              cardBackWord.textContent = word.uzbek;
+              cardBackType.textContent = word.type;
+
+              // Rasmni dinamik yuklash
+              const imageUrl = await getPixabayImage(word.query || word.english);
+              cardFrontImage.src = imageUrl; // Old tomonda ham rasm ko'rsatish
+              cardBackImage.src = imageUrl;
+
+              flashcardCard.classList.remove('flipped'); // Kartani old tomonga aylantirish
+              wordSliderFlashcard.value = index + 1;
+              sliderValueFlashcard.textContent = `${index + 1} / ${wordsForFlashcards.length}`;
+          }
+      }
+
+      // Fleshcardni bosganda aylantirish
+      flashcardCard.addEventListener('click', function() {
+          this.classList.toggle('flipped');
+          if (this.classList.contains('flipped')) {
+               // Agar karta aylantirilsa, ovoz chiqarish
+               speakFlashcard(wordsForFlashcards[currentFlashcardIndex].english);
+           }
+      });
+
+      // Keyingi fleshcardga o'tish
+      nextFlashcardButton.addEventListener('click', function() {
+          currentFlashcardIndex++;
+          if (currentFlashcardIndex >= wordsForFlashcards.length) {
+              // Oxiriga yetganda aralashtirish va boshidan boshlash
+              wordsForFlashcards.sort(() => Math.random() - 0.5); // Arrayni aralashtirish
+              currentFlashcardIndex = 0;
+          }
+          updateFlashcard(currentFlashcardIndex);
+          flashcardCard.classList.remove('swiping-right'); // Animatsiyani qaytarish
+      });
+
+      // Fleshcarddagi so'zni ovozli o'qish
+      function speakFlashcard(text) {
+          responsiveVoice.speak(text, "US English Male", { rate: 0.9 });
+      }
+
+      audioFlashcardButton.addEventListener('click', function() {
+          speakFlashcard(wordsForFlashcards[currentFlashcardIndex].english);
+      });
+
+      // Slider boshqaruvi
+      wordSliderFlashcard.addEventListener('input', function() {
+          currentFlashcardIndex = parseInt(this.value) - 1;
+          updateFlashcard(currentFlashcardIndex);
+      });
+
+      // Surish (swipe) funksiyalari
+      let startX, endX;
+      flashcardCard.addEventListener('touchstart', (e) => {
+          startX = e.touches[0].clientX;
+      });
+
+      flashcardCard.addEventListener('touchend', (e) => {
+          endX = e.changedTouches[0].clientX;
+          handleSwipe();
+      });
+
+      function handleSwipe() {
+          const deltaX = endX - startX;
+          if (deltaX > 50) { // O'ngga surish
+              flashcardCard.classList.add('swiping-right');
+              setTimeout(() => {
+                  currentFlashcardIndex++;
+                  if (currentFlashcardIndex >= wordsForFlashcards.length) {
+                      wordsForFlashcards.sort(() => Math.random() - 0.5); // Oxiriga yetganda aralashtirish
+                      currentFlashcardIndex = 0;
+                  }
+                  updateFlashcard(currentFlashcardIndex);
+                  flashcardCard.classList.remove('swiping-right');
+              }, 300);
+          } else if (deltaX < -50) { // Chapga surish (yodlash)
+              // Yodlangan so'zni ro'yxatdan olib tashlash
+              const learnedWord = wordsForFlashcards.splice(currentFlashcardIndex, 1)[0];
+              // Agar ro'yxat bo'sh qolsa, qayta aralashtirish yoki xabar berish
+              if (wordsForFlashcards.length === 0) {
+                  // Barcha so'zlar yodlangan bo'lsa, qayta yuklash yoki xabar berish
+                  alert("Barcha so'zlar yodlandi! Ro'yxat qayta yuklanadi.");
+                  // Bu yerda siz wordsForFlashcards ni asl holatiga qaytarishingiz mumkin
+                  // yoki boshqa biror harakatni amalga oshirishingiz mumkin.
+                  // Hozircha oddiygina sahifani yangilaymiz (yoki wordsForFlashcards ni boshqa so'zlar bilan to'ldiramiz)
+                  location.reload(); // Sahifani yangilash
+                  return;
+              }
+
+              if (currentFlashcardIndex >= wordsForFlashcards.length) {
+                  currentFlashcardIndex = 0;
+              }
+              updateFlashcard(currentFlashcardIndex);
+
+              flashcardCard.classList.add('swiping-left');
+              setTimeout(() => {
+                  flashcardCard.classList.remove('swiping-left');
+              }, 300);
+          }
+      }
+
+      // Yo'riqnoma modalini boshqarish
+      closeInstructionModal.addEventListener("click", function() {
+          instructionModal.style.display = "none";
+      });
+
+
+      // Til almashtirish tugmasi
+      toggleButton.addEventListener('click', function() {
+          if (isEnglish) {
+              englishText.style.display = 'none';
+              englishTextClimate.style.display = 'none';
+              uzbekText.style.display = 'block';
+              uzbekTextClimate.style.display = 'block';
+              toggleButton.textContent = 'English';
+          } else {
+              englishText.style.display = 'block';
+              englishTextClimate.style.display = 'block';
+              uzbekText.style.display = 'none';
+              uzbekTextClimate.style.display = 'none';
+              toggleButton.textContent = 'Uzbekcha';
+          }
+          isEnglish = !isEnglish;
+          // Fleshcard rejimidan chiqqanda, agar u yoqilgan bo'lsa, uni o'chirish
+          if (isFlashcardMode) {
+              isFlashcardMode = false;
+              flashcardContainer.style.display = 'none';
+              controlButtonsWrapper.classList.remove('flashcard-active'); // Tugma joyini tiklash
+          }
+      });
+
+      // "Lug'at" tugmasini bosish funksiyasi
+      showFlashcardsButton.addEventListener('click', function() {
+          isFlashcardMode = !isFlashcardMode;
+
+          if (isFlashcardMode) {
+              englishText.style.display = 'none';
+              englishTextClimate.style.display = 'none';
+              uzbekText.style.display = 'none';
+              uzbekTextClimate.style.display = 'none';
+              flashcardContainer.style.display = 'flex'; // Fleshcardlarni ko'rsatish
+              toggleButton.style.display = 'none'; // Til almashtirish tugmasini yashirish
+              controlButtonsWrapper.classList.add('flashcard-active'); // Tugmani pastga joylashtirish
+              updateFlashcard(currentFlashcardIndex);
+              instructionModal.style.display = "flex"; // Fleshcard rejimiga o'tganda yo'riqnoma modalini ko'rsatish
+          } else {
+              englishText.style.display = 'block';
+              englishTextClimate.style.display = 'block';
+              flashcardContainer.style.display = 'none';
+              toggleButton.style.display = 'block';
+              uzbekText.style.display = 'none';
+              uzbekTextClimate.style.display = 'none';
+              isEnglish = true;
+              toggleButton.textContent = 'Uzbekcha';
+              controlButtonsWrapper.classList.remove('flashcard-active'); // Tugma joyini tiklash
+          }
+      });
+
+      // Foydalanuvchi sahifada qancha vaqt turganini ko'rsatadigan taymer
+      let secondsElapsed = 0;
+      function updateTimer() {
+          secondsElapsed++;
+          const hours = Math.floor(secondsElapsed / 3600);
+          const minutes = Math.floor((secondsElapsed % 3600) / 60);
+          const seconds = secondsElapsed % 60;
+
+          const formattedTime =
+              `${String(hours).padStart(2, '0')}:` +
+              `${String(minutes).padStart(2, '0')}:` +
+              `${String(seconds).padStart(2, '0')}`;
+
+          timerDisplay.textContent = `Vaqt: ${formattedTime}`;
+      }
+
+      // Har soniyada taymerni yangilash
+      setInterval(updateTimer, 1000);
+
+      // ResponsiveVoice'ni ishga tushirish
+      responsiveVoice.enableSpeech();
+
+      // Dasturni ishga tushirishda fleshcardlarni yuklash
+      document.addEventListener("DOMContentLoaded", function() {
+           wordsForFlashcards.sort(() => Math.random() - 0.5); // So'zlarni aralashtirish
+           sliderMaxFlashcard.textContent = wordsForFlashcards.length;
+           updateFlashcard(currentFlashcardIndex);
+      });
+  </script>
+</body>
+</html>
