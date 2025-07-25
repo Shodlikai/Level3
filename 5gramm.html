@@ -1,0 +1,1588 @@
+﻿<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adverbs - Mukammal Qo'llanma</title>
+  <style>
+      /* Umumiy stilizatsiya */
+      * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+      }
+
+      body {
+          font-family: 'Inter', sans-serif; /* Font Interga o'zgartirildi */
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Fon gradienti */
+          min-height: 100vh;
+          color: #333;
+          line-height: 1.6;
+      }
+
+      .container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 20px;
+      }
+
+      /* Sarlavha qismi */
+      .header {
+          text-align: center;
+          margin-bottom: 40px;
+          background: rgba(255, 255, 255, 0.1); /* Yarim shaffof fon */
+          backdrop-filter: blur(10px); /* Orqa fonni xiralashtirish */
+          padding: 30px;
+          border-radius: 20px;
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .header h1 {
+          font-size: 3rem;
+          color: white;
+          margin-bottom: 10px;
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+          font-weight: bold;
+      }
+
+      .header p {
+          color: rgba(255, 255, 255, 0.9);
+          font-size: 1.2rem;
+          text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+      }
+      
+      /* Navigatsiya tablari */
+      .nav-tabs {
+          display: flex;
+          justify-content: center;
+          margin-bottom: 30px;
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(10px);
+          border-radius: 15px;
+          padding: 10px;
+          gap: 10px;
+          flex-wrap: wrap;
+      }
+
+      .tab-btn {
+          background: rgba(255, 255, 255, 0.2);
+          border: none;
+          padding: 12px 24px;
+          border-radius: 10px;
+          color: white;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          font-size: 16px;
+          font-weight: 500;
+          text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+      }
+
+      .tab-btn:hover {
+          background: rgba(255, 255, 255, 0.3);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      }
+
+      .tab-btn.active {
+          background: linear-gradient(135deg, #ff6b6b, #ee5a24); /* Faol tab uchun gradient */
+          box-shadow: 0 6px 20px rgba(255, 107, 107, 0.3);
+          transform: translateY(-2px);
+      }
+
+      /* Tab kontentlari */
+      .tab-content { display: none; animation: fadeIn 0.5s ease-in-out; }
+      .tab-content.active { display: block; }
+      @keyframes fadeIn { /* Kontent paydo bo'lish animatsiyasi */
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+      }
+
+      /* Karta uslubi */
+      .card {
+          background: rgba(255, 255, 255, 0.98); /* Oq fon, biroz shaffof */
+          border-radius: 20px;
+          padding: 30px;
+          box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .card h2 {
+          color: #333;
+          margin-bottom: 25px;
+          font-size: 2.2rem;
+          text-align: center;
+          background: linear-gradient(135deg, #667eea, #764ba2); /* Sarlavha uchun gradient tekst */
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+      }
+
+      /* Qoida va farq bo'limlari */
+      .rule-section, .diff-section {
+          margin-bottom: 25px;
+          padding: 20px;
+          background: linear-gradient(135deg, #f8f9fa, #e9ecef); /* Och fon gradienti */
+          border-radius: 15px;
+          border-left: 5px solid #667eea; /* Chap tomonda rangli chegara */
+      }
+
+      .rule-section h3, .diff-section h3 {
+          color: #495057;
+          margin-bottom: 15px;
+          font-size: 1.4rem;
+      }
+
+      .rule-section p, .rule-section li, .diff-section p, .diff-section li {
+          color: #6c757d;
+          font-size: 1.1rem;
+          margin-bottom: 10px;
+      }
+      
+      .rule-section code, .diff-section code { /* Kod snippetlari uchun stil */
+          background-color: #e2e8f0;
+          padding: 2px 6px;
+          border-radius: 4px;
+          font-family: 'Courier New', Courier, monospace;
+          color: #c53030;
+      }
+
+      /* Farqlar jadvali */
+      .table-responsive { /* Jadvalni responsiv qilish uchun o'ram */
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch; /* iOS Safari uchun silliq aylantirish */
+      }
+      .diff-table {
+          width: 100%;
+          min-width: 600px; /* Kichik ekranlarda minimal kenglik */
+          border-collapse: collapse;
+          margin-top: 15px;
+      }
+      .diff-table th, .diff-table td {
+          border: 1px solid #dee2e6;
+          padding: 12px;
+          text-align: left;
+      }
+      .diff-table th {
+          background-color: #e9ecef;
+          color: #495057;
+      }
+      .diff-table td { background-color: #fff; }
+      .ok { color: #28a745; font-weight: bold; } /* Yashil rang */
+      .not-ok { color: #dc3545; font-weight: bold; } /* Qizil rang */
+
+
+      /* Struktura gridi */
+      .structure-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+          gap: 25px;
+          margin-top: 25px;
+      }
+
+      .structure-card {
+          padding: 25px;
+          border-radius: 15px;
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+          transition: transform 0.3s ease;
+          background: linear-gradient(135deg, #e0eafc, #cfdef3); /* Och ko'k gradient */
+          border: 2px solid #667eea;
+      }
+      .structure-card:hover { transform: translateY(-5px); } /* Hover effekti */
+
+      .structure-card h3 {
+          margin-bottom: 15px;
+          font-size: 1.3rem;
+          text-align: center;
+          color: #4a5568;
+      }
+
+      .formula { /* Formula uslubi */
+          background: white; padding: 15px; border-radius: 10px;
+          margin-bottom: 15px; text-align: center; font-size: 1.1rem;
+          font-weight: 500; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      /* So'z turkumlari uchun ranglar */
+      .noun, .pronoun, .verb, .subject, .object, .adjective, .adverb {
+          padding: 5px 10px; border-radius: 5px; margin: 0 5px; color: white;
+      }
+      .noun { background: #fd79a8; }
+      .pronoun { background: #0984e3; }
+      .verb { background: #00b894; }
+      .subject { background: #ffeaa7; color: #333;}
+      .object { background: #6c5ce7; }
+      .adjective { background: #ffbe76; } /* Sifat uchun yangi rang */
+      .adverb { background: #a29bfe; } /* Ravish uchun yangi rang */
+      
+
+      /* Misollar qismi */
+      .examples { background: rgba(255, 255, 255, 0.7); padding: 15px; border-radius: 10px; }
+      .examples p { margin-bottom: 8px; font-size: 1rem; }
+
+      .examples-grid {
+          display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+          gap: 25px; margin-top: 25px;
+      }
+
+      .example-category {
+          background: linear-gradient(135deg, #f8f9fa, #e9ecef); padding: 25px;
+          border-radius: 15px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      }
+      .example-category h3 {
+          color: #495057; margin-bottom: 20px; font-size: 1.4rem; text-align: center;
+          padding-bottom: 10px; border-bottom: 2px solid #667eea;
+      }
+
+      .example-item {
+          background: white; padding: 15px; border-radius: 10px; margin-bottom: 15px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease;
+      }
+      .example-item:hover { transform: translateX(5px); }
+      .english { color: #2d3436; font-weight: 500; margin-bottom: 8px; font-size: 1.05rem; }
+      .uzbek { color: #636e72; font-style: italic; padding-left: 20px; border-left: 3px solid #667eea; }
+
+      /* Mashqlar navigatsiyasi */
+      .exercise-nav {
+          display: flex; justify-content: center; margin-bottom: 30px;
+          gap: 10px; flex-wrap: wrap;
+      }
+      .exercise-btn {
+          background: linear-gradient(135deg, #74b9ff, #0984e3); color: white; border: none;
+          padding: 12px 20px; border-radius: 10px; cursor: pointer; transition: all 0.3s ease;
+          font-size: 14px; font-weight: 500; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+      .exercise-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); }
+      .exercise-btn.active {
+          background: linear-gradient(135deg, #00b894, #00a085); /* Faol tugma uchun gradient */
+          box-shadow: 0 6px 20px rgba(0, 184, 148, 0.3);
+      }
+
+      /* Mashq kontentlari */
+      .exercise-content { display: none; }
+      .exercise-content.active { display: block; animation: fadeIn 0.5s ease-in-out; }
+      .exercise-content h3 { color: #2d3436; margin-bottom: 25px; font-size: 1.6rem; text-align: center; }
+
+      .quiz-container, .fill-exercise, .combine-exercise, .correct-exercise, .placement-exercise, .degree-exercise, .as-as-exercise { margin-bottom: 25px; }
+      .question, .fill-question, .combine-question, .correct-question, .placement-question, .degree-question, .as-as-question {
+          background: white; padding: 20px; border-radius: 15px; margin-bottom: 20px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); border-left: 5px solid #667eea;
+      }
+      .question p, .fill-question p, .combine-question p, .correct-question p, .placement-question p, .degree-question p, .as-as-question p {
+          font-size: 1.2rem; margin-bottom: 15px; color: #2d3436; font-weight: 500;
+      }
+      .correct-question p.incorrect { text-decoration: line-through; color: #dc3545;} /* Xato matnni ustidan chizish */
+
+      /* Javob variantlari */
+      .options { display: flex; flex-direction: column; gap: 10px; }
+      .options label {
+          display: flex; align-items: center; padding: 10px; border-radius: 8px;
+          background: #f8f9fa; cursor: pointer; transition: background 0.3s ease; font-size: 1rem;
+      }
+      .options label:hover { background: #e9ecef; }
+      .options input[type="radio"] { margin-right: 10px; transform: scale(1.2); }
+
+      /* Kiritish maydonlari */
+      .fill-input, .combine-input, .correct-input, .placement-input, .degree-input, .as-as-input {
+          width: 100%; background: #f8f9fa; border: 2px solid #dee2e6;
+          border-radius: 8px; padding: 12px; font-size: 1rem; transition: border-color 0.3s ease;
+      }
+      .fill-input:focus, .combine-input:focus, .correct-input:focus, .placement-input:focus, .degree-input:focus, .as-as-input:focus {
+          outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      }
+
+      /* Tekshirish tugmasi */
+      .check-btn {
+          background: linear-gradient(135deg, #00b894, #00a085); color: white; border: none;
+          padding: 15px 30px; border-radius: 10px; cursor: pointer; font-size: 1.1rem;
+          font-weight: 500; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          display: block; margin: 0 auto;
+      }
+      .check-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 184, 148, 0.3); }
+
+      /* Natija qismi */
+      .result {
+          margin-top: 20px; padding: 15px; border-radius: 10px; text-align: center;
+          font-size: 1.2rem; font-weight: 500; background: linear-gradient(135deg, #ddd6fe, #c4b5fd);
+          color: #5b21b6; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+      .correct-answer { color: #28a745; margin: 5px 0; } /* To'g'ri javob uchun yashil */
+      .wrong-answer { color: #dc3545; margin: 5px 0; } /* Noto'g'ri javob uchun qizil */
+      .final-score { margin-top: 10px; padding: 10px; background: #f8f9fa; border-radius: 5px; }
+
+      /* Responsivlik */
+      @media (max-width: 768px) {
+          .header h1 { font-size: 2rem; }
+          .card h2 { font-size: 1.8rem; }
+          .structure-grid, .examples-grid { grid-template-columns: 1fr; }
+          .nav-tabs, .exercise-nav { flex-direction: column; gap: 5px; }
+          .tab-btn, .exercise-btn { width: 100%; text-align: center; }
+      }
+  </style>
+</head>
+<body>
+  <div class="container">
+      <div class="header">
+          <h1>Adverbs</h1>
+          <p>Ravishlar (Adverbs) haqida to'liq ma'lumot, turlari, tuzilishi, ishlatilishi va ko'plab mashqlar bilan mukammal o'rganing.</p>
+      </div>
+
+      <nav class="nav-tabs">
+          <button class="tab-btn active" data-tab="rules">Qoidalar</button>
+          <button class="tab-btn" data-tab="diffs">Farqlar</button>
+          <button class="tab-btn" data-tab="structure">Strukturalar</button>
+          <button class="tab-btn" data-tab="examples">Misollar</button>
+          <button class="tab-btn" data-tab="exercises">Mashqlar</button>
+      </nav>
+
+      <!-- Qoidalar Bo'limi -->
+      <div id="rules" class="tab-content active">
+           <div class="card">
+              <h2>Asosiy Qoidalar</h2>
+              <div class="rule-section">
+                  <h3>Ravish (Adverb) nima?</h3>
+                  <p>Ravish (Adverb) fe'l (verb), sifat (adjective) yoki boshqa bir ravish (adverb) haqida qo'shimcha ma'lumot beruvchi so'z turkumidir. Ular qanday, qayerda, qachon, qanchalik tez-tez yoki qanchalik darajada sodir bo'lganligini bildiradi.</p>
+                  <p>Masalan: <code>He sings <span class="adverb">beautifully</span>.</code> (Qanday kuylaydi? Chiroyli qilib.)</p>
+                  <p><code>She ran <span class="adverb">very</span> <span class="adverb">quickly</span>.</code> (Qanchalik tez yugurdi? Juda tez.)</p>
+              </div>
+              <div class="rule-section">
+                  <h3>Ravishlarning turlari</h3>
+                  <ul>
+                      <li><b>Harakat ravishlari (Adverbs of Manner):</b> Harakat qanday bajarilganini bildiradi. Ko'pincha sifatga <code>-ly</code> qo'shimchasi qo'shish orqali yasaladi.
+                          <p>Misollar: <code>slowly</code> (sekin), <code>carefully</code> (ehtiyotkorlik bilan), <code>happily</code> (xursand holda), <code>well</code> (yaxshi).</p></li>
+                      <li><b>Joy ravishlari (Adverbs of Place):</b> Harakat qayerda sodir bo'lganini bildiradi.
+                          <p>Misollar: <code>here</code> (bu yerda), <code>there</code> (u yerda), <code>everywhere</code> (hamma joyda), <code>upstairs</code> (yuqorida), <code>inside</code> (ichkarida).</p></li>
+                      <li><b>Vaqt ravishlari (Adverbs of Time):</b> Harakat qachon sodir bo'lganini bildiradi.
+                          <p>Misollar: <code>now</code> (hozir), <code>yesterday</code> (kecha), <code>soon</code> (tez orada), <code>later</code> (keyinroq), <code>today</code> (bugun).</p></li>
+                      <li><b>Chastota ravishlari (Adverbs of Frequency):</b> Harakat qanchalik tez-tez sodir bo'lganini bildiradi.
+                          <p>Misollar: <code>always</code> (har doim), <code>often</code> (tez-tez), <code>sometimes</code> (ba'zan), <code>never</code> (hech qachon), <code>usually</code> (odatda).</p></li>
+                      <li><b>Daraja ravishlari (Adverbs of Degree):</b> Sifat yoki boshqa ravishning darajasini, kuchini bildiradi.
+                          <p>Misollar: <code>very</code> (juda), <code>too</code> (juda ham), <code>extremely</code> (o'ta), <code>almost</code> (deyarli), <code>quite</code> (ancha).</p></li>
+                      <li><b>So'roq ravishlari (Interrogative Adverbs):</b> Savol berish uchun ishlatiladi (qayerda, qachon, qanday, nima uchun).
+                          <p>Misollar: <code>where</code>, <code>when</code>, <code>how</code>, <code>why</code>.</p></li>
+                      <li><b>Nisbiy ravishlar (Relative Adverbs):</b> Ikki gapni bog'lash uchun ishlatiladi (joy, vaqt, sabab).
+                          <p>Misollar: <code>where</code>, <code>when</code>, <code>why</code>.</p></li>
+                  </ul>
+              </div>
+              <div class="rule-section">
+                  <h3>Ravishlarning yasalishi</h3>
+                  <p>Ko'pchilik ravishlar sifatlarga <code>-ly</code> qo'shimchasini qo'shish orqali yasaladi:</p>
+                  <ul>
+                      <li><code>quick</code> (sifat) → <code>quickly</code> (ravish)</li>
+                      <li><code>careful</code> (sifat) → <code>carefully</code> (ravish)</li>
+                      <li><code>happy</code> (sifat) → <code>happily</code> (ravish) (<code>y</code> harfi <code>i</code> ga o'zgaradi)</li>
+                      <li><code>terrible</code> (sifat) → <code>terribly</code> (ravish) (<code>-le</code> bilan tugasa <code>e</code> tushib qoladi)</li>
+                  </ul>
+                  <p><b>Istisnolar va tartibsiz ravishlar:</b></p>
+                  <ul>
+                      <li><code>good</code> (sifat) → <code>well</code> (ravish)</li>
+                      <li><code>fast</code> (sifat) → <code>fast</code> (ravish) (o'zgarmaydi)</li>
+                      <li><code>hard</code> (sifat) → <code>hard</code> (ravish) (o'zgarmaydi)</li>
+                      <li><code>late</code> (sifat) → <code>late</code> (ravish) (o'zgarmaydi)</li>
+                  </ul>
+              </div>
+              <div class="rule-section">
+                  <h3>Ravishlarning darajalari (Positive, Comparative, Superlative Adverbs)</h3>
+                  <p>Ravishlar ham sifatlar kabi uchta darajaga ega bo'lishi mumkin: oddiy (Positive), qiyosiy (Comparative) va orttirma (Superlative).</p>
+                  <h4>1. Oddiy daraja (Positive Degree)</h4>
+                  <p>Ravishning asosiy shakli bo'lib, hech qanday taqqoslashni bildirmaydi.</p>
+                  <p>Misollar: <code>quickly</code>, <code>slowly</code>, <code>well</code>, <code>fast</code>.</p>
+                  <h4>2. Qiyosiy daraja (Comparative Degree)</h4>
+                  <p>Ikki harakat yoki holatni taqqoslash uchun ishlatiladi. Odatda <code>than</code> bilan birga keladi.</p>
+                  <ul>
+                      <li><b>Bir bo'g'inli ravishlar yoki sifat bilan bir xil bo'lganlar:</b> Ravishga <code>-er</code> qo'shimchasi qo'shiladi.
+                          <p>Misollar: <code>fast</code> → <code>faster</code> (tezroq), <code>hard</code> → <code>harder</code> (jiddiyroq), <code>early</code> → <code>earlier</code> (ertaroq).</p>
+                          <p>Gapda: <code>He runs <span class="adverb">faster</span> than me.</code> (U mendan tezroq yuguradi.)</p>
+                      </li>
+                      <li><b>Ikki yoki undan ortiq bo'g'inli ravishlar (odatda <code>-ly</code> bilan tugaydiganlar):</b> Ravishdan oldin <code>more</code> so'zi ishlatiladi.
+                          <p>Misollar: <code>carefully</code> → <code>more carefully</code> (ehtiyotkorroq), <code>beautifully</code> → <code>more beautifully</code> (chiroyliroq).</p>
+                          <p>Gapda: <code>She sings <span class="adverb">more beautifully</span> than her sister.</code> (U opasidan chiroyliroq kuylaydi.)</p>
+                      </li>
+                      <li><b>Tartibsiz ravishlar:</b>
+                          <p><code>well</code> → <code>better</code> (yaxshiroq)</p>
+                          <p><code>badly</code> → <code>worse</code> (yomonroq)</p>
+                          <p><code>little</code> → <code>less</code> (kamroq)</p>
+                          <p><code>much</code> → <code>more</code> (ko'proq)</p>
+                          <p>Gapda: <code>He drives <span class="adverb">better</span> now.</code> (U hozir yaxshiroq haydaydi.)</p>
+                      </li>
+                  </ul>
+                  <h4>3. Orttirma daraja (Superlative Degree)</h4>
+                  <p>Uch yoki undan ortiq harakat/holat orasidagi eng yuqori darajani bildiradi. Odatda <code>the</code> artikli bilan birga keladi (lekin ravishlarda ba'zan tushib qolishi mumkin).</p>
+                  <ul>
+                      <li><b>Bir bo'g'inli ravishlar yoki sifat bilan bir xil bo'lganlar:</b> Ravishga <code>-est</code> qo'shimchasi qo'shiladi.
+                          <p>Misollar: <code>fast</code> → <code>fastest</code> (eng tez), <code>hard</code> → <code>hardest</code> (eng jiddiy), <code>early</code> → <code>earliest</code> (eng erta).</p>
+                          <p>Gapda: <code>He runs <span class="adverb">the fastest</span> of all.</code> (U hammadan eng tez yuguradi.)</p>
+                      </li>
+                      <li><b>Ikki yoki undan ortiq bo'g'inli ravishlar (odatda <code>-ly</code> bilan tugaydiganlar):</b> Ravishdan oldin <code>most</code> so'zi ishlatiladi.
+                          <p>Misollar: <code>carefully</code> → <code>most carefully</code> (eng ehtiyotkor), <code>beautifully</code> → <code>most beautifully</code> (eng chiroyli).</p>
+                          <p>Gapda: <code>She sings <span class="adverb">most beautifully</span> in the choir.</code> (U xorda eng chiroyli kuylaydi.)</p>
+                      </li>
+                      <li><b>Tartibsiz ravishlar:</b>
+                          <p><code>well</code> → <code>best</code> (eng yaxshi)</p>
+                          <p><code>badly</code> → <code>worst</code> (eng yomon)</p>
+                          <p><code>little</code> → <code>least</code> (eng kam)</p>
+                          <p><code>much</code> → <code>most</code> (eng ko'p)</p>
+                          <p>Gapda: <code>He performed <span class="adverb">best</span> in the exam.</code> (U imtihonda eng yaxshi natija ko'rsatdi.)</p>
+                      </li>
+                  </ul>
+              </div>
+              <div class="rule-section">
+                  <h3><code>as + Positive Adverb + as</code> qoidasi</h3>
+                  <p>Bu struktura ikki harakat yoki holatni teng darajada ekanligini taqqoslash uchun ishlatiladi. Ravish har doim oddiy (positive) darajada bo'ladi.</p>
+                  <div class="formula"><span class="subject">Ega</span> + <span class="verb">Fe'l</span> + <span class="adverb">as</span> + <span class="adverb">Oddiy ravish</span> + <span class="adverb">as</span> + <span class="noun">Ot/Olmosh</span></div>
+                  <p>Misollar:</p>
+                  <ul>
+                      <li><code>He runs <span class="adverb">as fast as</span> a cheetah.</code> (U gepard kabi tez yuguradi.)</li>
+                      <li><code>She sings <span class="adverb">as beautifully as</span> a professional.</code> (U professional kabi chiroyli kuylaydi.)</li>
+                      <li><code>I can type <span class="adverb">as quickly as</span> you.</code> (Men siz kabi tez yozishim mumkin.)</li>
+                      <li><code>They arrived <span class="adverb">as early as</span> possible.</code> (Ular iloji boricha erta yetib kelishdi.)</li>
+                  </ul>
+              </div>
+          </div>
+      </div>
+
+      <!-- Farqlar Bo'limi -->
+      <div id="diffs" class="tab-content">
+          <div class="card">
+              <h2>Ravishlar orasidagi farqlar va chalkashliklar</h2>
+              <div class="diff-section">
+                  <h3>Ravish (Adverb) vs. Sifat (Adjective)</h3>
+                  <p>Bu ikkisi tez-tez chalkashadi. Asosiy farq shundaki:</p>
+                  <ul>
+                      <li><b>Sifatlar</b> otlarni (nouns) ta'riflaydi.</li>
+                      <li><b>Ravishlar</b> fe'llarni (verbs), sifatlarni (adjectives) yoki boshqa ravishlarni (adverbs) ta'riflaydi.</li>
+                  </ul>
+                  <div class="table-responsive"> <!-- Jadvalni responsiv qilish uchun o'ram -->
+                      <table class="diff-table">
+                          <tr><th>Xususiyat</th><th>Sifat (Adjective)</th><th>Ravish (Adverb)</th><th>Misol</th></tr>
+                          <tr>
+                              <td>Ta'riflaydi</td>
+                              <td>Otni</td>
+                              <td>Fe'lni, sifatni, boshqa ravishni</td>
+                              <td>He is a <span class="adjective">quick</span> runner. (Sifat) <br> He runs <span class="adverb">quickly</span>. (Ravish)</td>
+                          </tr>
+                          <tr>
+                              <td>Yasalishi</td>
+                              <td>Odatda o'zgarmas shakl</td>
+                              <td>Ko'pincha sifatga <code>-ly</code> qo'shish orqali</td>
+                              <td><code>happy</code> (sifat) vs. <code>happily</code> (ravish)</td>
+                          </tr>
+                          <tr>
+                              <td>Joylashuvi</td>
+                              <td>Otdan oldin yoki <code>be</code> fe'lidan keyin</td>
+                              <td>Fe'ldan keyin, gapning boshida/oxirida, yordamchi fe'ldan keyin</td>
+                              <td>The food is <span class="adjective">good</span>. (Sifat) <br> He sings <span class="adverb">well</span>. (Ravish)</td>
+                          </tr>
+                      </table>
+                  </div>
+                  <p style="margin-top: 15px;"><b>Eslatma:</b> Ba'zi so'zlar (<code>fast</code>, <code>hard</code>, <code>late</code>, <code>early</code>) ham sifat, ham ravish bo'lib kelishi mumkin va shakli o'zgarmaydi.</p>
+              </div>
+              <div class="diff-section">
+                  <h3>Shakli bir xil bo'lgan sifat va ravishlar</h3>
+                  <p>Ba'zi so'zlar ham sifat, ham ravish sifatida ishlatilishi mumkin va ularning shakli o'zgarmaydi. Ularning gapdagi vazifasini aniqlash uchun kontekstga e'tibor berish kerak.</p>
+                  <ul>
+                      <li><b><code>Fast</code>:</b>
+                          <p>Sifat: <code>He is a <span class="adjective">fast</span> runner.</code> (U tez yuguruvchi.)</p>
+                          <p>Ravish: <code>He runs <span class="adverb">fast</span>.</code> (U tez yuguradi.)</p>
+                      </li>
+                      <li><b><code>Hard</code>:</b>
+                          <p>Sifat: <code>This is a <span class="adjective">hard</span> test.</code> (Bu qiyin test.)</p>
+                          <p>Ravish: <code>She works <span class="adverb">hard</span>.</code> (U jiddiy ishlaydi.)</p>
+                      </li>
+                      <li><b><code>Late</code>:</b>
+                          <p>Sifat: <code>It was a <span class="adjective">late</span> decision.</code> (Bu kech qabul qilingan qaror edi.)</p>
+                          <p>Ravish: <code>He arrived <span class="adverb">late</span>.</code> (U kech keldi.)</p>
+                      </li>
+                      <li><b><code>Early</code>:</b>
+                          <p>Sifat: <code>It was an <span class="adjective">early</span> morning.</code> (Bu erta tong edi.)</p>
+                          <p>Ravish: <code>She woke up <span class="adverb">early</span>.</code> (U erta uyg'ondi.)</p>
+                      </li>
+                  </ul>
+              </div>
+              <div class="diff-section">
+                  <h3><code>-ly</code> qo'shimchasi bilan ma'nosi o'zgaradigan ravishlar</h3>
+                  <p>Ba'zi sifatlarga <code>-ly</code> qo'shilganda ular ravishga aylanadi, lekin ba'zan bu qo'shimcha so'zning ma'nosini butunlay o'zgartirib yuborishi mumkin.</p>
+                  <div class="table-responsive">
+                      <table class="diff-table">
+                          <tr><th>So'z</th><th>Ma'nosi (sifat/ravish)</th><th>Misol</th><th><code>-ly</code> bilan shakli</th><th>Ma'nosi</th><th>Misol</th></tr>
+                          <tr>
+                              <td><code>hard</code></td>
+                              <td>qattiq, jiddiy (ravish)</td>
+                              <td>He works <span class="adverb">hard</span>. (U jiddiy ishlaydi.)</td>
+                              <td><code>hardly</code></td>
+                              <td>deyarli hech qachon, zo'rg'a</td>
+                              <td>He <span class="adverb">hardly</span> ever studies. (U deyarli hech qachon o'qimaydi.)</td>
+                          </tr>
+                          <tr>
+                              <td><code>late</code></td>
+                              <td>kech (ravish)</td>
+                              <td>He arrived <span class="adverb">late</span>. (U kech keldi.)</td>
+                              <td><code>lately</code></td>
+                              <td>yaqinda, so'nggi paytlarda</td>
+                              <td>Have you seen him <span class="adverb">lately</span>? (Uni yaqinda ko'rdingizmi?)</td>
+                          </tr>
+                          <tr>
+                              <td><code>near</code></td>
+                              <td>yaqin (ravish)</td>
+                              <td>Don't come <span class="adverb">near</span>. (Yaqin kelma.)</td>
+                              <td><code>nearly</code></td>
+                              <td>deyarli, qariyb</td>
+                              <td>I <span class="adverb">nearly</span> fell. (Men deyarli yiqilib tushdim.)</td>
+                          </tr>
+                          <tr>
+                              <td><code>high</code></td>
+                              <td>baland (ravish)</td>
+                              <td>The bird flew <span class="adverb">high</span>. (Qush baland uchdi.)</td>
+                              <td><code>highly</code></td>
+                              <td>yuqori darajada, juda</td>
+                              <td>He is a <span class="adverb">highly</span> respected doctor. (U juda hurmatli shifokor.)</td>
+                          </tr>
+                      </table>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <!-- Strukturalar Bo'limi -->
+      <div id="structure" class="tab-content">
+          <div class="card">
+              <h2>Ravishlarning gapdagi o'rni va tuzilishi</h2>
+              <div class="structure-grid">
+                  <div class="structure-card">
+                      <h3>Fe'lni ta'riflaganda</h3>
+                      <div class="formula"><span class="subject">Ega</span> + <span class="verb">Fe'l</span> + <span class="adverb">Ravish (Harakat)</span></div>
+                      <div class="examples">
+                          <p>1. She sings <span class="adverb">beautifully</span>.</p>
+                          <p>2. He drives <span class="adverb">carefully</span>.</p>
+                          <p>3. They speak English <span class="adverb">fluently</span>.</p>
+                          <p>4. The children played <span class="adverb">happily</span>.</p>
+                          <p>5. He finished the task <span class="adverb">quickly</span>.</p>
+                      </div>
+                  </div>
+                  <div class="structure-card">
+                      <h3>Sifatni ta'riflaganda</h3>
+                      <div class="formula"><span class="adverb">Ravish (Daraja)</span> + <span class="adjective">Sifat</span> + <span class="noun">Ot</span></div>
+                      <div class="examples">
+                           <p>1. It was an <span class="adverb">extremely</span> <span class="adjective">cold</span> day.</p>
+                           <p>2. She is <span class="adverb">very</span> <span class="adjective">talented</span>.</p>
+                           <p>3. The movie was <span class="adverb">quite</span> <span class="adjective">interesting</span>.</p>
+                           <p>4. He is <span class="adverb">really</span> <span class="adjective">good</span> at math.</p>
+                           <p>5. This cake is <span class="adverb">too</span> <span class="adjective">sweet</span>.</p>
+                      </div>
+                  </div>
+                  <div class="structure-card">
+                      <h3>Boshqa ravishni ta'riflaganda</h3>
+                      <div class="formula"><span class="adverb">Ravish (Daraja)</span> + <span class="adverb">Ravish (Boshqa)</span></div>
+                      <div class="examples">
+                          <p>1. He drives <span class="adverb">too</span> <span class="adverb">fast</span>.</p>
+                          <p>2. She speaks <span class="adverb">very</span> <span class="adverb">softly</span>.</p>
+                          <p>3. They finished the work <span class="adverb">quite</span> <span class="adverb">quickly</span>.</p>
+                          <p>4. He understood the lesson <span class="adverb">almost</span> <span class="adverb">perfectly</span>.</p>
+                          <p>5. She sings <span class="adverb">extremely</span> <span class="adverb">well</span>.</p>
+                      </div>
+                  </div>
+                  <div class="structure-card">
+                      <h3>Chastota ravishlarining o'rni</h3>
+                      <div class="formula"><span class="subject">Ega</span> + <span class="adverb">Chastota ravishi</span> + <span class="verb">Asosiy fe'l</span></div>
+                      <div class="formula"><span class="subject">Ega</span> + <span class="verb">Yordamchi fe'l</span> + <span class="adverb">Chastota ravishi</span> + <span class="verb">Asosiy fe'l</span></div>
+                      <div class="examples">
+                          <p>1. I <span class="adverb">always</span> drink coffee in the morning.</p>
+                          <p>2. She <span class="adverb">never</span> eats meat.</p>
+                          <p>3. We are <span class="adverb">often</span> late for meetings.</p>
+                          <p>4. He has <span class="adverb">rarely</span> seen such a beautiful sunset.</p>
+                          <p>5. Do you <span class="adverb">usually</span> go to bed early?</p>
+                      </div>
+                  </div>
+                  <div class="structure-card">
+                      <h3>Joy va vaqt ravishlarining o'rni</h3>
+                      <div class="formula">Gapning oxirida (odatda joy, keyin vaqt)</div>
+                      <div class="examples">
+                          <p>1. We met <span class="adverb">here</span> <span class="adverb">yesterday</span>.</p>
+                          <p>2. She will arrive <span class="adverb">soon</span>.</p>
+                          <p>3. I looked for my keys <span class="adverb">everywhere</span>.</p>
+                          <p>4. They live <span class="adverb">downstairs</span>.</p>
+                          <p>5. He went <span class="adverb">home</span> <span class="adverb">early</span>.</p>
+                      </div>
+                  </div>
+                  <div class="structure-card">
+                      <h3>Gapning boshida joylashuvi</h3>
+                      <div class="formula"><span class="adverb">Ravish</span>, + <span class="subject">Ega</span> + <span class="verb">Fe'l</span>...</div>
+                      <div class="examples">
+                          <p>1. <span class="adverb">Suddenly</span>, the lights went out.</p>
+                          <p>2. <span class="adverb">Fortunately</span>, no one was hurt.</p>
+                          <p>3. <span class="adverb">Yesterday</span>, I went to the market.</p>
+                          <p>4. <span class="adverb">Carefully</span>, he opened the old box.</p>
+                          <p>5. <span class="adverb">Eventually</span>, they found a solution.</p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <!-- Misollar Bo'limi -->
+      <div id="examples" class="tab-content">
+          <div class="card">
+              <h2>Har bir ravish turiga oid ko'proq misollar</h2>
+              <div class="examples-grid">
+                  <div class="example-category">
+                      <h3>Harakat ravishlari (Manner)</h3>
+                      <div class="example-item"><p class="english">She sings <span class="adverb">beautifully</span>.</p><p class="uzbek">U chiroyli kuylaydi.</p></div>
+                      <div class="example-item"><p class="english">He drives <span class="adverb">carefully</span>.</p><p class="uzbek">U ehtiyotkorlik bilan haydaydi.</p></div>
+                      <div class="example-item"><p class="english">They speak <span class="adverb">loudly</span>.</p><p class="uzbek">Ular baland ovozda gapirishadi.</p></div>
+                      <div class="example-item"><p class="english">He solved the problem <span class="adverb">easily</span>.</p><p class="uzbek">U muammoni osonlik bilan hal qildi.</p></div>
+                      <div class="example-item"><p class="english">The baby slept <span class="adverb">soundly</span>.</p><p class="uzbek">Chaqaloq qattiq uxlaydi.</p></div>
+                      <div class="example-item"><p class="english">She smiled <span class="adverb">sweetly</span>.</p><p class="uzbek">U shirin jilmaydi.</p></div>
+                      <div class="example-item"><p class="english">He writes <span class="adverb">neatly</span>.</p><p class="uzbek">U tartibli yozadi.</p></div>
+                      <div class="example-item"><p class="english">They walked <span class="adverb">slowly</span>.</p><p class="uzbek">Ular sekin yurishdi.</p></div>
+                  </div>
+                  <div class="example-category">
+                      <h3>Joy ravishlari (Place)</h3>
+                      <div class="example-item"><p class="english">Come <span class="adverb">here</span>.</p><p class="uzbek">Bu yerga kel.</p></div>
+                      <div class="example-item"><p class="english">My keys are <span class="adverb">somewhere</span>.</p><p class="uzbek">Kalitlarim qayerdadir.</p></div>
+                      <div class="example-item"><p class="english">The children are playing <span class="adverb">outside</span>.</p><p class="uzbek">Bolalar tashqarida o'ynashmoqda.</p></div>
+                      <div class="example-item"><p class="english">He lives <span class="adverb">nearby</span>.</p><p class="uzbek">U yaqin atrofda yashaydi.</p></div>
+                      <div class="example-item"><p class="english">We looked <span class="adverb">everywhere</span>.</p><p class="uzbek">Biz hamma joyni qidirdik.</p></div>
+                      <div class="example-item"><p class="english">She went <span class="adverb">upstairs</span>.</p><p class="uzbek">U yuqoriga chiqdi.</p></div>
+                      <div class="example-item"><p class="english">The cat is <span class="adverb">inside</span>.</p><p class="uzbek">Mushuk ichkarida.</p></div>
+                      <div class="example-item"><p class="english">They traveled <span class="adverb">abroad</span>.</p><p class="uzbek">Ular chet elga sayohat qilishdi.</p></div>
+                  </div>
+                  <div class="example-category">
+                      <h3>Vaqt ravishlari (Time)</h3>
+                      <div class="example-item"><p class="english">I will call you <span class="adverb">later</span>.</p><p class="uzbek">Sizga keyinroq qo'ng'iroq qilaman.</p></div>
+                      <div class="example-item"><p class="english">She arrived <span class="adverb">yesterday</span>.</p><p class="uzbek">U kecha keldi.</p></div>
+                      <div class="example-item"><p class="english">We need to leave <span class="adverb">now</span>.</p><p class="uzbek">Biz hozir ketishimiz kerak.</p></div>
+                      <div class="example-item"><p class="english">He will finish <span class="adverb">soon</span>.</p><p class="uzbek">U tez orada tugatadi.</p></div>
+                      <div class="example-item"><p class="english">Did you see him <span class="adverb">today</span>?</p><p class="uzbek">Uni bugun ko'rdingizmi?</p></div>
+                      <div class="example-item"><p class="english">I have to go <span class="adverb">early</span>.</p><p class="uzbek">Men erta ketishim kerak.</p></div>
+                      <div class="example-item"><p class="english">They met <span class="adverb">recently</span>.</p><p class="uzbek">Ular yaqinda uchrashishdi.</p></div>
+                      <div class="example-item"><p class="english">She will be back <span class="adverb">tomorrow</span>.</p><p class="uzbek">U ertaga qaytib keladi.</p></div>
+                  </div>
+                  <div class="example-category">
+                      <h3>Chastota ravishlari (Frequency)</h3>
+                      <div class="example-item"><p class="english">I <span class="adverb">always</span> brush my teeth.</p><p class="uzbek">Men har doim tishlarimni yuvaman.</p></div>
+                      <div class="example-item"><p class="english">She <span class="adverb">often</span> visits her grandparents.</p><p class="uzbek">U tez-tez buvisi va bobosini ziyorat qiladi.</p></div>
+                      <div class="example-item"><p class="english">He <span class="adverb">sometimes</span> plays tennis.</p><p class="uzbek">U ba'zan tennis o'ynaydi.</p></div>
+                      <div class="example-item"><p class="english">They <span class="adverb">rarely</span> go to the cinema.</p><p class="uzbek">Ular kinoga kamdan-kam borishadi.</p></div>
+                      <div class="example-item"><p class="english">We <span class="adverb">never</span> eat fast food.</p><p class="uzbek">Biz hech qachon fast food yemaymiz.</p></div>
+                      <div class="example-item"><p class="english">Are you <span class="adverb">usually</span> busy on weekends?</p><p class="uzbek">Dam olish kunlari odatda bandmisiz?</p></div>
+                      <div class="example-item"><p class="english">She <span class="adverb">frequently</span> travels for work.</p><p class="uzbek">U ish yuzasidan tez-tez sayohat qiladi.</p></div>
+                      <div class="example-item"><p class="english">He <span class="adverb">seldom</span> complains.</p><p class="uzbek">U kamdan-kam shikoyat qiladi.</p></div>
+                  </div>
+                  <div class="example-category">
+                      <h3>Daraja ravishlari (Degree)</h3>
+                      <div class="example-item"><p class="english">She is <span class="adverb">very</span> beautiful.</p><p class="uzbek">U juda chiroyli.</p></div>
+                      <div class="example-item"><p class="english">He is <span class="adverb">too</span> tired to work.</p><p class="uzbek">U ishlashga juda charchagan.</p></div>
+                      <div class="example-item"><p class="english">The water is <span class="adverb">extremely</span> cold.</p><p class="uzbek">Suv o'ta sovuq.</p></div>
+                      <div class="example-item"><p class="english">I am <span class="adverb">quite</span> happy with the result.</p><p class="uzbek">Natijadan ancha xursandman.</p></div>
+                      <div class="example-item"><p class="english">He <span class="adverb">almost</span> fell.</p><p class="uzbek">U deyarli yiqilib tushdi.</p></div>
+                      <div class="example-item"><p class="english">She is <span class="adverb">absolutely</span> right.</p><p class="uzbek">U mutlaqo haq.</p></div>
+                      <div class="example-item"><p class="english">The movie was <span class="adverb">fairly</span> good.</p><p class="uzbek">Film ancha yaxshi edi.</p></div>
+                      <div class="example-item"><p class="english">He is <span class="adverb">just</span> finishing his work.</p><p class="uzbek">U ishini tugatmoqda.</p></div>
+                  </div>
+                  <div class="example-category">
+                      <h3>Qiyosiy va orttirma darajalar</h3>
+                      <div class="example-item"><p class="english">He runs <span class="adverb">faster</span> than anyone.</p><p class="uzbek">U hammadan tezroq yuguradi.</p></div>
+                      <div class="example-item"><p class="english">She sings <span class="adverb">more beautifully</span> than her sister.</p><p class="uzbek">U opasidan chiroyliroq kuylaydi.</p></div>
+                      <div class="example-item"><p class="english">He works <span class="adverb">hardest</span> in the team.</p><p class="uzbek">U jamoada eng jiddiy ishlaydi.</p></div>
+                      <div class="example-item"><p class="english">She arrived <span class="adverb">earliest</span> of all.</p><p class="uzbek">U hammadan eng erta yetib keldi.</p></div>
+                      <div class="example-item"><p class="english">This car drives <span class="adverb">best</span>.</p><p class="uzbek">Bu mashina eng yaxshi haydaydi.</p></div>
+                      <div class="example-item"><p class="english">He performed <span class="adverb">worse</span> than expected.</p><p class="uzbek">U kutilganidan yomonroq natija ko'rsatdi.</p></div>
+                  </div>
+                  <div class="example-category">
+                      <h3><code>as...as</code> qoidasi</h3>
+                      <div class="example-item"><p class="english">He runs <span class="adverb">as fast as</span> a cheetah.</p><p class="uzbek">U gepard kabi tez yuguradi.</p></div>
+                      <div class="example-item"><p class="english">She sings <span class="adverb">as beautifully as</span> a professional.</p><p class="uzbek">U professional kabi chiroyli kuylaydi.</p></div>
+                      <div class="example-item"><p class="english">I can type <span class="adverb">as quickly as</span> you.</p><p class="uzbek">Men siz kabi tez yozishim mumkin.</p></div>
+                      <div class="example-item"><p class="english">They arrived <span class="adverb">as early as</span> possible.</p><p class="uzbek">Ular iloji boricha erta yetib kelishdi.</p></div>
+                      <div class="example-item"><p class="english">He speaks English <span class="adverb">as well as</span> a native speaker.</p><p class="uzbek">U ingliz tilida ona tilida so'zlashuvchi kabi yaxshi gapiradi.</p></div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <!-- Mashqlar Bo'limi -->
+      <div id="exercises" class="tab-content">
+          <div class="card">
+              <h2>Mashqlar (7 xil turdagi)</h2>
+              <div class="exercise-nav">
+                  <button class="exercise-btn active" data-exercise="test">Test</button>
+                  <button class="exercise-btn" data-exercise="fill">Bo'sh joyni to'ldirish</button>
+                  <button class="exercise-btn" data-exercise="combine">Gaplarni birlashtirish</button>
+                  <button class="exercise-btn" data-exercise="correct">Xatoni topish</button>
+                  <button class="exercise-btn" data-exercise="placement">Ravishni to'g'ri joylashtirish</button>
+                  <button class="exercise-btn" data-exercise="degree">Darajalar</button>
+                  <button class="exercise-btn" data-exercise="as-as">As...As</button>
+              </div>
+
+              <div id="test" class="exercise-content active">
+                  <h3>To'g'ri javobni tanlang</h3>
+                  <div class="quiz-container">
+                      <!-- Test savollari JavaScript tomonidan dinamik kiritiladi -->
+                  </div>
+                  <button class="check-btn" onclick="checkTest()">Tekshirish</button>
+                  <div id="testResult" class="result"></div>
+              </div>
+
+              <div id="fill" class="exercise-content">
+                  <h3>Bo'sh joyni to'ldiring (berilgan sifatdan ravish yasang yoki mosini toping)</h3>
+                  <div class="fill-exercise">
+                      <!-- To'ldirish savollari JavaScript tomonidan dinamik kiritiladi -->
+                  </div>
+                  <button class="check-btn" onclick="checkFill()">Tekshirish</button>
+                  <div id="fillResult" class="result"></div>
+              </div>
+
+              <div id="combine" class="exercise-content">
+                  <h3>Ikki gapni bitta qilib birlashtiring (ravishdan foydalaning)</h3>
+                  <div class="combine-exercise">
+                      <!-- Birlashtirish savollari JavaScript tomonidan dinamik kiritiladi -->
+                  </div>
+                  <button class="check-btn" onclick="checkCombine()">Tekshirish</button>
+                  <div id="combineResult" class="result"></div>
+              </div>
+              
+              <div id="correct" class="exercise-content">
+                  <h3>Xatoni toping va to'g'rilang</h3>
+                  <div class="correct-exercise">
+                      <!-- Xatoni topish savollari JavaScript tomonidan dinamik kiritiladi -->
+                  </div>
+                  <button class="check-btn" onclick="checkCorrection()">Tekshirish</button>
+                  <div id="correctResult" class="result"></div>
+              </div>
+
+              <div id="placement" class="exercise-content">
+                  <h3>Berilgan ravishni gapda to'g'ri joylashtiring</h3>
+                  <div class="placement-exercise">
+                      <!-- Joylashtirish savollari JavaScript tomonidan dinamik kiritiladi -->
+                  </div>
+                  <button class="check-btn" onclick="checkPlacement()">Tekshirish</button>
+                  <div id="placementResult" class="result"></div>
+              </div>
+
+              <div id="degree" class="exercise-content">
+                  <h3>Ravishlarning to'g'ri darajasini tanlang/yozing</h3>
+                  <div class="degree-exercise">
+                      <!-- Darajalar mashqlari JavaScript tomonidan dinamik kiritiladi -->
+                  </div>
+                  <button class="check-btn" onclick="checkDegree()">Tekshirish</button>
+                  <div id="degreeResult" class="result"></div>
+              </div>
+
+              <div id="as-as" class="exercise-content">
+                  <h3>Gaplarni <code>as...as</code> qoidasi bilan to'ldiring</h3>
+                  <div class="as-as-exercise">
+                      <!-- As...As mashqlari JavaScript tomonidan dinamik kiritiladi -->
+                  </div>
+                  <button class="check-btn" onclick="checkAsAs()">Tekshirish</button>
+                  <div id="asAsResult" class="result"></div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+   // Tab tugmalarini boshqarish
+   const tabButtons = document.querySelectorAll('.tab-btn');
+   const tabContents = document.querySelectorAll('.tab-content');
+   tabButtons.forEach(btn => {
+       btn.addEventListener('click', () => {
+           const targetTab = btn.dataset.tab;
+           tabButtons.forEach(b => b.classList.remove('active'));
+           tabContents.forEach(c => c.classList.remove('active'));
+           btn.classList.add('active');
+           document.getElementById(targetTab).classList.add('active');
+       });
+   });
+
+   // Mashq tugmalarini boshqarish
+   const exerciseButtons = document.querySelectorAll('.exercise-btn');
+   const exerciseContents = document.querySelectorAll('.exercise-content');
+   exerciseButtons.forEach(btn => {
+       btn.addEventListener('click', () => {
+           const targetExercise = btn.dataset.exercise;
+           exerciseButtons.forEach(b => b.classList.remove('active'));
+           exerciseContents.forEach(c => c.classList.remove('active'));
+           btn.classList.add('active');
+           document.getElementById(targetExercise).classList.add('active');
+       });
+   });
+
+   // Mashq savollarini dinamik yuklash
+   loadTestQuestions();
+   loadFillQuestions();
+   loadCombineQuestions();
+   loadCorrectionQuestions();
+   loadPlacementQuestions();
+   loadDegreeQuestions(); // Yangi mashq
+   loadAsAsQuestions();   // Yangi mashq
+});
+
+// Javoblarni normalizatsiya qilish (bo'shliqlar, tinish belgilari, kichik/katta harflar)
+function normalizeAnswer(answer) {
+  return answer.toLowerCase().trim().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"").replace(/\s{2,}/g," ");
+}
+
+// --- Mashqlar uchun ma'lumotlar ---
+
+const testQuestionsData = [
+   {
+       question: "1. Qaysi gapda ravish (adverb) mavjud?",
+       options: [
+           { text: "a) The <span class='adjective'>tall</span> building.", value: "a" },
+           { text: "b) She sings <span class='adverb'>beautifully</span>.", value: "b" },
+           { text: "c) A <span class='adjective'>red</span> car.", value: "c" }
+       ],
+       answer: "b",
+       explanation: "To'g'ri javob: b) 'beautifully' fe'lni ('sings') ta'riflaydi, shuning uchun ravish."
+   },
+   {
+       question: "2. 'He speaks English _____' bo'sh joyga qaysi so'z to'g'ri keladi?",
+       options: [
+           { text: "a) good", value: "a" },
+           { text: "b) well", value: "b" },
+           { text: "c) fluent", value: "c" }
+       ],
+       answer: "b",
+       explanation: "To'g'ri javob: b) 'speaks' fe'lini ta'riflash uchun 'well' ravishi ishlatiladi. 'good' sifat."
+   },
+   {
+       question: "3. 'She drives _____' bo'sh joyga qaysi so'z to'g'ri keladi?",
+       options: [
+           { text: "a) careful", value: "a" },
+           { text: "b) carefully", value: "b" },
+           { text: "c) care", value: "c" }
+       ],
+       answer: "b",
+       explanation: "To'g'ri javob: b) 'drives' fe'lini ta'riflash uchun 'carefully' ravishi ishlatiladi."
+   },
+   {
+       question: "4. 'Always' qaysi turdagi ravish?",
+       options: [
+           { text: "a) Harakat ravishi (Adverb of Manner)", value: "a" },
+           { text: "b) Joy ravishi (Adverb of Place)", value: "b" },
+           { text: "c) Chastota ravishi (Adverb of Frequency)", value: "c" }
+       ],
+       answer: "c",
+       explanation: "To'g'ri javob: c) 'Always' harakatning qanchalik tez-tez sodir bo'lishini bildiradi."
+   },
+   {
+       question: "5. 'Extremely' qaysi turdagi ravish?",
+       options: [
+           { text: "a) Vaqt ravishi (Adverb of Time)", value: "a" },
+           { text: "b) Daraja ravishi (Adverb of Degree)", value: "b" },
+           { text: "c) Joy ravishi (Adverb of Place)", value: "c" }
+       ],
+       answer: "b",
+       explanation: "To'g'ri javob: b) 'Extremely' sifat yoki boshqa ravishning darajasini bildiradi."
+   },
+   {
+       question: "6. 'He works _____' bo'sh joyga qaysi so'z to'g'ri keladi?",
+       options: [
+           { text: "a) hard", value: "a" },
+           { text: "b) hardly", value: "b" },
+           { text: "c) hardily", value: "c" }
+       ],
+       answer: "a",
+       explanation: "To'g'ri javob: a) 'hard' bu yerda 'jiddiy' ma'nosida ravish vazifasini bajaradi. 'hardly' esa 'deyarli hech qachon' degan ma'noni bildiradi."
+   },
+   {
+       question: "7. 'The sun shines _____' bo'sh joyga qaysi so'z to'g'ri keladi?",
+       options: [
+           { text: "a) bright", value: "a" },
+           { text: "b) brightly", value: "b" },
+           { text: "c) brightness", value: "c" }
+       ],
+       answer: "b",
+       explanation: "To'g'ri javob: b) 'shines' fe'lini ta'riflash uchun 'brightly' ravishi ishlatiladi."
+   },
+   {
+       question: "8. 'I have ____ finished my homework.' bo'sh joyga qaysi so'z to'g'ri keladi?",
+       options: [
+           { text: "a) almost", value: "a" },
+           { text: "b) near", value: "b" },
+           { text: "c) close", value: "c" }
+       ],
+       answer: "a",
+       explanation: "To'g'ri javob: a) 'almost' 'deyarli' ma'nosida daraja ravishi."
+   },
+   {
+       question: "9. 'She arrived ____ than me.' bo'sh joyga qaysi so'z to'g'ri keladi?",
+       options: [
+           { text: "a) early", value: "a" },
+           { text: "b) earlier", value: "b" },
+           { text: "c) earliest", value: "c" }
+       ],
+       answer: "b",
+       explanation: "To'g'ri javob: b) 'than' bilan qiyosiy daraja ('earlier') ishlatiladi."
+   },
+   {
+       question: "10. 'He speaks ____ of all the students.' bo'sh joyga qaysi so'z to'g'ri keladi?",
+       options: [
+           { text: "a) loud", value: "a" },
+           { text: "b) louder", value: "b" },
+           { text: "c) loudest", value: "c" }
+       ],
+       answer: "c",
+       explanation: "To'g'ri javob: c) 'of all the students' bilan orttirma daraja ('loudest') ishlatiladi."
+   },
+   {
+       question: "11. 'The dog barked ____ at the stranger.'",
+       options: [
+           { text: "a) angry", value: "a" },
+           { text: "b) angrily", value: "b" },
+           { text: "c) anger", value: "c" }
+       ],
+       answer: "b",
+       explanation: "To'g'ri javob: b) 'barked' fe'lini ta'riflash uchun 'angrily' ravishi ishlatiladi."
+   },
+   {
+       question: "12. 'I can see the mountains ____ from here.'",
+       options: [
+           { text: "a) clear", value: "a" },
+           { text: "b) clearly", value: "b" },
+           { text: "c) clearness", value: "c" }
+       ],
+       answer: "b",
+       explanation: "To'g'ri javob: b) 'can see' fe'lini ta'riflash uchun 'clearly' ravishi ishlatiladi."
+   },
+   {
+       question: "13. 'She writes ____ than her brother.'",
+       options: [
+           { text: "a) neat", value: "a" },
+           { text: "b) neater", value: "b" },
+           { text: "c) more neatly", value: "c" }
+       ],
+       answer: "c",
+       explanation: "To'g'ri javob: c) 'more neatly' qiyosiy darajadagi ravish."
+   },
+   {
+       question: "14. 'He drives ____ of all his friends.'",
+       options: [
+           { text: "a) fast", value: "a" },
+           { text: "b) faster", value: "b" },
+           { text: "c) fastest", value: "c" }
+       ],
+       answer: "c",
+       explanation: "To'g'ri javob: c) 'of all his friends' bilan orttirma daraja ('fastest') ishlatiladi."
+   },
+   {
+       question: "15. 'The baby is sleeping ____.'",
+       options: [
+           { text: "a) sound", value: "a" },
+           { text: "b) soundly", value: "b" },
+           { text: "c) sounding", value: "c" }
+       ],
+       answer: "b",
+       explanation: "To'g'ri javob: b) 'sleeping' fe'lini ta'riflash uchun 'soundly' ravishi ishlatiladi."
+   }
+];
+
+const fillQuestionsData = [
+   { question: "1. She sings (beautiful) ____.", answer: "beautifully" },
+   { question: "2. He drives (careful) ____.", answer: "carefully" },
+   { question: "3. They walked (slow) ____ to the park.", answer: "slowly" },
+   { question: "4. The sun shines (bright) ____.", answer: "brightly" },
+   { question: "5. He learns (quick) ____.", answer: "quickly" },
+   { question: "6. She smiled (happy) ____.", answer: "happily" },
+   { question: "7. He finished the race (fast) ____.", answer: "fast" },
+   { question: "8. She plays the piano (good) ____.", answer: "well" },
+   { question: "9. He arrived (late) ____ for the meeting.", answer: "late" },
+   { question: "10. The children laughed (loud) ____.", answer: "loudly" },
+   { question: "11. She spoke (soft) ____.", answer: "softly" },
+   { question: "12. He writes (neat) ____.", answer: "neatly" },
+   { question: "13. They responded (polite) ____.", answer: "politely" },
+   { question: "14. She solved the puzzle (easy) ____.", answer: "easily" },
+   { question: "15. He looked at me (angry) ____.", answer: "angrily" },
+   { question: "16. He reads (fluent) ____.", answer: "fluently" },
+   { question: "17. The project was completed (successful) ____.", answer: "successfully" },
+   { question: "18. She dances (graceful) ____.", answer: "gracefully" },
+   { question: "19. He responded (immediate) ____.", answer: "immediately" },
+   { question: "20. The old man walks (slow) ____.", answer: "slowly" }
+];
+
+const combineQuestionsData = [
+   {
+       sentences: "1. She is a good student. She studies.",
+       answer: "She studies well."
+   },
+   {
+       sentences: "2. The boy is happy. He plays.",
+       answer: "The boy plays happily."
+   },
+   {
+       sentences: "3. The car is fast. It drives.",
+       answer: "The car drives fast."
+   },
+   {
+       sentences: "4. He is a careful driver. He drives.",
+       answer: "He drives carefully."
+   },
+   {
+       sentences: "5. The girl is quiet. She speaks.",
+       answer: "The girl speaks quietly."
+   },
+   {
+       sentences: "6. The dog is loyal. It waits.",
+       answer: "The dog waits loyally."
+   },
+   {
+       sentences: "7. The decision was quick. They made it.",
+       answer: "They made the decision quickly."
+   },
+   {
+       sentences: "8. The problem was easy. He solved it.",
+       answer: "He solved the problem easily."
+   },
+   {
+       sentences: "9. The rain was heavy. It fell.",
+       answer: "It rained heavily."
+   },
+   {
+       sentences: "10. The news was sudden. It arrived.",
+       answer: "The news arrived suddenly."
+   },
+   {
+       sentences: "11. The student is excellent. He performed.",
+       answer: "The student performed excellently."
+   },
+   {
+       sentences: "12. The speaker was clear. He articulated.",
+       answer: "The speaker articulated clearly."
+   },
+   {
+       sentences: "13. The child is innocent. He smiled.",
+       answer: "The child smiled innocently."
+   },
+   {
+       sentences: "14. The answer was correct. He answered.",
+       answer: "He answered correctly."
+   },
+   {
+       sentences: "15. The journey was long. They traveled.",
+       answer: "They traveled long."
+   }
+];
+
+const correctionQuestionsData = [
+   {
+       incorrect: "1. He drives very <span class='incorrect'>bad</span>.",
+       correct: "He drives very <span class='adverb'>badly</span>.",
+       answer: "He drives very badly."
+   },
+   {
+       incorrect: "2. She is a <span class='incorrect'>slowly</span> runner.",
+       correct: "She is a <span class='adjective'>slow</span> runner.",
+       answer: "She is a slow runner."
+   },
+   {
+       incorrect: "3. I feel <span class='incorrect'>goodly</span> today.",
+       correct: "I feel <span class='adverb'>well</span> today.",
+       answer: "I feel well today."
+   },
+   {
+       incorrect: "4. They arrived <span class='incorrect'>lately</span> for the meeting.",
+       correct: "They arrived <span class='adverb'>late</span> for the meeting.",
+       answer: "They arrived late for the meeting."
+   },
+   {
+       incorrect: "5. He works <span class='incorrect'>hardly</span>.",
+       correct: "He works <span class='adverb'>hard</span>.",
+       answer: "He works hard."
+   },
+   {
+       incorrect: "6. She sings <span class='incorrect'>beautiful</span>.",
+       correct: "She sings <span class='adverb'>beautifully</span>.",
+       answer: "She sings beautifully."
+   },
+   {
+       incorrect: "7. This is an <span class='incorrect'>extreme</span> difficult task.",
+       correct: "This is an <span class='adverb'>extremely</span> difficult task.",
+       answer: "This is an extremely difficult task."
+   },
+   {
+       incorrect: "8. He spoke <span class='incorrect'>quiet</span> to me.",
+       correct: "He spoke <span class='adverb'>quietly</span> to me.",
+       answer: "He spoke quietly to me."
+   },
+   {
+       incorrect: "9. We eat <span class='incorrect'>regular</span> at this restaurant.",
+       correct: "We eat <span class='adverb'>regularly</span> at this restaurant.",
+       answer: "We eat regularly at this restaurant."
+   },
+   {
+       incorrect: "10. The movie was <span class='incorrect'>terribly</span>.",
+       correct: "The movie was <span class='adjective'>terrible</span>.",
+       answer: "The movie was terrible."
+   },
+   {
+       incorrect: "11. She plays the violin <span class='incorrect'>good</span>.",
+       correct: "She plays the violin <span class='adverb'>well</span>.",
+       answer: "She plays the violin well."
+   },
+   {
+       incorrect: "12. He is a <span class='incorrect'>fastly</span> swimmer.",
+       correct: "He is a <span class='adjective'>fast</span> swimmer.",
+       answer: "He is a fast swimmer."
+   },
+   {
+       incorrect: "13. The child behaved <span class='incorrect'>bad</span>.",
+       correct: "The child behaved <span class='adverb'>badly</span>.",
+       answer: "The child behaved badly."
+   },
+   {
+       incorrect: "14. I saw him <span class='incorrect'>recent</span>.",
+       correct: "I saw him <span class='adverb'>recently</span>.",
+       answer: "I saw him recently."
+   },
+   {
+       incorrect: "15. She walked <span class='incorrect'>quick</span> to the store.",
+       correct: "She walked <span class='adverb'>quickly</span> to the store.",
+       answer: "She walked quickly to the store."
+   }
+];
+
+const placementQuestionsData = [
+   {
+       sentence: "1. He finishes his work. (quickly)",
+       answer: "He quickly finishes his work."
+   },
+   {
+       sentence: "2. She goes to the gym. (always)",
+       answer: "She always goes to the gym."
+   },
+   {
+       sentence: "3. They play tennis. (sometimes)",
+       answer: "They sometimes play tennis."
+   },
+   {
+       sentence: "4. I have seen such a beautiful sunset. (rarely)",
+       answer: "I have rarely seen such a beautiful sunset."
+   },
+   {
+       sentence: "5. We met. (here, yesterday)",
+       answer: "We met here yesterday."
+   },
+   {
+       sentence: "6. The dog barked. (loudly)",
+       answer: "The dog barked loudly."
+   },
+   {
+       sentence: "7. She smiled. (sweetly)",
+       answer: "She smiled sweetly."
+   },
+   {
+       sentence: "8. He drives. (too fast)",
+       answer: "He drives too fast."
+   },
+   {
+       sentence: "9. The lights went out. (suddenly)",
+       answer: "Suddenly, the lights went out."
+   },
+   {
+       sentence: "10. She sings. (very well)",
+       answer: "She sings very well."
+   },
+   {
+       sentence: "11. You must read the instructions. (carefully)",
+       answer: "You must read the instructions carefully."
+   },
+   {
+       sentence: "12. He arrived. (late)",
+       answer: "He arrived late."
+   },
+   {
+       sentence: "13. They finished the project. (successfully)",
+       answer: "They successfully finished the project."
+   },
+   {
+       sentence: "14. She speaks French. (fluently)",
+       answer: "She speaks French fluently."
+   },
+   {
+       sentence: "15. I go to bed. (early)",
+       answer: "I go to bed early."
+   }
+];
+
+const degreeQuestionsData = [
+   {
+       question: "1. He runs ____ of all the athletes. (fast)",
+       options: [
+           { text: "a) fast", value: "a" },
+           { text: "b) faster", value: "b" },
+           { text: "c) fastest", value: "c" }
+       ],
+       answer: "c",
+       explanation: "To'g'ri javob: c) 'of all the athletes' orttirma darajani talab qiladi."
+   },
+   {
+       question: "2. She performed ____ than expected. (badly)",
+       options: [
+           { text: "a) badly", value: "a" },
+           { text: "b) worse", value: "b" },
+           { text: "c) worst", value: "c" }
+       ],
+       answer: "b",
+       explanation: "To'g'ri javob: b) 'than' bilan qiyosiy daraja ishlatiladi. 'badly' ning qiyosiy darajasi 'worse'."
+   },
+   {
+       question: "3. Could you speak a little ____? (slowly)",
+       options: [
+           { text: "a) slowly", value: "a" },
+           { text: "b) slower", value: "b" },
+           { text: "c) more slowly", value: "c" }
+       ],
+       answer: "c",
+       explanation: "To'g'ri javob: c) '-ly' bilan tugaydigan ravishlar uchun qiyosiy darajada 'more' ishlatiladi."
+   },
+   {
+       question: "4. Who finished the task ____? (quickly)",
+       options: [
+           { text: "a) quickly", value: "a" },
+           { text: "b) more quickly", value: "b" },
+           { text: "c) most quickly", value: "c" }
+       ],
+       answer: "c",
+       explanation: "To'g'ri javob: c) 'Who finished the task...' savoli eng yuqori darajani so'raydi, shuning uchun 'most quickly'."
+   },
+   {
+       question: "5. He drives ____ than his brother. (carefully)",
+       options: [
+           { text: "a) carefully", value: "a" },
+           { text: "b) more carefully", value: "b" },
+           { text: "c) most carefully", value: "c" }
+       ],
+       answer: "b",
+       explanation: "To'g'ri javob: b) 'than' bilan qiyosiy daraja, '-ly' bilan tugaganligi sababli 'more carefully'."
+   },
+   {
+       question: "6. She sings ____ of all the students. (well)",
+       options: [
+           { text: "a) well", value: "a" },
+           { text: "b) better", value: "b" },
+           { text: "c) best", value: "c" }
+       ],
+       answer: "c",
+       explanation: "To'g'ri javob: c) 'of all the students' orttirma darajani talab qiladi. 'well' ning orttirma darajasi 'best'."
+   },
+   {
+       question: "7. Work ____ if you want to succeed. (hard)",
+       options: [
+           { text: "a) hard", value: "a" },
+           { text: "b) harder", value: "b" },
+           { text: "c) hardest", value: "c" }
+       ],
+       answer: "a",
+       explanation: "To'g'ri javob: a) Bu yerda oddiy daraja kerak."
+   },
+   {
+       question: "8. He arrived ____ than usual. (late)",
+       options: [
+           { text: "a) late", value: "a" },
+           { text: "b) later", value: "b" },
+           { text: "c) latest", value: "c" }
+       ],
+       answer: "b",
+       explanation: "To'g'ri javob: b) 'than' bilan qiyosiy daraja. 'late' ning qiyosiy darajasi 'later'."
+   },
+   {
+       question: "9. She writes ____ of all her classmates. (neatly)",
+       options: [
+           { text: "a) neatly", value: "a" },
+           { text: "b) more neatly", value: "b" },
+           { text: "c) most neatly", value: "c" }
+       ],
+       answer: "c",
+       explanation: "To'g'ri javob: c) 'of all her classmates' orttirma darajani talab qiladi. '-ly' bilan tugaganligi sababli 'most neatly'."
+   },
+   {
+       question: "10. Which car drives ____? (fast)",
+       options: [
+           { text: "a) fast", value: "a" },
+           { text: "b) faster", value: "b" },
+           { text: "c) fastest", value: "c" }
+       ],
+       answer: "c",
+       explanation: "To'g'ri javob: c) 'Which car drives...' savoli eng yuqori darajani so'raydi, shuning uchun 'fastest'."
+   }
+];
+
+const asAsQuestionsData = [
+   {
+       sentence: "1. He runs ____ a cheetah. (fast)",
+       answer: "as fast as"
+   },
+   {
+       sentence: "2. She sings ____ a professional. (beautifully)",
+       answer: "as beautifully as"
+   },
+   {
+       sentence: "3. I can type ____ you. (quickly)",
+       answer: "as quickly as"
+   },
+   {
+       sentence: "4. They arrived ____ possible. (early)",
+       answer: "as early as"
+   },
+   {
+       sentence: "5. He speaks English ____ a native speaker. (well)",
+       answer: "as well as"
+   },
+   {
+       sentence: "6. The new student learns ____ the old ones. (quickly)",
+       answer: "as quickly as"
+   },
+   {
+       sentence: "7. This car drives ____ the previous model. (smoothly)",
+       answer: "as smoothly as"
+   },
+   {
+       sentence: "8. She dances ____ a ballerina. (gracefully)",
+       answer: "as gracefully as"
+   },
+   {
+       sentence: "9. He works ____ his colleague. (hard)",
+       answer: "as hard as"
+   },
+   {
+       sentence: "10. Try to finish the task ____ you can. (soon)",
+       answer: "as soon as"
+   }
+];
+
+
+// --- Dinamik Yuklash Funksiyalari ---
+
+function loadTestQuestions() {
+   const container = document.querySelector('#test .quiz-container');
+   container.innerHTML = ''; // Oldingi savollarni tozalash
+   testQuestionsData.forEach((q, index) => {
+       const questionDiv = document.createElement('div');
+       questionDiv.classList.add('question');
+       let optionsHtml = q.options.map(opt => `
+           <label>
+               <input type="radio" name="q${index + 1}" value="${opt.value}">
+               ${opt.text}
+           </label>
+       `).join('');
+       questionDiv.innerHTML = `<p>${q.question}</p><div class="options">${optionsHtml}</div>`;
+       container.appendChild(questionDiv);
+   });
+}
+
+function loadFillQuestions() {
+   const container = document.querySelector('#fill .fill-exercise');
+   container.innerHTML = '';
+   fillQuestionsData.forEach((q, index) => {
+       const questionDiv = document.createElement('div');
+       questionDiv.classList.add('fill-question');
+       questionDiv.innerHTML = `<p>${index + 1}. ${q.question}</p><input type="text" class="fill-input" data-answer="${q.answer}" placeholder="Javobingizni yozing...">`;
+       container.appendChild(questionDiv);
+   });
+}
+
+function loadCombineQuestions() {
+   const container = document.querySelector('#combine .combine-exercise');
+   container.innerHTML = '';
+   combineQuestionsData.forEach((q, index) => {
+       const questionDiv = document.createElement('div');
+       questionDiv.classList.add('combine-question');
+       questionDiv.innerHTML = `<p>${index + 1}. ${q.sentences}</p><input type="text" class="combine-input" data-answer="${q.answer}" placeholder="Javobingizni yozing...">`;
+       container.appendChild(questionDiv);
+   });
+}
+
+function loadCorrectionQuestions() {
+   const container = document.querySelector('#correct .correct-exercise');
+   container.innerHTML = '';
+   correctionQuestionsData.forEach((q, index) => {
+       const questionDiv = document.createElement('div');
+       questionDiv.classList.add('correct-question');
+       questionDiv.innerHTML = `<p class="incorrect">${index + 1}. ${q.incorrect}</p><input type="text" class="correct-input" data-answer="${q.answer}" placeholder="To'g'ri gapni yozing...">`;
+       container.appendChild(questionDiv);
+   });
+}
+
+function loadPlacementQuestions() {
+   const container = document.querySelector('#placement .placement-exercise');
+   container.innerHTML = '';
+   placementQuestionsData.forEach((q, index) => {
+       const questionDiv = document.createElement('div');
+       questionDiv.classList.add('placement-question');
+       questionDiv.innerHTML = `<p>${index + 1}. ${q.sentence}</p><input type="text" class="placement-input" data-answer="${q.answer}" placeholder="Javobingizni yozing...">`;
+       container.appendChild(questionDiv);
+   });
+}
+
+function loadDegreeQuestions() {
+   const container = document.querySelector('#degree .degree-exercise');
+   container.innerHTML = '';
+   degreeQuestionsData.forEach((q, index) => {
+       const questionDiv = document.createElement('div');
+       questionDiv.classList.add('degree-question');
+       let optionsHtml = q.options.map(opt => `
+           <label>
+               <input type="radio" name="degQ${index + 1}" value="${opt.value}">
+               ${opt.text}
+           </label>
+       `).join('');
+       questionDiv.innerHTML = `<p>${q.question}</p><div class="options">${optionsHtml}</div>`;
+       container.appendChild(questionDiv);
+   });
+}
+
+function loadAsAsQuestions() {
+   const container = document.querySelector('#as-as .as-as-exercise');
+   container.innerHTML = '';
+   asAsQuestionsData.forEach((q, index) => {
+       const questionDiv = document.createElement('div');
+       questionDiv.classList.add('as-as-question');
+       questionDiv.innerHTML = `<p>${index + 1}. ${q.sentence}</p><input type="text" class="as-as-input" data-answer="${q.answer}" placeholder="Javobingizni yozing...">`;
+       container.appendChild(questionDiv);
+   });
+}
+
+
+// --- Tekshirish Funksiyalari ---
+
+function checkTest() {
+   let score = 0;
+   let resultHTML = '';
+   testQuestionsData.forEach((q, index) => {
+       const selected = document.querySelector(`input[name="q${index + 1}"]:checked`);
+       if (selected && selected.value === q.answer) {
+           score++;
+           resultHTML += `<div class="correct-answer">✓ ${index + 1}-savol: To'g'ri!</div>`;
+       } else {
+           resultHTML += `<div class="wrong-answer">✗ ${index + 1}-savol: Noto'g'ri! ${q.explanation}</div>`;
+       }
+   });
+   resultHTML += `<div class="final-score"><strong>Natija: ${score}/${testQuestionsData.length} (${Math.round((score/testQuestionsData.length)*100)}%)</strong></div>`;
+   document.getElementById('testResult').innerHTML = resultHTML;
+}
+
+function checkFill() {
+   const inputs = document.querySelectorAll('#fill .fill-input');
+   let correct = 0;
+   let resultHTML = '';
+   inputs.forEach((input, index) => {
+       const questionData = fillQuestionsData[index];
+       const answer = normalizeAnswer(questionData.answer);
+       const userAnswer = normalizeAnswer(input.value);
+       if (userAnswer === answer) {
+           input.style.border = '2px solid #28a745';
+           correct++;
+           resultHTML += `<div class="correct-answer">✓ ${index + 1}-savol: To'g'ri!</div>`;
+       } else {
+           input.style.border = '2px solid #dc3545';
+           resultHTML += `<div class="wrong-answer">✗ ${index + 1}-savol: Noto'g'ri! To'g'ri javob: <strong>${questionData.answer}</strong></div>`;
+       }
+   });
+   resultHTML += `<div class="final-score"><strong>Natija: ${correct}/${inputs.length} (${Math.round((correct/inputs.length)*100)}%)</strong></div>`;
+   document.getElementById('fillResult').innerHTML = resultHTML;
+}
+
+function checkCombine() {
+   const inputs = document.querySelectorAll('#combine .combine-input');
+   let correct = 0;
+   let resultHTML = '';
+   inputs.forEach((input, index) => {
+       const questionData = combineQuestionsData[index];
+       const answer = normalizeAnswer(questionData.answer);
+       const userAnswer = normalizeAnswer(input.value);
+       if (userAnswer === answer) {
+           input.style.border = '2px solid #28a745';
+           correct++;
+           resultHTML += `<div class="correct-answer">✓ ${index + 1}-savol: To'g'ri!</div>`;
+       } else {
+           input.style.border = '2px solid #dc3545';
+           resultHTML += `<div class="wrong-answer">✗ ${index + 1}-savol: Noto'g'ri! To'g'ri javob: <strong>${questionData.answer}</strong></div>`;
+       }
+   });
+   resultHTML += `<div class="final-score"><strong>Natija: ${correct}/${inputs.length} (${Math.round((correct/inputs.length)*100)}%)</strong></div>`;
+   document.getElementById('combineResult').innerHTML = resultHTML;
+}
+
+function checkCorrection() {
+   const inputs = document.querySelectorAll('#correct .correct-input');
+   let correct = 0;
+   let resultHTML = '';
+   inputs.forEach((input, index) => {
+       const questionData = correctionQuestionsData[index];
+       const answer = normalizeAnswer(questionData.answer);
+       const userAnswer = normalizeAnswer(input.value);
+       if (userAnswer === answer) {
+           input.style.border = '2px solid #28a745';
+           correct++;
+           resultHTML += `<div class="correct-answer">✓ ${index + 1}-savol: To'g'ri!</div>`;
+       } else {
+           input.style.border = '2px solid #dc3545';
+           resultHTML += `<div class="wrong-answer">✗ ${index + 1}-savol: Noto'g'ri! To'g'ri javob: <strong>${questionData.answer}</strong></div>`;
+       }
+   });
+   resultHTML += `<div class="final-score"><strong>Natija: ${correct}/${inputs.length} (${Math.round((correct/inputs.length)*100)}%)</strong></div>`;
+   document.getElementById('correctResult').innerHTML = resultHTML;
+}
+
+function checkPlacement() {
+   const inputs = document.querySelectorAll('#placement .placement-input');
+   let correct = 0;
+   let resultHTML = '';
+   inputs.forEach((input, index) => {
+       const questionData = placementQuestionsData[index];
+       const answer = normalizeAnswer(questionData.answer);
+       const userAnswer = normalizeAnswer(input.value);
+       
+       if (userAnswer === answer) {
+           input.style.border = '2px solid #28a745';
+           correct++;
+           resultHTML += `<div class="correct-answer">✓ ${index + 1}-savol: To'g'ri!</div>`;
+       } else {
+           input.style.border = '2px solid #dc3545';
+           resultHTML += `<div class="wrong-answer">✗ ${index + 1}-savol: Noto'g'ri! To'g'ri javob: <strong>${questionData.answer}</strong></div>`;
+       }
+   });
+   resultHTML += `<div class="final-score"><strong>Natija: ${correct}/${inputs.length} (${Math.round((correct/inputs.length)*100)}%)</strong></div>`;
+   document.getElementById('placementResult').innerHTML = resultHTML;
+}
+
+function checkDegree() {
+   let score = 0;
+   let resultHTML = '';
+   degreeQuestionsData.forEach((q, index) => {
+       const selected = document.querySelector(`input[name="degQ${index + 1}"]:checked`);
+       if (selected && selected.value === q.answer) {
+           score++;
+           resultHTML += `<div class="correct-answer">✓ ${index + 1}-savol: To'g'ri!</div>`;
+       } else {
+           resultHTML += `<div class="wrong-answer">✗ ${index + 1}-savol: Noto'g'ri! ${q.explanation}</div>`;
+       }
+   });
+   resultHTML += `<div class="final-score"><strong>Natija: ${score}/${degreeQuestionsData.length} (${Math.round((score/degreeQuestionsData.length)*100)}%)</strong></div>`;
+   document.getElementById('degreeResult').innerHTML = resultHTML;
+}
+
+function checkAsAs() {
+   const inputs = document.querySelectorAll('#as-as .as-as-input');
+   let correct = 0;
+   let resultHTML = '';
+   inputs.forEach((input, index) => {
+       const questionData = asAsQuestionsData[index];
+       const answer = normalizeAnswer(questionData.answer);
+       const userAnswer = normalizeAnswer(input.value);
+       if (userAnswer === answer) {
+           input.style.border = '2px solid #28a745';
+           correct++;
+           resultHTML += `<div class="correct-answer">✓ ${index + 1}-savol: To'g'ri!</div>`;
+       } else {
+           input.style.border = '2px solid #dc3545';
+           resultHTML += `<div class="wrong-answer">✗ ${index + 1}-savol: Noto'g'ri! To'g'ri javob: <strong>${questionData.answer}</strong></div>`;
+       }
+   });
+   resultHTML += `<div class="final-score"><strong>Natija: ${correct}/${inputs.length} (${Math.round((correct/inputs.length)*100)}%)</strong></div>`;
+   document.getElementById('asAsResult').innerHTML = resultHTML;
+}
+</script>
+</body>
+</html>
