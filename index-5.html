@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Word Game</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- ResponsiveVoice library for text-to-speech -->
+    <script src="https://code.responsivevoice.org/responsivevoice.js?key=ftro4Sxr"></script>
+    <style>
+        /* Custom styles for background and font */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(to right bottom, #8e44ad, #3498db); /* Modern gradient background */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #333;
+        }
+        /* Hide scrollbar for a cleaner look */
+        body::-webkit-scrollbar {
+            display: none;
+        }
+        body {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 w-full bg-gray-900 bg-opacity-70 py-4 flex justify-center items-center z-50 rounded-b-lg shadow-lg cursor-pointer transition-all duration-300 hover:bg-opacity-90" id="navHome">
+        <span class="text-white text-2xl font-bold tracking-wide"><h1>Home Page</h1></span>
+    </nav>
+    <script>
+        document.getElementById("navHome").addEventListener("click", function() {
+            window.location.href = "index.html";
+        });
+    </script>
+
+    <!-- Header -->
+    <header class="text-center mb-8 mt-24">
+        <h1 class="text-5xl font-extrabold text-white drop-shadow-lg">Word Game</h1>
+    </header>
+
+    <!-- Game Container -->
+    <div class="container flex flex-col items-center gap-6 p-8 bg-white bg-opacity-95 rounded-2xl shadow-xl max-w-sm w-full transform transition-all duration-500 hover:scale-105">
+        <!-- Time Mode Toggle Button -->
+        <button id="toggleMode" class="w-full py-3 px-6 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-lg shadow-md hover:from-purple-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-75 transition-all duration-300 ease-in-out transform hover:-translate-y-1">
+            ⏳ Time Mode: Off
+        </button>
+
+        <!-- Game Area -->
+        <div class="game w-full text-center">
+            <h2 id="question" class="text-xl md:text-2xl font-semibold text-gray-800 mb-2 leading-relaxed"></h2>
+            <!-- Uzbek translation hint (subtle) -->
+            <p id="uzbekTranslation" class="text-sm text-gray-500 mb-6"></p>
+            
+            <!-- Time Mode Elements -->
+            <div id="timeModeElements" class="mb-4 text-lg font-medium text-gray-700" style="display: none;">
+                <p>Time: <span id="timer" class="text-purple-600 font-bold">15</span> seconds</p>
+            </div>
+            
+            <!-- Answer Input -->
+            <input type="text" id="answer" placeholder="Enter the definition in English" 
+                   class="w-full p-3 border border-gray-300 rounded-lg text-center text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 mb-4 shadow-sm">
+            
+            <!-- Check Button -->
+            <button onclick="checkAnswer()" class="w-full py-3 px-6 bg-gradient-to-r from-green-500 to-teal-500 text-white font-semibold rounded-lg shadow-md hover:from-green-600 hover:to-teal-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-75 transition-all duration-300 ease-in-out transform hover:-translate-y-1">
+                Check
+            </button>
+            
+            <!-- Result Message -->
+            <p id="result" class="text-lg font-bold mt-4"></p>
+            
+            <!-- Statistics -->
+            <p class="text-md text-gray-600 mt-6">
+                Attempts: <span id="attempts" class="font-semibold">0</span> | 
+                Correct: <span id="correct" class="font-semibold">0</span> | 
+                Percentage: <span id="percentage" class="font-semibold">0%</span>
+            </p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-12 text-white text-sm opacity-80">
+        <p>&copy; 2025 Word Game | <a href="mailto:dasturchi.99@gmail.com" class="hover:underline">Dasturchi.99@gmail.com</a></p>
+    </footer>
+
+    <!-- Inline JavaScript for game logic -->
+    <script>
+        // Array of words with their English definitions and Uzbek translations
+        const words = [  
+  { word: "competition", definition: "A situation in which people or organizations try to be more successful than other people or organizations.", translation: "raqobat" },  
+  { word: "underwater", definition: "Below the surface of an area of water, or able to be used there.", translation: "suv ostida, suv ostida ishlaydigan" },  
+  { word: "tide", definition: "The regular rising and falling of the level of the sea.", translation: "to‘lqin, dengiz suvining ko‘tarilishi va tushishi" },  
+  { word: "die out", definition: "To disappear or stop existing completely.", translation: "yo‘q bo‘lib ketmoq, butunlay yo‘qolmoq" },  
+  { word: "droplet", definition: "A very small drop of liquid.", translation: "tomchicha" },  
+  { word: "pond", definition: "A small area of freshwater that is smaller than a lake, that is either natural or artificially made.", translation: "hovuz, kichik ko‘l" },  
+  { word: "puddle", definition: "A small pool of liquid, especially rainwater.", translation: "kichik ko‘lmak, yomg‘ir suvi to‘planmasi" },  
+  { word: "breathe out", definition: "To send air out from your lungs.", translation: "nafas chiqarmoq" },  
+  { word: "fuel", definition: "A substance such as coal, gas, or oil that can be burned to produce heat or energy.", translation: "yoqilg‘i" },  
+  { word: "pure", definition: "A pure substance or material is not mixed with anything.", translation: "sof, aralashmagan" }  
+];
+        let remainingWords = shuffleArray([...words]); // Words in random order
+        let currentWord = null;
+        let totalAttempts = 0;
+        let correctAnswers = 0;
+        let timeLeft = 15;
+        let timer;
+        let timeMode = false;
+        let attemptsLeft = 2;
+        let audioCache = {}; // Cached audio files
+        let isAnswerCorrect = false; // Flag to track if the current answer is correct
+
+        // **Load cached audio files**
+        function loadCachedAudio() {
+            for (let i = 0; i < localStorage.length; i++) {
+                let word = localStorage.key(i);
+                let audioURL = localStorage.getItem(word);
+                let audio = new Audio(audioURL);
+                audioCache[word] = audio;
+            }
+        }
+
+        // **Load a new word**
+        function loadWord() {
+            clearInterval(timer); // Clear any existing timer
+
+            if (remainingWords.length === 0) {
+                remainingWords = shuffleArray([...words]); // If words run out, reshuffle
+            }
+
+            currentWord = remainingWords.pop(); // Get a random word
+            attemptsLeft = 2; // Reset attempts for the new word
+            isAnswerCorrect = false; // Reset answer correctness flag
+
+            document.getElementById("question").innerText = `What is the definition of "${currentWord.word}"?`;
+            document.getElementById("uzbekTranslation").innerText = `(${currentWord.translation})`; // Display Uzbek hint
+            document.getElementById("answer").value = ""; // Clear input field
+            document.getElementById("result").innerText = ""; // Clear result message
+
+            playAudio(currentWord.word); // Play the word's audio
+
+            updateStats(); // Update statistics display
+
+            if (timeMode) startTimer(); // Start timer if time mode is on
+        }
+
+        // **Start the timer**
+        function startTimer() {
+            timeLeft = 15;
+            document.getElementById("timer").innerText = timeLeft;
+
+            timer = setInterval(() => {
+                timeLeft--;
+                document.getElementById("timer").innerText = timeLeft;
+
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    showCorrectAnswer(); // Show correct answer if time runs out
+                }
+            }, 1000);
+        }
+
+        // **Check answer on Enter key press**
+        document.getElementById("answer").addEventListener("keyup", function (event) {
+            if (event.key === "Enter") {
+                checkAnswer();
+            }
+        });
+
+        // **Check the user's answer**
+        function checkAnswer() {
+            // If the previous answer was correct, move to the next word immediately
+            if (isAnswerCorrect) {
+                loadWord();
+                return;
+            }
+
+            const userAnswer = document.getElementById("answer").value.trim(); // Get user's input
+
+            // Normalize both answers for comparison (e.g., lowercase, remove extra spaces/punctuation)
+            const normalizeString = (str) => str.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"").replace(/\s{2,}/g," ").trim();
+
+            const normalizedUserAnswer = normalizeString(userAnswer);
+            const normalizedCorrectDefinition = normalizeString(currentWord.definition);
+
+            // Check if the user's answer matches the definition
+            if (normalizedUserAnswer === normalizedCorrectDefinition) {
+                isAnswerCorrect = true; // Mark answer as correct
+                correctAnswers++; // Increment correct answers count
+                totalAttempts++; // Increment total attempts
+                document.getElementById("result").innerText = "✅ Correct!";
+                document.getElementById("result").style.color = "green";
+                
+                updateStats(); // Update statistics
+
+                // Move to the next word after a short delay
+                setTimeout(() => {
+                    loadWord();
+                }, 1000);
+            } else {
+                totalAttempts++; // Increment total attempts for incorrect answers
+                attemptsLeft--; // Decrement remaining attempts
+
+                if (attemptsLeft > 0) {
+                    document.getElementById("result").innerText = `❌ Incorrect! Try again (${attemptsLeft} attempts left)`;
+                    document.getElementById("result").style.color = "red";
+                } else {
+                    // After 2 incorrect attempts, show the correct definition
+                    document.getElementById("result").innerText = `ℹ️ Correct definition: ${currentWord.definition}`;
+                    document.getElementById("result").style.color = "blue";
+                    // The user must enter the correct definition to proceed
+                    // We set attemptsLeft to -1 to indicate that the correct answer is shown and input is required
+                    attemptsLeft = -1; 
+                }
+
+                updateStats(); // Update statistics
+            }
+        }
+
+        // **Show the correct answer (e.g., when time runs out)**
+        function showCorrectAnswer() {
+            document.getElementById("result").innerText = `⏰ Time's up! Correct definition: ${currentWord.definition}`;
+            document.getElementById("result").style.color = "orange";
+            setTimeout(() => {
+                loadWord();
+            }, 2000);
+        }
+
+        // **Update game statistics**
+        function updateStats() {
+            let percentage = totalAttempts > 0 ? ((correctAnswers / totalAttempts) * 100).toFixed(2) : 0;
+            document.getElementById("attempts").innerText = totalAttempts;
+            document.getElementById("correct").innerText = correctAnswers;
+            document.getElementById("percentage").innerText = percentage + "%";
+        }
+
+        // **Play the audio for a word**
+        function playAudio(word) {
+            if (audioCache[word]) {
+                audioCache[word].play();
+            } else {
+                let savedAudio = localStorage.getItem(word);
+                if (savedAudio) {
+                    let audio = new Audio(savedAudio);
+                    audioCache[word] = audio;
+                    audio.play();
+                } else {
+                    // Use ResponsiveVoice to speak the word
+                    responsiveVoice.speak(word, "UK English Male", {
+                        onend: function () {
+                            saveAudio(word); // Save audio to local storage after speaking
+                        }
+                    });
+                }
+            }
+        }
+
+        // **Save audio file to local storage**
+        function saveAudio(word) {
+            let audio = new Audio();
+            let audioURL = `https://code.responsivevoice.org/getvoice.php?t=${word}&tl=en-GB&key=ftro4Sxr`;
+            audio.src = audioURL;
+            audioCache[word] = audio;
+            localStorage.setItem(word, audioURL); // Store audio URL in local storage
+        }
+
+        // **Shuffle array function (Fisher-Yates algorithm)**
+        function shuffleArray(array) {
+            return array.sort(() => Math.random() - 0.5);
+        }
+
+        // **Toggle Time Mode functionality**
+        document.getElementById("toggleMode").addEventListener("click", function () {
+            timeMode = !timeMode;
+            const elements = document.getElementById("timeModeElements");
+
+            if (timeMode) {
+                elements.style.display = "block";
+                this.innerText = "⏳ Time Mode: On";
+                startTimer(); // Start timer immediately when mode is turned on
+            } else {
+                elements.style.display = "none";
+                this.innerText = "⏳ Time Mode: Off";
+                clearInterval(timer); // Stop timer when mode is turned off
+            }
+        });
+
+        // **Load cached audio and start the game when the page loads**
+        window.addEventListener("load", loadCachedAudio);
+        loadWord(); // Start the game
+    </script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infrequent Meanings</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header"></div>
+
+        <div class="slider-wrapper">
+            <div class="slider">
+                <span id="slider-value">1 / 30</span>
+                <input type="range" id="word-slider" min="0" value="0">
+                <span id="slider-max">30</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <div class="top-circle"></div>
+                    <div class="content">
+                        <div class="word-container">
+                            <div class="word en-word"></div> <span class="pronunciation" id="pronunciation"></span> <div class="uzbek-hint" id="uzbek-hint"></div> </div>
+                        <div class="type" id="type-front"></div>
+                    </div>
+                    <div class="bottom-circle"></div>
+                    <div class="definition">Tap to see the definition</div>
+                </div>
+                <div class="card-back">
+                    <div class="top-circle"></div>
+                    <img src="" alt="" class="image" id="back-image"> <div class="content">
+                        <div class="word uz-word"></div> <div class="type" id="type-back"></div>
+                        <div class="uzbek-definition" id="uzbek-definition"></div> </div>
+                    <div class="bottom-circle"></div>
+                    <div class="definition">Definition Translation</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-buttons">
+            <button id="audio-button">Ovoz</button>
+            <button id="next-button">Keyingi</button>
+        </div>
+    </div>
+    <div id="instruction-modal" class="modal">
+        <div class="modal-content">
+            <h2>Fleshcarddan foydalanish bo'yicha yo'riqnoma</h2>
+            <p>&#x25B6; O'ngga sursangiz oldingi so'zga qaytasiz.</p>
+            <p>&#x25C0; Chapga sursangiz so'z yodlangan hisoblanadi va qayta chiqmaydi.</p>
+            <p>&#x1F504; Kartani ustiga bosing va so'zning inglizcha ma'nosini ko'rasiz.</p>
+            <p>&#x1F50A; "Ovoz" tugmasini bosib, kartaning hozirgi tomonidagi matnni eshitasiz (old tomonda inglizcha so'zni, orqa tomonda inglizcha ta'rifni).</p>
+            <button id="close-modal">Tushunarli</button>
+        </div>
+    </div>
+    <script src="https://code.responsivevoice.org/responsivevoice.js?key=ftro4Sxr"></script>
+    <script src="script5.js"></script>
+</body>
+
+</html>
