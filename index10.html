@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Definishin Yodlash Ilovasi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50px;
+            padding: 5px;
+            backdrop-filter: blur(10px);
+        }
+
+        .tab {
+            padding: 15px 30px;
+            margin: 0 5px;
+            background: transparent;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .tab.active {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .tab:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateY(-2px);
+        }
+
+        .content {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            min-height: 500px;
+        }
+
+        .add-definition {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group label {
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        input, textarea, select {
+            padding: 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 15px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+            font-family: inherit;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        .search-bar {
+            width: 100%;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding-left: 50px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="%23999" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>') no-repeat 15px center;
+            background-size: 20px;
+        }
+
+        .definitions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .definition-card {
+            background: linear-gradient(135deg, #f8f9ff, #e8f0ff);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-left: 5px solid #667eea;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .definition-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .definition-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border-radius: 50%;
+            transform: translate(30px, -30px);
+        }
+
+        .definition-term {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .definition-text {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .definition-category {
+            display: inline-block;
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            border-radius: 20px;
+        }
+
+        .btn-edit {
+            background: linear-gradient(135deg, #28a745, #20c997);
+        }
+
+        .btn-delete {
+            background: linear-gradient(135deg, #dc3545, #fd7e14);
+        }
+
+        .flashcard {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            min-height: 150px;
+            cursor: pointer;
+            transition: all 0.6s ease;
+            position: relative;
+            perspective: 1000px;
+        }
+
+        .flashcard:hover {
+            box-shadow: 0 18px 35px rgba(0,0,0,0.15);
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            min-height: 150px;
+        }
+
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 20px;
+            border-radius: 15px;
+            background: white;
+        }
+
+        .flashcard-back {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-term {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .flashcard-definition {
+            font-size: 1rem;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .flashcard-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .controls-row {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .btn-small-control {
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            border-radius: 25px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-small-control:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-small-control:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .empty-state svg {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        @media (max-width: 768px) {
+            .add-definition {
+                grid-template-columns: 1fr;
+            }
+            
+            .definitions-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tabs {
+                flex-wrap: wrap;
+                border-radius: 15px;
+            }
+            
+            .tab {
+                margin: 5px;
+                padding: 12px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 Definishin Yodlash</h1>
+            <p>Bilimlaringizni mustahkamlang va yangi tushunchalarni o'rganing</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('add')">➕ Qo'shish</button>
+            <button class="tab" onclick="showTab('list')">📋 Ro'yxat</button>
+            <button class="tab" onclick="showTab('study')">🧠 O'rganish</button>
+        </div>
+
+        <div class="content">
+            <!-- Add Definition Tab -->
+            <div id="add-tab" class="tab-content">
+                <div class="add-definition">
+                    <div class="input-group">
+                        <label for="term">Atama/Tushuncha</label>
+                        <input type="text" id="term" placeholder="Masalan: Algorithm">
+                    </div>
+                    <div class="input-group">
+                        <label for="category">Kategoriya</label>
+                        <select id="category">
+                            <option value="Informatika">Informatika</option>
+                            <option value="Matematika">Matematika</option>
+                            <option value="Fizika">Fizika</option>
+                            <option value="Kimyo">Kimyo</option>
+                            <option value="Biologiya">Biologiya</option>
+                            <option value="Til">Til</option>
+                            <option value="Boshqa">Boshqa</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="definition">Ta'rif/Definitsiya</label>
+                    <textarea id="definition" placeholder="Bu yerga atamaning to'liq ta'rifini yozing..."></textarea>
+                </div>
+                <button class="btn" onclick="addDefinition()">Definitsiya Qo'shish</button>
+            </div>
+
+            <!-- List Tab -->
+            <div id="list-tab" class="tab-content hidden">
+                <div class="stats">
+                    <div class="stat-card">
+                        <div class="stat-number" id="total-count">0</div>
+                        <div class="stat-label">Jami Definitsiya</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="category-count">0</div>
+                        <div class="stat-label">Kategoriya</div>
+                    </div>
+                </div>
+                
+                <div class="search-bar">
+                    <input type="text" id="search" placeholder="Definitsiyalarni qidirish..." oninput="searchDefinitions()">
+                </div>
+                
+                <div id="definitions-container">
+                    <div class="empty-state">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                        </svg>
+                        <h3>Hali definitsiya qo'shilmagan</h3>
+                        <p>Birinchi definitsiyangizni qo'shish uchun "Qo'shish" bo'limiga o'ting</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Study Tab -->
+            <div id="study-tab" class="tab-content hidden">
+                <div id="study-container">
+                    <div class="empty-state">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/>
+                        </svg>
+                        <h3>O'rganish uchun definitsiya mavjud emas</h3>
+                        <p>Avval kamida bitta definitsiya qo'shing</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let definitions = [];
+        let currentStudyIndex = 0;
+        let isFlipped = false;
+
+        // Load definitions from memory
+        function loadDefinitions() {
+            // Initialize with empty array if no data
+            definitions = definitions || [];
+            updateStats();
+            renderDefinitions();
+        }
+
+        // Add new definition
+        function addDefinition() {
+            const term = document.getElementById('term').value.trim();
+            const definition = document.getElementById('definition').value.trim();
+            const category = document.getElementById('category').value;
+
+            if (!term || !definition) {
+                alert('Iltimos, barcha maydonlarni to\'ldiring!');
+                return;
+            }
+
+            const newDefinition = {
+                id: Date.now(),
+                term: term,
+                definition: definition,
+                category: category,
+                dateAdded: new Date().toLocaleDateString('uz-UZ')
+            };
+
+            definitions.push(newDefinition);
+            
+            // Clear form
+            document.getElementById('term').value = '';
+            document.getElementById('definition').value = '';
+            
+            updateStats();
+            renderDefinitions();
+            
+            alert('Definitsiya muvaffaqiyatli qo\'shildi!');
+        }
+
+        // Delete definition
+        function deleteDefinition(id) {
+            if (confirm('Bu definitsiyani o\'chirmoqchimisiz?')) {
+                definitions = definitions.filter(def => def.id !== id);
+                updateStats();
+                renderDefinitions();
+            }
+        }
+
+        // Search definitions
+        function searchDefinitions() {
+            const searchTerm = document.getElementById('search').value.toLowerCase();
+            const filtered = definitions.filter(def => 
+                def.term.toLowerCase().includes(searchTerm) ||
+                def.definition.toLowerCase().includes(searchTerm) ||
+                def.category.toLowerCase().includes(searchTerm)
+            );
+            renderDefinitions(filtered);
+        }
+
+        // Render definitions
+        function renderDefinitions(definitionsToRender = definitions) {
+            const container = document.getElementById('definitions-container');
+            
+            if (definitionsToRender.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                        </svg>
+                        <h3>Definitsiya topilmadi</h3>
+                        <p>Qidiruv so'zingizni o'zgartirib ko'ring</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const definitionsHTML = definitionsToRender.map(def => `
+                <div class="definition-card">
+                    <div class="definition-category">${def.category}</div>
+                    <div class="definition-term">${def.term}</div>
+                    <div class="definition-text">${def.definition}</div>
+                    <div class="card-actions">
+                        <button class="btn btn-small btn-delete" onclick="deleteDefinition(${def.id})">
+                            🗑️ O'chirish
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+
+            container.innerHTML = `<div class="definitions-grid">${definitionsHTML}</div>`;
+        }
+
+        // Update statistics
+        function updateStats() {
+            document.getElementById('total-count').textContent = definitions.length;
+            const categories = [...new Set(definitions.map(def => def.category))];
+            document.getElementById('category-count').textContent = categories.length;
+        }
+
+        // Show tab
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.add('hidden');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.remove('hidden');
+            event.target.classList.add('active');
+            
+            // Initialize study mode if needed
+            if (tabName === 'study') {
+                initStudyMode();
+            }
+        }
+
+        // Initialize study mode
+        function initStudyMode() {
+            const container = document.getElementById('study-container');
+            
+            if (definitions.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/>
+                        </svg>
+                        <h3>O'rganish uchun definitsiya mavjud emas</h3>
+                        <p>Avval kamida bitta definitsiya qo'shing</p>
+                    </div>
+                `;
+                return;
+            }
+
+            currentStudyIndex = 0;
+            isFlipped = false;
+            renderFlashcard();
+        }
+
+        // Render flashcard
+        function renderFlashcard() {
+            const container = document.getElementById('study-container');
+            const currentDef = definitions[currentStudyIndex];
+            
+            container.innerHTML = `
+                <div class="flashcard" onclick="flipCard()" id="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="flashcard-term">${currentDef.term}</div>
+                            <p style="color: #999; margin-top: 20px; font-size: 1rem;">📱 Kartani bosing va ta'rifni ko'ring</p>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="flashcard-definition">${currentDef.definition}</div>
+                            <div class="definition-category" style="margin-top: 20px;">${currentDef.category}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flashcard-controls">
+                    <div class="controls-row">
+                        <button class="btn-small-control" onclick="resetCard()">
+                            🔄 Qaytarish
+                        </button>
+                        <button class="btn-small-control" onclick="shuffleCards()">
+                            🎲 Aralashtirish
+                        </button>
+                    </div>
+                    <div class="controls-row">
+                        <button class="btn-small-control" onclick="previousCard()" ${currentStudyIndex === 0 ? 'disabled' : ''}>
+                            ← Oldingi
+                        </button>
+                        <button class="btn-small-control" onclick="nextCard()" ${currentStudyIndex === definitions.length - 1 ? 'disabled' : ''}>
+                            Keyingi →
+                        </button>
+                    </div>
+                </div>
+                <p style="text-align: center; margin-top: 20px; color: #666; font-size: 1.1rem;">
+                    <strong>${currentStudyIndex + 1}</strong> / ${definitions.length}
+                </p>
+            `;
+        }
+
+        // Flip flashcard
+        function flipCard() {
+            const flashcard = document.getElementById('flashcard');
+            if (flashcard) {
+                isFlipped = !isFlipped;
+                flashcard.classList.toggle('flipped');
+            }
+        }
+
+        // Reset card to front
+        function resetCard() {
+            const flashcard = document.getElementById('flashcard');
+            if (flashcard && isFlipped) {
+                isFlipped = false;
+                flashcard.classList.remove('flipped');
+            }
+        }
+
+        // Navigate cards
+        function nextCard() {
+            if (currentStudyIndex < definitions.length - 1) {
+                currentStudyIndex++;
+                isFlipped = false;
+                renderFlashcard();
+            }
+        }
+
+        function previousCard() {
+            if (currentStudyIndex > 0) {
+                currentStudyIndex--;
+                isFlipped = false;
+                renderFlashcard();
+            }
+        }
+
+        function shuffleCards() {
+            for (let i = definitions.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [definitions[i], definitions[j]] = [definitions[j], definitions[i]];
+            }
+            currentStudyIndex = 0;
+            isFlipped = false;
+            renderFlashcard();
+        }
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDefinitions();
+        });
+
+        // Add some sample data for demonstration
+        definitions = [
+            {
+                id: 1,
+                term: "Algorithm",
+                definition: "Ma'lum masalani yechish uchun aniq tartibda bajarilishi kerak bo'lgan amallar ketma-ketligi. Algoritm har doim natijaga olib kelishi va chekli vaqt ichida tugashi kerak.",
+                category: "Informatika",
+                dateAdded: new Date().toLocaleDateString('uz-UZ')
+            },
+            {
+                id: 2,
+                term: "Photosynthesis",
+                definition: "O'simliklar tomonidan yorug'lik energiyasidan foydalanib, karbonat angidrid va suvdan glyukoza ishlab chiqarish jarayoni. Bu jarayonda kislorod ham ajralib chiqadi.",
+                category: "Biologiya",
+                dateAdded: new Date().toLocaleDateString('uz-UZ')
+            },
+            {
+                id: 3,
+                term: "Pythagoras teoremasi",
+                definition: "To'g'ri burchakli uchburchakda gipotenuzaning kvadrati katetlar kvadratlari yig'indisiga teng: a² + b² = c²",
+                category: "Matematika",
+                dateAdded: new Date().toLocaleDateString('uz-UZ')
+            }
+        ];
+
+        // Initialize with sample data
+        updateStats();
+        renderDefinitions();
+    </script>
+</body>
+</html>
