@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infrequent Meanings</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 20px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 90vh;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 20px;
+        }
+
+        .slider-wrapper {
+            width: 100%;
+            padding: 0 20px;
+            margin-bottom: 20px;
+        }
+
+        .slider {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        #slider-value, #slider-max {
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .slider input[type="range"] {
+            width: 250px;
+            height: 8px;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            outline: none;
+            -webkit-appearance: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slider input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(238, 90, 82, 0.4);
+            position: relative;
+            z-index: 2;
+        }
+
+        .slider input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(238, 90, 82, 0.6);
+        }
+
+        .slider input[type="range"]::-webkit-slider-track {
+            height: 8px;
+            border-radius: 50px;
+            background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+            animation: shimmer 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes shimmer {
+            0% { background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%); }
+            100% { background: linear-gradient(90deg, #43e97b 0%, #38f9d7 100%); }
+        }
+
+        .card {
+            position: relative;
+            width: 80%;
+            max-width: 400px;
+            height: 600px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 10px;
+            perspective: 1000px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            left: 0;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, 
+                rgba(255, 107, 107, 0.1) 0%, 
+                rgba(78, 205, 196, 0.1) 25%, 
+                rgba(69, 183, 209, 0.1) 50%, 
+                rgba(255, 195, 113, 0.1) 75%, 
+                rgba(196, 113, 237, 0.1) 100%);
+            border-radius: 25px;
+            animation: aura 4s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        @keyframes aura {
+            0%, 100% { 
+                background: linear-gradient(45deg, 
+                    rgba(255, 107, 107, 0.1) 0%, 
+                    rgba(78, 205, 196, 0.1) 25%, 
+                    rgba(69, 183, 209, 0.1) 50%, 
+                    rgba(255, 195, 113, 0.1) 75%, 
+                    rgba(196, 113, 237, 0.1) 100%);
+            }
+            25% { 
+                background: linear-gradient(45deg, 
+                    rgba(196, 113, 237, 0.1) 0%, 
+                    rgba(255, 107, 107, 0.1) 25%, 
+                    rgba(78, 205, 196, 0.1) 50%, 
+                    rgba(69, 183, 209, 0.1) 75%, 
+                    rgba(255, 195, 113, 0.1) 100%);
+            }
+            50% { 
+                background: linear-gradient(45deg, 
+                    rgba(255, 195, 113, 0.1) 0%, 
+                    rgba(196, 113, 237, 0.1) 25%, 
+                    rgba(255, 107, 107, 0.1) 50%, 
+                    rgba(78, 205, 196, 0.1) 75%, 
+                    rgba(69, 183, 209, 0.1) 100%);
+            }
+            75% { 
+                background: linear-gradient(45deg, 
+                    rgba(69, 183, 209, 0.1) 0%, 
+                    rgba(255, 195, 113, 0.1) 25%, 
+                    rgba(196, 113, 237, 0.1) 50%, 
+                    rgba(255, 107, 107, 0.1) 75%, 
+                    rgba(78, 205, 196, 0.1) 100%);
+            }
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.25);
+        }
+
+        .card-inner {
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front,
+        .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-front .image {
+            display: none;
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+        }
+
+        .top-circle,
+        .bottom-circle {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 0 0 100% 100%;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .top-circle {
+            top: 0;
+            transform: translate(-50%, -50%);
+        }
+
+        .bottom-circle {
+            bottom: 0;
+            transform: translate(-50%, 50%) rotate(180deg);
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            z-index: 10;
+        }
+
+        .word-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .en-word {
+            font-size: 36px;
+            font-weight: 700;
+            color: #2d3748;
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .uz-word {
+            font-size: 24px;
+            font-weight: 600;
+            color: #e53e3e;
+            text-align: center;
+            padding: 0 15px;
+            line-height: 1.4;
+        }
+
+        .pronunciation {
+            font-size: 16px;
+            color: #718096;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .type {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .definition {
+            text-align: center;
+            color: #a0aec0;
+            font-size: 12px;
+            line-height: 1.4;
+            max-width: 90%;
+            font-weight: 500;
+        }
+
+        .uzbek-hint, .uzbek-definition {
+            font-size: 14px;
+            color: #9ca3af;
+            margin-top: 8px;
+            text-align: center;
+            padding: 0 15px;
+            line-height: 1.3;
+            font-style: italic;
+        }
+
+        .card-buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 25px;
+            width: 100%;
+            padding: 25px;
+        }
+
+        #next-button,
+        #audio-button {
+            padding: 16px 32px;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        #next-button:hover,
+        #audio-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.6);
+        }
+
+        #next-button:active,
+        #audio-button:active {
+            transform: translateY(-1px);
+        }
+
+        .image {
+            width: 160px;
+            height: 160px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            object-fit: cover;
+        }
+
+        .card.swiping-left {
+            left: -100%;
+            transform: rotate(-10deg);
+            opacity: 0.7;
+        }
+
+        .card.swiping-right {
+            left: 100%;
+            transform: rotate(10deg);
+            opacity: 0.7;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 85%;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: modalFadeIn 0.4s ease-out;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9) translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .modal-content h2 {
+            color: #2d3748;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .modal-content p {
+            color: #4a5568;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        #close-modal {
+            margin-top: 20px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        #close-modal:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.6);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .container {
+                margin: 10px;
+                height: calc(100vh - 20px);
+            }
+            
+            .card {
+                width: 90%;
+                height: 550px;
+            }
+            
+            .slider input[type="range"] {
+                width: 200px;
+            }
+            
+            .en-word {
+                font-size: 28px;
+            }
+            
+            .uz-word {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header"></div>
+
+        <div class="slider-wrapper">
+            <div class="slider">
+                <span id="slider-value">1 / 10</span>
+                <input type="range" id="word-slider" min="0" value="0">
+                <span id="slider-max">10</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <div class="top-circle"></div>
+                    <div class="content">
+                        <div class="word-container">
+                            <div class="word en-word"></div> 
+                            <span class="pronunciation" id="pronunciation"></span> 
+                            <div class="uzbek-hint" id="uzbek-hint"></div> 
+                        </div>
+                        <div class="type" id="type-front"></div>
+                    </div>
+                    <div class="bottom-circle"></div>
+                    <div class="definition">Tap to see the definition</div>
+                </div>
+                <div class="card-back">
+                    <div class="top-circle"></div>
+                    <img src="" alt="" class="image" id="back-image"> 
+                    <div class="content">
+                        <div class="word uz-word"></div> 
+                        <div class="type" id="type-back"></div>
+                        <div class="uzbek-definition" id="uzbek-definition"></div> 
+                    </div>
+                    <div class="bottom-circle"></div>
+                    <div class="definition">Definition Translation</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-buttons">
+            <button id="audio-button">🔊 Ovoz</button>
+            <button id="next-button">▶️ Keyingi</button>
+        </div>
+    </div>
+    
+    <div id="instruction-modal" class="modal">
+        <div class="modal-content">
+            <h2>Fleshcarddan foydalanish bo'yicha yo'riqnoma</h2>
+            <p>▶️ O'ngga sursangiz oldingi so'zga qaytasiz.</p>
+            <p>◀️ Chapga sursangiz so'z yodlangan hisoblanadi va qayta chiqmaydi.</p>
+            <p>🔄 Kartani ustiga bosing va so'zning inglizcha ma'nosini ko'rasiz.</p>
+            <p>🔊 "Ovoz" tugmasini bosib, kartaning hozirgi tomonidagi matnni eshitasiz (old tomonda inglizcha so'zni, orqa tomonda inglizcha ta'rifni).</p>
+            <button id="close-modal">Tushunarli</button>
+        </div>
+    </div>
+
+    <script src="https://code.responsivevoice.org/responsivevoice.js?key=ftro4Sxr"></script>
+    <script>
+        const card = document.querySelector('.card');
+        const word = document.querySelector('.word');
+        const type = document.querySelector('.type');
+        const slider = document.querySelector('.slider input[type="range"]');
+        const sliderValue = document.getElementById('slider-value');
+        const sliderMax = document.getElementById('slider-max');
+        const nextButton = document.getElementById('next-button');
+        const audioButton = document.getElementById('audio-button');
+        const frontImage = document.getElementById('front-image');
+        const backImage = document.getElementById('back-image');
+        const pronunciationElement = document.querySelector('.pronunciation');
+        const uzbekHintElement = document.getElementById('uzbek-hint');
+        const uzbekDefinitionElement = document.getElementById('uzbek-definition');
+        const instructionModal = document.getElementById('instruction-modal');
+        const closeModalButton = document.getElementById('close-modal');
+
+        const PIXABAY_API_KEY = "49146347-e05e26bd1aae0010e8163774c";
+        const learnedWords = [];
+        
+        let words = [
+            { english: "current", definition: "a continuous movement of water in a river, lake, or sea", uzbekDefinition: "daryo, ko'l yoki dengizdagi suvning doimiy harakati", uzbek: "oqim", type: "ot", pronunciation: "/ˈkʌrənt/" },
+            { english: "polar", definition: "close to or relating to the North Pole or the South Pole", uzbekDefinition: "Shimoliy qutb yoki Janubiy qutbga yaqin yoki tegishli", uzbek: "qutbiy", type: "sifat", pronunciation: "/ˈpəʊlə/" },
+            { english: "directly", definition: "with no other person, action, process etc between", uzbekDefinition: "boshqa shaxs, harakat, jarayon va hokazolarsiz bevosita", uzbek: "bevosita", type: "ravish", pronunciation: "/dɪˈrektli/" },
+            { english: "humid", definition: "if the weather is humid, you feel uncomfortable because the air is very wet and usually hot", uzbekDefinition: "havo juda nam va odatda issiq bo'lganda noqulay his qilish", uzbek: "nam", type: "sifat", pronunciation: "/ˈhjuːmɪd/" },
+            { english: "pond", definition: "a small area of fresh water that is smaller than a lake, that is either natural or artificially made", uzbekDefinition: "ko'ldan kichikroq bo'lgan tabiiy yoki sun'iy chuchuk suv havzasi", uzbek: "hovuz", type: "ot", pronunciation: "/pɒnd/" },
+            { english: "evergreen", definition: "an evergreen tree or bush does not lose its leaves in winter", uzbekDefinition: "qishda barglarini to'kmaydigan doim yashil daraxt yoki buta", uzbek: "doim yashil", type: "sifat", pronunciation: "/ˈevəɡriːn/" },
+            { english: "berry", definition: "a small soft fruit with small seeds", uzbekDefinition: "kichik urug'li mayda yumshoq meva", uzbek: "rezavor meva", type: "ot", pronunciation: "/ˈberi/" },
+            { english: "coastal", definition: "in the sea or on the land near the coast", uzbekDefinition: "dengizda yoki qirg'oq yaqinidagi quruklikda joylashgan", uzbek: "qirg'oqbo'yi", type: "sifat", pronunciation: "/ˈkəʊstəl/" },
+            { english: "year-round", definition: "happening or continuing through the whole year", uzbekDefinition: "butun yil davomida sodir bo'ladigan yoki davom etadigan", uzbek: "yil bo'yi", type: "sifat", pronunciation: "/ˌjɪər ˈraʊnd/" },
+            { english: "prevent", definition: "to stop something from happening, or stop someone from doing something", uzbekDefinition: "biror narsa sodir bo'lishining oldini olish yoki kimnidir biror ish qilishdan to'xtatish", uzbek: "oldini olish", type: "fe'l", pronunciation: "/prɪˈvent/" }
+        ];
+
+        function shuffleWords() {
+            words = words.sort(() => Math.random() - 0.5);
+        }
+        shuffleWords();
+
+        let currentIndex = 0;
+
+        // Slider setup - fixed to count properly 1, 2, 3...
+        slider.min = 0;
+        slider.max = words.length - 1;
+        slider.value = 0;
+        sliderMax.textContent = words.length;
+
+        async function getPixabayImage(query) {
+            const url = `https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=${query}&image_type=photo`;
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                return (data.hits.length > 0) ? data.hits[0].webformatURL : "https://via.placeholder.com/160x160?text=No+Image";
+            } catch (error) {
+                console.error("Pixabay API error:", error);
+                return "https://via.placeholder.com/160x160?text=No+Image";
+            }
+        }
+
+        async function updateCard(index) {
+            if (words.length === 0) {
+                document.querySelector('.card-front .en-word').textContent = "Barcha so'zlar yodlandi!";
+                pronunciationElement.textContent = "";
+                document.querySelector('#type-front').textContent = "";
+                uzbekHintElement.textContent = "";
+                backImage.src = "https://via.placeholder.com/160x160?text=Completed";
+                document.querySelector('.card-back .uz-word').textContent = "";
+                uzbekDefinitionElement.textContent = "";
+                document.querySelector('#type-back').textContent = "";
+                slider.value = 0;
+                sliderMax.textContent = 0;
+                sliderValue.textContent = "0 / 0";
+                return;
+            }
+
+            if (index < 0) {
+                index = 0;
+            } else if (index >= words.length) {
+                index = words.length - 1;
+            }
+
+            // Update front of card
+            document.querySelector('.card-front .en-word').textContent = words[index].english;
+            pronunciationElement.textContent = words[index].pronunciation;
+            document.querySelector('#type-front').textContent = words[index].type;
+            uzbekHintElement.textContent = words[index].uzbek;
+
+            // Update back of card
+            document.querySelector('.card-back .uz-word').textContent = words[index].definition;
+            uzbekDefinitionElement.textContent = words[index].uzbekDefinition;
+            document.querySelector('#type-back').textContent = words[index].type;
+
+            // Update slider - fixed to show correct position
+            // 7. Slider boshqaruvi (o'zgarmagan)
+             slider.addEventListener('input', function() {
+                updateCard(this.value - 1);
+                });
+
+
+            const imageUrl = await getPixabayImage(words[index].english);
+            backImage.src = imageUrl;
+
+            checkAndDownloadAudio(words[index].english);
+        }
+
+        async function checkAndDownloadAudio(audioFile) {
+            console.log("Audio check/download for:", audioFile);
+        }
+
+        card.addEventListener('click', function () {
+            this.classList.toggle('flipped');
+        });
+
+        slider.addEventListener('input', function () {
+            updateCard(parseInt(this.value));
+            card.classList.remove('flipped');
+        });
+
+        nextButton.addEventListener('click', function () {
+            currentIndex++;
+            if (currentIndex >= words.length) {
+                shuffleWords();
+                currentIndex = 0;
+            }
+            updateCard(currentIndex);
+            card.classList.remove('flipped');
+            instructionModal.style.display = "flex";
+        });
+
+        function speak(text) {
+            if (typeof responsiveVoice !== 'undefined') {
+                responsiveVoice.speak(text, "US English Male", { rate: 0.9 });
+            } else {
+                console.log("ResponsiveVoice not loaded");
+            }
+        }
+
+        audioButton.addEventListener('click', function () {
+            if (card.classList.contains('flipped')) {
+                speak(words[currentIndex].definition);
+            } else {
+                speak(words[currentIndex].english);
+            }
+        });
+
+        let startX = 0;
+        let endX = 0;
+
+        card.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+        });
+
+        card.addEventListener('touchend', (e) => {
+            endX = e.changedTouches[0].clientX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const deltaX = endX - startX;
+            if (deltaX > 50) { // Right swipe (Previous word)
+                card.classList.add('swiping-right');
+                setTimeout(() => {
+                    currentIndex--;
+                    if (currentIndex < 0) {
+                        currentIndex = words.length - 1;
+                    }
+                    updateCard(currentIndex);
+                    card.classList.remove('swiping-right');
+                    card.style.left = '';
+                    card.style.transform = '';
+                    card.classList.remove('flipped');
+                }, 300);
+            } else if (deltaX < -50) { // Left swipe (Mark as learned)
+                const learnedWord = words.splice(currentIndex, 1)[0];
+                learnedWords.push(learnedWord);
+                console.log("Yodlangan so'zlar:", learnedWords);
+
+                if (words.length === 0) {
+                    alert("Barcha so'zlar yodlandi! Yangi so'zlar qo'shishingiz mumkin.");
+                    updateCard(-1);
+                    return;
+                }
+
+                if (currentIndex >= words.length) {
+                    currentIndex = 0;
+                }
+                
+                updateCard(currentIndex);
+
+                card.classList.add('swiping-left');
+                setTimeout(() => {
+                    card.classList.remove('swiping-left');
+                    card.style.left = '';
+                    card.style.transform = '';
+                    card.classList.remove('flipped');
+                }, 300);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            closeModalButton.addEventListener("click", function () {
+                instructionModal.style.display = "none";
+            });
+            instructionModal.style.display = "flex";
+        });
+
+        // Initialize
+        updateCard(0);
+    </script>
+</body>
+</html>
