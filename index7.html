@@ -512,17 +512,20 @@
 
         const learnedWords = [];
     let words = [
-  { english: "current", definition: "a continuous movement of water in a river, lake, or sea", uzbekDefinition: "daryo, ko'l yoki dengizdagi suvning doimiy harakati", uzbek: "oqim", type: "ot", pronunciation: "/ˈkʌrənt/" },
-  { english: "polar", definition: "close to or relating to the North Pole or the South Pole", uzbekDefinition: "Shimoliy qutb yoki Janubiy qutbga yaqin yoki tegishli", uzbek: "qutbiy", type: "sifat", pronunciation: "/ˈpəʊlə/" },
-  { english: "directly", definition: "with no other person, action, process etc between", uzbekDefinition: "boshqa shaxs, harakat, jarayon va hokazolarsiz bevosita", uzbek: "bevosita", type: "ravish", pronunciation: "/dɪˈrektli/" },
-  { english: "humid", definition: "if the weather is humid, you feel uncomfortable because the air is very wet and usually hot", uzbekDefinition: "havo juda nam va odatda issiq bo'lganda noqulay his qilish", uzbek: "nam", type: "sifat", pronunciation: "/ˈhjuːmɪd/" },
-  { english: "pond", definition: "a small area of fresh water that is smaller than a lake, that is either natural or artificially made", uzbekDefinition: "ko'ldan kichikroq bo'lgan tabiiy yoki sun'iy chuchuk suv havzasi", uzbek: "hovuz", type: "ot", pronunciation: "/pɒnd/" },
-  { english: "evergreen", definition: "an evergreen tree or bush does not lose its leaves in winter", uzbekDefinition: "qishda barglarini to'kmaydigan doim yashil daraxt yoki buta", uzbek: "doim yashil", type: "sifat", pronunciation: "/ˈevəɡriːn/" },
-  { english: "berry", definition: "a small soft fruit with small seeds", uzbekDefinition: "kichik urug'li mayda yumshoq meva", uzbek: "rezavor meva", type: "ot", pronunciation: "/ˈberi/" },
-  { english: "coastal", definition: "in the sea or on the land near the coast", uzbekDefinition: "dengizda yoki qirg'oq yaqinidagi quruklikda joylashgan", uzbek: "qirg'oqbo'yi", type: "sifat", pronunciation: "/ˈkəʊstəl/" },
-  { english: "year-round", definition: "happening or continuing through the whole year", uzbekDefinition: "butun yil davomida sodir bo'ladigan yoki davom etadigan", uzbek: "yil bo'yi", type: "sifat", pronunciation: "/ˌjɪər ˈraʊnd/" },
-  { english: "prevent", definition: "to stop something from happening, or stop someone from doing something", uzbekDefinition: "biror narsa sodir bo'lishining oldini olish yoki kimnidir biror ish qilishdan to'xtatish", uzbek: "oldini olish", type: "fe'l", pronunciation: "/prɪˈvent/" }
+  { english: "Plentiful", definition: "more than enough in quantity", uzbekDefinition: "miqdori yetarlidan ortiq", uzbek: "mo'l-ko'l, serob", type: "sifat", pronunciation: "/ˈplɛntɪfəl/" },
+  { english: "Graze", definition: "if an animal grazes, or if you graze it, it eats grass that is growing", uzbekDefinition: "agar hayvon o'tlasa yoki siz uni o'tlatsangiz, u o'sayotgan o'tni yeydi", uzbek: "o'tlamoq", type: "fe'l", pronunciation: "/ɡreɪz/" },
+  { english: "Float", definition: "to stay or move on the surface of a liquid without sinking", uzbekDefinition: "suyuqlik yuzasida cho'kmasdan turish yoki harakat qilish", uzbek: "suzmoq", type: "fe'l", pronunciation: "/floʊt/" },
+  { english: "Factor", definition: "one of several things that influence or cause a situation", uzbekDefinition: "vaziyatga ta'sir qiluvchi yoki uni keltirib chiqaruvchi bir nechta narsalardan biri", uzbek: "faktor, omil", type: "ot", pronunciation: "/ˈfæktər/" },
+  { english: "Shallow", definition: "measuring only a short distance from the top to the bottom", uzbekDefinition: "yuqoridan pastgacha qisqa masofani o'lchash", uzbek: "sayoz", type: "sifat", pronunciation: "/ˈʃæloʊ/" },
+  { english: "Life form", definition: "a living thing such as a plant or animal", uzbekDefinition: "o'simlik yoki hayvon kabi tirik mavjudot", uzbek: "hayot shakli", type: "ot", pronunciation: "/ˈlaɪf fɔːrm/" },
+  { english: "Identify", definition: "to recognize and correctly name someone or something", uzbekDefinition: "kimnidir yoki nimadirni tanish va to'g'ri nomlash", uzbek: "aniqlamoq, tanimoq", type: "fe'l", pronunciation: "/aɪˈdɛntɪfaɪ/" },
+  { english: "Dweller", definition: "a person or animal that lives in a particular place", uzbekDefinition: "ma'lum bir joyda yashovchi shaxs yoki hayvon", uzbek: "yashovchi", type: "ot", pronunciation: "/ˈdwɛlər/" },
+  { english: "Worm", definition: "a long thin creature with no bones and no legs that lives in soil", uzbekDefinition: "tuproqda yashovchi suyaklari va oyoqlari bo'lmagan uzun ingichka jonzot", uzbek: "chuvalchang", type: "ot", pronunciation: "/wɜːrm/" },
+  { english: "Hemisphere", definition: "a half of the Earth, especially one of the halves above and below the equator", uzbekDefinition: "Yerning yarmi, ayniqsa ekvatorning yuqorisidagi va pastidagi yarmlardan biri", uzbek: "yarimshar", type: "ot", pronunciation: "/ˈhɛmɪsfɪər/" },
+  { english: "Hemlock", definition: "a very poisonous plant, or the poison that is made from it", uzbekDefinition: "juda zaharli o'simlik yoki undan tayyorlangan zahar", uzbek: "zaharli o't (gemlok)", type: "ot", pronunciation: "/ˈhɛmlɑːk/" },
+  { english: "Alike", definition: "very similar", uzbekDefinition: "juda o'xshash", uzbek: "o'xshash", type: "sifat", pronunciation: "/əˈlaɪk/" }
 ];
+
 
         function shuffleWords() {
             words = words.sort(() => Math.random() - 0.5);
