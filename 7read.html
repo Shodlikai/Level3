@@ -1,0 +1,1258 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Interaktiv Matn</title>
+   <!-- ResponsiveVoice kutubxonasini yuklash (matnni o'qish uchun) -->
+   <script src="https://code.responsivevoice.org/responsivevoice.js?key=ftro4Sxr"></script>
+   <style>
+       body {
+           font-family: Arial, sans-serif;
+           line-height: 1.6;
+           margin: 20px;
+           background-color: #f0f5f5; /* Kun rejimi fon rangi: Yumshoq, ko'zga qulay och kulrang-ko'k */
+           color: #333; /* Kun rejimi matn rangi */
+           transition: background-color 0.3s ease, color 0.3s ease; /* Rejimlar o'zgarishi uchun silliq o'tish */
+       }
+       body.dark-mode {
+           background-color: #1a1a1a; /* Qorong'u rejim fon rangi: Juda to'q kulrang, ko'zga umuman ta'sir qilmaydi */
+           color: #c0c0c0; /* Qorong'u rejim matn rangi: Yumshoq och kulrang */
+       }
+       body.sepia-mode {
+           background-color: #d8c0a0; /* Qizg'ich rejim fon rangi: Qizg'ish jigarrang tusli, ko'zga qulay */
+           color: #4a3b2e; /* Qizg'ich rejim matn rangi: To'q jigarrang */
+       }
+       .container {
+           max-width: 800px;
+           margin: auto;
+           background: #fcfcfc; /* Kun rejimida konteyner foni: Endi sof oq emas, biroz yumshoqroq */
+           padding: 30px;
+           border-radius: 8px;
+           box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+       }
+       body.dark-mode .container {
+           background: #282828; /* Qorong'u rejimda konteyner foni: Body'dan biroz ochroq */
+           box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+       }
+       body.sepia-mode .container {
+           background: #e0d0b8; /* Qizg'ich rejimda konteyner foni: Body'dan biroz ochroq */
+           box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+       }
+       .text-section {
+           margin-bottom: 20px;
+       }
+       .word {
+           cursor: pointer;
+           position: relative;
+           display: inline-block;
+           border-bottom: 1px dotted #007bff; /* Kun rejimida so'z osti chizig'i */
+       }
+       body.dark-mode .word {
+           border-bottom-color: #99bbff; /* Qorong'u rejimda so'z osti chizig'i: Yumshoq ko'k */
+       }
+       body.sepia-mode .word {
+           border-bottom-color: #b08e6d; /* Qizg'ich rejimda so'z osti chizig'i: Qizg'ich tusli */
+       }
+       .word:hover {
+           color: #0056b3; /* Kun rejimida hover rangi */
+       }
+       body.dark-mode .word:hover {
+           color: #ccddee; /* Qorong'u rejimda hover rangi */
+       }
+       body.sepia-mode .word:hover {
+           color: #8a6d51; /* Qizg'ich rejimda hover rangi */
+       }
+       .modal {
+           display: none; /* Odatiy holatda yashirilgan */
+           position: fixed; /* Joyida qoladi */
+           z-index: 1; /* Yuqorida turadi */
+           left: 0;
+           top: 0;
+           width: 100%; /* To'liq kenglik */
+           height: 100%; /* To'liq balandlik */
+           overflow: auto; /* Kerak bo'lsa aylantirishni yoqish */
+           background-color: rgba(0,0,0,0.4); /* Qora rang, shaffoflik bilan */
+       }
+       .modal-content {
+           background-color: #fefefe;
+           margin: 15% auto; /* Yuqoridan 15% va markazda */
+           padding: 20px;
+           border: 1px solid #888;
+           width: 80%; /* Ekran o'lchamiga qarab ko'proq yoki kamroq bo'lishi mumkin */
+           max-width: 400px;
+           border-radius: 8px;
+           box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+           text-align: center;
+       }
+       body.dark-mode .modal-content {
+           background-color: #3a3a3a; /* Qorong'u rejimda modal foni */
+           color: #e0e0e0; /* Qorong'u rejimda modal matn rangi */
+           border-color: #555;
+       }
+       body.sepia-mode .modal-content {
+           background-color: #e8d8c0; /* Qizg'ich rejimda modal foni */
+           color: #4a3b2e; /* Qizg'ich rejimda modal matn rangi */
+           border-color: #907a5e;
+       }
+       .close-button {
+           color: #aaa;
+           float: right;
+           font-size: 28px;
+           font-weight: bold;
+       }
+       .close-button:hover,
+       .close-button:focus {
+           color: black;
+           text-decoration: none;
+           cursor: pointer;
+       }
+       body.dark-mode .close-button {
+           color: #bbb;
+       }
+       body.dark-mode .close-button:hover,
+       body.dark-mode .close-button:focus {
+           color: white;
+       }
+       .play-button {
+           background: none;
+           border: none;
+           cursor: pointer;
+           font-size: 1.2em;
+           margin-right: 5px;
+           color: #28a745;
+       }
+       .play-button:hover {
+           color: #218838;
+       }
+       body.dark-mode .play-button {
+           color: #66dd88;
+       }
+       body.dark-mode .play-button:hover {
+           color: #44bb66;
+       }
+       .button-group {
+           display: flex;
+           justify-content: center;
+           gap: 15px; /* Tugmalar orasidagi bo'shliq */
+           margin-top: 20px;
+       }
+       .button-group button {
+           padding: 10px 20px;
+           font-size: 16px;
+           background-color: #007bff;
+           color: white;
+           border: none;
+           border-radius: 5px;
+           cursor: pointer;
+           transition: background-color 0.3s ease;
+       }
+       .button-group button:hover {
+           background-color: #0056b3;
+       }
+       #dynamic-image {
+           display: block;
+           margin: 0 auto 30px auto;
+           max-width: 100%;
+           height: auto;
+           border-radius: 8px;
+           box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+       }
+       h2 {
+           text-align: center;
+           color: #007bff; /* Kun rejimida sarlavha rangi */
+           margin-bottom: 25px;
+       }
+       body.dark-mode h2 {
+           color: #99bbff; /* Qorong'u rejimda sarlavha rangi */
+       }
+       body.sepia-mode h2 {
+           color: #b08e6d; /* Qizg'ich rejimda sarlavha rangi */
+       }
+       p {
+           margin-bottom: 15px;
+           text-align: justify;
+       }
+   </style>
+</head>
+<body>
+   <div class="container">
+       <!-- Dinamik rasm, matnga mos ravishda avtomatik yaratiladi -->
+       <img id="dynamic-image" src="https://image.pollinations.ai/prompt/800x400/Modern%20Cowboys%20and%20Future%20Energy" alt="Modern Cowboys and Future Energy">
+
+       <h2>Modern Cowboys</h2>
+
+       <div id="english-text" class="text-section">
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Cowboys all lived in the 19th century, when the Wild West really was wild.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">There are no cowboys in the USA in the 21st century.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Right?</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">No, wrong!</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Even today, there are still men and women who work as cowboys and cowgirls in the western USA and in Canada.... and in South America too!</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Are there still cowboys in the American West?</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">The answer is certainly yes!</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">There are still thousands of cowboys in the American west.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">They still ride horses, and they still carry guns; but they no longer spend time fighting Indians.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Although they often travel on four wheels, not four legs, cowboys still have to be expert horsemen too.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">They ride horses very regularly.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Some of the ranches in the American West cover thousands of hectares.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Cattle are often free to move over large areas.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">There are steep hills, rivers and streams, forests and rocks.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">In many places, it is impossible to use a pick-up, even with four-wheel drive; even motorbikes are useless.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">The only ways to cross the prairies are on horseback, or on foot; and you can't chase cattle on foot!</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Cowboys are working men; they look after the herds of cattle that live on the prairies in the mountains, from Texas to Canada.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">They have lots of jobs to do; they have to mark cattle so that they can be identified; they have to move cattle from place to place; they have to vaccinate them, and check that they are healthy.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">They also have to inspect miles and miles of fences and barbed-wire barriers.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">There is no shortage of people who want to be cowboys.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">The profession has a very special reputation; it is different from other jobs, but it can be hard work, with long hours.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Besides, many cowboys are not very well paid.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">It can also be a dangerous job.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Cowboys do not often fall off their horses, of course!</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">They have to be excellent riders; but they carry guns for two reasons.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Firstly, they may have to kill an injured animal - a cow or even a horse; secondly, they may encounter dangerous wild animals, such as rattle snakes.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">There are bears and wolves too, but they do not usually attack humans.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Nevertheless, it is useful to have a gun, just in case.....</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Fact: Cowboys used to herd thousands of cattle across long distances (sometimes over 1000 miles) from Texas to railroads in Kansas and Missouri.</span>
+           </p>
+
+           <h2>CHANGING COWBOYS</h2>
+
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">In the 19th century, cowboys used to drive cattle for hundreds of miles.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Sometimes they had to take them to new destinations; sometimes they had to take them to market.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Today, there are no more long cattle drives.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">These days, cattle are picked up in big trucks and taken to new destinations by road.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">That is one thing that has changed.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Another more modern idea is the "dude ranch".</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Anyone who wants to can become a cowboy for a week or more, if he has the money.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Dude ranches offer holidays to people who want to be part-time cowboys!</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Of course, dudes don't do much real work, but they enjoy the spirit of the west.</span>
+           </p>
+
+           <h2>Will there be Life after Oil and Gas ?</h2>
+
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Today, we use a lot of oil and gas, but we cannot use them forever.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">There is enough oil and gas for a few more decades-maybe until 2070.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">After that, most of the oil will be gone.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">This is a big problem, but there is another problem too: climate change.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">The Earth is getting hotter because we burn too much oil, gas, and coal.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Right now, there is still a lot of oil and gas under the ground and under the sea.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Engineers keep finding new oil in places like the North Sea and the Atlantic Ocean.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">But we must understand some important facts:</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Oil and gas will not last forever.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">One day, they will run out.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Finding oil will become more difficult.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">It will also become more expensive than other types of energy.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Oil and gas cause pollution and make global warming worse.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">But there is some good news too:</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Scientists are making new types of oil from plants.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Some fuels already use plant oil.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">For example, bio-fuels contain sunflower oil.</span>
+           </p>
+
+           <h2>The Future of Energy</h2>
+
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Sunflower oil is cleaner than mineral oil, so it causes less pollution.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">But in the future, we may need all the land to grow food, not fuel.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">This means that vegetable oils may not be the best solution for energy.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">One day, we will have very little oil or no oil at all.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Scientists are already working on new ideas.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">They are making cars, houses, and plastics that do not use oil.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">In the future, electricity will be the most important energy.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">But this electricity must be clean.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Right now, in Britain, electricity comes from different sources:</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Some electricity is made from oil and gas, but oil power stations are closing because gas is expensive.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Nuclear power stations will also close because they cost too much, and people do not like them.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Fact: Even though only 30 countries use nuclear power, it still provides about 10% of the world's electricity.</span>
+           </p>
+
+           <h2>What Will We Use Instead?</h2>
+
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Gas is still important for now because it is cleaner than oil and easier to find.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">There is more gas than oil under the ground.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Gas can be used in cars and houses too.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">But a lot of the gas used in Europe comes from Russia.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">After the war in Ukraine, Europeans saw this as a big problem.</span>
+           </p>
+
+           <h2>The Future: Renewable Energy</h2>
+
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">The sun, the wind, rivers, and oceans will give us all the energy we need!</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">It will be clean (no pollution).</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">It will last forever.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">But we are not there yet!</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">The 21st century will be a time of change.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">People over 50 years old today may not see a world without oil and gas.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">But young people under 20 might see it in their lifetime!</span>
+           </p>
+       </div>
+
+       <div id="uzbek-text" class="text-section" style="display:none;">
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Kovboylar faqatgina 19-asrda, Yovvoyi G'arb chindan ham yovvoyi bo'lgan paytlarda yashagan.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">21-asrda AQShda kovboylar yo'q.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">To'g'rimi?</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Yo'q, xato!</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bugungi kunda ham AQSh g'arbida, Kanadada va hatto Janubiy Amerikada kovboy va kovboy ayollar sifatida ishlaydigan erkaklar va ayollar bor!</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Amerika G'arbida hali ham kovboylar bormi?</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Javob shubhasiz ha!</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Amerika g'arbida hali ham minglab kovboylar mavjud.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ular hali ham ot minishadi va qurol olib yurishadi; ammo endi hindular bilan jang qilishga vaqt sarflashmaydi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ular ko'pincha to'rt g'ildirakli transportda (mashinada) harakatlanishsa ham, kovboylar baribir mohir chavandoz bo'lishlari kerak.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ular juda muntazam ravishda ot minishadi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Amerika G'arbidagi ba'zi rancho (chorvachilik fermalari) minglab gektar maydonni egallaydi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Chorva mollari ko'pincha katta hududlarda erkin harakatlanadi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">U yerlarda tik tepaliklar, daryolar va soylar, o'rmonlar va qoyalar bor.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ko'p joylarda, hatto to'rt g'ildirakli tortuvchi pikapdan ham foydalanishning ilojisi yo'q; hatto mototsikllar ham befoyda.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Yaylovlarni kesib o'tishning yagona yo'li otda yoki piyoda yurishdir; chorva mollarini esa piyoda quvishning ilojisi yo'q!</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Kovboylar — mehnatkash odamlar; ular Texasdan Kanadagacha tog'lardagi yaylovlarda yashovchi chorva podalariga g'amxo'rlik qilishadi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ularning bajaradigan ko'plab ishlari bor: mol-qo'ylarni aniqlash uchun ularga belgi qo'yishlari kerak; ularni joydan joyga ko'chirishlari kerak; ularni emlashlari va sog'lomligini tekshirishlari kerak.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Shuningdek, ular milllab-milllab to'siqlar va tikanli sim to'siqlarni tekshirishlari kerak.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Kovboy bo'lishni istagan odamlar yetarlicha topiladi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bu kasb juda o'ziga xos obro'ga ega; u boshqa ishlardan farq qiladi, ammo uzoq ish soatlari bilan og'ir mehnat bo'lishi mumkin.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bundan tashqari, ko'plab kovboylar juda yaxshi maosh olishmaydi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bu xavfli ish ham bo'lishi mumkin.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Kovboylar, albatta, otlaridan tez-tez yiqilmaydilar!</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ular ajoyib chavandoz bo'lishlari kerak; ammo ular ikki sababga ko'ra qurol olib yurishadi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Birinchidan, ular jarohatlangan hayvonni – sigirni yoki hatto otni – o'ldirishga majbur bo'lishlari mumkin; ikkinchidan, ular ilonlar kabi xavfli yovvoyi hayvonlarga duch kelishlari mumkin.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ayiqlar va bo'rilar ham bor, ammo ular odatda odamlarga hujum qilishmaydi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Shunga qaramay, ehtiyot shart bo'lsa, qurolga ega bo'lish foydalidir.....</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Fakt: Kovboylar o'n minglab mol-qo'ylarni Texasdan Kanzasdagi Missuri temir yo'llarigacha (ba'zan 1000 mildan ortiq) uzoq masofalarga haydashardi.</span>
+           </p>
+
+           <h2>O'ZGARUVCHAN KOVBOYLAR</h2>
+
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">19-asrda kovboylar yuzlab millab mol-qo'ylarni haydashardi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ba'zan ularni yangi manzillarga olib borishlari kerak bo'lardi; ba'zan esa ularni bozorga olib borishardi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bugungi kunda uzoq masofali chorva haydashlar yo'q.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Hozirgi kunda chorva mollari katta yuk mashinalariga yuklanib, yo'l orqali yangi manzillarga olib boriladi.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bu o'zgargan narsalardan biri.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Yana bir zamonaviy g'oya "dude ranch" (dam olish rancho) hisoblanadi.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Pul topa olgan har bir kishi, bir hafta yoki undan ko'proq vaqtga kovboy bo'lishi mumkin.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Dude ranchlar yarim kunlik kovboy bo'lishni istaganlarga dam olishni taklif qiladi!</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Albatta, "dudelar" ko'p haqiqiy ish qilmaydilar, ammo ular G'arb ruhidan zavqlanishadi.</span>
+           </p>
+
+           <h2>Neft va gazdan keyin ham hayot bo'ladimi?</h2>
+
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bugun biz ko'p neft va gaz ishlatamiz, ammo ularni abadiy ishlatolmaymiz.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Neft va gaz bir necha o'n yilliklar uchun yetarli – balki 2070 yilgacha.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Undan keyin neftning aksariyati tugaydi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bu katta muammo, ammo yana bir muammo bor: iqlim o'zgarishi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Yer isib bormoqda, chunki biz juda ko'p neft, gaz va ko'mir yoqamiz.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Hozirda yer ostida va dengiz ostida hali ham ko'p neft va gaz mavjud.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Muhandislar Shimoliy dengiz va Atlantika okeani kabi joylarda yangi neft konlarini topishmoqda.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ammo biz ba'zi muhim faktlarni tushunishimiz kerak:</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Neft va gaz abadiy saqlanmaydi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bir kun kelib ular tugaydi.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Neft topish qiyinlashadi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">U boshqa energiya turlaridan qimmatroq ham bo'ladi.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Neft va gaz ifloslanishni keltirib chiqaradi va global isishni yomonlashtiradi.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ammo yaxshi yangiliklar ham bor:</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Olimlar o'simliklardan yangi turdagi neft ishlab chiqarishmoqda.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ba'zi yoqilg'ilar allaqachon o'simlik moyini ishlatadi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Masalan, bioyoqilg'ilar kungaboqar moyini o'z ichiga oladi.</span>
+           </p>
+
+           <h2>Energiyaning kelajagi</h2>
+
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Kungaboqar moyi mineral moydan toza, shuning uchun u kamroq ifloslanishni keltirib chiqaradi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">But in the future, we may need all the land to grow food, not fuel.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">This means that vegetable oils may not be the best solution for energy.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">One day, we will have very little oil or no oil at all.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Scientists are already working on new ideas.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">They are making cars, houses, and plastics that do not use oil.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">In the future, electricity will be the most important energy.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">But this electricity must be clean.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Right now, in Britain, electricity comes from different sources:</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Some electricity is made from oil and gas, but oil power stations are closing because gas is expensive.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Nuclear power stations will also close because they cost too much, and people do not like them.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Fact: Even though only 30 countries use nuclear power, it still provides about 10% of the world's electricity.</span>
+           </p>
+
+           <h2>What Will We Use Instead?</h2>
+
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Gas is still important for now because it is cleaner than oil and easier to find.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">There is more gas than oil under the ground.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Gas can be used in cars and houses too.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">But a lot of the gas used in Europe comes from Russia.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">After the war in Ukraine, Europeans saw this as a big problem.</span>
+           </p>
+
+           <h2>The Future: Renewable Energy</h2>
+
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">The sun, the wind, rivers, and oceans will give us all the energy we need!</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">It will be clean (no pollution).</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">It will last forever.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">But we are not there yet!</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">The 21st century will be a time of change.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">People over 50 years old today may not see a world without oil and gas.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">But young people under 20 might see it in their lifetime!</span>
+           </p>
+       </div>
+
+       <div id="uzbek-text" class="text-section" style="display:none;">
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Kovboylar faqatgina 19-asrda, Yovvoyi G'arb chindan ham yovvoyi bo'lgan paytlarda yashagan.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">21-asrda AQShda kovboylar yo'q.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">To'g'rimi?</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Yo'q, xato!</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bugungi kunda ham AQSh g'arbida, Kanadada va hatto Janubiy Amerikada kovboy va kovboy ayollar sifatida ishlaydigan erkaklar va ayollar bor!</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Amerika G'arbida hali ham kovboylar bormi?</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Javob shubhasiz ha!</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Amerika g'arbida hali ham minglab kovboylar mavjud.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ular hali ham ot minishadi va qurol olib yurishadi; ammo endi hindular bilan jang qilishga vaqt sarflashmaydi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ular ko'pincha to'rt g'ildirakli transportda (mashinada) harakatlanishsa ham, kovboylar baribir mohir chavandoz bo'lishlari kerak.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ular juda muntazam ravishda ot minishadi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Amerika G'arbidagi ba'zi rancho (chorvachilik fermalari) minglab gektar maydonni egallaydi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Chorva mollari ko'pincha katta hududlarda erkin harakatlanadi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">U yerlarda tik tepaliklar, daryolar va soylar, o'rmonlar va qoyalar bor.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ko'p joylarda, hatto to'rt g'ildirakli tortuvchi pikapdan ham foydalanishning ilojisi yo'q; hatto mototsikllar ham befoyda.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Yaylovlarni kesib o'tishning yagona yo'li otda yoki piyoda yurishdir; chorva mollarini esa piyoda quvishning ilojisi yo'q!</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Kovboylar — mehnatkash odamlar; ular Texasdan Kanadagacha tog'lardagi yaylovlarda yashovchi chorva podalariga g'amxo'rlik qilishadi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ularning bajaradigan ko'plab ishlari bor: mol-qo'ylarni aniqlash uchun ularga belgi qo'yishlari kerak; ularni joydan joyga ko'chirishlari kerak; ularni emlashlari va sog'lomligini tekshirishlari kerak.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Shuningdek, ular milllab-milllab to'siqlar va tikanli sim to'siqlarni tekshirishlari kerak.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Kovboy bo'lishni istagan odamlar yetarlicha topiladi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bu kasb juda o'ziga xos obro'ga ega; u boshqa ishlardan farq qiladi, ammo uzoq ish soatlari bilan og'ir mehnat bo'lishi mumkin.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bundan tashqari, ko'plab kovboylar juda yaxshi maosh olishmaydi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bu xavfli ish ham bo'lishi mumkin.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Kovboylar, albatta, otlaridan tez-tez yiqilmaydilar!</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ular ajoyib chavandoz bo'lishlari kerak; ammo ular ikki sababga ko'ra qurol olib yurishadi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Birinchidan, ular jarohatlangan hayvonni – sigirni yoki hatto otni – o'ldirishga majbur bo'lishlari mumkin; ikkinchidan, ular ilonlar kabi xavfli yovvoyi hayvonlarga duch kelishlari mumkin.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ayiqlar va bo'rilar ham bor, ammo ular odatda odamlarga hujum qilishmaydi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Shunga qaramay, ehtiyot shart bo'lsa, qurolga ega bo'lish foydalidir.....</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Fakt: Kovboylar o'n minglab mol-qo'ylarni Texasdan Kanzasdagi Missuri temir yo'llarigacha (ba'zan 1000 mildan ortiq) uzoq masofalarga haydashardi.</span>
+           </p>
+
+           <h2>O'ZGARUVCHAN KOVBOYLAR</h2>
+
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">19-asrda kovboylar yuzlab millab mol-qo'ylarni haydashardi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ba'zan ularni yangi manzillarga olib borishlari kerak bo'lardi; ba'zan esa ularni bozorga olib borishardi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bugungi kunda uzoq masofali chorva haydashlar yo'q.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Hozirgi kunda chorva mollari katta yuk mashinalariga yuklanib, yo'l orqali yangi manzillarga olib boriladi.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bu o'zgargan narsalardan biri.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Yana bir zamonaviy g'oya "dude ranch" (dam olish rancho) hisoblanadi.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Pul topa olgan har bir kishi, bir hafta yoki undan ko'proq vaqtga kovboy bo'lishi mumkin.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Dude ranchlar yarim kunlik kovboy bo'lishni istaganlarga dam olishni taklif qiladi!</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Albatta, "dudelar" ko'p haqiqiy ish qilmaydilar, ammo ular G'arb ruhidan zavqlanishadi.</span>
+           </p>
+
+           <h2>Neft va gazdan keyin ham hayot bo'ladimi?</h2>
+
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bugun biz ko'p neft va gaz ishlatamiz, ammo ularni abadiy ishlatolmaymiz.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Neft va gaz bir necha o'n yilliklar uchun yetarli – balki 2070 yilgacha.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Undan keyin neftning aksariyati tugaydi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bu katta muammo, ammo yana bir muammo bor: iqlim o'zgarishi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Yer isib bormoqda, chunki biz juda ko'p neft, gaz va ko'mir yoqamiz.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Hozirda yer ostida va dengiz ostida hali ham ko'p neft va gaz mavjud.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Muhandislar Shimoliy dengiz va Atlantika okeani kabi joylarda yangi neft konlarini topishmoqda.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ammo biz ba'zi muhim faktlarni tushunishimiz kerak:</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Neft va gaz abadiy saqlanmaydi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bir kun kelib ular tugaydi.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Neft topish qiyinlashadi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">U boshqa energiya turlaridan qimmatroq ham bo'ladi.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Neft va gaz ifloslanishni keltirib chiqaradi va global isishni yomonlashtiradi.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ammo yaxshi yangiliklar ham bor:</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Olimlar o'simliklardan yangi turdagi neft ishlab chiqarishmoqda.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ba'zi yoqilg'ilar allaqachon o'simlik moyini ishlatadi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Masalan, bioyoqilg'ilar kungaboqar moyini o'z ichiga oladi.</span>
+           </p>
+
+           <h2>Energiyaning kelajagi</h2>
+
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Kungaboqar moyi mineral moydan toza, shuning uchun u kamroq ifloslanishni keltirib chiqaradi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">But in the future, we may need all the land to grow food, not fuel.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">This means that vegetable oils may not be the best solution for energy.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">One day, we will have very little oil or no oil at all.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Scientists are already working on new ideas.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">They are making cars, houses, and plastics that do not use oil.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">In the future, electricity will be the most important energy.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">But this electricity must be clean.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Right now, in Britain, electricity comes from different sources:</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Some electricity is made from oil and gas, but oil power stations are closing because gas is expensive.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Nuclear power stations will also close because they cost too much, and people do not like them.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Fact: Even though only 30 countries use nuclear power, it still provides about 10% of the world's electricity.</span>
+           </p>
+
+           <h2>What Will We Use Instead?</h2>
+
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Gas is still important for now because it is cleaner than oil and easier to find.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">There is more gas than oil under the ground.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Gas can be used in cars and houses too.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">But a lot of the gas used in Europe comes from Russia.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">After the war in Ukraine, Europeans saw this as a big problem.</span>
+           </p>
+
+           <h2>Kelajak: Qayta tiklanuvchi energiya</h2>
+
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Quyosh, shamol, daryolar va okeanlar bizga kerak bo'lgan barcha energiyani beradi!</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">U toza bo'ladi (ifloslanish yo'q).</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">U abadiy davom etadi.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ammo biz hali bunga erishganimiz yo'q!</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">21-asr o'zgarishlar davri bo'ladi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bugun 50 yoshdan oshgan odamlar neft va gazsiz dunyoni ko'rmasliklari mumkin.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ammo 20 yoshdan kichik yoshlar o'z hayotlari davomida buni ko'rishlari mumkin!</span>
+           </p>
+       </div>
+
+       <div class="button-group">
+           <button id="toggle-lang-button">O'zbekcha</button>
+           <button id="toggle-theme-button">Qorong'u rejim</button>
+       </div>
+
+       <!-- So'z tarjimasi uchun modal oyna -->
+       <div id="wordModal" class="modal">
+           <div class="modal-content">
+               <span class="close-button">×</span>
+               <p id="modalWord"></p>
+               <p id="modalTranslation"></p>
+           </div>
+       </div>
+
+   </div>
+
+   <script>
+       // Lug'at obyekti: Kalit so'zlar kichik harflarda bo'lishi kerak.
+       const words = {
+           // Modern Cowboys matni
+           "cowboys": { translation: "kovboylar", meaning: "chorvadorlar", pronunciation: "kov-boyz" },
+           "all": { translation: "barcha", meaning: "hammasi", pronunciation: "ol" },
+           "lived": { translation: "yashagan", meaning: "hayot kechirgan", pronunciation: "livd" },
+           "in": { translation: "da", meaning: "ichida", pronunciation: "in" },
+           "the": { translation: "bu", meaning: "aniq artikl", pronunciation: "dha" },
+           "19th": { translation: "19-asr", meaning: "o'n to'qqizinchi asr", pronunciation: "naynt-eeth" },
+           "century": { translation: "asr", meaning: "yuz yillik", pronunciation: "sen-choo-ree" },
+           "when": { translation: "qachon", meaning: "paytda", pronunciation: "wen" },
+           "wild": { translation: "yovvoyi", meaning: "qo'lga o'rgatilmagan", pronunciation: "wyld" },
+           "west": { translation: "g'arb", meaning: "g'arbiy hudud", pronunciation: "west" },
+           "really": { translation: "chindan ham", meaning: "haqiqatan ham", pronunciation: "ree-uh-lee" },
+           "was": { translation: "edi", meaning: "bo'lgan", pronunciation: "woz" },
+           "there": { translation: "bor", meaning: "mavjud", pronunciation: "thair" },
+           "are": { translation: "lar", meaning: "ko'plik qo'shimchasi", pronunciation: "ar" },
+           "no": { translation: "yo'q", meaning: "mavjud emas", pronunciation: "noh" },
+           "usa": { translation: "AQSh", meaning: "Amerika Qo'shma Shtatlari", pronunciation: "yoo-es-ey" },
+           "21st": { translation: "21-asr", meaning: "yigirma birinchi asr", pronunciation: "twen-tee-fyrst" },
+           "right": { translation: "to'g'ri", meaning: "haqiqat", pronunciation: "ryt" },
+           "wrong": { translation: "xato", meaning: "noto'g'ri", pronunciation: "rong" },
+           "even": { translation: "hatto", meaning: "shuningdek", pronunciation: "ee-vuhn" },
+           "today": { translation: "bugungi kunda", meaning: "hozirgi vaqtda", pronunciation: "tuh-day" },
+           "still": { translation: "hali ham", meaning: "baribir", pronunciation: "stil" },
+           "men": { translation: "erkaklar", meaning: "erkak kishilar", pronunciation: "men" },
+           "and": { translation: "va", meaning: "hamda", pronunciation: "and" },
+           "women": { translation: "ayollar", meaning: "ayol kishilar", pronunciation: "wim-in" },
+           "who": { translation: "kim", meaning: "qaysi", pronunciation: "hoo" },
+           "work": { translation: "ishlaydi", meaning: "mehnat qiladi", pronunciation: "werk" },
+           "as": { translation: "sifatida", meaning: "kabi", pronunciation: "az" },
+           "cowgirls": { translation: "kovboy ayollar", meaning: "ayol chorvadorlar", pronunciation: "kow-gerlz" },
+           "western": { translation: "g'arbiy", meaning: "g'arbga oid", pronunciation: "wes-tern" },
+           "canada": { translation: "Kanada", meaning: "Kanada davlati", pronunciation: "kan-uh-duh" },
+           "south": { translation: "janubiy", meaning: "janubga oid", pronunciation: "sowth" },
+           "america": { translation: "Amerika", meaning: "Amerika qit'asi", pronunciation: "uh-mer-i-kuh" },
+           "too": { translation: "ham", meaning: "shuningdek", pronunciation: "too" },
+           "answer": { translation: "javob", meaning: "qaytarish", pronunciation: "an-ser" },
+           "certainly": { translation: "shubhasiz", meaning: "albatta", pronunciation: "ser-tn-lee" },
+           "yes": { translation: "ha", meaning: "rozilik", pronunciation: "yes" },
+           "thousands": { translation: "minglab", meaning: "ming soni", pronunciation: "thow-zuhndz" },
+           "ride": { translation: "minishadi", meaning: "otga minish", pronunciation: "ryd" },
+           "horses": { translation: "otlar", meaning: "otlar (ko'plik)", pronunciation: "hor-siz" },
+           "carry": { translation: "olib yurishadi", meaning: "ko'tarib yurish", pronunciation: "kar-ee" },
+           "guns": { translation: "qurol", meaning: "o'qotar qurol", pronunciation: "guhnz" },
+           "but": { translation: "ammo", meaning: "lekin", pronunciation: "buht" },
+           "they": { translation: "ular", meaning: "kishilik olmoshi", pronunciation: "they" },
+           "longer": { translation: "endi", meaning: "uzoqroq", pronunciation: "long-ger" },
+           "spend": { translation: "sarflashmaydi", meaning: "vaqt o'tkazish", pronunciation: "spend" },
+           "time": { translation: "vaqt", meaning: "muddat", pronunciation: "tym" },
+           "fighting": { translation: "jang qilish", meaning: "urushish", pronunciation: "fy-ting" },
+           "indians": { translation: "hindular", meaning: "Amerika tub aholisi", pronunciation: "in-dee-uhnz" },
+           "although": { translation: "garchi", meaning: "shunga qaramay", pronunciation: "awl-thoh" },
+           "often": { translation: "ko'pincha", meaning: "tez-tez", pronunciation: "awf-tuhn" },
+           "travel": { translation: "sayohat qilishadi", meaning: "safarga chiqish", pronunciation: "trav-uhl" },
+           "on": { translation: "da", meaning: "ustida", pronunciation: "on" },
+           "four": { translation: "to'rt", meaning: "to'rt soni", pronunciation: "for" },
+           "wheels": { translation: "g'ildirak", meaning: "avtomobil g'ildiragi", pronunciation: "weelz" },
+           "not": { translation: "emas", meaning: "inkor", pronunciation: "not" },
+           "legs": { translation: "oyoq", meaning: "oyoqlar", pronunciation: "legz" },
+           "have": { translation: "kerak", meaning: "ega bo'lish", pronunciation: "hav" },
+           "to": { translation: "ga", meaning: "maqsadni bildiruvchi ko'makchi", pronunciation: "too" },
+           "be": { translation: "bo'lish", meaning: "mavjud bo'lish", pronunciation: "bee" },
+           "expert": { translation: "mohir", meaning: "mutaxassis", pronunciation: "ek-spert" },
+           "horsemen": { translation: "chavandoz", meaning: "ot minuvchi", pronunciation: "hors-muhn" },
+           "very": { translation: "juda", meaning: "o'ta", pronunciation: "ver-ee" },
+           "regularly": { translation: "muntazam ravishda", meaning: "doimiy", pronunciation: "reg-yuh-ler-lee" },
+           "some": { translation: "ba'zi", meaning: "bir nechta", pronunciation: "suhm" },
+           "ranches": { translation: "rancho", meaning: "chorvachilik fermalari", pronunciation: "ran-chiz" },
+           "cover": { translation: "egallaydi", meaning: "qoplash", pronunciation: "kuhv-er" },
+           "thousands": { translation: "minglab", meaning: "ming soni", pronunciation: "thow-zuhndz" },
+           "hectares": { translation: "gektar", meaning: "yer o'lchov birligi", pronunciation: "hek-tarz" },
+           "cattle": { translation: "chorva mollari", meaning: "qoramol", pronunciation: "kat-l" },
+           "often": { translation: "ko'pincha", meaning: "tez-tez", pronunciation: "awf-tuhn" },
+           "free": { translation: "erkin", meaning: "ozod", pronunciation: "free" },
+           "move": { translation: "harakatlanadi", meaning: "ko'chish", pronunciation: "moov" },
+           "over": { translation: "ustida", meaning: "yuqorida", pronunciation: "oh-ver" },
+           "large": { translation: "katta", meaning: "ulkan", pronunciation: "larj" },
+           "areas": { translation: "hududlar", meaning: "maydonlar", pronunciation: "air-ee-uhz" },
+           "steep": { translation: "tik", meaning: "baland", pronunciation: "steep" },
+           "hills": { translation: "tepaliklar", meaning: "kichik tog'lar", pronunciation: "hilz" },
+           "rivers": { translation: "daryolar", meaning: "daryolar (ko'plik)", pronunciation: "riv-erz" },
+           "streams": { translation: "soylar", meaning: "kichik daryolar", pronunciation: "streemz" },
+           "forests": { translation: "o'rmonlar", meaning: "o'rmonlar (ko'plik)", pronunciation: "for-ists" },
+           "rocks": { translation: "qoyalar", meaning: "toshlar", pronunciation: "roks" },
+           "many": { translation: "ko'p", meaning: "soni ko'p", pronunciation: "men-ee" },
+           "places": { translation: "joylarda", meaning: "o'rinlar", pronunciation: "pley-sis" },
+           "it": { translation: "u", meaning: "predmet olmoshi", pronunciation: "it" },
+           "impossible": { translation: "ilojisi yo'q", meaning: "mumkin emas", pronunciation: "im-pos-uh-buhl" },
+           "use": { translation: "foydalanish", meaning: "ishlatish", pronunciation: "yoos" },
+           "a": { translation: "bir", meaning: "aniqmas artikl", pronunciation: "uh" },
+           "pick-up": { translation: "pikap", meaning: "yuk mashinasi turi", pronunciation: "pik-uhp" },
+           "even": { translation: "hatto", meaning: "shuningdek", pronunciation: "ee-vuhn" },
+           "with": { translation: "bilan", meaning: "birga", pronunciation: "with" },
+           "drive": { translation: "tortuvchi", meaning: "haydash", pronunciation: "dryv" },
+           "motorbikes": { translation: "mototsikllar", meaning: "mototsikllar (ko'plik)", pronunciation: "moh-ter-byks" },
+           "useless": { translation: "befoyda", meaning: "keraksiz", pronunciation: "yoos-lis" },
+           "only": { translation: "yagona", meaning: "faqat", pronunciation: "ohn-lee" },
+           "ways": { translation: "yo'llar", meaning: "usullar", pronunciation: "wayz" },
+           "cross": { translation: "kesib o'tish", meaning: "o'tish", pronunciation: "kros" },
+           "prairies": { translation: "yaylovlar", meaning: "yaylovlar (ko'plik)", pronunciation: "prair-eez" },
+           "horseback": { translation: "otda", meaning: "ot ustida", pronunciation: "hors-bak" },
+           "or": { translation: "yoki", meaning: "yoxud", pronunciation: "or" },
+           "foot": { translation: "piyoda", meaning: "oyoq", pronunciation: "foot" },
+           "can't": { translation: "qila olmaysiz", meaning: "mumkin emas", pronunciation: "kant" },
+           "chase": { translation: "quvish", meaning: "ortidan yugurish", pronunciation: "cheys" },
+           "working": { translation: "mehnatkash", meaning: "ishlayotgan", pronunciation: "wer-king" },
+           "look": { translation: "g'amxo'rlik qilishadi", meaning: "qarash", pronunciation: "look" },
+           "after": { translation: "keyin", meaning: "so'ng", pronunciation: "af-ter" },
+           "herds": { translation: "podalar", meaning: "podalar (ko'plik)", pronunciation: "herdz" },
+           "that": { translation: "ki", meaning: "bog'lovchi", pronunciation: "that" },
+           "live": { translation: "yashaydi", meaning: "hayot kechirish", pronunciation: "liv" },
+           "mountains": { translation: "tog'lar", meaning: "tog'lar (ko'plik)", pronunciation: "mown-tinz" },
+           "from": { translation: "dan", meaning: "qayerdan", pronunciation: "frum" },
+           "texas": { translation: "Texas", meaning: "AQSh shtati", pronunciation: "tek-suhs" },
+           "canada": { translation: "Kanada", meaning: "Kanada davlati", pronunciation: "kan-uh-duh" },
+           "lots": { translation: "ko'p", meaning: "juda ko'p", pronunciation: "lots" },
+           "jobs": { translation: "ishlar", meaning: "kasblar", pronunciation: "jobz" },
+           "do": { translation: "qilish", meaning: "bajarish", pronunciation: "doo" },
+           "mark": { translation: "belgi qo'yish", meaning: "belgilash", pronunciation: "mark" },
+           "so": { translation: "shuning uchun", meaning: "natijada", pronunciation: "soh" },
+           "identified": { translation: "aniqlash", meaning: "tanib olish", pronunciation: "y-den-tuh-fayd" },
+           "move": { translation: "ko'chirish", meaning: "harakatlantirish", pronunciation: "moov" },
+           "place": { translation: "joy", meaning: "o'rin", pronunciation: "pleys" },
+           "vaccinate": { translation: "emlash", meaning: "vaksina qilish", pronunciation: "vak-suh-neyt" },
+           "check": { translation: "tekshirish", meaning: "nazorat qilish", pronunciation: "chek" },
+           "healthy": { translation: "sog'lom", meaning: "kasalsiz", pronunciation: "hel-thee" },
+           "inspect": { translation: "tekshirish", meaning: "ko'zdan kechirish", pronunciation: "in-spekt" },
+           "miles": { translation: "milllab", meaning: "mil (masofa o'lchovi)", pronunciation: "mylz" },
+           "fences": { translation: "to'siqlar", meaning: "panjara", pronunciation: "fen-siz" },
+           "barbed-wire": { translation: "tikanli sim", meaning: "tikanli sim", pronunciation: "barbd-wyr" },
+           "barriers": { translation: "to'siqlar", meaning: "g'ovlar", pronunciation: "bar-ee-erz" },
+           "shortage": { translation: "tanqislik", meaning: "yetishmovchilik", pronunciation: "shor-tij" },
+           "profession": { translation: "kasb", meaning: "mutaxassislik", pronunciation: "pruh-fesh-uhn" },
+           "has": { translation: "ega", meaning: "bor", pronunciation: "haz" },
+           "special": { translation: "o'ziga xos", meaning: "maxsus", pronunciation: "spesh-uhl" },
+           "reputation": { translation: "obro'", meaning: "shuhrat", pronunciation: "rep-yuh-tey-shuhn" },
+           "different": { translation: "farq qiladi", meaning: "boshqacha", pronunciation: "dif-er-uhnt" },
+           "from": { translation: "dan", meaning: "qayerdan", pronunciation: "frum" },
+           "other": { translation: "boshqa", meaning: "qolgan", pronunciation: "uhth-er" },
+           "hard": { translation: "og'ir", meaning: "qiyin", pronunciation: "hard" },
+           "long": { translation: "uzoq", meaning: "cho'ziq", pronunciation: "long" },
+           "hours": { translation: "soatlar", meaning: "soatlar (ko'plik)", pronunciation: "ow-erz" },
+           "besides": { translation: "bundan tashqari", meaning: "qo'shimcha ravishda", pronunciation: "bi-sydz" },
+           "many": { translation: "ko'p", meaning: "soni ko'p", pronunciation: "men-ee" },
+           "paid": { translation: "maosh olishmaydi", meaning: "pul to'langan", pronunciation: "peyd" },
+           "dangerous": { translation: "xavfli", meaning: "tahlikali", pronunciation: "deyn-jer-uhs" },
+           "job": { translation: "ish", meaning: "kasb", pronunciation: "job" },
+           "do": { translation: "qilishmaydi", meaning: "bajarish", pronunciation: "doo" },
+           "fall": { translation: "yiqilmaydilar", meaning: "tushish", pronunciation: "fawl" },
+           "off": { translation: "dan", meaning: "ajratish", pronunciation: "awf" },
+           "of": { translation: "ning", meaning: "egalikni bildiruvchi", pronunciation: "ov" },
+           "course": { translation: "albatta", meaning: "shubhasiz", pronunciation: "kors" },
+           "excellent": { translation: "ajoyib", meaning: "a'lo", pronunciation: "ek-suh-luhnt" },
+           "riders": { translation: "chavandozlar", meaning: "ot minuvchilar", pronunciation: "ry-derz" },
+           "reasons": { translation: "sabablar", meaning: "sabablar (ko'plik)", pronunciation: "ree-zuhnz" },
+           "firstly": { translation: "birinchidan", meaning: "birinchi navbatda", pronunciation: "ferst-lee" },
+           "may": { translation: "mumkin", meaning: "ehtimol", pronunciation: "mey" },
+           "kill": { translation: "o'ldirish", meaning: "halok qilish", pronunciation: "kil" },
+           "injured": { translation: "jarohatlangan", meaning: "shikastlangan", pronunciation: "in-jerd" },
+           "animal": { translation: "hayvon", meaning: "jonzot", pronunciation: "an-uh-muhl" },
+           "cow": { translation: "sigir", meaning: "qoramol", pronunciation: "kow" },
+           "secondly": { translation: "ikkinchidan", meaning: "ikkinchi navbatda", pronunciation: "sek-uhnd-lee" },
+           "encounter": { translation: "duch kelish", meaning: "uchratish", pronunciation: "en-kown-ter" },
+           "wild": { translation: "yovvoyi", meaning: "qo'lga o'rgatilmagan", pronunciation: "wyld" },
+           "animals": { translation: "hayvonlar", meaning: "jonzotlar (ko'plik)", pronunciation: "an-uh-muhlz" },
+           "such": { translation: "kabi", meaning: "shu kabi", pronunciation: "suhch" },
+           "as": { translation: "sifatida", meaning: "kabi", pronunciation: "az" },
+           "rattle": { translation: "ilonlar", meaning: "ilon turi", pronunciation: "rat-l" },
+           "snakes": { translation: "ilonlar", meaning: "ilonlar (ko'plik)", pronunciation: "sneyks" },
+           "bears": { translation: "ayiqlar", meaning: "ayiqlar (ko'plik)", pronunciation: "bairz" },
+           "wolves": { translation: "bo'rilar", meaning: "bo'rilar (ko'plik)", pronunciation: "woolvz" },
+           "usually": { translation: "odatda", meaning: "odatdagidek", pronunciation: "yoo-zhoo-uh-lee" },
+           "attack": { translation: "hujum qilishmaydi", meaning: "hujum qilish", pronunciation: "uh-tak" },
+           "humans": { translation: "odamlarga", meaning: "insonlar", pronunciation: "hyoo-muhnz" },
+           "nevertheless": { translation: "shunga qaramay", meaning: "baribir", pronunciation: "nev-er-thuh-les" },
+           "useful": { translation: "foydali", meaning: "kerakli", pronunciation: "yoos-fuhl" },
+           "have": { translation: "ega bo'lish", meaning: "bor", pronunciation: "hav" },
+           "gun": { translation: "qurol", meaning: "o'qotar qurol", pronunciation: "guhn" },
+           "just": { translation: "ehtiyot shart", meaning: "faqat", pronunciation: "juhst" },
+           "in": { translation: "da", meaning: "ichida", pronunciation: "in" },
+           "case": { translation: "holatda", meaning: "vaziyatda", pronunciation: "keys" },
+           "fact": { translation: "fakt", meaning: "haqiqat", pronunciation: "fakt" },
+           "used": { translation: "ishlatilgan", meaning: "foydalanilgan", pronunciation: "yoosd" },
+           "herd": { translation: "haydashardi", meaning: "podani boshqarish", pronunciation: "herd" },
+           "thousands": { translation: "minglab", meaning: "ming soni", pronunciation: "thow-zuhndz" },
+           "cattle": { translation: "mol-qo'ylarni", meaning: "qoramol", pronunciation: "kat-l" },
+           "across": { translation: "bo'ylab", meaning: "narigi tomonga", pronunciation: "uh-kros" },
+           "long": { translation: "uzoq", meaning: "cho'ziq", pronunciation: "long" },
+           "distances": { translation: "masofalarga", meaning: "masofalar (ko'plik)", pronunciation: "dis-tuhns-iz" },
+           "sometimes": { translation: "ba'zan", meaning: "vaqti-vaqti bilan", pronunciation: "suhm-tymz" },
+           "over": { translation: "ortiq", meaning: "yuqorida", pronunciation: "oh-ver" },
+           "1000": { translation: "1000", meaning: "bir ming", pronunciation: "wuhn thow-zuhnd" },
+           "miles": { translation: "milllab", meaning: "mil (masofa o'lchovi)", pronunciation: "mylz" },
+           "from": { translation: "dan", meaning: "qayerdan", pronunciation: "frum" },
+           "texas": { translation: "Texas", meaning: "AQSh shtati", pronunciation: "tek-suhs" },
+           "railroads": { translation: "temir yo'llarigacha", meaning: "temir yo'llar", pronunciation: "reyl-rohd" },
+           "kansas": { translation: "Kanzas", meaning: "AQSh shtati", pronunciation: "kan-zuhs" },
+           "missouri": { translation: "Missuri", meaning: "AQSh shtati", pronunciation: "mi-zoo-ree" },
+           "changing": { translation: "o'zgaruvchan", meaning: "o'zgarayotgan", pronunciation: "cheyn-jing" },
+           "drives": { translation: "haydashlar", meaning: "haydash", pronunciation: "dryvz" },
+           "today": { translation: "bugungi kunda", meaning: "hozirgi vaqtda", pronunciation: "tuh-day" },
+           "these": { translation: "bu", meaning: "ko'plik ko'rsatkich olmoshi", pronunciation: "theez" },
+           "days": { translation: "kunlarda", meaning: "kunlar", pronunciation: "dayz" },
+           "picked": { translation: "yuklanib", meaning: "terib olingan", pronunciation: "pikt" },
+           "up": { translation: "yuqoriga", meaning: "ko'tarish", pronunciation: "uhp" },
+           "big": { translation: "katta", meaning: "ulkan", pronunciation: "big" },
+           "trucks": { translation: "yuk mashinalariga", meaning: "yuk mashinalari", pronunciation: "truhks" },
+           "taken": { translation: "olib boriladi", meaning: "olib ketilgan", pronunciation: "tey-kuhn" },
+           "road": { translation: "yo'l", meaning: "avtomobil yo'li", pronunciation: "rohd" },
+           "that": { translation: "bu", meaning: "ko'rsatkich olmoshi", pronunciation: "that" },
+           "one": { translation: "bir", meaning: "yagona", pronunciation: "wuhn" },
+           "thing": { translation: "narsa", meaning: "buyum", pronunciation: "thing" },
+           "has": { translation: "ega", meaning: "bor", pronunciation: "haz" },
+           "changed": { translation: "o'zgargan", meaning: "o'zgartirilgan", pronunciation: "cheynjd" },
+           "another": { translation: "yana bir", meaning: "boshqa", pronunciation: "uh-nuhth-er" },
+           "more": { translation: "ko'proq", meaning: "qo'shimcha", pronunciation: "mor" },
+           "modern": { translation: "zamonaviy", meaning: "hozirgi zamon", pronunciation: "mod-ern" },
+           "idea": { translation: "g'oya", meaning: "fikr", pronunciation: "y-dee-uh" },
+           "dude": { translation: "dude", meaning: "g'arbiy uslubdagi sayyoh", pronunciation: "dood" },
+           "ranch": { translation: "rancho", meaning: "chorvachilik fermasi", pronunciation: "ranch" },
+           "anyone": { translation: "har bir kishi", meaning: "kim bo'lsa ham", pronunciation: "en-ee-wuhn" },
+           "wants": { translation: "xohlaydi", meaning: "istaydi", pronunciation: "wonts" },
+           "can": { translation: "mumkin", meaning: "qila oladi", pronunciation: "kan" },
+           "become": { translation: "bo'lishi mumkin", meaning: "aylanish", pronunciation: "bi-kuhm" },
+           "week": { translation: "hafta", meaning: "yetti kun", pronunciation: "week" },
+           "money": { translation: "pul", meaning: "naqd pul", pronunciation: "muhn-ee" },
+           "offer": { translation: "taklif qiladi", meaning: "berish", pronunciation: "awf-er" },
+           "holidays": { translation: "dam olishni", meaning: "bayramlar", pronunciation: "hol-i-dey" },
+           "people": { translation: "odamlarga", meaning: "insonlar", pronunciation: "pee-puhl" },
+           "part-time": { translation: "yarim kunlik", meaning: "to'liq bo'lmagan ish vaqti", pronunciation: "part-tym" },
+           "of": { translation: "ning", meaning: "egalikni bildiruvchi", pronunciation: "ov" },
+           "course": { translation: "albatta", meaning: "shubhasiz", pronunciation: "kors" },
+           "don't": { translation: "qilmaydilar", meaning: "qilmaslik", pronunciation: "dohnt" },
+           "much": { translation: "ko'p", meaning: "juda ko'p", pronunciation: "muhch" },
+           "real": { translation: "haqiqiy", meaning: "asl", pronunciation: "ree-uhl" },
+           "enjoy": { translation: "zavqlanishadi", meaning: "rohatlanish", pronunciation: "en-joy" },
+           "spirit": { translation: "ruhidan", meaning: "ruh", pronunciation: "spir-it" },
+           "will": { translation: "bo'ladimi", meaning: "kelajak zamon yordamchi fe'li", pronunciation: "wil" },
+           "life": { translation: "hayot", meaning: "yashash", pronunciation: "lyf" },
+           "after": { translation: "keyin", meaning: "so'ng", pronunciation: "af-ter" },
+           "oil": { translation: "neft", meaning: "qora oltin", pronunciation: "oyl" },
+           "gas": { translation: "gaz", meaning: "tabiiy gaz", pronunciation: "gas" },
+           "today": { translation: "bugun", meaning: "hozirgi kun", pronunciation: "tuh-day" },
+           "we": { translation: "biz", meaning: "kishilik olmoshi", pronunciation: "wee" },
+           "use": { translation: "ishlatamiz", meaning: "foydalanish", pronunciation: "yoos" },
+           "a": { translation: "bir", meaning: "aniqmas artikl", pronunciation: "uh" },
+           "lot": { translation: "ko'p", meaning: "juda ko'p", pronunciation: "lot" },
+           "cannot": { translation: "olmaymiz", meaning: "mumkin emas", pronunciation: "kan-ot" },
+           "them": { translation: "ularni", meaning: "kishilik olmoshi", pronunciation: "them" },
+           "forever": { translation: "abadiy", meaning: "doimiy", pronunciation: "for-ev-er" },
+           "enough": { translation: "yetarli", meaning: "kifoya", pronunciation: "i-nuhf" },
+           "for": { translation: "uchun", meaning: "maqsadni bildiruvchi", pronunciation: "for" },
+           "few": { translation: "bir necha", meaning: "oz sonli", pronunciation: "fyoo" },
+           "more": { translation: "ko'proq", meaning: "qo'shimcha", pronunciation: "mor" },
+           "decades": { translation: "o'n yilliklar", meaning: "o'n yilliklar (ko'plik)", pronunciation: "dek-eydz" },
+           "maybe": { translation: "balki", meaning: "ehtimol", pronunciation: "mey-bee" },
+           "until": { translation: "gacha", meaning: "qadar", pronunciation: "uhn-til" },
+           "2070": { translation: "2070", meaning: "ikki ming yetmish", pronunciation: "two thousand seventy" },
+           "after": { translation: "keyin", meaning: "so'ng", pronunciation: "af-ter" },
+           "that": { translation: "undan", meaning: "ko'rsatkich olmoshi", pronunciation: "that" },
+           "most": { translation: "aksariyati", meaning: "eng ko'p", pronunciation: "mohst" },
+           "gone": { translation: "tugaydi", meaning: "ketgan", pronunciation: "gon" },
+           "this": { translation: "bu", meaning: "ko'rsatkich olmoshi", pronunciation: "this" },
+           "is": { translation: "dir", meaning: "bo'lish fe'li", pronunciation: "iz" },
+           "a": { translation: "bir", meaning: "aniqmas artikl", pronunciation: "uh" },
+           "big": { translation: "katta", meaning: "ulkan", pronunciation: "big" },
+           "problem": { translation: "muammo", meaning: "qiyinchilik", pronunciation: "prob-luhm" },
+           "another": { translation: "yana bir", meaning: "boshqa", pronunciation: "uh-nuhth-er" },
+           "climate": { translation: "iqlim", meaning: "havo sharoiti", pronunciation: "kly-mit" },
+           "change": { translation: "o'zgarishi", meaning: "o'zgarish", pronunciation: "cheynj" },
+           "earth": { translation: "Yer", meaning: "sayyora", pronunciation: "erth" },
+           "getting": { translation: "isib bormoqda", meaning: "olish", pronunciation: "get-ing" },
+           "hotter": { translation: "issiqroq", meaning: "ko'proq issiq", pronunciation: "hot-er" },
+           "because": { translation: "chunki", meaning: "sababli", pronunciation: "bi-koz" },
+           "burn": { translation: "yoqamiz", meaning: "yonish", pronunciation: "bern" },
+           "coal": { translation: "ko'mir", meaning: "qora yonuvchan jins", pronunciation: "kohl" },
+           "right": { translation: "hozirda", meaning: "to'g'ri", pronunciation: "ryt" },
+           "now": { translation: "hozir", meaning: "aynan hozir", pronunciation: "now" },
+           "still": { translation: "hali ham", meaning: "baribir", pronunciation: "stil" },
+           "under": { translation: "ostida", meaning: "tagida", pronunciation: "uhn-der" },
+           "ground": { translation: "yer", meaning: "tuproq", pronunciation: "grownd" },
+           "sea": { translation: "dengiz", meaning: "okean", pronunciation: "see" },
+           "engineers": { translation: "muhandislar", meaning: "injenerlar", pronunciation: "en-juh-neerz" },
+           "keep": { translation: "davom etishmoqda", meaning: "saqlash", pronunciation: "keep" },
+           "finding": { translation: "topishmoqda", meaning: "topish", pronunciation: "fyn-ding" },
+           "new": { translation: "yangi", meaning: "yangi", pronunciation: "noo" },
+           "places": { translation: "joylarda", meaning: "o'rinlar", pronunciation: "pley-sis" },
+           "like": { translation: "kabi", meaning: "o'xshash", pronunciation: "lyk" },
+           "north": { translation: "shimoliy", meaning: "shimolga oid", pronunciation: "nawrth" },
+           "ocean": { translation: "okean", meaning: "okean", pronunciation: "oh-shuhn" },
+           "must": { translation: "kerak", meaning: "majbur", pronunciation: "muhst" },
+           "understand": { translation: "tushunishimiz", meaning: "anglash", pronunciation: "uhn-der-stand" },
+           "some": { translation: "ba'zi", meaning: "bir nechta", pronunciation: "suhm" },
+           "important": { translation: "muhim", meaning: "ahamiyatli", pronunciation: "im-por-tuhnt" },
+           "facts": { translation: "faktlarni", meaning: "haqiqatlar", pronunciation: "fakts" },
+           "last": { translation: "saqlanmaydi", meaning: "davom etish", pronunciation: "last" },
+           "forever": { translation: "abadiy", meaning: "doimiy", pronunciation: "for-ev-er" },
+           "one": { translation: "bir", meaning: "yagona", pronunciation: "wuhn" },
+           "day": { translation: "kun", meaning: "kun", pronunciation: "dey" },
+           "run": { translation: "tugaydi", meaning: "yugurish", pronunciation: "ruhn" },
+           "out": { translation: "tugash", meaning: "tashqarida", pronunciation: "owt" },
+           "finding": { translation: "topish", meaning: "qidirish", pronunciation: "fyn-ding" },
+           "become": { translation: "bo'ladi", meaning: "aylanish", pronunciation: "bi-kuhm" },
+           "difficult": { translation: "qiyinlashadi", meaning: "murakkab", pronunciation: "dif-i-kuhlt" },
+           "also": { translation: "ham", meaning: "shuningdek", pronunciation: "ol-soh" },
+           "expensive": { translation: "qimmatroq", meaning: "qimmat", pronunciation: "ik-spen-siv" },
+           "than": { translation: "dan", meaning: "solishtirish uchun", pronunciation: "than" },
+           "types": { translation: "turlaridan", meaning: "turlar", pronunciation: "typs" },
+           "energy": { translation: "energiya", meaning: "quvvat", pronunciation: "en-er-jee" },
+           "cause": { translation: "keltirib chiqaradi", meaning: "sabab bo'lish", pronunciation: "koz-iz" },
+           "pollution": { translation: "ifloslanish", meaning: "havoning ifloslanishi", pronunciation: "puh-loo-shuhn" },
+           "make": { translation: "yomonlashtiradi", meaning: "qilish", pronunciation: "meyk" },
+           "global": { translation: "global", meaning: "butun dunyo", pronunciation: "gloh-buhl" },
+           "warming": { translation: "isishni", meaning: "isish", pronunciation: "wor-ming" },
+           "worse": { translation: "yomonlashtiradi", meaning: "yomonroq", pronunciation: "wers" },
+           "good": { translation: "yaxshi", meaning: "sifatli", pronunciation: "good" },
+           "news": { translation: "yangiliklar", meaning: "xabarlar", pronunciation: "nooz" },
+           "scientists": { translation: "olimlar", meaning: "ilmiy xodimlar", pronunciation: "sy-uhn-tists" },
+           "making": { translation: "ishlab chiqarishmoqda", meaning: "qilish", pronunciation: "mey-king" },
+           "new": { translation: "yangi", meaning: "yangi", pronunciation: "noo" },
+           "from": { translation: "dan", meaning: "qayerdan", pronunciation: "frum" },
+           "plants": { translation: "o'simliklardan", meaning: "o'simliklar", pronunciation: "plants" },
+           "fuels": { translation: "yoqilg'ilar", meaning: "yoqilg'i turlari", pronunciation: "fyoolz" },
+           "already": { translation: "allaqachon", meaning: "oldindan", pronunciation: "ol-red-ee" },
+           "plant": { translation: "o'simlik", meaning: "o'simlik", pronunciation: "plant" },
+           "oil": { translation: "moyini", meaning: "neft", pronunciation: "oyl" },
+           "example": { translation: "masalan", meaning: "namuna", pronunciation: "ig-zam-puhl" },
+           "bio-fuels": { translation: "bioyoqilg'ilar", meaning: "biologik yoqilg'ilar", pronunciation: "by-oh-fyoolz" },
+           "contain": { translation: "o'z ichiga oladi", meaning: "saqlash", pronunciation: "kuhn-teyn" },
+           "sunflower": { translation: "kungaboqar", meaning: "kungaboqar o'simligi", pronunciation: "suhn-flow-er" },
+           "cleaner": { translation: "toza", meaning: "tozaroq", pronunciation: "klee-ner" },
+           "mineral": { translation: "mineral", meaning: "mineral", pronunciation: "min-er-uhl" },
+           "so": { translation: "shuning uchun", meaning: "natijada", pronunciation: "soh" },
+           "causes": { translation: "keltirib chiqaradi", meaning: "sabab bo'lish", pronunciation: "koz-iz" },
+           "less": { translation: "kamroq", meaning: "ozroq", pronunciation: "les" },
+           "future": { translation: "kelajakda", meaning: "kelajak", pronunciation: "fyoo-cher" },
+           "may": { translation: "mumkin", meaning: "ehtimol", pronunciation: "mey" },
+           "need": { translation: "kerak", meaning: "muhtoj bo'lish", pronunciation: "need" },
+           "all": { translation: "barcha", meaning: "hammasi", pronunciation: "ol" },
+           "land": { translation: "yer", meaning: "tuproq", pronunciation: "land" },
+           "grow": { translation: "yetishtirish", meaning: "o'stirish", pronunciation: "groh" },
+           "food": { translation: "oziq-ovqat", meaning: "ovqat", pronunciation: "food" },
+           "not": { translation: "emas", meaning: "inkor", pronunciation: "not" },
+           "fuel": { translation: "yoqilg'i", meaning: "yonuvchi modda", pronunciation: "fyool" },
+           "this": { translation: "bu", meaning: "ko'rsatkich olmoshi", pronunciation: "this" },
+           "means": { translation: "shuni anglatadiki", meaning: "ma'no", pronunciation: "meenz" },
+           "vegetable": { translation: "o'simlik", meaning: "sabzavot", pronunciation: "vej-tuh-buhl" },
+           "oils": { translation: "moylari", meaning: "moylar (ko'plik)", pronunciation: "oyls" },
+           "best": { translation: "eng yaxshi", meaning: "a'lo", pronunciation: "best" },
+           "solution": { translation: "yechim", meaning: "hal qilish", pronunciation: "suh-loo-shuhn" },
+           "at": { translation: "da", meaning: "joyda", pronunciation: "at" },
+           "working": { translation: "ishlamoqda", meaning: "mehnat qilmoqda", pronunciation: "wer-king" },
+           "ideas": { translation: "g'oyalar", meaning: "fikrlar", pronunciation: "y-dee-uhz" },
+           "cars": { translation: "avtomobillar", meaning: "mashinalar", pronunciation: "karz" },
+           "houses": { translation: "uylar", meaning: "uylar (ko'plik)", pronunciation: "how-ziz" },
+           "plastics": { translation: "plastmassalar", meaning: "plastik materiallar", pronunciation: "plas-tiks" },
+           "do": { translation: "ishlatmaydigan", meaning: "qilish", pronunciation: "doo" },
+           "electricity": { translation: "elektr energiyasi", meaning: "elektr quvvati", pronunciation: "i-lek-tris-i-tee" },
+           "most": { translation: "eng", meaning: "eng ko'p", pronunciation: "mohst" },
+           "important": { translation: "muhim", meaning: "ahamiyatli", pronunciation: "im-por-tuhnt" },
+           "must": { translation: "kerak", meaning: "majbur", pronunciation: "muhst" },
+           "clean": { translation: "toza", meaning: "ifloslanmagan", pronunciation: "klen" },
+           "right": { translation: "hozirda", meaning: "to'g'ri", pronunciation: "ryt" },
+           "now": { translation: "hozir", meaning: "aynan hozir", pronunciation: "now" },
+           "britain": { translation: "Britaniyada", meaning: "Buyuk Britaniya", pronunciation: "brit-n" },
+           "comes": { translation: "olinadi", meaning: "keladi", pronunciation: "kuhmz" },
+           "different": { translation: "turli", meaning: "boshqacha", pronunciation: "dif-er-uhnt" },
+           "sources": { translation: "manbalardan", meaning: "manbalar (ko'plik)", pronunciation: "sors-iz" },
+           "made": { translation: "ishlab chiqariladi", meaning: "qilingan", pronunciation: "meyd" },
+           "from": { translation: "dan", meaning: "qayerdan", pronunciation: "frum" },
+           "power": { translation: "elektr", meaning: "quvvat", pronunciation: "pow-er" },
+           "stations": { translation: "stansiyalari", meaning: "stansiyalar", pronunciation: "stey-shuhnz" },
+           "closing": { translation: "yopilmoqda", meaning: "yopilayotgan", pronunciation: "kloh-zing" },
+           "because": { translation: "chunki", meaning: "sababli", pronunciation: "bi-koz" },
+           "expensive": { translation: "qimmat", meaning: "qimmat", pronunciation: "ik-spen-siv" },
+           "nuclear": { translation: "atom", meaning: "yadro", pronunciation: "noo-klee-er" },
+           "will": { translation: "bo'ladi", meaning: "kelajak zamon yordamchi fe'li", pronunciation: "wil" },
+           "cost": { translation: "qimmat", meaning: "narx", pronunciation: "kost" },
+           "too": { translation: "juda", meaning: "ham", pronunciation: "too" },
+           "much": { translation: "ko'p", meaning: "juda ko'p", pronunciation: "muhch" },
+           "people": { translation: "odamlar", meaning: "insonlar", pronunciation: "pee-puhl" },
+           "do": { translation: "qilmaydi", meaning: "bajarish", pronunciation: "doo" },
+           "like": { translation: "yoqmaydi", meaning: "yoqtirish", pronunciation: "lyk" },
+           "them": { translation: "ularni", meaning: "kishilik olmoshi", pronunciation: "them" },
+           "fact": { translation: "fakt", meaning: "haqiqat", pronunciation: "fakt" },
+           "even": { translation: "hatto", meaning: "shuningdek", pronunciation: "ee-vuhn" },
+           "though": { translation: "garchi", meaning: "shunga qaramay", pronunciation: "thoh" },
+           "only": { translation: "faqat", meaning: "yagona", pronunciation: "ohn-lee" },
+           "30": { translation: "30", meaning: "o'ttiz", pronunciation: "ther-tee" },
+           "countries": { translation: "davlatlar", meaning: "mamlakatlar", pronunciation: "kuhn-treez" },
+           "use": { translation: "ishlatadi", meaning: "foydalanish", pronunciation: "yoos" },
+           "provides": { translation: "ta'minlaydi", meaning: "berish", pronunciation: "pruh-vydz" },
+           "about": { translation: "taxminan", meaning: "haqida", pronunciation: "uh-bowt" },
+           "10%": { translation: "10 foizini", meaning: "o'n foiz", pronunciation: "ten per-sent" },
+           "world's": { translation: "dunyoning", meaning: "dunyoga oid", pronunciation: "werldz" },
+           "what": { translation: "nima", meaning: "savol olmoshi", pronunciation: "wuht" },
+           "we": { translation: "biz", meaning: "kishilik olmoshi", pronunciation: "wee" },
+           "instead": { translation: "o'rniga", meaning: "buning o'rniga", pronunciation: "in-sted" },
+           "gas": { translation: "gaz", meaning: "tabiiy gaz", pronunciation: "gas" },
+           "still": { translation: "hali ham", meaning: "baribir", pronunciation: "stil" },
+           "important": { translation: "muhim", meaning: "ahamiyatli", pronunciation: "im-por-tuhnt" },
+           "for": { translation: "uchun", meaning: "maqsadni bildiruvchi", pronunciation: "for" },
+           "now": { translation: "hozir", meaning: "aynan hozir", pronunciation: "now" },
+           "cleaner": { translation: "toza", meaning: "tozaroq", pronunciation: "klee-ner" },
+           "than": { translation: "dan", meaning: "solishtirish uchun", pronunciation: "than" },
+           "oil": { translation: "neft", meaning: "qora oltin", pronunciation: "oyl" },
+           "easier": { translation: "osonroq", meaning: "qulayroq", pronunciation: "ee-zee-er" },
+           "find": { translation: "topish", meaning: "qidirish", pronunciation: "fynd" },
+           "more": { translation: "ko'proq", meaning: "qo'shimcha", pronunciation: "mor" },
+           "under": { translation: "ostida", meaning: "tagida", pronunciation: "uhn-der" },
+           "ground": { translation: "yer", meaning: "tuproq", pronunciation: "grownd" },
+           "can": { translation: "mumkin", meaning: "qila oladi", pronunciation: "kan" },
+           "used": { translation: "ishlatilishi", meaning: "foydalanilgan", pronunciation: "yoosd" },
+           "cars": { translation: "avtomobillar", meaning: "mashinalar", pronunciation: "karz" },
+           "houses": { translation: "uylar", meaning: "uylar (ko'plik)", pronunciation: "how-ziz" },
+           "too": { translation: "ham", meaning: "shuningdek", pronunciation: "too" },
+           "a": { translation: "bir", meaning: "aniqmas artikl", pronunciation: "uh" },
+           "lot": { translation: "ko'p", meaning: "juda ko'p", pronunciation: "lot" },
+           "europe": { translation: "Yevropada", meaning: "Yevropa qit'asi", pronunciation: "yoo-ruhp" },
+           "comes": { translation: "keladi", meaning: "kelish", pronunciation: "kuhmz" },
+           "from": { translation: "dan", meaning: "qayerdan", pronunciation: "frum" },
+           "russia": { translation: "Rossiyadan", meaning: "Rossiya davlati", pronunciation: "ruhsh-uh" },
+           "after": { translation: "keyin", meaning: "so'ng", pronunciation: "af-ter" },
+           "war": { translation: "urush", meaning: "jang", pronunciation: "wor" },
+           "ukraine": { translation: "Ukrainada", meaning: "Ukraina davlati", pronunciation: "yoo-krayn" },
+           "europeans": { translation: "yevropaliklar", meaning: "Yevropa aholisi", pronunciation: "yoo-ruh-pee-uhnz" },
+           "saw": { translation: "ko'rishdi", meaning: "ko'rmoq", pronunciation: "saw" },
+           "this": { translation: "buni", meaning: "ko'rsatkich olmoshi", pronunciation: "this" },
+           "as": { translation: "sifatida", meaning: "kabi", pronunciation: "az" },
+           "big": { translation: "katta", meaning: "ulkan", pronunciation: "big" },
+           "problem": { translation: "muammo", meaning: "qiyinchilik", pronunciation: "prob-luhm" },
+           "future": { translation: "kelajak", meaning: "kelajak", pronunciation: "fyoo-cher" },
+           "renewable": { translation: "qayta tiklanuvchi", meaning: "qayta tiklanadigan", pronunciation: "ri-noo-uh-buhl" },
+           "energy": { translation: "energiya", meaning: "quvvat", pronunciation: "en-er-jee" },
+           "sun": { translation: "quyosh", meaning: "quyosh", pronunciation: "suhn" },
+           "wind": { translation: "shamol", meaning: "shamol", pronunciation: "wind" },
+           "rivers": { translation: "daryolar", meaning: "daryolar (ko'plik)", pronunciation: "riv-erz" },
+           "oceans": { translation: "okeanlar", meaning: "okeanlar (ko'plik)", pronunciation: "oh-shuhnz" },
+           "give": { translation: "beradi", meaning: "taqdim etish", pronunciation: "giv" },
+           "us": { translation: "bizga", meaning: "kishilik olmoshi", pronunciation: "uhs" },
+           "all": { translation: "barcha", meaning: "hammasi", pronunciation: "ol" },
+           "need": { translation: "kerak", meaning: "muhtoj bo'lish", pronunciation: "need" },
+           "clean": { translation: "toza", meaning: "ifloslanmagan", pronunciation: "klen" },
+           "pollution": { translation: "ifloslanish", meaning: "havoning ifloslanishi", pronunciation: "puh-loo-shuhn" },
+           "last": { translation: "davom etadi", meaning: "tugash", pronunciation: "last" },
+           "forever": { translation: "abadiy", meaning: "doimiy", pronunciation: "for-ev-er" },
+           "but": { translation: "ammo", meaning: "lekin", pronunciation: "buht" },
+           "we": { translation: "biz", meaning: "kishilik olmoshi", pronunciation: "wee" },
+           "are": { translation: "emasmiz", meaning: "bo'lish fe'li", pronunciation: "ar" },
+           "not": { translation: "emas", meaning: "inkor", pronunciation: "not" },
+           "yet": { translation: "hali", meaning: "hali ham", pronunciation: "yet" },
+           "21st": { translation: "21-asr", meaning: "yigirma birinchi asr", pronunciation: "twen-tee-fyrst" },
+           "century": { translation: "asr", meaning: "yuz yillik", pronunciation: "sen-choo-ree" },
+           "time": { translation: "davri", meaning: "vaqt", pronunciation: "tym" },
+           "change": { translation: "o'zgarish", meaning: "o'zgarish", pronunciation: "cheynj" },
+           "people": { translation: "odamlar", meaning: "insonlar", pronunciation: "pee-puhl" },
+           "over": { translation: "oshgan", meaning: "yuqorida", pronunciation: "oh-ver" },
+           "50": { translation: "50", meaning: "ellik", pronunciation: "fif-tee" },
+           "years": { translation: "yosh", meaning: "yillar", pronunciation: "yeerz" },
+           "old": { translation: "yosh", meaning: "qari", pronunciation: "ohld" },
+           "today": { translation: "bugun", meaning: "hozirgi kun", pronunciation: "tuh-day" },
+           "may": { translation: "mumkin", meaning: "ehtimol", pronunciation: "mey" },
+           "see": { translation: "ko'rmasliklari", meaning: "ko'rish", pronunciation: "see" },
+           "world": { translation: "dunyo", meaning: "dunyo", pronunciation: "werld" },
+           "without": { translation: "siz", meaning: "siz", pronunciation: "with-owt" },
+           "young": { translation: "yosh", meaning: "yosh", pronunciation: "yuhng" },
+           "under": { translation: "kichik", meaning: "ostida", pronunciation: "uhn-der" },
+           "20": { translation: "20", meaning: "yigirma", pronunciation: "twen-tee" },
+           "might": { translation: "mumkin", meaning: "ehtimol", pronunciation: "myt" },
+           "lifetime": { translation: "hayotlari davomida", meaning: "umr davomida", pronunciation: "lyf-tym" },
+       };
+
+       const modal = document.getElementById("wordModal");
+       const span = document.getElementsByClassName("close-button")[0];
+       const modalWord = document.getElementById("modalWord");
+       const modalTranslation = document.getElementById("modalTranslation");
+        
+       // So'zlarni bosish mumkin qilish funksiyasi
+       function makeWordsClickable(textSectionId) {
+           const textSection = document.getElementById(textSectionId);
+           // Har bir .sentence spanini topamiz
+           textSection.querySelectorAll('.sentence').forEach(sentenceSpan => {
+               let originalText = sentenceSpan.textContent;
+               let newHtml = '';
+               // So'zlarni va tinish belgilarini ajratish uchun regex
+               // \b\w+\b so'z chegarasidagi harflarni, [.,!?;:\s]+ esa tinish belgilari va bo'shliqlarni topadi
+               const parts = originalText.split(/(\b\w+\b|[.,!?;:\s]+)/g);
+
+               parts.forEach(part => {
+                   if (part.trim() === '') {
+                       newHtml += part; // Bo'shliqlarni saqlaymiz
+                       return;
+                   }
+                   // So'zni lug'atda qidirish uchun tinish belgilarini olib tashlaymiz va kichik harfga o'tkazamiz
+                   const cleanedWord = part.replace(/[.,!?;:]/g, '').toLowerCase();
+                   if (words[cleanedWord]) {
+                       // Agar so'z lug'atda bo'lsa, uni .word klassi bilan span ichiga olamiz
+                       newHtml += `<span class="word" data-word="${cleanedWord}">${part}</span>`;
+                   } else {
+                       newHtml += part; // Aks holda, so'zni o'zgarishsiz qoldiramiz
+                   }
+               });
+               sentenceSpan.innerHTML = newHtml; // Yangilangan HTMLni span ichiga joylaymiz
+           });
+       }
+       
+       // Dastlab inglizcha matn uchun so'zlarni bosish mumkin qilamiz
+       makeWordsClickable('english-text');
+
+       // Inglizcha matn bo'limiga click event listener qo'shamiz
+       document.getElementById('english-text').addEventListener('click', function(event) {
+           // Agar bosilgan element .word klassiga ega bo'lsa
+           if (event.target.classList.contains('word')) {
+               const word = event.target.dataset.word; // data-word atributidagi so'zni olamiz
+               const wordInfo = words[word]; // Lug'atdan so'z ma'lumotlarini olamiz
+               if (wordInfo) {
+                   // Modal oynadagi elementlarni ma'lumotlar bilan to'ldiramiz
+                   modalWord.textContent = `Word: ${event.target.textContent.trim()}`; // Asl so'zni ko'rsatamiz
+                   modalTranslation.textContent = `Translation: ${wordInfo.translation}`;
+                   
+                   modal.style.display = "block"; // Modal oynani ko'rsatamiz
+               }
+           }
+       });
+
+       // Modal oynani yopish tugmasi
+       span.onclick = function() {
+           modal.style.display = "none";
+       }
+
+       // Modal oynadan tashqarida bosilganda oynani yopish
+       window.onclick = function(event) {
+           if (event.target == modal) {
+               modal.style.display = "none";
+           }
+       }
+
+       // Matnni o'qish funksiyasi (erkak ovozi va tezlik 0.8)
+       function speakSentence(button) {
+           const sentenceSpan = button.nextElementSibling; // Gap spanini olamiz
+           if (sentenceSpan && responsiveVoice.isPlaying()) {
+               responsiveVoice.cancel(); // Agar o'qiyotgan bo'lsa, to'xtatamiz
+           } else if (sentenceSpan) {
+               // UK English Male ovozi va 0.8 tezlikda o'qish
+               responsiveVoice.speak(sentenceSpan.textContent, "UK English Male", {rate: 0.8});
+           }
+       }
+
+       const toggleButton = document.getElementById('toggle-lang-button');
+       const englishText = document.getElementById('english-text');
+       const uzbekText = document.getElementById('uzbek-text');
+       let isEnglish = true;
+
+       toggleButton.addEventListener('click', function() {
+           if (isEnglish) {
+               englishText.style.display = 'none';
+               uzbekText.style.display = 'block';
+               toggleButton.textContent = 'English';
+               // O'zbekcha matn uchun so'zlarni bosish mumkin qilamiz
+               makeWordsClickable('uzbek-text');
+           } else {
+               englishText.style.display = 'block';
+               uzbekText.style.display = 'none';
+               toggleButton.textContent = 'O\'zbekcha';
+               // Inglizcha matn uchun so'zlarni bosish mumkin qilamiz
+               makeWordsClickable('english-text');
+           }
+           isEnglish = !isEnglish;
+       });
+
+       // Kun/Tun rejimi funksiyasi
+       const toggleThemeButton = document.getElementById('toggle-theme-button');
+       let currentThemeIndex = 0; // 0: light, 1: dark, 2: sepia
+       const themes = ['light-mode', 'dark-mode', 'sepia-mode'];
+       const themeButtonTexts = ['Qorong\'u rejim', 'Qizg\'ich rejim', 'Kun rejimi']; // Keyingi rejimni ko'rsatadi
+
+       toggleThemeButton.addEventListener('click', function() {
+           // Joriy rejim klassini olib tashlash
+           document.body.classList.remove(themes[currentThemeIndex]);
+
+           // Keyingi rejimga o'tish
+           currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+           
+           // Yangi rejim klassini qo'shish
+           if (themes[currentThemeIndex] !== 'light-mode') { // 'light-mode' uchun alohida klass shart emas, chunki u default
+               document.body.classList.add(themes[currentThemeIndex]);
+           }
+
+           // Tugma matnini yangilash
+           toggleThemeButton.textContent = themeButtonTexts[currentThemeIndex];
+       });
+
+       // ResponsiveVoice'ni ishga tushirish
+       responsiveVoice.enableSpeech();
+   </script>
+</body>
+</html>
