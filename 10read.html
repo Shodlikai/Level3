@@ -1,0 +1,447 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interaktiv Matn</title>
+    <script src="https://code.responsivevoice.org/responsivevoice.js?key=ftro4Sxr"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f0f5f5;
+            color: #333;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: #c0c0c0;
+        }
+        body.sepia-mode {
+            background-color: #d8c0a0;
+            color: #4a3b2e;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #fcfcfc;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        body.dark-mode .container {
+            background: #282828;
+            box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+        }
+        body.sepia-mode .container {
+            background: #e0d0b8;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .text-section {
+            margin-bottom: 20px;
+        }
+        .word {
+            cursor: pointer;
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted #007bff;
+        }
+        body.dark-mode .word {
+            border-bottom-color: #99bbff;
+        }
+        body.sepia-mode .word {
+            border-bottom-color: #b08e6d;
+        }
+        .word:hover {
+            color: #0056b3;
+        }
+        body.dark-mode .word:hover {
+            color: #ccddee;
+        }
+        body.sepia-mode .word:hover {
+            color: #8a6d51;
+        }
+        .tooltip {
+            display: none;
+            position: absolute;
+            bottom: 120%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: black;
+            color: white;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 10px;
+            z-index: 1000;
+            white-space: nowrap;
+            font-size: 14px;
+        }
+        .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: black transparent transparent transparent;
+        }
+        .word:hover .tooltip {
+            display: block;
+        }
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .button-group button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .button-group button:hover {
+            background-color: #0056b3;
+        }
+        #dynamic-image {
+            display: block;
+            margin: 0 auto 30px auto;
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+        h2 {
+            text-align: center;
+            color: #007bff;
+            margin-bottom: 25px;
+        }
+        body.dark-mode h2 {
+            color: #99bbff;
+        }
+        body.sepia-mode h2 {
+            color: #b08e6d;
+        }
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img id="dynamic-image" src="https://image.pollinations.ai/prompt/800x400/London%20Red%20Bus%20and%20Haunted%20Tower%20of%20London" alt="London Red Bus and Tower">
+        
+        <div id="english-text" class="text-section">
+            <h2>The Most Famous Symbol of London</h2>
+            <p>
+                <span class="sentence">What is the most famous symbol of London? Is it Big Ben? The statue of Eros in Piccadilly Circus? Or could it be something less artistic?</span>
+                <span class="sentence">Maybe it is the big red double-decker bus!</span>
+            </p>
+            <p>
+                <span class="sentence">London's red buses are famous all over the world.</span>
+                <span class="sentence">People see them and immediately think of London!</span>
+                <span class="sentence">Tourists love them - They enjoy riding on London buses to see famous places.</span>
+                <span class="sentence">London buses travel the world - Sometimes they are used to advertise British events or big shops in other countries.</span>
+                <span class="sentence">No words are needed - Even without the words "London Transport", people still recognize them!</span>
+            </p>
+            <p>
+                <span class="sentence">The red double-decker bus is not just transport—it is a symbol of London!</span>
+            </p>
+            <h2>The Story of London's Red Buses</h2>
+            <p>
+                <span class="sentence">Over 100 years ago, on October 25, 1911, the last horse-drawn bus in London made its final journey.</span>
+                <span class="sentence">From that day, the famous red motor buses became the kings of the road!</span>
+            </p>
+            <p>
+                <span class="sentence">Early double-decker buses had stairs at the back to reach the top.</span>
+                <span class="sentence">No roof for passengers on top! They only had a cloth cover to protect them from rain.</span>
+                <span class="sentence">It wasn't until the 1930s that all new buses had roofs over the upper deck.</span>
+            </p>
+            <p>
+                <span class="sentence">Before 1907, London buses were different colors depending on the company that operated them.</span>
+                <span class="sentence">But in 1907, London General Omnibus Company painted all its buses red to make them easy to spot.</span>
+            </p>
+            <h2>ENGLISH GHOST STORIES</h2>
+            <p>
+                <span class="sentence">Do you believe in ghosts? If you do, you are not alone!</span>
+                <span class="sentence">In Britain, there are many old castles that people say are haunted.</span>
+                <span class="sentence">One of the most famous haunted places is the Tower of London.</span>
+            </p>
+            <p>
+                <span class="sentence">The Tower of London has a long and dark history.</span>
+                <span class="sentence">Many people were put in prison there, and some were even executed outside its gates.</span>
+                <span class="sentence">One of the most famous ghosts in the Tower is Lady Jane Grey.</span>
+            </p>
+            <p>
+                <span class="sentence">Lady Jane Grey became Queen of England on July 9, 1554, when she was only 17 years old.</span>
+                <span class="sentence">However, another woman, Mary, also wanted to be Queen.</span>
+                <span class="sentence">Mary's supporters were stronger, and after just nine days, Jane was sent to the Tower of London.</span>
+                <span class="sentence">On July 19, Jane was executed outside the Tower.</span>
+            </p>
+            <p>
+                <span class="sentence">Since then, people say that her ghost still walks through the rooms and corridors of the Tower of London!</span>
+            </p>
+            <h2>The Haunted Village of Prestbury</h2>
+            <p>
+                <span class="sentence">Not all ghosts are famous.</span>
+                <span class="sentence">The village of Prestbury, in Gloucestershire, is known as one of the most haunted villages in England.</span>
+            </p>
+            <p>
+                <span class="sentence">The Headless Horseman: Many people say they have seen or heard a headless horseman riding through the village on December 31st!</span>
+                <span class="sentence">He was said to be a soldier who fought in the English Civil War in the 17th century.</span>
+            </p>
+            <p>
+                <span class="sentence">The Spinette Player: In an old cottage in Prestbury, there is a ghost called the "spinette player".</span>
+                <span class="sentence">At night, people sometimes hear music coming from an empty room—but no one is there!</span>
+            </p>
+            <h2>My Own Ghost Story</h2>
+            <p>
+                <span class="sentence">A few years ago, I went to visit some friends who lived in an old house in the countryside.</span>
+                <span class="sentence">They didn't know I was coming, and when I arrived, they already had other visitors.</span>
+            </p>
+            <p>
+                <span class="sentence">"Never mind," my friend Ella said. "You can sleep in the small guest room. We don't use it often, but it will be fine for one night."</span>
+                <span class="sentence">As we said goodnight, Ella added something strange: "Oh, and please lock the door before you go to bed. Otherwise, it may open by itself."</span>
+            </p>
+            <p>
+                <span class="sentence">I locked the door, got into bed, and fell asleep. But I slept badly—I wasn't sure if I was awake or dreaming.</span>
+                <span class="sentence">Then, suddenly, I knew I was awake. I could feel hands touching my face!</span>
+                <span class="sentence">I tried to push them away, but there was nothing there.</span>
+                <span class="sentence">I quickly found the light switch and turned it on. But the room was empty.</span>
+            </p>
+            <p>
+                <span class="sentence">"It was just a dream," I told myself and went back to sleep.</span>
+            </p>
+            <p>
+                <span class="sentence">The next morning, I got a shock. The door, which I had locked, was now open!</span>
+                <span class="sentence">At breakfast, I told Ella about my dream and the open door.</span>
+            </p>
+            <p>
+                <span class="sentence">"You too!" she said. "Yes, I know. That's why we don't use that bedroom. It's the blind lady!"</span>
+            </p>
+            <p>
+                <span class="sentence">Ella explained that many years ago, a blind girl lived in that house. That room was hers.</span>
+                <span class="sentence">She died when she was about 30 years old, but since then, she keeps coming back.</span>
+                <span class="sentence">"She always touches the bed sheets before she gets in," Ella said.</span>
+                <span class="sentence">"Many visitors have had the same experience. But don't worry—she was a lovely girl. She has never hurt anyone."</span>
+            </p>
+            <p>
+                <span class="sentence">At that moment, I felt the skin on my neck go cold... Since that night, I have always believed in ghosts!</span>
+            </p>
+        </div>
+        
+        <div id="uzbek-text" class="text-section" style="display:none;">
+            <h2>Londonning eng mashhur ramzi</h2>
+            <p>
+                <span class="sentence">Londonning eng mashhur ramzi nima? Big Benmi? Piccadilly Circusdagi Eros haykalimi? Yoki u kamroq badiiy narsadirmi?</span>
+                <span class="sentence">Ehtimol, u katta qizil ikki qavatli avtobusdir!</span>
+            </p>
+            <p>
+                <span class="sentence">Londonning qizil avtobuslari butun dunyoga mashhur.</span>
+                <span class="sentence">Odamlar ularni ko'rgach, darhol Londonni eslashadi!</span>
+                <span class="sentence">Sayyohlar ularni yaxshi ko'radilar - ular mashhur joylarni ko'rish uchun London avtobuslarida sayr qilishdan zavqlanadilar.</span>
+                <span class="sentence">London avtobuslari butun dunyo bo'ylab sayohat qiladi - Ba'zan ular boshqa mamlakatlarda Britaniya tadbirlari yoki yirik do'konlarni reklama qilish uchun ishlatiladi.</span>
+                <span class="sentence">Hech qanday so'zlar kerak emas - "London Transport" yozuvlari bo'lmasa ham, odamlar ularni taniy oladilar!</span>
+            </p>
+            <p>
+                <span class="sentence">Qizil ikki qavatli avtobus nafaqat transport vositasi - u Londonning ramzidir!</span>
+            </p>
+            <h2>London Qizil Avtobuslarining Tarixi</h2>
+            <p>
+                <span class="sentence">100 yildan ko'proq vaqt oldin, 1911-yil 25-oktabrda Londonda so'nggi ot tortgan avtobus so'nggi safarini amalga oshirdi.</span>
+                <span class="sentence">Shu kundan boshlab, mashhur qizil motorli avtobuslar yo'l podsholari bo'ldi!</span>
+            </p>
+            <p>
+                <span class="sentence">Dastlabki ikki qavatli avtobuslarda yuqoriga chiqish uchun orqa tomonda zinapoyalar bo'lgan.</span>
+                <span class="sentence">Yuqori qavatda yo'lovchilar uchun tom yo'q edi! Ular faqat yomg'irdan himoya qilish uchun mato bilan qoplangan edi.</span>
+                <span class="sentence">1930-yillargacha yangi avtobuslarning yuqori qavati tom bilan qoplangan bo'lmagan.</span>
+            </p>
+            <p>
+                <span class="sentence">1907-yilgacha London avtobuslari ularni boshqargan kompaniyaga qarab turli xil ranglarda bo'lgan.</span>
+                <span class="sentence">Ammo 1907-yilda London General Omnibus Company barcha avtobuslarini qizil rangga bo'yashni boshladi, ularni osongina tanib olish uchun.</span>
+            </p>
+            <h2>INGLIZ ARVOH HIKOYALARI</h2>
+            <p>
+                <span class="sentence">Siz arvohlarga ishonasizmi? Agar ishonsangiz, yolg'iz emassiz!</span>
+                <span class="sentence">Britaniyada odamlar jinlangan deb aytadigan ko'plab qadimiy qal'alar mavjud.</span>
+                <span class="sentence">Eng mashhur jinlangan joylardan biri London qal'asidir.</span>
+            </p>
+            <p>
+                <span class="sentence">London qal'asining uzun va qorong'i tarixi bor.</span>
+                <span class="sentence">Ko'p odamlar u yerda qamoqqa olingan va ba'zilari darvozasi oldida qatl etilgan.</span>
+                <span class="sentence">Qal'adagi eng mashhur arvohlardan biri Lady Jane Grey hisoblanadi.</span>
+            </p>
+            <p>
+                <span class="sentence">Lady Jane Grey 1554-yil 9-iyulda, atigi 17 yoshida Angliya qirolichasi bo'lgan.</span>
+                <span class="sentence">Biroq, boshqa bir ayol, Mary ham qirolicha bo'lishni xohlagan.</span>
+                <span class="sentence">Maryning tarafdorlari kuchliroq bo'lgan va atigi to'qqiz kun o'tgach, Jane London qal'asiga yuborilgan.</span>
+                <span class="sentence">19-iyul kuni Jane qal'a oldida qatl etilgan.</span>
+            </p>
+            <p>
+                <span class="sentence">Shundan beri odamlar uning arvohi hali ham London qal'asining xonalari va koridorlarida yurishini aytishadi!</span>
+            </p>
+            <h2>Jinlangan Prestbury Qishlog'i</h2>
+            <p>
+                    <span class="sentence">Barcha arvohlar mashhur emas.</span>
+                <span class="sentence">Gloucestershiredagi Prestbury qishlog'i Angliyadagi eng ko'p jinlangan qishloqlardan biri sifatida tanilgan.</span>
+            </p>
+            <p>
+                <span class="sentence">Boshsiz Otliq: Ko'p odamlar 31-dekabr kuni qishloq bo'ylab boshsiz otliqni ko'rgan yoki eshitganliklarini aytishadi!</span>
+                <span class="sentence">U 17-asrda Angliya Fuqarolar urushida jang qilgan askar bo'lgan deyiladi.</span>
+            </p>
+            <p>
+                <span class="sentence">Spinette Chaluvchi: Prestburydagi qadimgi uyda "spinette chaluvchi" deb nomlangan arvoh bor.</span>
+                <span class="sentence">Tunda odamlar ba'zan bo'sh xonadan musiqani eshitishadi - lekin u yerda hech kim yo'q!</span>
+            </p>
+            <h2>Mening Shaxsiy Arvoh Hikoyam</h2>
+            <p>
+                <span class="sentence">Bir necha yil oldin, men qishloq joydagi qadimgi uyda yashovchi do'stlarimga tashrif buyurgan edim.</span>
+                <span class="sentence">Ular mening kelishimni bilishmagan va men kelganimda, ularning boshqa mehmonlari bor edi.</span>
+            </p>
+            <p>
+                <span class="sentence">"Hech qisi yo'q," - dedi do'stim Ella. "Siz kichik mehmon xonasida uxlashingiz mumkin. Biz uni tez-tez ishlatmaymiz, lekin bir kechaga yaraydi."</span>
+                <span class="sentence">Xayrlashganda, Ella g'alati narsa qo'shib qo'ydi: "Oh, va iltimos, yotishdan oldin eshikni qulflang. Aks holda, u o'z-o'zidan ochilishi mumkin."</span>
+            </p>
+            <p>
+                <span class="sentence">Men eshikni qulfladim, yotgan joyga joylashdim va uxladim. Lekin yomon uxladim - men uyog'animmi yoki tush ko'rayotganimni bilmay qoldim.</span>
+                <span class="sentence">Keyin, to'satdan, men uyog'animni angladim. Yuzimga tegayotgan qo'llarni his qila oldim!</span>
+                <span class="sentence">Men ularni itarishga harakat qildim, lekin u yerda hech narsa yo'q edi.</span>
+                <span class="sentence">Men tezda chiroq tugmasini topdim va yoqdim. Lekin xona bo'sh edi.</span>
+            </p>
+            <p>
+                <span class="sentence">"Bu shunchaki tush edi," - deb o'zimga aytdim va yana uxladim.</span>
+            </p>
+            <p>
+                <span class="sentence">Ertalab men hayratga tushdim. Men qulflagan eshik endi ochiq edi!</span>
+                <span class="sentence">Nonushta paytida men Ellaga tushim va ochiq eshik haqida aytdim.</span>
+            </p>
+            <p>
+                <span class="sentence">"Siz ham!" - dedi u. "Ha, men bilaman. Shuning uchun biz bu yotoq xonasidan foydalanmaymiz. Bu ko'r qiz!"</span>
+            </p>
+            <p>
+                <span class="sentence">Ella tushuntirdiki, ko'p yillar oldin, bu uyda ko'r qiz yashagan. Bu xona uniki bo'lgan.</span>
+                <span class="sentence">U taxminan 30 yoshida vafot etgan, ammo shundan beri u doimo qaytib keladi.</span>
+                <span class="sentence">"U doimo yotgan joyga joylashishdan oldin choyshablarga tegadi," - dedi Ella.</span>
+                <span class="sentence">"Ko'p mehmonlar bir xil tajribaga ega bo'lishgan. Lekin tashvishlanmang - u yoqimli qiz edi. U hech kimga zarar yetkazmagan."</span>
+            </p>
+            <p>
+                <span class="sentence">O'sha paytda men bo'ynimdagi terning sovib ketganini his qildim... O'sha kundan beri men har doim arvohlarga ishonaman!</span>
+            </p>
+        </div>
+        <div class="button-group">
+            <button id="toggle-lang-button">O'zbekcha</button>
+            <button id="toggle-theme-button">Qorong'u rejim</button>
+        </div>
+    </div>
+    <script>
+        const originalTexts = {};
+
+        const words = {
+            "what": "nima", "is": "hisoblanadi", "the": "bu", "most": "eng", "famous": "mashhur", "symbol": "ramz", "of": "ning", "london": "London", "it": "u", "big": "katta", "ben": "Ben", "statue": "haykal", "eros": "Eros", "in": "ichida", "piccadilly": "Piccadilly", "circus": "sirki", "or": "yoki", "could": "mumkin", "be": "bo'lish", "something": "nimadir", "less": "kamroq", "artistic": "badiiy", "maybe": "balki", "red": "qizil", "double-decker": "ikki qavatli", "bus": "avtobus", "london's": "Londonning", "buses": "avtobuslari", "are": "dir", "all": "butun", "over": "bo'ylab", "world": "dunyo", "people": "odamlar", "see": "ko'rish", "them": "ularni", "and": "va", "immediately": "darhol", "think": "o'ylash", "tourists": "sayyohlar", "love": "yaxshi ko'rish", "they": "ular", "enjoy": "zavqlanish", "riding": "sayr qilish", "on": "ustida", "to": "uchun", "see": "ko'rish", "places": "joylar", "travel": "sayohat qilish", "sometimes": "ba'zan", "used": "ishlatiladigan", "advertise": "reklama qilish", "british": "britan", "events": "tadbirlar", "shops": "do'konlar", "other": "boshqa", "countries": "mamlakatlar", "no": "yo'q", "words": "so'zlar", "needed": "kerak", "even": "hatto", "without": "siz", "transport": "transport", "still": "hali ham", "recognize": "tanimoq", "not": "emas", "just": "faqat", "transport—it": "transport — u", "a": "bir", "story": "hikoya", "over": "dan ortiq", "years": "yillar", "ago": "oldinga", "on": "da", "october": "oktabr", "the": "bu", "last": "oxirgi", "horse-drawn": "ot tortgan", "made": "qildi", "its": "o'zining", "final": "so'nggi", "journey": "sayohat", "from": "dan", "that": "bu", "day": "kun", "motor": "motorli", "became": "bo'ldi", "kings": "qirollar", "road": "yo'l", "early": "erta", "had": "bor edi", "stairs": "zinapoya", "at": "da", "back": "orqa", "reach": "yetib borish", "top": "yuqori", "roof": "tom", "for": "uchun", "passengers": "yo'lovchilar", "only": "faqat", "cloth": "mato", "cover": "qoplama", "protect": "himoya qilish", "from": "dan", "rain": "yomg'ir", "it": "u", "wasn't": "emas edi", "until": "gacha", "all": "barcha", "new": "yangi", "roofs": "tomlar", "upper": "yuqori", "deck": "qavat", "before": "oldinga", "different": "turli", "colors": "ranglar", "depending": "bog'liq", "company": "kompaniya", "operated": "boshqargan", "but": "lekin", "general": "umumiy", "omnibus": "omnibus", "painted": "bo'yagan", "its": "uning", "easy": "oson", "spot": "tanib olish", "english": "Ingliz", "ghost": "arvoh", "stories": "hikoyalar", "do": "qilasizmi", "you": "siz", "believe": "ishonasizmi", "in": "da", "if": "agar", "alone": "yolg'iz", "britain": "Britaniya", "there": "u erda", "many": "ko'p", "old": "eski", "castles": "qal'alar", "that": "bu", "say": "aytish", "haunted": "jinlangan", "one": "bir", "places": "joylar", "tower": "qal'a", "has": "bor", "long": "uzun", "dark": "qorong'i", "history": "tarix", "were": "bo'lgan", "put": "qo'yilgan", "prison": "qamoq", "some": "ba'zilari", "even": "hatto", "executed": "qatletilgan", "outside": "tashqarisida", "gates": "darvoza", "lady": "xonim", "jane": "Jane", "grey": "Grey", "became": "bo'ldi", "queen": "qirolicha", "england": "Angliya", "july": "iyul", "when": "qachon", "she": "u", "was": "edi", "only": "faqat", "seventeen": "o'n yetti", "years": "yosh", "old": "yoshli", "however": "shunga qaramay", "another": "boshqa", "woman": "ayol", "mary": "Mary", "also": "ham", "wanted": "xohlagan", "be": "bo'lish", "mary's": "Maryning", "supporters": "tarafdorlari", "stronger": "kuchliroq", "after": "keyin", "just": "faqat", "nine": "to'qqiz", "days": "kun", "sent": "yuborilgan", "since": "beri", "then": "undan", "her": "uning", "ghost": "arvoh", "still": "hali ham", "walks": "yuradi", "through": "orqali", "rooms": "xonalar", "corridors": "koridorlar", "haunted": "jinlangan", "village": "qishloq", "prestbury": "Prestbury", "not": "emas", "all": "barcha", "famous": "mashhur", "gloucestershire": "Gloucestershire", "known": "tanilgan", "as": "sifatida", "england": "Angliya", "headless": "boshsiz", "horseman": "otliq", "heard": "eshitgan", "riding": "sayr qilish", "december": "dekabr", "thirty-first": "o'ttiz birinchi", "he": "u", "said": "aytilgan", "soldier": "askar", "fought": "jang qilgan", "civil": "fuqarolik", "war": "urush", "seventeenth": "o'n yettinchi", "century": "asr", "spinette": "spinette", "player": "chaluvchi", "cottage": "uy", "there": "u yerda", "is": "dir", "ghost": "arvoh", "called": "deb nomlangan", "at": "da", "night": "tun", "music": "musiqa", "coming": "kelayotgan", "from": "dan", "empty": "bo'sh", "room": "xona", "but": "lekin", "no": "hech kim", "one": "hech kim", "my": "mening", "own": "o'z", "story": "hikoya", "a": "bir", "few": "bir nechta", "years": "yillar", "ago": "oldin", "i": "men", "went": "bordim", "visit": "tashrif buyurish", "some": "ba'zi", "friends": "do'stlar", "who": "kim", "lived": "yashagan", "old": "eski", "house": "uy", "countryside": "qishloq", "they": "ular", "didn't": "bilishmadi", "know": "bilish", "was": "edim", "coming": "kelayotganimni", "when": "qachon", "arrived": "kelganimda", "already": "allaqachon", "had": "bor edi", "other": "boshqa", "visitors": "mehmonlar", "never": "hech qachon", "mind": "g'amxo'rlik", "my": "mening", "friend": "do'st", "ella": "Ella", "said": "dedi", "you": "siz", "can": "mumkin", "sleep": "uxlash", "small": "kichik", "guest": "mehmon", "room": "xona", "we": "biz", "don't": "foydalanmaymiz", "use": "foydalanish", "it": "uni", "often": "tez-tez", "but": "lekin", "will": "bo'ladi", "fine": "yaxshi", "for": "uchun", "one": "bir", "night": "tun", "as": "kabi", "we": "biz", "goodnight": "hayrlashdik", "added": "qo'shdi", "something": "nimadir", "strange": "g'alati", "oh": "oh", "and": "va", "please": "iltimos", "lock": "qulflang", "the": "bu", "door": "eshik", "before": "oldinga", "go": "ketish", "to": "ga", "bed": "yotoq", "otherwise": "aks holda", "may": "mumkin", "open": "ochilish", "by": "orqali", "itself": "o'z-o'zidan", "i": "men", "locked": "qulfladim", "got": "tushdim", "into": "ichiga", "bed": "yotoq", "and": "va", "fell": "tushdim", "asleep": "uxlab", "but": "lekin", "slept": "uxladim", "badly": "yomon", "wasn't": "emas edi", "sure": "ishonch", "if": "agar", "was": "edim", "awake": "uyog'an", "or": "yoki", "dreaming": "tush ko'rayotganimni", "then": "keyin", "suddenly": "to'satdan", "knew": "bildim", "i": "men", "was": "edim", "awake": "uyog'an", "i": "men", "could": "oldim", "feel": "his qilish", "hands": "qo'llar", "touching": "tegayotgan", "my": "mening", "face": "yuz", "i": "men", "tried": "harakat qildim", "push": "itarish", "them": "ularni", "away": "uzoqqa", "but": "lekin", "there": "u yerda", "nothing": "hech narsa", "quickly": "tezda", "found": "topdim", "the": "bu", "light": "chiroq", "switch": "tugma", "and": "va", "turned": "yoqdim", "it": "uni", "on": "da", "but": "lekin", "the": "bu", "room": "xona", "empty": "bo'sh", "it": "u", "just": "shunchaki", "a": "bir", "dream": "tush", "i": "men", "told": "aytdim", "myself": "o'zimga", "and": "va", "went": "bordim", "back": "qaytib", "to": "ga", "sleep": "uyqu", "the": "keyingi", "next": "keyingi", "morning": "ertalab", "i": "men", "got": "tushdim", "a": "bir", "shock": "hayrat", "the": "bu", "door": "eshik", "which": "bu", "i": "men", "had": "qilgan", "locked": "qulflagan", "was": "edi", "now": "endi", "open": "ochiq", "at": "da", "breakfast": "nonushta", "i": "men", "told": "aytdim", "ella": "Ella", "about": "haqida", "my": "mening", "dream": "tushim", "and": "va", "the": "bu", "open": "ochiq", "door": "eshik", "you": "siz", "too": "ham", "she": "u", "said": "dedi", "yes": "ha", "i": "men", "know": "bilaman", "that's": "shuning uchun", "why": "nima uchun", "we": "biz", "don't": "foydalanmaymiz", "use": "foydalanish", "that": "bu", "bedroom": "yotoqxona", "it's": "bu", "the": "bu", "blind": "ko'r", "lady": "xonim", "ella": "Ella", "explained": "tushuntirdi", "that": "bu", "many": "ko'p", "years": "yillar", "ago": "oldin", "a": "bir", "blind": "ko'r", "girl": "qiz", "lived": "yashagan", "in": "da", "that": "bu", "house": "uy", "that": "bu", "room": "xona", "was": "edi", "hers": "uning", "she": "u", "died": "vafot etdi", "when": "qachon", "she": "u", "was": "edi", "about": "taxminan", "thirty": "o'ttiz", "years": "yosh", "old": "yoshda", "but": "lekin", "since": "beri", "then": "undan", "she": "u", "keeps": "davom etadi", "coming": "qaytib kelish", "back": "orqaga", "she": "u", "always": "har doim", "touches": "tegadi", "the": "bu", "bed": "yotoq", "sheets": "choyshablar", "before": "oldinga", "she": "u", "gets": "kiradi", "in": "ichiga", "ella": "Ella", "said": "dedi", "many": "ko'p", "visitors": "mehmonlar", "have": "ega bo'lishgan", "had": "bo'lgan", "the": "bu", "same": "bir xil", "experience": "tajriba", "but": "lekin", "don't": "qilmang", "worry": "tashvishlanmang", "she": "u", "was": "edi", "a": "bir", "lovely": "yoqimli", "girl": "qiz", "she": "u", "has": "hech qachon", "never": "hech qachon", "hurt": "zarar yetkazmagan", "anyone": "hech kimga", "at": "da", "that": "bu", "moment": "lahza", "i": "men", "felt": "his qildim", "the": "bu", "skin": "teri", "on": "da", "my": "mening", "neck": "bo'yin", "go": "bo'lib", "cold": "sovuq", "since": "beri", "that": "bu", "night": "tun", "i": "men", "have": "bor", "always": "har doim", "believed": "ishonaman", "in": "ga", "ghosts": "arvohlar",
+        };
+        
+        const uzbekToEnglish = {
+            "londonning": "London's", "eng": "most", "mashhur": "famous", "ramzi": "symbol", "nima": "what", "big": "Big", "benmi": "Ben?", "piccadilly": "Piccadilly", "circusdagi": "Circus'", "eros": "Eros", "haykalimi": "statue?", "yoki": "or", "u": "it", "kamroq": "less", "badiiy": "artistic", "narsadirmi": "something?", "ehtimol": "maybe", "katta": "big", "qizil": "red", "ikki": "double", "qavatli": "decker", "avtobusdir": "bus!", "avtobuslari": "buses", "butun": "all over", "dunyoga": "world", "mashhur": "famous", "odamlar": "people", "ularni": "them", "ko'rgach": "when they see", "darhol": "immediately", "londonni": "London", "eslashadi": "think of", "sayyohlar": "tourists", "yaxshi": "love", "ko'radilar": "to see", "ular": "they", "mashhur": "famous", "joylarni": "places", "uchun": "to", "avtobuslarida": "on buses", "sayr": "ride", "qilishdan": "from", "zavqlanadilar": "enjoy", "butun": "all over", "dunyo": "the world", "bo'ylab": "all", "sayohat": "travel", "qiladi": "do", "ba'zan": "sometimes", "ular": "they", "boshqa": "other", "mamlakatlarda": "in countries", "britaniya": "British", "tadbirlari": "events", "yoki": "or", "yirik": "big", "do'konlarni": "shops", "reklama": "advertise", "qilish": "to", "uchun": "for", "ishlatiladi": "are used", "hech": "no", "qanday": "any", "so'zlar": "words", "kerak": "needed", "emas": "not", "hatto": "even", "london": "London", "transport": "Transport", "yozuvlari": "words", "bo'lmasa": "without", "ham": "too", "odamlar": "people", "ularni": "them", "taniy": "recognize", "oladilar": "can", "faqat": "just", "transport": "transport", "vositasi": "vehicle", "uning": "it's", "ramzidir": "symbol", "tarixi": "history", "yildan": "from the year", "ko'proq": "more than", "vaqt": "time", "oldin": "ago", "1911-yil": "in 1911", "25-oktabrda": "on October 25", "so'nggi": "the last", "ot": "horse", "tortgan": "drawn", "avtobus": "bus", "safarni": "journey", "amalga": "made", "oshirdi": "did", "shu": "this", "kundan": "day", "boshlab": "from", "mashhur": "famous", "qizil": "red", "motorli": "motor", "avtobuslar": "buses", "yo'l": "the road", "podsholari": "kings", "bo'ldi": "became", "dastlabki": "early", "ikki": "double", "qavatli": "decker", "yuqoriga": "to the top", "chiqish": "to reach", "uchun": "for", "orqa": "back", "tomonda": "at the side", "zinapoyalar": "stairs", "bo'lgan": "had", "yuqori": "upper", "qavatda": "on the deck", "yo'lovchilar": "passengers", "tom": "roof", "yo'q": "no", "edi": "was", "ular": "they", "faqa": "only", "yomg'irdan": "from the rain", "himoya": "protect", "qilish": "to", "uchun": "for", "mato": "cloth", "bilan": "with", "qoplangan": "covered", "1930-yillargacha": "until the 1930s", "yang": "new", "avtobuslarning": "buses'", "yuqori": "upper", "qavati": "deck", "tom": "roof", "bilan": "with", "qoplangan": "covered", "bo'lmagan": "was not", "1907-yilgacha": "before 1907", "avtobuslari": "buses", "ularni": "them", "boshqargan": "operated", "kompaniyaga": "company", "qarab": "depending on", "turli": "different", "xil": "kind", "ranglarda": "in colors", "lekin": "but", "1907-yilda": "in 1907", "general": "General", "omnibus": "Omnibus", "company": "Company", "barcha": "all", "avtobuslarini": "its buses", "qizil": "red", "rangga": "color", "bo'yashni": "to paint", "boshladi": "started", "ularni": "them", "osongina": "easily", "tanib": "to spot", "olish": "to take", "uchun": "for", "ingliz": "English", "arvoh": "ghost", "hikoyalari": "stories", "siz": "you", "arvohlarga": "in ghosts", "ishonasizmi": "believe?", "agar": "if", "ishonsangiz": "you believe", "yolg'iz": "alone", "emassiz": "are not", "britaniyada": "in Britain", "odamlar": "people", "jinlangan": "haunted", "deb": "as", "aytadigan": "that people say", "ko'plab": "many", "qadimiy": "old", "qal'alar": "castles", "mavjud": "exist", "eng": "the most", "mashhur": "famous", "jinlangan": "haunted", "joylardan": "places", "biri": "one", "london": "London", "qal'asidir": "Tower is", "qal'asining": "Tower's", "uzun": "long", "va": "and", "qorong'i": "dark", "tarixi": "history", "bor": "is", "ko'p": "many", "odamlar": "people", "u": "there", "yerda": "at that place", "qamoqqa": "to prison", "oling": "taken", "va": "and", "ba'zilari": "some", "darvozasi": "its gates", "oldida": "outside", "qatl": "executed", "etilgan": "were", "qal'adagi": "in the Tower", "mashhur": "famous", "arvohlardan": "ghosts", "biri": "one", "lady": "Lady", "jane": "Jane", "grey": "Grey", "hisoblanadi": "is", "1554-yil": "in 1554", "9-iyulda": "on July 9", "atigi": "only", "17": "17", "yoshida": "at the age", "angliya": "England", "qirolichasi": "Queen", "bo'lgan": "became", "biroq": "however", "boshqa": "another", "bir": "a", "ayol": "woman", "mary": "Mary", "ham": "also", "qirolicha": "Queen", "bo'lishni": "to be", "xohlagan": "wanted", "maryning": "Mary's", "tarafdorlari": "supporters", "kuchliroq": "stronger", "bo'lgan": "were", "va": "and", "atigi": "after just", "to'qqiz": "nine", "kun": "days", "o'tgach": "passed", "jane": "Jane", "london": "London", "qal'asiga": "to the Tower", "yuborilgan": "was sent", "19-iyul": "on July 19", "kuni": "day", "qal'a": "the Tower", "oldida": "outside", "qatl": "executed", "etilgan": "was", "shundan": "since then", "beri": "since", "odamlar": "people", "uning": "her", "arvohi": "ghost", "hali": "still", "ham": "also", "london": "London", "qal'asining": "Tower's", "xonalari": "rooms", "va": "and", "koridorlarida": "corridors", "yurishini": "walks", "aytishadi": "say", "jinlangan": "haunted", "prestbury": "Prestbury", "qishlog'i": "village", "barcha": "all", "arvohlar": "ghosts", "mashhur": "famous", "emas": "are not", "gloucestershiredagi": "in Gloucestershire", "qishlog'i": "village", "angliyadagi": "in England", "eng": "the most", "jinlangan": "haunted", "qishloqlardan": "villages", "biri": "one of", "sifatida": "as", "tanilgan": "is known", "boshsiz": "headless", "otliq": "horseman", "ko'p": "many", "odamlar": "people", "31-dekabr": "on December 31st", "kuni": "day", "qishloq": "the village", "bo'ylab": "through", "boshsiz": "headless", "otliqni": "horseman", "ko'rgan": "have seen", "yoki": "or", "eshitganliklarini": "have heard", "aytishadi": "say", "u": "he", "17-asrda": "in the 17th century", "angliya": "English", "fuqarolar": "Civil", "urushida": "in the War", "jang": "fought", "qilgan": "who", "askar": "a soldier", "bo'lgan": "was", "deyiladi": "it is said", "spinette": "spinette", "chaluvchi": "player", "prestburydagi": "in Prestbury", "qadimgi": "old", "uyda": "in a cottage", "deb": "called", "nomlangan": "named", "arvoh": "ghost", "bor": "is", "tunda": "at night", "odamlar": "people", "ba'zan": "sometimes", "bo'sh": "empty", "xonadan": "from the room", "musiqani": "music", "eshitishadi": "hear", "lekin": "but", "u": "there", "yerda": "there", "hech": "no", "kim": "one", "yo'q": "is", "mening": "my", "shaxsiy": "own", "arvoh": "ghost", "hikoyam": "story", "bir": "a", "necha": "few", "yil": "years", "oldin": "ago", "men": "I", "qishloq": "countryside", "joydagi": "in a place", "qadimgi": "old", "uyda": "in a house", "yashovchi": "living", "do'stlarimga": "to some friends", "tashrif": "a visit", "buyurgan": "made", "edim": "was", "ular": "they", "mening": "my", "kelishimni": "coming", "bilishmagan": "didn't know", "va": "and", "men": "I", "kelganimda": "when I arrived", "ularning": "their", "boshqa": "other", "mehmonlari": "visitors", "bor": "had", "edi": "were", "hech": "never", "qisi": "mind", "yo'q": "not", "dedi": "said", "do'stim": "my friend", "ella": "Ella", "siz": "you", "kichik": "small", "mehmon": "guest", "xonasida": "in the room", "uxlashingiz": "sleep", "mumkin": "can", "biz": "we", "uni": "it", "tez-tez": "often", "ishlatmaymiz": "don't use", "lekin": "but", "bir": "one", "kechaga": "for a night", "yaraydi": "will be fine", "xayrlashganda": "as we said goodnight", "g'alati": "strange", "narsa": "something", "qo'shib": "added", "qo'ydi": "put", "oh": "oh", "va": "and", "iltimos": "please", "yotishdan": "before you go to bed", "oldinga": "before", "eshikni": "the door", "qulflang": "lock", "aks": "otherwise", "holda": "case", "u": "it", "o'z-o'zidan": "by itself", "ochilishi": "to open", "mumkin": "may", "men": "I", "eshikni": "the door", "qulfladim": "locked", "yotgan": "into bed", "joyga": "to the place", "joylashdim": "got in", "uxladim": "and fell asleep", "lekin": "but", "yomon": "badly", "uxladim": "slept", "men": "I", "uyog'animmi": "was I awake", "yoki": "or", "tush": "dreaming", "ko'rayotganimni": "was seeing", "bilmay": "didn't know", "qoldim": "did", "keyin": "then", "to'satdan": "suddenly", "men": "I", "uyog'animni": "was awake", "angladim": "knew", "yuzimga": "my face", "tegayo": "touching", "qo'llarni": "hands", "his": "feel", "qila": "could", "oldim": "did", "ularni": "them", "itarishga": "to push away", "harakat": "tried", "qildim": "did", "lekin": "but", "u": "there", "yerda": "there", "hech": "no", "narsa": "nothing", "tezda": "quickly", "chiroq": "the light", "tugmasini": "switch", "topdim": "found", "yoqdim": "turned on", "lekin": "but", "xona": "the room", "bo'sh": "empty", "edi": "was", "bu": "it", "shunchaki": "just", "tush": "a dream", "edi": "was", "deb": "saying", "o'zimga": "to myself", "aytdim": "said", "va": "and", "yana": "again", "uxladim": "slept", "ertalab": "the next morning", "men": "I", "hayratga": "a shock", "tushdim": "got", "men": "I", "qulflagan": "locked", "eshik": "the door", "endi": "now", "ochiq": "open", "edi": "was", "nonushta": "at breakfast", "paytida": "time", "men": "I", "ellaga": "to Ella", "tushim": "my dream", "va": "and", "ochiq": "the open", "eshik": "door", "haqida": "about", "aytdim": "told", "siz": "you", "ham": "too", "dedi": "she said", "ha": "yes", "men": "I", "bilaman": "know", "shuning": "that's", "uchun": "why", "biz": "we", "bu": "that", "yotoq": "bedroom", "xonasidan": "room", "foydalanmaymiz": "don't use", "bu": "it's", "ko'r": "the blind", "qiz": "girl", "ella": "Ella", "tushuntirdiki": "explained that", "ko'p": "many", "yil": "years", "oldin": "ago", "bu": "that", "uyda": "in a house", "ko'r": "blind", "qiz": "girl", "yashagan": "lived", "bu": "that", "xona": "room", "uniki": "was hers", "bo'lgan": "was", "taxminan": "about", "30": "30", "yoshida": "at the age", "vafot": "died", "etgan": "did", "ammo": "but", "shundan": "since then", "beri": "since", "u": "she", "doimo": "always", "qaytib": "coming back", "keladi": "does", "doimo": "always", "yotgan": "the bed", "joyga": "to the place", "joylashishdan": "to get in", "oldin": "before", "choyshablarga": "the sheets", "tegadi": "touches", "ko'p": "many", "mehmonlar": "visitors", "bir": "the same", "xil": "kind", "tajribaga": "experience", "ega": "have", "bo'lishgan": "had", "lekin": "but", "tashvishlanmang": "don't worry", "u": "she", "yoqimli": "lovely", "qiz": "girl", "edi": "was", "u": "she", "hech": "never", "kimga": "anyone", "zarar": "hurt", "yetkazmagan": "has not", "o'sha": "at that", "paytda": "moment", "men": "I", "bo'ynimdagi": "on my neck", "terning": "the skin", "sovib": "go cold", "ketganini": "went", "his": "feel", "qildim": "did", "o'sha": "that", "kundan": "night", "beri": "since", "men": "I", "arvohlarga": "in ghosts", "ishonaman": "believe",
+        };
+        
+        let isEnglish = true;
+
+        // Boshlang'ich matnlarni saqlab olish
+        document.addEventListener('DOMContentLoaded', () => {
+            const englishSentences = document.getElementById('english-text').querySelectorAll('.sentence');
+            englishSentences.forEach((sentenceSpan, index) => {
+                originalTexts[`en-${index}`] = sentenceSpan.textContent;
+            });
+            const uzbekSentences = document.getElementById('uzbek-text').querySelectorAll('.sentence');
+            uzbekSentences.forEach((sentenceSpan, index) => {
+                originalTexts[`uz-${index}`] = sentenceSpan.textContent;
+            });
+            
+            // Sahifani yuklaganda inglizcha matnni interaktiv qilish
+            makeWordsClickable('english-text');
+        });
+
+        function makeWordsClickable(textSectionId) {
+            const textSection = document.getElementById(textSectionId);
+            const isCurrentEnglish = textSectionId === 'english-text';
+
+            textSection.querySelectorAll('.sentence').forEach((sentenceSpan, index) => {
+                // Avval matnni asl holatiga qaytarish
+                sentenceSpan.textContent = originalTexts[isCurrentEnglish ? `en-${index}` : `uz-${index}`];
+                let originalText = sentenceSpan.textContent;
+                let newHtml = '';
+                
+                const parts = originalText.split(/(\b[\w'-]+\b|[.,!?;:\s]+)/g);
+                
+                parts.forEach(part => {
+                    if (part.trim() === '') {
+                        newHtml += part;
+                        return;
+                    }
+                    
+                    const cleanedWord = part.replace(/[.,!?;:]/g, '').toLowerCase();
+                    let tooltipText;
+                    
+                    if (isCurrentEnglish) {
+                        tooltipText = words[cleanedWord];
+                    } else {
+                        tooltipText = uzbekToEnglish[cleanedWord];
+                    }
+                    
+                    if (tooltipText) {
+                        const onClickFunction = isCurrentEnglish ? `responsiveVoice.speak('${cleanedWord}', 'UK English Male', {rate: 0.8});` : '';
+                        newHtml += `<span class="word" onclick="${onClickFunction}">${part}<span class="tooltip">${tooltipText}</span></span>`;
+                    } else {
+                        newHtml += part;
+                    }
+                });
+                sentenceSpan.innerHTML = newHtml;
+            });
+        }
+        
+        const toggleButton = document.getElementById('toggle-lang-button');
+        const englishText = document.getElementById('english-text');
+        const uzbekText = document.getElementById('uzbek-text');
+        
+        toggleButton.addEventListener('click', function() {
+            if (isEnglish) {
+                englishText.style.display = 'none';
+                uzbekText.style.display = 'block';
+                toggleButton.textContent = 'English';
+                isEnglish = false;
+                makeWordsClickable('uzbek-text');
+            } else {
+                englishText.style.display = 'block';
+                uzbekText.style.display = 'none';
+                toggleButton.textContent = 'O\'zbekcha';
+                isEnglish = true;
+                makeWordsClickable('english-text');
+            }
+        });
+
+        const toggleThemeButton = document.getElementById('toggle-theme-button');
+        let currentThemeIndex = 0;
+        const themes = ['light-mode', 'dark-mode', 'sepia-mode'];
+        const themeButtonTexts = ['Qorong\'u rejim', 'Qizg\'ich rejim', 'Kun rejimi'];
+        
+        toggleThemeButton.addEventListener('click', function() {
+            document.body.classList.remove(themes[currentThemeIndex]);
+            currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+            
+            if (themes[currentThemeIndex] !== 'light-mode') {
+                document.body.classList.add(themes[currentThemeIndex]);
+            }
+            toggleThemeButton.textContent = themeButtonTexts[currentThemeIndex];
+        });
+        
+        responsiveVoice.enableSpeech();
+    </script>
+</body>
+</html>
