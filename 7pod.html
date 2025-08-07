@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>English Listening Practice - Patron Saints</title>
+  <style>
+      /* CSS kodlari shu yerda joylashadi */
+      * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+      }
+
+      body {
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          min-height: 100vh;
+          padding: 20px;
+      }
+
+      .container {
+          max-width: 1200px;
+          margin: 0 auto;
+          background: white;
+          border-radius: 20px;
+          box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+          overflow: hidden;
+      }
+
+      .header {
+          background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+          color: white;
+          padding: 3px;
+          text-align: center;
+      }
+
+      .header h1 {
+          font-size: 2.5em;
+          margin-bottom: 5px;
+          text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      }
+
+      .header p {
+          font-size: 1.2em;
+          opacity: 0.9;
+      }
+
+      .content {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 30px;
+          padding: 30px;
+      }
+
+      .transcript-section,
+      .uzbek-transcript-section,
+      .vocabulary-section
+       {
+          background: #f8f9fa;
+          border-radius: 15px;
+          padding: 25px;
+          max-height: 600px;
+          overflow-y: auto;
+          border: 2px solid #e9ecef;
+          display: none;
+          margin-bottom: 30px;
+      }
+
+      .transcript-section {
+          max-height: 600px;
+      }
+
+
+      .transcript-section h2,
+      .uzbek-transcript-section h2,
+      .vocabulary-section h2 {
+          color: #2c3e50;
+          margin-bottom: 20px;
+          font-size: 1.8em;
+          border-bottom: 3px solid #3498db;
+          padding-bottom: 10px;
+      }
+      .uzbek-transcript-section h2 {
+          border-bottom: 3px solid #e74c3c;
+      }
+      .vocabulary-section h2 {
+          border-bottom: 3px solid #f39c12;
+      }
+
+
+      .transcript p,
+      .uzbek-transcript p,
+      .vocabulary ul li {
+          margin-bottom: 15px;
+          line-height: 1.6;
+          padding: 10px;
+          border-radius: 8px;
+          transition: all 0.3s ease;
+      }
+
+      .transcript p:hover,
+      .uzbek-transcript p:hover,
+      .vocabulary ul li:hover {
+          background: #e3f2fd;
+          transform: translateX(5px);
+      }
+      .vocabulary ul {
+          list-style: none;
+          padding-left: 0;
+      }
+      .vocabulary ul li {
+          border-left: 5px solid #f39c12;
+          background: #fffaf0;
+          margin-bottom: 10px;
+          padding: 12px;
+          font-size: 1.1em;
+      }
+      .vocabulary ul li strong {
+          color: #d35400;
+          font-weight: bold;
+          margin-right: 8px;
+      }
+
+
+      .transcript strong {
+          color: #e74c3c;
+          font-weight: bold;
+          background: #fff3cd;
+          padding: 2px 6px;
+          border-radius: 4px;
+          margin-right: 10px;
+      }
+
+      .exercises-section {
+          background: #fff;
+          border-radius: 15px;
+          padding: 0px;
+          border: 2px solid #e9ecef;
+      }
+
+      .exercises-section h2 {
+          color: #2c3e50;
+          margin-bottom: 20px;
+          font-size: 1.8em;
+          border-bottom: 3px solid #27ae60;
+          padding-bottom: 10px;
+      }
+
+      .exercise {
+          background: #f8f9fa;
+          border-radius: 10px;
+          padding: 20px;
+          margin-bottom: 20px;
+          border-left: 5px solid #27ae60;
+      }
+
+      .exercise h3 {
+          color: #2c3e50;
+          margin-bottom: 15px;
+          font-size: 1.3em;
+      }
+
+      .question {
+          margin-bottom: 15px;
+          padding: 15px;
+          background: white;
+          border-radius: 8px;
+          border: 1px solid #dee2e6;
+      }
+
+      .question p {
+          margin-bottom: 10px;
+          font-weight: 500;
+      }
+
+      .options {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+      }
+
+      .option {
+          padding: 10px 15px;
+          background: #f1f3f4;
+          border-radius: 6px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          border: 2px solid transparent;
+      }
+
+      .option:hover {
+          background: #e8f5e8;
+          border-color: #27ae60;
+      }
+
+      .option.selected {
+          background: #d4edda;
+          border-color: #27ae60;
+          color: #155724;
+      }
+
+      .option.correct {
+          background: #d4edda;
+          border-color: #27ae60;
+          color: #155724;
+      }
+
+      .option.incorrect {
+          background: #f8d7da;
+          border-color: #dc3545;
+          color: #721c24;
+      }
+
+      .check-btn {
+          background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+          color: white;
+          border: none;
+          padding: 12px 30px;
+          border-radius: 25px;
+          cursor: pointer;
+          font-size: 16px;
+          font-weight: 600;
+          transition: all 0.3s ease;
+          margin-top: 15px;
+      }
+
+      .check-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+      }
+
+      .check-btn:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+      }
+
+      .result {
+          margin-top: 15px;
+          padding: 15px;
+          border-radius: 8px;
+          font-weight: 600;
+          text-align: center;
+      }
+
+      .result.correct {
+          background: #d4edda;
+          color: #155724;
+          border: 1px solid #c3e6cb;
+      }
+
+      .result.incorrect {
+          background: #f8d7da;
+          color: #721c24;
+          border: 1px solid #f5c6cb;
+      }
+
+      .controls {
+          text-align: center;
+          padding: 20px;
+          background: #f8f9fa;
+          border-bottom: 1px solid #dee2e6;
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 10px;
+      }
+
+      .control-btn {
+          background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+          color: white;
+          border: none;
+          padding: 12px 25px;
+          border-radius: 25px;
+          cursor: pointer;
+          font-size: 16px;
+          font-weight: 600;
+          margin: 0 5px;
+          transition: all 0.3s ease;
+      }
+
+      .control-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+      }
+
+      .progress-bar {
+          width: 100%;
+          height: 8px;
+          background: #e9ecef;
+          border-radius: 4px;
+          overflow: hidden;
+          margin-bottom: 20px;
+      }
+
+      .progress-fill {
+          height: 100%;
+          background: linear-gradient(90deg, #27ae60, #2ecc71);
+          transition: width 0.3s ease;
+      }
+
+      .gap-input {
+          width: 100%;
+          padding: 12px;
+          margin: 10px 0;
+          border: 2px solid #dee2e6;
+          border-radius: 8px;
+          font-size: 16px;
+          transition: all 0.3s ease;
+      }
+
+      .gap-input:focus {
+          border-color: #3498db;
+          outline: none;
+          box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+      }
+
+      .gap-input.correct {
+          border-color: #27ae60;
+          background-color: #d4edda;
+      }
+
+      .gap-input.incorrect {
+          border-color: #dc3545;
+          background-color: #f8d7da;
+      }
+
+      .vocabulary-section h2 {
+          border-bottom: 3px solid #f39c12;
+      }
+
+      .flashcard-container {
+          perspective: 1000px;
+          width: 100%;
+          max-width: 400px;
+          height: 250px;
+          margin: 30px auto;
+          position: relative;
+      }
+
+      .flashcard {
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          transform-style: preserve-3d;
+          transition: transform 0.6s;
+          box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+          border-radius: 15px;
+          cursor: pointer;
+      }
+
+      .flashcard.flipped {
+          transform: rotateY(180deg);
+      }
+
+      .flashcard-front, .flashcard-back {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          padding: 20px;
+          border-radius: 15px;
+          font-size: 1.8em;
+          font-weight: bold;
+          color: #2c3e50;
+      }
+
+      .flashcard-front {
+          background: linear-gradient(135deg, #f0f9ff 0%, #cbebff 100%);
+          border: 2px solid #a0d8ff;
+      }
+
+      .flashcard-back {
+          background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+          border: 2px solid #ef9a9a;
+          transform: rotateY(180deg);
+          color: #e74c3c;
+      }
+
+      .flashcard-back p {
+          font-size: 0.7em;
+          font-weight: normal;
+          margin-top: 10px;
+          color: #333;
+      }
+
+      .flashcard-controls {
+          text-align: center;
+          margin-top: 20px;
+          display: flex;
+          justify-content: center;
+          gap: 15px;
+          flex-wrap: wrap;
+      }
+      .flashcard-controls .control-btn {
+          margin: 0 10px;
+          background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+      }
+      .flashcard-controls .control-btn:hover {
+          box-shadow: 0 5px 15px rgba(243, 156, 18, 0.3);
+      }
+
+      #audio-player {
+          position: fixed;
+          bottom: 20px;
+          right: 20px;
+          background-color: #333;
+          color: white;
+          border-radius: 50%;
+          padding: 15px;
+          display: flex;
+          gap: 10px;
+          align-items: center;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+          z-index: 1000;
+      }
+      #audio-player button {
+          background: none;
+          border: none;
+          color: white;
+          font-size: 18px;
+          cursor: pointer;
+      }
+
+      /* Custom Message Box styling */
+      .custom-message-box {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.6);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 9999;
+      }
+      .message-content {
+          background: white;
+          padding: 30px;
+          border-radius: 10px;
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+          text-align: center;
+          max-width: 80%;
+      }
+      .message-content p {
+          font-size: 1.2em;
+          margin-bottom: 20px;
+          color: #333;
+      }
+      .close-message-btn {
+          background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+          color: white;
+          border: none;
+          padding: 10px 20px;
+          border-radius: 20px;
+          cursor: pointer;
+          font-size: 1em;
+          font-weight: 600;
+          transition: all 0.3s ease;
+      }
+      .close-message-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 3px 10px rgba(52, 152, 219, 0.3);
+      }
+
+      /* Text sync specific styles */
+      .text-container {
+           background: rgba(255, 255, 255, 0.95);
+           border-radius: 15px;
+           padding: 25px;
+           box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+           backdrop-filter: blur(10px);
+           line-height: 1.8;
+           font-size: 1.1rem;
+           max-height: 500px; /* Transkript oynasining balandligini cheklash */
+           overflow-y: auto; /* Agar matn ko'p bo'lsa, aylantirishni yoqish */
+       }
+
+       .sentence {
+           margin-bottom: 15px;
+           padding: 10px;
+           border-radius: 8px;
+           transition: all 0.3s ease;
+       }
+
+       .sentence.active {
+           background: linear-gradient(45deg, #e3f2fd, #bbdefb);
+           border-left: 4px solid #2196F3;
+           transform: translateX(5px);
+       }
+
+       .word {
+           display: inline;
+           padding: 2px 4px;
+           border-radius: 4px;
+           transition: all 0.2s ease;
+           cursor: pointer;
+       }
+
+       .word.current {
+           background: linear-gradient(45deg, #FFD54F, #FFC107);
+           font-weight: bold;
+           transform: scale(1.05);
+           box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3);
+       }
+
+       .word:hover {
+           background: rgba(33, 150, 243, 0.1);
+       }
+
+       .music-indicator {
+           color: #9C27B0;
+           font-style: italic;
+           background: linear-gradient(45deg, #f3e5f5, #e1bee7);
+           padding: 5px 10px;
+           border-radius: 20px;
+           display: inline-block;
+           margin: 5px 0;
+       }
+
+       .loading {
+           text-align: center;
+           color: #666;
+           font-style: italic;
+       }
+
+       @keyframes pulse {
+           0% { opacity: 1; }
+           50% { opacity: 0.7; }
+           100% { opacity: 1; }
+       }
+
+       .pulse {
+           animation: pulse 1s infinite;
+       }
+
+  </style>
+</head>
+
+<body>
+  <div class="container">
+      <div class="header">
+          <h3>🎧 English Listening Practice</h3>
+          <p>Patron Saints - Jackie & Richard</p>
+
+          <audio id="myAudio" src="Saints.mp3" preload="auto"></audio>
+
+          <div id="audio-player">
+              <button id="rewind">⏪</button>
+              <button id="playPause">▶️</button>
+              <button id="forward">⏩</button>
+          </div>
+      </div>
+
+      <div class="controls">
+          <button class="control-btn" onclick="showSection('transcript-section')">📝 Show Transcript</button>
+          <button class="control-btn" onclick="showSection('uzbek-transcript-section')">🇺🇿 Uzbek Transcript</button>
+          <button class="control-btn" onclick="showSection('vocabulary-section')">📚 Lug'at</button>
+          <button class="control-btn" onclick="hideAllSections()">🙈 Hide All</button>
+          <button class="control-btn" onclick="resetExercises()">🔄 Reset All</button>
+      </div>
+
+      <div class="content">
+          <div class="transcript-section" id="transcript-section" style="display: block;">
+              <h2>📝 Transcript</h2>
+              <div class="text-container" id="textContainer">
+                  <div class="loading pulse">Audio yuklanmoqda...</div>
+              </div>
+          </div>
+
+          <div class="uzbek-transcript-section" id="uzbek-transcript-section">
+              <h2>🇺🇿 O'zbekcha Transkript</h2>
+              <div class="uzbek-transcript">
+                  <p><strong>0:05</strong> Shotlandiya, Irlandiya, Angliya va Uelsning to'rtta homiy avliyosi bor.</p>
+                  <p><strong>0:07</strong> Shu sababli, bu haftalik podcastenglish.com uchun</p>
+                  <p><strong>0:12</strong> men Richarddan ular haqida so'rayapman.</p>
+                  <p><strong>0:15</strong> To'g'ri, Richard? Oson savol. Birinchi bo'lib,</p>
+                  <p><strong>0:18</strong> avliyolarning nomini ayting.</p>
+                  <p><strong>0:20</strong> Menimcha, buni uddalay olaman. Angliya uchun Avliyo Jorj,</p>
+                  <p><strong>0:24</strong> Shotlandiya uchun Avliyo Endryu, Irlandiya uchun Avliyo Patrik,</p>
+                  <p><strong>0:30</strong> va Uels uchun Avliyo Devid.</p>
+                  <p><strong>0:31</strong> Ajoyib. Taqvim yilida ulardan qaysi biri birinchi keladi?</p>
+                  <p><strong>0:36</strong> Men bilaman, Avliyo Patrik kuni juda mashhur kun.</p>
+                  <p><strong>0:38</strong> U mart oyida bo'lsa kerak. Lekin Avliyo Devidning kuni ham</p>
+                  <p><strong>0:41</strong> martda, 1-martda deb o'ylayman.</p>
+                  <p><strong>0:45</strong> Ha,</p>
+                  <p><strong>0:45</strong> men uni aytaman.</p>
+                  <p><strong>0:47</strong> Ha, to'g'ri aytdingiz. Undan keyin Avliyo Patrik, 17-mart.</p>
+                  <p><strong>0:52</strong> Yaxshi. Va keyin, albatta, Jorj aprelda va Endryu</p>
+                  <p><strong>0:55</strong> noyabrda.</p>
+                  <p><strong>0:56</strong> Yaxshi.</p>
+                  <p><strong>0:59</strong> Qizig'i shundaki, Richard, ulardan faqat bittasi o'z mamlakatida tug'ilgan.</p>
+                  <p><strong>1:05</strong> To'g'ri? Bu Avliyo Jorj emas, chunki men bilaman, u turkiyalik.</p>
+                  <p><strong>1:10</strong> To'g'ri? U hech qachon Angliyaga kelmagan. Avliyo Patrik, menimcha, u Rimlik bo'lgan. Ishonchim komil emas. Shunday ekan, menimcha bu Devid yoki Endryu. Men Devidni aytaman.</p>
+                  <p><strong>1:21</strong> Bu to'g'ri. Devid Uelslik edi. Lekin Avliyo Endryu, Richard, Avliyo Endryu kim bo'lgan?</p>
+                  <p><strong>1:30</strong> Bilmayman.</p>
+                  <p><strong>1:31</strong> Rostdanmi?</p>
+                  <p><strong>1:32</strong> Rostdanmi?</p>
+                  <p><strong>1:33</strong> U Isoning 12 havoriylaridan biri edi.</p>
+                  <p><strong>1:36</strong> Voy, men buni bilmasdim.</p>
+                  <p><strong>1:37</strong> Ha. Va Avliyo Patrik Angliyadan kelgan.</p>
+                  <p><strong>1:40</strong> Mayli. Yaxshi.</p>
+                  <p><strong>1:43</strong> Richard, homiy avliyolardan ikkitasi</p>
+                  <p><strong>1:46</strong> nasroniy bo'lganliklari uchun</p>
+                  <p><strong>1:49</strong> o'ldirilgan,</p>
+                  <p><strong>1:51</strong> to'g'rimi?</p>
+                  <p><strong>1:51</strong> Va ular...</p>
+                  <p><strong>1:53</strong> Xo'sh, Avliyo Endryu Isoning izdoshlaridan biri edi. Shuning uchun u</p>
+                  <p><strong>1:55</strong> o'ldirilgan. Va menimcha, Avliyo Jorj ham, u askar bo'lgan edi, shunday emasmi?</p>
+                  <p><strong>2:02</strong> Rim armiyasida.</p>
+                  <p><strong>2:03</strong> Bu Rim imperatori edi.</p>
+                  <p><strong>2:05</strong> Voy, mayli.</p>
+                  <p><strong>2:07</strong> Va u nasroniy bo'lganligi uchun o'ldirilgan.</p>
+                  <p><strong>2:11</strong> To'g'ri.</p>
+                  <p><strong>2:12</strong> Ha. Va qolgan ikkitasi shunchaki yepiskop edi. Shuning uchun ular</p>
+                  <p><strong>2:13</strong> keksalikdan o'lgan.</p>
+                  <p><strong>2:16</strong> Devid va Patrik.</p>
+                  <p><strong>2:18</strong> Ha. Aynan shunday.</p>
+                  <p><strong>2:20</strong> Endi, ilonlar bilan qaysi biri bog'liq?</p>
+                  <p><strong>2:25</strong> Avliyo Patrik. Men buni bilaman, chunki Irlandiyada ilonlar yo'q,</p>
+                  <p><strong>2:30</strong> chunki</p>
+                  <p><strong>2:30</strong> u ularni haydab chiqargan,</p>
+                  <p><strong>2:33</strong> to'g'rimi? Buni rostligiga ishonchim komil emas.</p>
+                  <p><strong>2:35</strong> Ajdaho bilan qaysi biri bog'liq?</p>
+                  <p><strong>2:38</strong> Avliyo Jorj. Har bir ingliz odami biladiki,</p>
+                  <p><strong>2:42</strong> Avliyo Jorj ajdahoni o'ldirgan.</p>
+                  <p><strong>2:44</strong> Ha. Garchi ajdaho bo'lmagan bo'lsa ham.</p>
+                  <p><strong>2:47</strong> Mayli. Qaysi biri baliqchilarning homiy avliyosi deb o'ylaysiz?</p>
+                  <p><strong>2:54</strong> Avliyo Endryu,</p>
+                  <p><strong>2:56</strong> chunki u Jaliladagi baliqchi edi.</p>
+                  <p><strong>2:58</strong> Aynan shunday. Demak, oxirgisi, vegetarianlarning homiy avliyosi kim?</p>
+                  <p><strong>3:04</strong> Avliyo Devid.</p>
+                  <p><strong>3:05</strong> Nima uchunligini bilasizmi?</p>
+                  <p><strong>3:06</strong> Yo'q.</p>
+                  <p><strong>3:07</strong> Menimcha, bu ularning piryozni juda yaxshi ko'rishi bilan bog'liq bo'lsa kerak</p>
+                  <p><strong>3:13</strong> Uelsda.</p>
+              </div>
+          </div>
+
+          <div class="vocabulary-section" id="vocabulary-section">
+              <h2>📚 Lug'at</h2>
+              <div class="flashcard-container" id="flashcard-container">
+              </div>
+              <div class="flashcard-controls">
+                  <button class="control-btn" onclick="prevFlashcard()">⬅️ Avvalgi</button>
+                  <button class="control-btn" onclick="markAsLearned()">✅ Yodladim</button>
+                  <button class="control-btn" onclick="nextFlashcard()">➡️ Keyingi</button>
+              </div>
+          </div>
+
+          <div class="exercises-section">
+              <h2>🎯 Exercises</h2>
+              <div class="progress-bar">
+                  <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+              </div>
+
+              <div class="exercise" id="exercise1">
+                  <h3>Question 1</h3>
+                  <div class="question">
+                      <p>What is the main topic of this week's podcast?</p>
+                      <div class="options">
+                          <div class="option" data-answer="correct">The four patron saints of the UK countries</div>
+                          <div class="option" data-answer="incorrect">The history of England</div>
+                          <div class="option" data-answer="incorrect">Christianity</div>
+                          <div class="option" data-answer="incorrect">Famous calendar dates</div>
+                      </div>
+                      <button class="check-btn" onclick="checkAnswer(1)">Check Answer</button>
+                      <div class="result" id="result1" style="display: none;"></div>
+                  </div>
+              </div>
+
+              <div class="exercise" id="exercise2">
+                  <h3>Question 2</h3>
+                  <div class="question">
+                      <p>Which saint's day is first in the calendar year?</p>
+                      <div class="options">
+                          <div class="option" data-answer="incorrect">St. Andrew</div>
+                          <div class="option" data-answer="incorrect">St. Patrick</div>
+                          <div class="option" data-answer="correct">St. David</div>
+                          <div class="option" data-answer="incorrect">St. George</div>
+                      </div>
+                      <button class="check-btn" onclick="checkAnswer(2)">Check Answer</button>
+                      <div class="result" id="result2" style="display: none;"></div>
+                  </div>
+              </div>
+
+              <div class="exercise" id="exercise3">
+                  <h3>Question 3</h3>
+                  <div class="question">
+                      <p>According to the podcast, which saint was born in the country he represents?</p>
+                      <div class="options">
+                          <div class="option" data-answer="incorrect">St. George</div>
+                          <div class="option" data-answer="incorrect">St. Patrick</div>
+                          <div class="option" data-answer="incorrect">St. Andrew</div>
+                          <div class="option" data-answer="correct">St. David</div>
+                      </div>
+                      <button class="check-btn" onclick="checkAnswer(3)">Check Answer</button>
+                      <div class="result" id="result3" style="display: none;"></div>
+                  </div>
+              </div>
+
+              <div class="exercise" id="exercise4">
+                  <h3>Question 4</h3>
+                  <div class="question">
+                      <p>What was St. Andrew's connection to Jesus?</p>
+                      <div class="options">
+                          <div class="option" data-answer="incorrect">He was a cousin</div>
+                          <div class="option" data-answer="correct">He was one of the 12 apostles</div>
+                          <div class="option" data-answer="incorrect">He was a Roman soldier</div>
+                          <div class="option" data-answer="incorrect">He was a bishop</div>
+                      </div>
+                      <button class="check-btn" onclick="checkAnswer(4)">Check Answer</button>
+                      <div class="result" id="result4" style="display: none;"></div>
+                  </div>
+              </div>
+
+              <div class="exercise" id="exercise5">
+                  <h3>Question 5</h3>
+                  <div class="question">
+                      <p>Which two saints were killed for being Christians?</p>
+                      <div class="options">
+                          <div class="option" data-answer="incorrect">St. David and St. Patrick</div>
+                          <div class="option" data-answer="correct">St. George and St. Andrew</div>
+                          <div class="option" data-answer="incorrect">St. Andrew and St. Patrick</div>
+                          <div class="option" data-answer="incorrect">St. David and St. George</div>
+                      </div>
+                      <button class="check-btn" onclick="checkAnswer(5)">Check Answer</button>
+                      <div class="result" id="result5" style="display: none;"></div>
+                  </div>
+              </div>
+
+              <div class="exercise" id="exercise6">
+                  <h3>Question 6 - True/False</h3>
+                  <div class="question">
+                      <p>According to the podcast, St. Patrick was a Roman.</p>
+                      <div class="options">
+                          <div class="option" data-answer="incorrect">True</div>
+                          <div class="option" data-answer="correct">False</div>
+                      </div>
+                      <button class="check-btn" onclick="checkAnswer(6)">Check Answer</button>
+                      <div class="result" id="result6" style="display: none;"></div>
+                  </div>
+              </div>
+
+              <div class="exercise" id="exercise7">
+                  <h3>Question 7 - True/False</h3>
+                  <div class="question">
+                      <p>The podcast states that St. George really did kill a dragon.</p>
+                      <div class="options">
+                          <div class="option" data-answer="incorrect">True</div>
+                          <div class="option" data-answer="correct">False</div>
+                      </div>
+                      <button class="check-btn" onclick="checkAnswer(7)">Check Answer</button>
+                      <div class="result" id="result7" style="display: none;"></div>
+                  </div>
+              </div>
+
+              <div class="exercise" id="exercise8">
+                  <h3>Question 8 - True/False</h3>
+                  <div class="question">
+                      <p>St. Andrew is the patron saint of fishermen.</p>
+                      <div class="options">
+                          <div class="option" data-answer="correct">True</div>
+                          <div class="option" data-answer="incorrect">False</div>
+                      </div>
+                      <button class="check-btn" onclick="checkAnswer(8)">Check Answer</button>
+                      <div class="result" id="result8" style="display: none;"></div>
+                  </div>
+              </div>
+
+              <div class="exercise" id="exercise9">
+                  <h3>Question 9 - Fill in the Gap</h3>
+                  <div class="question">
+                      <p>Complete the sentence from the transcript:</p>
+                      <p><em>"Right, Richard? _______ question. First, name the _______."</em></p>
+                      <input type="text" class="gap-input" id="gap1" placeholder="First word...">
+                      <input type="text" class="gap-input" id="gap2" placeholder="Second word...">
+                      <button class="check-btn" onclick="checkDoubleGapAnswer(9, 'gap1', 'gap2', 'Easy', 'saints')">Check Answer</button>
+                      <div class="result" id="result9" style="display: none;"></div>
+                  </div>
+              </div>
+
+              <div class="exercise" id="exercise10">
+                  <h3>Question 10 - Fill in the Gap</h3>
+                  <div class="question">
+                      <p>Complete the sentence from the transcript:</p>
+                      <p><em>"I think it's something to do with the fact they like _______ so _______ in Wales."</em></p>
+                      <input type="text" class="gap-input" id="gap3" placeholder="First word...">
+                      <input type="text" class="gap-input" id="gap4" placeholder="Second word...">
+                      <button class="check-btn" onclick="checkDoubleGapAnswer(10, 'gap3', 'gap4', 'leeks', 'much')">Check Answer</button>
+                      <div class="result" id="result10" style="display: none;"></div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <script>
+      /* JavaScript kodlari shu yerda joylashadi */
+      let completedExercises = 0;
+      const totalExercises = 10;
+
+      function checkAnswer(exerciseNum) {
+          const exercise = document.getElementById(`exercise${exerciseNum}`);
+          const options = exercise.querySelectorAll('.option');
+          const result = document.getElementById(`result${exerciseNum}`);
+          const button = exercise.querySelector('.check-btn');
+
+          let selectedOption = null;
+          let isCorrect = false;
+
+          options.forEach(option => {
+              if (option.classList.contains('selected')) {
+                  selectedOption = option;
+                  if (option.dataset.answer === 'correct') {
+                      isCorrect = true;
+                      option.classList.add('correct');
+                  } else {
+                      option.classList.add('incorrect');
+                  }
+              }
+          });
+
+          if (!selectedOption) {
+              showMessageBox('Please select an answer first!');
+              return;
+          }
+
+          options.forEach(option => {
+              if (option.dataset.answer === 'correct') {
+                  option.classList.add('correct');
+              }
+              option.style.pointerEvents = 'none';
+          });
+
+          result.style.display = 'block';
+          if (isCorrect) {
+              result.textContent = '✅ Correct! Well done!';
+              result.className = 'result correct';
+              if (!button.disabled) {
+                  completedExercises++;
+                  updateProgress();
+              }
+          } else {
+              result.textContent = '❌ Incorrect. The correct answer is highlighted.';
+              result.className = 'result incorrect';
+          }
+
+          button.disabled = true;
+      }
+
+      function updateProgress() {
+          const progress = (completedExercises / totalExercises) * 100;
+          document.getElementById('progressFill').style.width = progress + '%';
+
+          if (completedExercises === totalExercises) {
+              setTimeout(() => {
+                  showMessageBox('🎉 Congratulations! You completed all exercises!');
+              }, 500);
+          }
+      }
+
+      function checkGapAnswer(exerciseNum, inputId, correctAnswer) {
+          const input = document.getElementById(inputId);
+          const result = document.getElementById(`result${exerciseNum}`);
+          const button = document.querySelector(`#exercise${exerciseNum} .check-btn`);
+
+          const userAnswer = input.value.trim().toLowerCase();
+          const correct = correctAnswer.toLowerCase();
+
+          if (!userAnswer) {
+              showMessageBox('Please enter your answer!');
+              return;
+          }
+
+          const isCorrect = userAnswer === correct;
+
+          if (isCorrect) {
+              input.classList.add('correct');
+              input.classList.remove('incorrect');
+              result.textContent = '✅ Correct! Well done!';
+              result.className = 'result correct';
+              if (!button.disabled) {
+                  completedExercises++;
+                  updateProgress();
+              }
+          } else {
+              input.classList.add('incorrect');
+              input.classList.remove('correct');
+              result.textContent = `❌ Incorrect. The correct answer is: "${correctAnswer}"`;
+              result.className = 'result incorrect';
+          }
+
+          result.style.display = 'block';
+          button.disabled = true;
+          input.disabled = true;
+      }
+
+      function checkDoubleGapAnswer(exerciseNum, inputId1, inputId2, correctAnswer1, correctAnswer2) {
+          const input1 = document.getElementById(inputId1);
+          const input2 = document.getElementById(inputId2);
+          const result = document.getElementById(`result${exerciseNum}`);
+          const button = document.querySelector(`#exercise${exerciseNum} .check-btn`);
+
+          const userAnswer1 = input1.value.trim().toLowerCase();
+          const userAnswer2 = input2.value.trim().toLowerCase();
+          const correct1 = correctAnswer1.toLowerCase();
+          const correct2 = correctAnswer2.toLowerCase();
+
+          if (!userAnswer1 || !userAnswer2) {
+              showMessageBox('Please fill in both gaps!');
+              return;
+          }
+
+          const isCorrect1 = userAnswer1 === correct1;
+          const isCorrect2 = userAnswer2 === correct2;
+          const bothCorrect = isCorrect1 && isCorrect2;
+
+          if (isCorrect1) {
+              input1.classList.add('correct');
+              input1.classList.remove('incorrect');
+          } else {
+              input1.classList.add('incorrect');
+              input1.classList.remove('correct');
+          }
+
+          if (isCorrect2) {
+              input2.classList.add('correct');
+              input2.classList.remove('incorrect');
+          } else {
+              input2.classList.add('incorrect');
+              input2.classList.remove('correct');
+          }
+
+          if (bothCorrect) {
+              result.textContent = '✅ Correct! Well done!';
+              result.className = 'result correct';
+              if (!button.disabled) {
+                  completedExercises++;
+                  updateProgress();
+              }
+          } else {
+              result.textContent = `❌ Incorrect. The correct answers are: "${correctAnswer1}" and "${correctAnswer2}"`;
+              result.className = 'result incorrect';
+          }
+
+          result.style.display = 'block';
+          button.disabled = true;
+          input1.disabled = true;
+          input2.disabled = true;
+      }
+
+      function checkTripleGapAnswer(exerciseNum, inputId1, inputId2, inputId3, correctAnswer1, correctAnswer2, correctAnswer3) {
+          const input1 = document.getElementById(inputId1);
+          const input2 = document.getElementById(inputId2);
+          const input3 = document.getElementById(inputId3);
+          const result = document.getElementById(`result${exerciseNum}`);
+          const button = document.querySelector(`#exercise${exerciseNum} .check-btn`);
+
+          const userAnswer1 = input1.value.trim().toLowerCase();
+          const userAnswer2 = input2.value.trim().toLowerCase();
+          const userAnswer3 = input3.value.trim().toLowerCase();
+          const correct1 = correctAnswer1.toLowerCase();
+          const correct2 = correctAnswer2.toLowerCase();
+          const correct3 = correctAnswer3.toLowerCase();
+
+          if (!userAnswer1 || !userAnswer2 || !userAnswer3) {
+              showMessageBox('Please fill in all gaps!');
+              return;
+          }
+
+          const isCorrect1 = userAnswer1 === correct1;
+          const isCorrect2 = userAnswer2 === correct2;
+          const isCorrect3 = userAnswer3 === correct3;
+          const allCorrect = isCorrect1 && isCorrect2 && isCorrect3;
+
+          if (isCorrect1) {
+              input1.classList.add('correct');
+              input1.classList.remove('incorrect');
+          } else {
+              input1.classList.add('incorrect');
+              input1.classList.remove('correct');
+          }
+
+          if (isCorrect2) {
+              input2.classList.add('correct');
+              input2.classList.remove('incorrect');
+          } else {
+              input2.classList.add('incorrect');
+              input2.classList.remove('correct');
+          }
+
+          if (isCorrect3) {
+              input3.classList.add('correct');
+              input3.classList.remove('incorrect');
+          } else {
+              input3.classList.add('incorrect');
+              input3.classList.remove('correct');
+          }
+
+          if (allCorrect) {
+              result.textContent = '✅ Correct! Well done!';
+              result.className = 'result correct';
+              if (!button.disabled) {
+                  completedExercises++;
+                  updateProgress();
+              }
+          } else {
+              result.textContent = `❌ Incorrect. The correct answers are: "${correctAnswer1}", "${correctAnswer2}", and "${correctAnswer3}"`;
+              result.className = 'result incorrect';
+          }
+
+          result.style.display = 'block';
+          button.disabled = true;
+          input1.disabled = true;
+          input2.disabled = true;
+          input3.disabled = true;
+      }
+
+      function resetExercises() {
+          completedExercises = 0;
+          updateProgress();
+
+          for (let i = 1; i <= totalExercises; i++) {
+              const exercise = document.getElementById(`exercise${i}`);
+              if (exercise) {
+                  const options = exercise.querySelectorAll('.option');
+                  const inputs = exercise.querySelectorAll('.gap-input');
+                  const result = document.getElementById(`result${i}`);
+                  const button = exercise.querySelector('.check-btn');
+
+                  options.forEach(option => {
+                      option.classList.remove('selected', 'correct', 'incorrect');
+                      option.style.pointerEvents = 'auto';
+                  });
+
+                  inputs.forEach(input => {
+                      input.value = '';
+                      input.classList.remove('correct', 'incorrect');
+                      input.disabled = false;
+                  });
+
+                  if (result) {
+                      result.style.display = 'none';
+                  }
+                  if (button) {
+                      button.disabled = false;
+                  }
+              }
+          }
+          initializeFlashcards(); // Flesh kartalarni ham reset qilamiz
+      }
+
+      function showSection(sectionIdToShow) {
+          const sections = ['transcript-section', 'uzbek-transcript-section', 'vocabulary-section'];
+          sections.forEach(id => {
+              const section = document.getElementById(id);
+              if (section) {
+                  section.style.display = 'none';
+              }
+          });
+          const targetSection = document.getElementById(sectionIdToShow);
+          if (targetSection) {
+              targetSection.style.display = 'block';
+          }
+
+          if (sectionIdToShow === 'vocabulary-section') {
+              initializeFlashcards();
+          }
+      }
+
+      function hideAllSections() {
+          const sections = ['transcript-section', 'uzbek-transcript-section', 'vocabulary-section'];
+          sections.forEach(id => {
+              const section = document.getElementById(id);
+              if (section) {
+                  section.style.display = 'none';
+              }
+          });
+      }
+
+      document.addEventListener('DOMContentLoaded', function() {
+          const allOptions = document.querySelectorAll('.option');
+          allOptions.forEach(option => {
+              option.addEventListener('click', function() {
+                  const siblings = this.parentElement.querySelectorAll('.option');
+                  siblings.forEach(sibling => {
+                      sibling.classList.remove('selected');
+                  });
+                  this.classList.add('selected');
+              });
+          });
+
+          initializeFlashcards();
+      });
+
+      const vocabularyWords = [
+          { word: "Patron saints", meaning: "Homiy avliyolar" },
+          { word: "Apostles", meaning: "Havoriylar" },
+          { word: "Bishop", meaning: "Yepiskop" },
+          { word: "Drove out", meaning: "Haydab chiqardi" },
+          { word: "Dragon", meaning: "Ajdaho" },
+          { word: "Vegetarian", meaning: "Vegetarian (go'sht yemaydigan)" },
+          { word: "Leek", meaning: "Piryoz (ko'kat turi)" },
+          { word: "Roman emperor", meaning: "Rim imperatori" },
+          { word: "Calendar year", meaning: "Taqvim yili" },
+          { word: "Follower", meaning: "Izdosh" }
+      ];
+
+
+      let currentFlashcardIndex = 0;
+      let shuffledWords = [];
+      let learnedWords = [];
+
+      function initializeFlashcards() {
+          shuffledWords = shuffleArray([...vocabularyWords]);
+          currentFlashcardIndex = 0;
+          renderFlashcard();
+      }
+
+      function renderFlashcard() {
+          const container = document.getElementById('flashcard-container');
+          container.innerHTML = '';
+
+          if (shuffledWords.length === 0) {
+              container.innerHTML = '<p style="text-align:center; font-size:1.2em; color:#555;">Barcha soʻzlar yodlandi! Yangidan boshlash uchun sahifani yangilang.</p>';
+              return;
+          }
+
+          const wordData = shuffledWords[currentFlashcardIndex];
+          const flashcard = document.createElement('div');
+          flashcard.classList.add('flashcard');
+          flashcard.innerHTML = `
+              <div class="flashcard-front">${wordData.word}</div>
+              <div class="flashcard-back">${wordData.meaning}</div>
+          `;
+
+          flashcard.addEventListener('click', () => {
+              flashcard.classList.toggle('flipped');
+          });
+
+          container.appendChild(flashcard);
+      }
+
+      function nextFlashcard() {
+          currentFlashcardIndex++;
+          if (currentFlashcardIndex >= shuffledWords.length) {
+              if (learnedWords.length > 0 && shuffledWords.length === 0) {
+                  showMessageBox('Barcha soʻzlar yodlangan. Sahifani yangilasangiz, qayta boshlay olasiz.');
+                  return;
+              } else if (shuffledWords.length === 0) {
+                  showMessageBox('Barcha soʻzlar yodlandi!');
+                  currentFlashcardIndex = shuffledWords.length;
+                  renderFlashcard();
+                  return;
+              }
+              currentFlashcardIndex = 0;
+          }
+          renderFlashcard();
+      }
+
+      function prevFlashcard() {
+          currentFlashcardIndex--;
+          if (currentFlashcardIndex < 0) {
+              currentFlashcardIndex = shuffledWords.length - 1;
+          }
+          renderFlashcard();
+      }
+
+      function markAsLearned() {
+          if (shuffledWords.length === 0) {
+              showMessageBox('Yodlash uchun soʻzlar qolmadi.');
+              return;
+          }
+
+          const learnedWord = shuffledWords.splice(currentFlashcardIndex, 1)[0];
+          learnedWords.push(learnedWord);
+
+          if (shuffledWords.length === 0) {
+              showMessageBox('Tabriklaymiz! Barcha soʻzlar yodlandi!');
+          } else if (currentFlashcardIndex >= shuffledWords.length) {
+              currentFlashcardIndex = 0;
+          }
+          renderFlashcard();
+      }
+
+      function shuffleArray(array) {
+          for (let i = array.length - 1; i > 0; i--) {
+              const j = Math.floor(Math.random() * (i + 1));
+              [array[i], array[j]] = [array[j], array[i]];
+          }
+          return array;
+      }
+
+      function showMessageBox(message) {
+          const messageBox = document.createElement('div');
+          messageBox.classList.add('custom-message-box');
+          messageBox.innerHTML = `
+              <div class="message-content">
+                  <p>${message}</p>
+                  <button class="close-message-btn">OK</button>
+              </div>
+          `;
+          document.body.appendChild(messageBox);
+
+          messageBox.querySelector('.close-message-btn').addEventListener('click', () => {
+              document.body.removeChild(messageBox);
+          });
+      }
+
+      const audio = document.getElementById("myAudio");
+      const playPauseBtn = document.getElementById("playPause");
+      const forwardBtn = document.getElementById("forward");
+      const rewindBtn = document.getElementById("rewind");
+
+      let isPlaying = false;
+
+      // Audio sinxronizatsiyasi uchun yangi o'zgaruvchilar va funksiyalar
+      const textContainer = document.getElementById('textContainer');
+      let currentSentenceIndex = -1;
+      let currentWordIndex = -1;
+
+      // Audio transkript ma'lumotlari
+      const audioData = [
+          {time: 5, text: "Scotland, Ireland, England, and Wales"},
+          {time: 7, text: "have four patron saints. So for this"},
+          {time: 10, text: "week's podcastenglish.com,"},
+          {time: 12, text: "I'm asking Richard about them."},
+          {time: 15, text: "Right, Richard? Easy question. First,"},
+          {time: 18, text: "name the saints."},
+          {time: 20, text: "I think I can do that. St. George for"},
+          {time: 24, text: "England, St. Andrew for Scotland, St."},
+          {time: 27, text: "Patrick for Ireland, and St. David for"},
+          {time: 30, text: "Wales."},
+          {time: 31, text: "Fantastic. In the calendar year, which"},
+          {time: 34, text: "one comes first?"},
+          {time: 36, text: "So, I know St. Patrick is a very famous"},
+          {time: 38, text: "day. I think that's in March. But I also"},
+          {time: 41, text: "think St. David's in March, the 1st of"},
+          {time: 44, text: "March."},
+          {time: 45, text: "Yeah,"},
+          {time: 45, text: "I'll say him."},
+          {time: 47, text: "Yeah, you're right. Followed by St."},
+          {time: 49, text: "Patrick, March the 17th. Okay. And then,"},
+          {time: 52, text: "of course, George is in April and Andrew"},
+          {time: 55, text: "in November."},
+          {time: 56, text: "Okay."},
+          {time: 59, text: "Now, interestingly, Richard, only one of"},
+          {time: 61, text: "them was born in that country,"},
+          {time: 65, text: "right? It's not St. George because I"},
+          {time: 68, text: "know he's Turkish,"},
+          {time: 70, text: "right?"},
+          {time: 70, text: "He never came to England. St. Patrick, I"},
+          {time: 74, text: "think he was a Roman. I'm not sure. So,"},
+          {time: 77, text: "I think it's David or Andrew. I'll say"},
+          {time: 80, text: "David."},
+          {time: 81, text: "That's correct. David was Welsh. But St."},
+          {time: 85, text: "Andrew, Richard, who was St. Andrew,"},
+          {time: 90, text: "I don't know."},
+          {time: 91, text: "Really?"},
+          {time: 92, text: "Really?"},
+          {time: 93, text: "He was one of Jesus's 12 apostles."},
+          {time: 96, text: "Oh, wow. I didn't know that."},
+          {time: 97, text: "Yeah. And St. Patrick came from England."},
+          {time: 100, text: "Okay. Right. Okay."},
+          {time: 103, text: "Richard, two of the patron saints were"},
+          {time: 106, text: "killed,"},
+          {time: 108, text: "right,"},
+          {time: 109, text: "for being Christians."},
+          {time: 111, text: "Okay."},
+          {time: 111, text: "And they are"},
+          {time: 113, text: "Well, St. Andrew was a follower of"},
+          {time: 115, text: "Jesus. So he was uh killed. And I think"},
+          {time: 118, text: "St. George, he was a soldier, wasn't he,"},
+          {time: 122, text: "in the Roman army."},
+          {time: 123, text: "It was the Roman emperor."},
+          {time: 125, text: "Oh, okay."},
+          {time: 127, text: "And he was killed because he was a"},
+          {time: 130, text: "Christian."},
+          {time: 131, text: "Right."},
+          {time: 132, text: "Yeah. And the other two were just"},
+          {time: 133, text: "bishops. So they died of old age."},
+          {time: 136, text: "David and Patrick."},
+          {time: 138, text: "Yeah. Exactly."},
+          {time: 140, text: "Now, which one is connected with snakes?"},
+          {time: 145, text: "St. Patrick. I know this because there"},
+          {time: 148, text: "are no snakes in Ireland"},
+          {time: 150, text: "because"},
+          {time: 150, text: "he drove them out,"},
+          {time: 153, text: "right? I'm not sure if that's true."},
+          {time: 155, text: "Which one is connected to the dragon?"},
+          {time: 158, text: "St. George. Every English person knows"},
+          {time: 162, text: "that St. George killed the dragon."},
+          {time: 164, text: "Yes. Although there was no dragon."},
+          {time: 167, text: "Okay. Which one do you think is the"},
+          {time: 171, text: "patron saint of fishermen?"},
+          {time: 174, text: "St. Andrew"},
+          {time: 175, text: "because"},
+          {time: 176, text: "he was a fisherman in Galilee."},
+          {time: 178, text: "Exactly. So the last one, who is the"},
+          {time: 181, text: "patron saint of vegetarians?"},
+          {time: 184, text: "St. David."},
+          {time: 185, text: "Do you know why?"},
+          {time: 186, text: "No."},
+          {time: 187, text: "I think it's something to do with the"},
+          {time: 189, text: "fact they like leeks so much"},
+          {time: 193, text: "in Wales."},
+      ];
+
+      // Matnni dastlabki holatga keltirish
+      function initializeText() {
+          let html = '';
+          audioData.forEach((item, index) => {
+              const words = item.text.split(' ');
+              html += `<div class="sentence" data-index="${index}">`;
+              words.forEach((word, wordIndex) => {
+                  html += `<span class="word" data-sentence="${index}" data-word="${wordIndex}" onclick="seekToWord(${index}, ${wordIndex})">${word}</span> `;
+              });
+              html += '</div>';
+          });
+          textContainer.innerHTML = html;
+      }
+
+      // Joriy so'z va gapni ajratib ko'rsatish
+      function updateTextHighlight(currentTimeSeconds) {
+          // Joriy gapni topish
+          let newSentenceIndex = -1;
+          for (let i = audioData.length - 1; i >= 0; i--) {
+              if (currentTimeSeconds >= audioData[i].time) {
+                  newSentenceIndex = i;
+                  break;
+              }
+          }
+
+          // Gapni ajratib ko'rsatishni yangilash
+          if (newSentenceIndex !== currentSentenceIndex) {
+              // Oldingi ajratib ko'rsatishni o'chirish
+              document.querySelectorAll('.sentence.active').forEach(el => {
+                  el.classList.remove('active');
+              });
+              document.querySelectorAll('.word.current').forEach(el => {
+                  el.classList.remove('current');
+              });
+
+              // Yangi ajratib ko'rsatishni qo'shish
+              if (newSentenceIndex >= 0) {
+                  const sentenceEl = document.querySelector(`[data-index="${newSentenceIndex}"]`);
+                  if (sentenceEl) {
+                      sentenceEl.classList.add('active');
+                      sentenceEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  }
+              }
+              currentSentenceIndex = newSentenceIndex;
+          }
+
+          // Gap ichidagi so'zni ajratib ko'rsatishni yangilash
+          if (currentSentenceIndex >= 0) {
+              const sentence = audioData[currentSentenceIndex];
+              const words = sentence.text.split(' ');
+              const timeInSentence = currentTimeSeconds - sentence.time;
+
+              // Vaqtga qarab so'zni taxmin qilish (oddiy taxmin)
+              // Har bir gap uchun o'rtacha 3 soniya vaqt ajratilgan deb hisoblaymiz
+              const wordsPerSecond = words.length / 3;
+              const estimatedWordIndex = Math.floor(timeInSentence * wordsPerSecond);
+              const wordIndex = Math.max(0, Math.min(estimatedWordIndex, words.length - 1));
+
+              if (wordIndex !== currentWordIndex) {
+                  // Oldingi so'zni ajratib ko'rsatishni o'chirish
+                  document.querySelectorAll('.word.current').forEach(el => {
+                      el.classList.remove('current');
+                  });
+
+                  // Yangi so'zni ajratib ko'rsatishni qo'shish
+                  const wordEl = document.querySelector(`[data-sentence="${currentSentenceIndex}"][data-word="${wordIndex}"]`);
+                  if (wordEl) {
+                      wordEl.classList.add('current');
+                  }
+                  currentWordIndex = wordIndex;
+              }
+          }
+      }
+
+      // Muayyan so'zga o'tish
+      function seekToWord(sentenceIndex, wordIndex) {
+          const sentence = audioData[sentenceIndex];
+          if (sentence) {
+              const words = sentence.text.split(' ');
+              // So'zning vaqtini taxmin qilish
+              const wordTime = sentence.time + (wordIndex / words.length) * 3;
+              audio.currentTime = wordTime;
+              // Agar audio to'xtatilgan bo'lsa, ijro etishni boshlash
+              if (audio.paused) {
+                  audio.play();
+                  playPauseBtn.textContent = "▶️";
+                  isPlaying = true;
+              }
+          }
+      }
+
+      playPauseBtn.addEventListener("click", () => {
+        if (isPlaying) {
+          audio.pause();
+          playPauseBtn.textContent = "▶️";
+        } else {
+          audio.play();
+          playPauseBtn.textContent = "⏸️";
+        }
+        isPlaying = !isPlaying;
+      });
+
+      forwardBtn.addEventListener("click", () => {
+        audio.currentTime += 15;
+      });
+
+      rewindBtn.addEventListener("click", () => {
+        audio.currentTime -= 15;
+      });
+
+      // Audio vaqti yangilanganda matnni yangilash
+      audio.addEventListener('timeupdate', () => {
+          updateTextHighlight(audio.currentTime);
+      });
+
+      // Audio tugaganda ajratib ko'rsatishni tiklash
+      audio.addEventListener('ended', () => {
+          playPauseBtn.textContent = '▶️';
+          isPlaying = false;
+          document.querySelectorAll('.sentence.active, .word.current').forEach(el => {
+              el.classList.remove('active', 'current');
+          });
+      });
+
+      // Sahifa yuklanganda matnni boshlash
+      initializeText();
+  </script>
+</body>
+</html>
