@@ -1,0 +1,1014 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Interaktiv Matn</title>
+   <!-- ResponsiveVoice kutubxonasini yuklash (matnni o'qish uchun) -->
+   <script src="https://code.responsivevoice.org/responsivevoice.js?key=ftro4Sxr"></script>
+   <style>
+       body {
+           font-family: Arial, sans-serif;
+           line-height: 1.6;
+           margin: 20px;
+           background-color: #f0f5f5; /* Kun rejimi fon rangi: Yumshoq, ko'zga qulay och kulrang-ko'k */
+           color: #333; /* Kun rejimi matn rangi */
+           transition: background-color 0.3s ease, color 0.3s ease; /* Rejimlar o'zgarishi uchun silliq o'tish */
+       }
+       body.dark-mode {
+           background-color: #1a1a1a; /* Qorong'u rejim fon rangi: Juda to'q kulrang, ko'zga umuman ta'sir qilmaydi */
+           color: #c0c0c0; /* Qorong'u rejim matn rangi: Yumshoq och kulrang */
+       }
+       body.sepia-mode {
+           background-color: #d8c0a0; /* Qizg'ich rejim fon rangi: Qizg'ish jigarrang tusli, ko'zga qulay */
+           color: #4a3b2e; /* Qizg'ich rejim matn rangi: To'q jigarrang */
+       }
+       .container {
+           max-width: 800px;
+           margin: auto;
+           background: #fcfcfc; /* Kun rejimida konteyner foni: Endi sof oq emas, biroz yumshoqroq */
+           padding: 30px;
+           border-radius: 8px;
+           box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+       }
+       body.dark-mode .container {
+           background: #282828; /* Qorong'u rejimda konteyner foni: Body'dan biroz ochroq */
+           box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+       }
+       body.sepia-mode .container {
+           background: #e0d0b8; /* Qizg'ich rejimda konteyner foni: Body'dan biroz ochroq */
+           box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+       }
+       .text-section {
+           margin-bottom: 20px;
+       }
+       .word {
+           cursor: pointer;
+           position: relative;
+           display: inline-block;
+           border-bottom: 1px dotted #007bff; /* Kun rejimida so'z osti chizig'i */
+       }
+       body.dark-mode .word {
+           border-bottom-color: #99bbff; /* Qorong'u rejimda so'z osti chizig'i: Yumshoq ko'k */
+       }
+       body.sepia-mode .word {
+           border-bottom-color: #b08e6d; /* Qizg'ich rejimda so'z osti chizig'i: Qizg'ich tusli */
+       }
+       .word:hover {
+           color: #0056b3; /* Kun rejimida hover rangi */
+       }
+       body.dark-mode .word:hover {
+           color: #ccddee; /* Qorong'u rejimda hover rangi */
+       }
+       body.sepia-mode .word:hover {
+           color: #8a6d51; /* Qizg'ich rejimda hover rangi */
+       }
+       .modal {
+           display: none; /* Odatiy holatda yashirilgan */
+           position: fixed; /* Joyida qoladi */
+           z-index: 1; /* Yuqorida turadi */
+           left: 0;
+           top: 0;
+           width: 100%; /* To'liq kenglik */
+           height: 100%; /* To'liq balandlik */
+           overflow: auto; /* Kerak bo'lsa aylantirishni yoqish */
+           background-color: rgba(0,0,0,0.4); /* Qora rang, shaffoflik bilan */
+       }
+       .modal-content {
+           background-color: #fefefe;
+           margin: 15% auto; /* Yuqoridan 15% va markazda */
+           padding: 20px;
+           border: 1px solid #888;
+           width: 80%; /* Ekran o'lchamiga qarab ko'proq yoki kamroq bo'lishi mumkin */
+           max-width: 400px;
+           border-radius: 8px;
+           box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+           text-align: center;
+       }
+       body.dark-mode .modal-content {
+           background-color: #3a3a3a; /* Qorong'u rejimda modal foni */
+           color: #e0e0e0; /* Qorong'u rejimda modal matn rangi */
+           border-color: #555;
+       }
+       body.sepia-mode .modal-content {
+           background-color: #e8d8c0; /* Qizg'ich rejimda modal foni */
+           color: #4a3b2e; /* Qizg'ich rejimda modal matn rangi */
+           border-color: #907a5e;
+       }
+       .close-button {
+           color: #aaa;
+           float: right;
+           font-size: 28px;
+           font-weight: bold;
+       }
+       .close-button:hover,
+       .close-button:focus {
+           color: black;
+           text-decoration: none;
+           cursor: pointer;
+       }
+       body.dark-mode .close-button {
+           color: #bbb;
+       }
+       body.dark-mode .close-button:hover,
+       body.dark-mode .close-button:focus {
+           color: white;
+       }
+       .play-button {
+           background: none;
+           border: none;
+           cursor: pointer;
+           font-size: 1.2em;
+           margin-right: 5px;
+           color: #28a745;
+       }
+       .play-button:hover {
+           color: #218838;
+       }
+       body.dark-mode .play-button {
+           color: #66dd88;
+       }
+       body.dark-mode .play-button:hover {
+           color: #44bb66;
+       }
+       .button-group {
+           display: flex;
+           justify-content: center;
+           gap: 15px; /* Tugmalar orasidagi bo'shliq */
+           margin-top: 20px;
+       }
+       .button-group button {
+           padding: 10px 20px;
+           font-size: 16px;
+           background-color: #007bff;
+           color: white;
+           border: none;
+           border-radius: 5px;
+           cursor: pointer;
+           transition: background-color 0.3s ease;
+       }
+       .button-group button:hover {
+           background-color: #0056b3;
+       }
+       #dynamic-image {
+           display: block;
+           margin: 0 auto 30px auto;
+           max-width: 100%;
+           height: auto;
+           border-radius: 8px;
+           box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+       }
+       h2 {
+           text-align: center;
+           color: #007bff; /* Kun rejimida sarlavha rangi */
+           margin-bottom: 25px;
+       }
+       body.dark-mode h2 {
+           color: #99bbff; /* Qorong'u rejimda sarlavha rangi */
+       }
+       body.sepia-mode h2 {
+           color: #b08e6d; /* Qizg'ich rejimda sarlavha rangi */
+       }
+       p {
+           margin-bottom: 15px;
+           text-align: justify;
+       }
+   </style>
+</head>
+<body>
+   <div class="container">
+       <!-- Dinamik rasm, matnga mos ravishda avtomatik yaratiladi -->
+       <img id="dynamic-image" src="https://image.pollinations.ai/prompt/800x400/Hollywood%20and%20Bicycles" alt="Hollywood and Bicycles">
+
+       <div id="english-text" class="text-section">
+           <h2>Hollywood - its life and times</h2>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Hollywood is one of the best-known names in the world: but where is Hollywood exactly?</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Why is it so successful?</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">And how did it begin?</span>
+           </p>
+           <h3>The Story of Hollywood</h3>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">At the beginning of the 20th century, a new city started to grow in southern California near the sea.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">This city was called Los Angeles.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">The name came from an old Spanish mission that had been there for a long time.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">At the same time, a new industry was born: cinema.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">In America, people first called it "motion pictures", but soon they started saying "movies" instead.</span>
+           </p>
+           <h3>Why Did Hollywood Start in Los Angeles?</h3>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">At first, movies were made in New York.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">But by 1910, many filmmakers moved to Los Angeles.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Why?</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">New York was too expensive workers, land, and taxes cost a lot.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Winters in New York were too cold it was difficult to make movies in bad weather.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Los Angeles had good weather - filmmakers could work all year.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Land was cheap-there was lots of space for building movie studios.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">A few miles outside Los Angeles, movie makers found a perfect place for their studios.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Hollywood.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Soon, large studios were built at the foot of the dry hills.</span>
+           </p>
+
+           <h2>The Rise of Hollywood</h2>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Movies became very popular, especially after "talking movies" (movies with sound) appeared in 1925.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">However, making movies was expensive, so companies needed a lot of money.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Because of this, a few big companies controlled Hollywood.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">These included:</span>
+           </p>
+           <ul>
+               <li><button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">MGM</span></li>
+               <li><button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">20th Century Fox</span></li>
+               <li><button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Warner Bros.</span></li>
+               <li><button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Paramount</span></li>
+           </ul>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Over the years, some companies disappeared, while new ones appeared, like Walt Disney and Columbia.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Fact: The famous Hollywood Sign was put up in 1923 and originally said "Hollywoodland"</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">It was an advertisement for a real estate company.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">The "land" part was removed in 1949.</span>
+           </p>
+
+           <h2>Hollywood Today</h2>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Hollywood has changed a lot in 100 years!</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Today, the biggest studios belong to huge international companies.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">For example, 21st Century Fox is part of Disney and owns many film and media companies around the world.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Movies today are very expensive.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">A big company like Fox had to work with Paramount to make Titanic, which was the most expensive movie at the time.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Hollywood no longer makes movies just for America.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">It now makes movies for the whole world!</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Los Angeles has become the center of a global dream industry.</span>
+           </p>
+
+           <h2>Hollywood and Global Culture</h2>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Today, we live in a world with global culture.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Hollywood did not create this culture, but it has become a big part of it.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Whether we like it or not, Hollywood movies have changed the way people around the world dream and think.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Fact: The mountain logo of Paramount originally had 24 stars, representing the 24 actors who first signed contracts with the studio.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Later, it was changed to 22 stars, but the exact reason remains a mystery!</span>
+           </p>
+
+           <h2>The first bicycle</h2>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">With covid and the coming climate crisis, bicycles are getting more and more popular.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">But where did the bicycle come from?</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Who invented this "velocipede"?.</span>
+           </p>
+           <h3>The Story of the Bicycle</h3>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Did you know that the bicycle was invented after the railway locomotive?</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">It may be surprising, but the two-wheeler has come a long way since it was first made by a Scottish blacksmith, Kirkpatrick MacMillan, in 1839.</span>
+           </p>
+           <h3>The First Bicycle</h3>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">MacMillan got his idea from an older wooden vehicle called a "hobby horse."</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">This vehicle had two wheels, and the rider had to push with their feet to move forward.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">However, it was not very safe because it had no steering and no brakes.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">MacMillan, who was called "Mad Pate", made some important changes.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">He:</span>
+           </p>
+           <ul>
+               <li><button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Added a system of moving bars the rider could push the bars with their feet to make the back wheel turn.</span></li>
+               <li><button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Made the front wheel turn-now the bike could be steered.</span></li>
+           </ul>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">To show how his new bicycle worked, MacMillan rode 60 miles to Glasgow!</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">It was a very difficult journey because the roads were bad, and the bike had no rubber tyres or springs.</span>
+           </p>
+
+           <h2>How Bicycles Improved</h2>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">MacMillan was not famous for his invention, but other people liked the idea of bicycles.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">25 years later, a Frenchman named Pierre Lallemant designed the first bike with pedals.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">In 1876, H.J. Lawson added the chain drive, which made bicycles much easier to ride.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Later, rubber tyres and gears were added, but the basic design of the bicycle has not changed much since then.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Fact: Studies show that regular cycling can add 3-5 years to your life!</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">It also keeps your heart healthy and reduces stress.</span>
+           </p>
+
+           <h2>The Bicycle Today</h2>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Today, the bicycle is one of the most popular types of transport in the world, especially in developing countries.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">It is cheap, does not pollute, and is easy to use.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">In the future, bicycles could become the best way to travel in big cities.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Thanks, Pate!</span>
+           </p>
+       </div>
+
+       <div id="uzbek-text" class="text-section" style="display:none;">
+           <h2>Hollywood - uning hayoti va davrlari</h2>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Hollywood dunyodagi eng mashhur nomlardan biri: ammo Hollywood aynan qayerda?</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Nima uchun u shunchalik muvaffaqiyatli?</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Va u qanday boshlangan?</span>
+           </p>
+           <h3>Hollywood hikoyasi</h3>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">20-asr boshlarida Janubiy Kaliforniyada dengiz yaqinida yangi shahar o'sa boshladi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bu shahar Los-Anjeles deb nomlangan.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bu nom uzoq vaqtdan beri mavjud bo'lgan eski ispan missiyasidan kelib chiqqan.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Shu bilan birga, yangi sanoat tug'ildi: kino.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Amerikada odamlar uni dastlab "harakatli rasmlar" deb atashgan, ammo tez orada "filmlar" deb ayta boshlashdi.</span>
+           </p>
+           <h3>Nima uchun Hollywood Los-Anjelesda boshlangan?</h3>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Dastlab, filmlar Nyu-Yorkda suratga olingan.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ammo 1910 yilga kelib, ko'plab kinorejissyorlar Los-Anjelesga ko'chib o'tishdi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Nima uchun?</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Nyu-York juda qimmat edi – ishchilar, yer va soliqlar juda ko'p turardi.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Nyu-Yorkdagi qishlar juda sovuq edi – yomon ob-havoda filmlar suratga olish qiyin edi.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Los-Anjelesda ob-havo yaxshi edi – kinorejissyorlar yil bo'yi ishlashlari mumkin edi.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Yer arzon edi – kinostudiyalar qurish uchun ko'p joy bor edi.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Los-Anjelesdan bir necha mil uzoqlikda kinorejissyorlar o'z studiyalari uchun mukammal joy topishdi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Hollywood.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Tez orada quruq tepaliklar etagida katta studiyalar qurildi.</span>
+           </p>
+
+           <h2>Hollywoodning yuksalishi</h2>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Filmlar juda mashhur bo'ldi, ayniqsa "gapiruvchi filmlar" (ovozli filmlar) 1925 yilda paydo bo'lgandan keyin.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Biroq, filmlar suratga olish qimmat edi, shuning uchun kompaniyalarga juda ko'p pul kerak edi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Shu sababli, bir nechta yirik kompaniyalar Hollywoodni nazorat qildi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bularga quyidagilar kiradi:</span>
+           </p>
+           <ul>
+               <li><button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">MGM</span></li>
+               <li><button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">20th Century Fox</span></li>
+               <li><button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Warner Bros.</span></li>
+               <li><button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Paramount</span></li>
+           </ul>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Yillar davomida ba'zi kompaniyalar yo'q bo'lib ketdi, boshqalari esa Walt Disney va Columbia kabi yangilari paydo bo'ldi.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Fakt: Mashhur Hollywood belgisi 1923 yilda o'rnatilgan va dastlab "Hollywoodland" deb yozilgan.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bu ko'chmas mulk kompaniyasi uchun reklama edi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">"Land" qismi 1949 yilda olib tashlangan.</span>
+           </p>
+
+           <h2>Hollywood bugun</h2>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Hollywood 100 yilda juda ko'p o'zgardi!</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bugungi kunda eng yirik studiyalar yirik xalqaro kompaniyalarga tegishli.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Masalan, 21st Century Fox Disney tarkibiga kiradi va butun dunyo bo'ylab ko'plab kino va media kompaniyalariga egalik qiladi.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bugungi filmlar juda qimmat.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Fox kabi yirik kompaniya o'sha paytda eng qimmat film bo'lgan "Titanik"ni suratga olish uchun Paramount bilan ishlashi kerak edi.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Hollywood endi faqat Amerika uchun filmlar suratga olmaydi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">U endi butun dunyo uchun filmlar suratga oladi!</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Los-Anjeles global orzular sanoatining markaziga aylandi.</span>
+           </p>
+
+           <h2>Hollywood va global madaniyat</h2>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bugungi kunda biz global madaniyatga ega dunyoda yashayapmiz.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Hollywood bu madaniyatni yaratmadi, ammo u uning katta qismiga aylandi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bizga yoqadimi yoki yo'qmi, Hollywood filmlari butun dunyo bo'ylab odamlarning orzu qilish va o'ylash tarzini o'zgartirdi.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Fakt: Paramountning tog' logotipida dastlab 24 ta yulduz bor edi, bu studiya bilan birinchi shartnoma imzolagan 24 ta aktyorni ifodalaydi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Keyinchalik, u 22 ta yulduzga o'zgartirildi, ammo aniq sababi sirligicha qolmoqda!</span>
+           </p>
+
+           <h2>Birinchi velosiped</h2>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Kovid va kelayotgan iqlim inqirozi bilan velosipedlar tobora ommalashib bormoqda.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Ammo velosiped qayerdan kelgan?</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bu "velosiped"ni kim ixtiro qilgan?</span>
+           </p>
+           <h3>Velosiped hikoyasi</h3>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Velosiped temir yo'l lokomotivdan keyin ixtiro qilinganini bilarmidingiz?</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bu ajablanarli bo'lishi mumkin, ammo ikki g'ildirakli transport vositasi 1839 yilda shotlandiyalik temirchi Kirkpatrick MacMillan tomonidan birinchi marta yasalganidan beri uzoq yo'lni bosib o'tdi.</span>
+           </p>
+           <h3>Birinchi velosiped</h3>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">MacMillan o'z g'oyasini "xobbi ot" deb nomlangan eski yog'och transport vositasidan olgan.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bu transport vositasining ikkita g'ildiragi bor edi va haydovchi oldinga siljish uchun oyoqlari bilan itarishi kerak edi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Biroq, u juda xavfsiz emas edi, chunki unda rul va tormoz yo'q edi.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">MacMillan, kim "Telba Pate" deb nomlangan, ba'zi muhim o'zgarishlar kiritdi.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">U:</span>
+           </p>
+           <ul>
+               <li><button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Harakatlanuvchi panjalar tizimini qo'shdi – haydovchi orqa g'ildirakni aylantirish uchun panjalarni oyoqlari bilan itarishi mumkin edi.</span></li>
+               <li><button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Old g'ildirakni aylantirdi – endi velosipedni boshqarish mumkin edi.</span></li>
+           </ul>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">O'zining yangi velosipedining qanday ishlashini ko'rsatish uchun MacMillan Glazgoga 60 mil yo'l bosib bordi!</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bu juda qiyin sayohat edi, chunki yo'llar yomon edi va velosipedda rezina shinalar yoki amortizatorlar yo'q edi.</span>
+           </p>
+
+           <h2>Velosipedlar qanday yaxshilandi</h2>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">MacMillan o'z ixtirosi bilan mashhur bo'lmadi, ammo boshqa odamlarga velosiped g'oyasi yoqdi.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">25 yil o'tgach, Per Lallemant ismli fransuz pedalli birinchi velosipedni loyihalashtirdi.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">1876 yilda H.J. Lawson zanjirli uzatmani qo'shdi, bu velosipedlarni minishni ancha osonlashtirdi.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Keyinchalik, rezina shinalar va uzatmalar qo'shildi, ammo velosipedning asosiy dizayni o'shandan beri ko'p o'zgarmadi.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Fakt: Tadqiqotlar shuni ko'rsatadiki, muntazam velosiped haydash umringizga 3-5 yil qo'shishi mumkin!</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Shuningdek, u yuragingizni sog'lom tutadi va stressni kamaytiradi.</span>
+           </p>
+
+           <h2>Bugungi velosiped</h2>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Bugungi kunda velosiped dunyodagi eng mashhur transport turlaridan biri, ayniqsa rivojlanayotgan mamlakatlarda.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">U arzon, ifloslantirmaydi va foydalanish oson.</span>
+           </p>
+           <p>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Kelajakda velosipedlar yirik shaharlarda sayohat qilishning eng yaxshi usuli bo'lishi mumkin.</span>
+               <button class="play-button" onclick="speakSentence(this)">▶</button><span class="sentence">Rahmat, Pate!</span>
+           </p>
+       </div>
+
+       <div class="button-group">
+           <button id="toggle-lang-button">O'zbekcha</button>
+           <button id="toggle-theme-button">Qorong'u rejim</button>
+       </div>
+
+       <!-- So'z tarjimasi uchun modal oyna -->
+       <div id="wordModal" class="modal">
+           <div class="modal-content">
+               <span class="close-button">×</span>
+               <p id="modalWord"></p>
+               <p id="modalTranslation"></p>
+           </div>
+       </div>
+
+   </div>
+
+   <script>
+       // Lug'at obyekti: Kalit so'zlar kichik harflarda bo'lishi kerak.
+       const words = {
+           // Hollywood matni
+           "hollywood": { translation: "Hollywood", meaning: "AQShdagi kino sanoati markazi", pronunciation: "hol-ee-wood" },
+           "life": { translation: "hayoti", meaning: "yashash", pronunciation: "lyf" },
+           "and": { translation: "va", meaning: "hamda", pronunciation: "and" },
+           "times": { translation: "davrlari", meaning: "vaqtlar", pronunciation: "tymz" },
+           "is": { translation: "dir", meaning: "bo'lish fe'li", pronunciation: "iz" },
+           "one": { translation: "biri", meaning: "yagona", pronunciation: "wuhn" },
+           "of": { translation: "ning", meaning: "egalikni bildiruvchi", pronunciation: "ov" },
+           "the": { translation: "bu", meaning: "aniq artikl", pronunciation: "dha" },
+           "best-known": { translation: "eng mashhur", meaning: "eng taniqli", pronunciation: "best-noh-n" },
+           "names": { translation: "nomlardan", meaning: "ismlar", pronunciation: "neymz" },
+           "in": { translation: "da", meaning: "ichida", pronunciation: "in" },
+           "world": { translation: "dunyoda", meaning: "dunyo", pronunciation: "werld" },
+           "but": { translation: "ammo", meaning: "lekin", pronunciation: "buht" },
+           "where": { translation: "qayerda", meaning: "qaysi joyda", pronunciation: "wair" },
+           "exactly": { translation: "aynan", meaning: "aniq", pronunciation: "ig-zakt-lee" },
+           "why": { translation: "nima uchun", meaning: "sababi", pronunciation: "wy" },
+           "it": { translation: "u", meaning: "predmet olmoshi", pronunciation: "it" },
+           "so": { translation: "shunchalik", meaning: "juda", pronunciation: "soh" },
+           "successful": { translation: "muvaffaqiyatli", meaning: "omadli", pronunciation: "suhk-ses-fuhl" },
+           "how": { translation: "qanday", meaning: "qanaqa", pronunciation: "how" },
+           "did": { translation: "qildi", meaning: "o'tgan zamon yordamchi fe'li", pronunciation: "did" },
+           "begin": { translation: "boshlangan", meaning: "boshlash", pronunciation: "bi-gin" },
+           "story": { translation: "hikoyasi", meaning: "ertak", pronunciation: "stor-ee" },
+           "at": { translation: "da", meaning: "joyda", pronunciation: "at" },
+           "beginning": { translation: "boshlarida", meaning: "boshlanish", pronunciation: "bi-gin-ing" },
+           "20th": { translation: "20-asr", meaning: "yigirmanchi asr", pronunciation: "twen-tee-eth" },
+           "century": { translation: "asr", meaning: "yuz yillik", pronunciation: "sen-choo-ree" },
+           "a": { translation: "bir", meaning: "aniqmas artikl", pronunciation: "uh" },
+           "new": { translation: "yangi", meaning: "yangi", pronunciation: "noo" },
+           "city": { translation: "shahar", meaning: "shahar", pronunciation: "sit-ee" },
+           "started": { translation: "boshladi", meaning: "boshlangan", pronunciation: "star-tid" },
+           "to": { translation: "ga", meaning: "maqsadni bildiruvchi ko'makchi", pronunciation: "too" },
+           "grow": { translation: "o'sa", meaning: "o'sish", pronunciation: "groh" },
+           "southern": { translation: "Janubiy", meaning: "janubga oid", pronunciation: "suhth-ern" },
+           "california": { translation: "Kaliforniyada", meaning: "AQSh shtati", pronunciation: "kal-uh-for-nyuh" },
+           "near": { translation: "yaqinida", meaning: "yonida", pronunciation: "neer" },
+           "sea": { translation: "dengiz", meaning: "okean", pronunciation: "see" },
+           "this": { translation: "bu", meaning: "ko'rsatkich olmoshi", pronunciation: "this" },
+           "was": { translation: "edi", meaning: "bo'lgan", pronunciation: "woz" },
+           "called": { translation: "nomlangan", meaning: "chaqirilgan", pronunciation: "kawld" },
+           "los": { translation: "Los", meaning: "Los Anjelesning bir qismi", pronunciation: "los" },
+           "angeles": { translation: "Anjeles", meaning: "Los Anjeles shahri", pronunciation: "an-juh-luhs" },
+           "name": { translation: "nom", meaning: "ism", pronunciation: "neym" },
+           "came": { translation: "kelib chiqqan", meaning: "kelgan", pronunciation: "keym" },
+           "from": { translation: "dan", meaning: "qayerdan", pronunciation: "frum" },
+           "an": { translation: "bir", meaning: "aniqmas artikl", pronunciation: "an" },
+           "old": { translation: "eski", meaning: "qadimgi", pronunciation: "ohld" },
+           "spanish": { translation: "ispan", meaning: "Ispaniyaga oid", pronunciation: "span-ish" },
+           "mission": { translation: "missiyasidan", meaning: "missiya", pronunciation: "mish-uhn" },
+           "that": { translation: "ki", meaning: "bog'lovchi", pronunciation: "that" },
+           "had": { translation: "bor edi", meaning: "ega bo'lgan", pronunciation: "had" },
+           "been": { translation: "bo'lgan", meaning: "mavjud bo'lgan", pronunciation: "bin" },
+           "there": { translation: "u yerda", meaning: "mavjud", pronunciation: "thair" },
+           "for": { translation: "uchun", meaning: "maqsadni bildiruvchi", pronunciation: "for" },
+           "long": { translation: "uzoq", meaning: "cho'ziq", pronunciation: "long" },
+           "time": { translation: "vaqt", meaning: "muddat", pronunciation: "tym" },
+           "same": { translation: "birga", meaning: "bir xil", pronunciation: "seym" },
+           "industry": { translation: "sanoat", meaning: "soha", pronunciation: "in-duh-stree" },
+           "born": { translation: "tug'ildi", meaning: "tug'ilgan", pronunciation: "born" },
+           "cinema": { translation: "kino", meaning: "kinematografiya", pronunciation: "sin-uh-muh" },
+           "america": { translation: "Amerikada", meaning: "Amerika qit'asi", pronunciation: "uh-mer-i-kuh" },
+           "people": { translation: "odamlar", meaning: "insonlar", pronunciation: "pee-puhl" },
+           "first": { translation: "dastlab", meaning: "birinchi", pronunciation: "ferst" },
+           "called": { translation: "atashgan", meaning: "chaqirilgan", pronunciation: "kawld" },
+           "motion": { translation: "harakatli", meaning: "harakat", pronunciation: "moh-shuhn" },
+           "pictures": { translation: "rasmlar", meaning: "suratlar", pronunciation: "pik-cherz" },
+           "soon": { translation: "tez orada", meaning: "yaqinda", pronunciation: "soon" },
+           "they": { translation: "ular", meaning: "kishilik olmoshi", pronunciation: "they" },
+           "saying": { translation: "ayta boshlashdi", meaning: "aytish", pronunciation: "sey-ing" },
+           "movies": { translation: "filmlar", meaning: "kinolar", pronunciation: "moo-veez" },
+           "instead": { translation: "o'rniga", meaning: "buning o'rniga", pronunciation: "in-sted" },
+           "start": { translation: "boshlangan", meaning: "boshlash", pronunciation: "start" },
+           "new": { translation: "yangi", meaning: "yangi", pronunciation: "noo" },
+           "york": { translation: "York", meaning: "Nyu-York shahri", pronunciation: "york" },
+           "made": { translation: "suratga olingan", meaning: "qilingan", pronunciation: "meyd" },
+           "by": { translation: "ga kelib", meaning: "tomonidan", pronunciation: "by" },
+           "1910": { translation: "1910", meaning: "bir ming to'qqiz yuz o'n", pronunciation: "nin-teen-ten" },
+           "many": { translation: "ko'plab", meaning: "soni ko'p", pronunciation: "men-ee" },
+           "filmmakers": { translation: "kinorejissyorlar", meaning: "film yaratuvchilar", pronunciation: "film-mey-kerz" },
+           "moved": { translation: "ko'chib o'tishdi", meaning: "ko'chirilgan", pronunciation: "moovd" },
+           "too": { translation: "juda", meaning: "ham", pronunciation: "too" },
+           "expensive": { translation: "qimmat", meaning: "qimmat", pronunciation: "ik-spen-siv" },
+           "workers": { translation: "ishchilar", meaning: "ishchilar (ko'plik)", pronunciation: "wer-kerz" },
+           "land": { translation: "yer", meaning: "tuproq", pronunciation: "land" },
+           "taxes": { translation: "soliqlar", meaning: "soliqlar (ko'plik)", pronunciation: "tak-siz" },
+           "cost": { translation: "turardi", meaning: "narx", pronunciation: "kost" },
+           "a lot": { translation: "juda ko'p", meaning: "ko'p miqdorda", pronunciation: "uh lot" },
+           "winters": { translation: "qishlar", meaning: "qish fasllari", pronunciation: "win-terz" },
+           "cold": { translation: "sovuq", meaning: "sovuq", pronunciation: "kohld" },
+           "difficult": { translation: "qiyin", meaning: "murakkab", pronunciation: "dif-i-kuhlt" },
+           "make": { translation: "suratga olish", meaning: "qilish", pronunciation: "meyk" },
+           "bad": { translation: "yomon", meaning: "yomon", pronunciation: "bad" },
+           "weather": { translation: "ob-havo", meaning: "havo sharoiti", pronunciation: "weth-er" },
+           "had": { translation: "bor edi", meaning: "ega bo'lgan", pronunciation: "had" },
+           "good": { translation: "yaxshi", meaning: "sifatli", pronunciation: "good" },
+           "work": { translation: "ishlashlari", meaning: "mehnat qilish", pronunciation: "werk" },
+           "all": { translation: "yil bo'yi", meaning: "hammasi", pronunciation: "ol" },
+           "year": { translation: "yil", meaning: "yil", pronunciation: "yeer" },
+           "cheap": { translation: "arzon", meaning: "arzon", pronunciation: "cheep" },
+           "there": { translation: "bor edi", meaning: "mavjud", pronunciation: "thair" },
+           "lots": { translation: "ko'p", meaning: "juda ko'p", pronunciation: "lots" },
+           "space": { translation: "joy", meaning: "bo'sh joy", pronunciation: "speys" },
+           "building": { translation: "qurish", meaning: "qurilish", pronunciation: "bil-ding" },
+           "movie": { translation: "kino", meaning: "film", pronunciation: "moo-vee" },
+           "studios": { translation: "studiyalar", meaning: "studiyalar (ko'plik)", pronunciation: "stoo-dee-ohz" },
+           "few": { translation: "bir necha", meaning: "oz sonli", pronunciation: "fyoo" },
+           "miles": { translation: "mil", meaning: "masofa o'lchovi", pronunciation: "mylz" },
+           "outside": { translation: "uzoqlikda", meaning: "tashqarida", pronunciation: "owt-syd" },
+           "makers": { translation: "rejissyorlar", meaning: "yaratuvchilar", pronunciation: "mey-kerz" },
+           "found": { translation: "topishdi", meaning: "topilgan", pronunciation: "fownd" },
+           "perfect": { translation: "mukammal", meaning: "a'lo", pronunciation: "per-fikt" },
+           "soon": { translation: "tez orada", meaning: "yaqinda", pronunciation: "soon" },
+           "large": { translation: "katta", meaning: "ulkan", pronunciation: "larj" },
+           "built": { translation: "qurildi", meaning: "qurilgan", pronunciation: "bilt" },
+           "foot": { translation: "etagida", meaning: "oyoq", pronunciation: "foot" },
+           "dry": { translation: "quruq", meaning: "suvsiz", pronunciation: "dry" },
+           "hills": { translation: "tepaliklar", meaning: "kichik tog'lar", pronunciation: "hilz" },
+           "rise": { translation: "yuksalishi", meaning: "ko'tarilish", pronunciation: "ryz" },
+           "became": { translation: "bo'ldi", meaning: "aylangan", pronunciation: "bi-keym" },
+           "very": { translation: "juda", meaning: "o'ta", pronunciation: "ver-ee" },
+           "popular": { translation: "mashhur", meaning: "ommabop", pronunciation: "pop-yuh-ler" },
+           "especially": { translation: "ayniqsa", meaning: "xususan", pronunciation: "i-spesh-uh-lee" },
+           "after": { translation: "keyin", meaning: "so'ng", pronunciation: "af-ter" },
+           "talking": { translation: "gapiruvchi", meaning: "gapirayotgan", pronunciation: "taw-king" },
+           "sound": { translation: "ovozli", meaning: "ovoz", pronunciation: "sownd" },
+           "appeared": { translation: "paydo bo'lgandan", meaning: "ko'ringan", pronunciation: "uh-peerd" },
+           "1925": { translation: "1925", meaning: "bir ming to'qqiz yuz yigirma besh", pronunciation: "nin-teen-twen-tee-fyv" },
+           "however": { translation: "biroq", meaning: "shunga qaramay", pronunciation: "how-ev-er" },
+           "expensive": { translation: "qimmat", meaning: "qimmat", pronunciation: "ik-spen-siv" },
+           "so": { translation: "shuning uchun", meaning: "natijada", pronunciation: "soh" },
+           "companies": { translation: "kompaniyalar", meaning: "firmalar", pronunciation: "kuhm-puh-neez" },
+           "needed": { translation: "kerak edi", meaning: "muhtoj bo'lgan", pronunciation: "nee-did" },
+           "money": { translation: "pul", meaning: "naqd pul", pronunciation: "muhn-ee" },
+           "because": { translation: "sababli", meaning: "chunki", pronunciation: "bi-koz" },
+           "this": { translation: "shu", meaning: "ko'rsatkich olmoshi", pronunciation: "this" },
+           "big": { translation: "yirik", meaning: "katta", pronunciation: "big" },
+           "controlled": { translation: "nazorat qildi", meaning: "boshqargan", pronunciation: "kuhn-trohld" },
+           "these": { translation: "bularga", meaning: "ko'plik ko'rsatkich olmoshi", pronunciation: "theez" },
+           "included": { translation: "kiradi", meaning: "o'z ichiga olgan", pronunciation: "in-kloo-did" },
+           "mgm": { translation: "MGM", meaning: "Metro-Goldwyn-Mayer (kino kompaniyasi)", pronunciation: "em-jee-em" },
+           "20th": { translation: "20th", meaning: "yigirmanchi", pronunciation: "twen-tee-eth" },
+           "century": { translation: "Century", meaning: "asr", pronunciation: "sen-choo-ree" },
+           "fox": { translation: "Fox", meaning: "Fox (media kompaniyasi)", pronunciation: "foks" },
+           "warner": { translation: "Warner", meaning: "Warner (kompaniya nomi)", pronunciation: "wor-ner" },
+           "bros": { translation: "Bros.", meaning: "Brothers (aka-uka)", pronunciation: "brohz" },
+           "paramount": { translation: "Paramount", meaning: "Paramount (kino studiyasi)", pronunciation: "par-uh-mownt" },
+           "over": { translation: "davomida", meaning: "ustida", pronunciation: "oh-ver" },
+           "years": { translation: "yillar", meaning: "yillar (ko'plik)", pronunciation: "yeerz" },
+           "some": { translation: "ba'zi", meaning: "bir nechta", pronunciation: "suhm" },
+           "disappeared": { translation: "yo'q bo'lib ketdi", meaning: "g'oyib bo'lgan", pronunciation: "dis-uh-peerd" },
+           "while": { translation: "boshqalari esa", meaning: "paytda", pronunciation: "wyl" },
+           "appeared": { translation: "paydo bo'ldi", meaning: "ko'ringan", pronunciation: "uh-peerd" },
+           "like": { translation: "kabi", meaning: "o'xshash", pronunciation: "lyk" },
+           "walt": { translation: "Walt", meaning: "Walt (ism)", pronunciation: "wawlt" },
+           "disney": { translation: "Disney", meaning: "Disney (kompaniya)", pronunciation: "diz-nee" },
+           "columbia": { translation: "Columbia", meaning: "Columbia (kino studiyasi)", pronunciation: "kuh-luhm-bee-uh" },
+           "fact": { translation: "fakt", meaning: "haqiqat", pronunciation: "fakt" },
+           "famous": { translation: "mashhur", meaning: "taniqli", pronunciation: "fey-muhs" },
+           "sign": { translation: "belgisi", meaning: "belgi", pronunciation: "syn" },
+           "put up": { translation: "o'rnatilgan", meaning: "o'rnatmoq", pronunciation: "put uhp" },
+           "1923": { translation: "1923", meaning: "bir ming to'qqiz yuz yigirma uch", pronunciation: "nin-teen-twen-tee-three" },
+           "originally": { translation: "dastlab", meaning: "aslida", pronunciation: "uh-rij-uh-nuh-lee" },
+           "said": { translation: "yozilgan", meaning: "aytilgan", pronunciation: "sed" },
+           "hollywoodland": { translation: "Hollywoodland", meaning: "Hollywoodland (asl nom)", pronunciation: "hol-ee-wood-land" },
+           "advertisement": { translation: "reklama", meaning: "e'lon", pronunciation: "ad-ver-tys-muhnt" },
+           "real estate": { translation: "ko'chmas mulk", meaning: "ko'chmas mulk", pronunciation: "reel es-teyt" },
+           "company": { translation: "kompaniyasi", meaning: "firma", pronunciation: "kuhm-puh-nee" },
+           "part": { translation: "qismi", meaning: "bo'lak", pronunciation: "part" },
+           "removed": { translation: "olib tashlangan", meaning: "olib tashlangan", pronunciation: "ri-moovd" },
+           "1949": { translation: "1949", meaning: "bir ming to'qqiz yuz qirq to'qqiz", pronunciation: "nin-teen-for-tee-nyn" },
+           "today": { translation: "bugun", meaning: "hozirgi kun", pronunciation: "tuh-day" },
+           "changed": { translation: "o'zgardi", meaning: "o'zgartirilgan", pronunciation: "cheynjd" },
+           "100": { translation: "100", meaning: "yuz", pronunciation: "wuhn huhn-dred" },
+           "biggest": { translation: "eng yirik", meaning: "eng katta", pronunciation: "big-ist" },
+           "belong": { translation: "tegishli", meaning: "tegishli bo'lish", pronunciation: "bi-long" },
+           "huge": { translation: "yirik", meaning: "ulkan", pronunciation: "hyooj" },
+           "international": { translation: "xalqaro", meaning: "butun dunyo", pronunciation: "in-ter-nash-uh-nuhl" },
+           "for example": { translation: "masalan", meaning: "namuna uchun", pronunciation: "for ig-zam-puhl" },
+           "21st": { translation: "21st", meaning: "yigirma birinchi", pronunciation: "twen-tee-fyrst" },
+           "is part of": { translation: "tarkibiga kiradi", meaning: "qismi bo'lish", pronunciation: "iz part ov" },
+           "owns": { translation: "egalik qiladi", meaning: "egalik qilmoq", pronunciation: "ohnz" },
+           "film": { translation: "kino", meaning: "film", pronunciation: "film" },
+           "media": { translation: "media", meaning: "ommaviy axborot vositalari", pronunciation: "mee-dee-uh" },
+           "around": { translation: "bo'ylab", meaning: "atrofida", pronunciation: "uh-rownd" },
+           "very": { translation: "juda", meaning: "o'ta", pronunciation: "ver-ee" },
+           "expensive": { translation: "qimmat", meaning: "qimmat", pronunciation: "ik-spen-siv" },
+           "work": { translation: "ishlashi", meaning: "mehnat qilish", pronunciation: "werk" },
+           "make": { translation: "suratga olish", meaning: "qilish", pronunciation: "meyk" },
+           "titanic": { translation: "Titanik", meaning: "mashhur kema va film nomi", pronunciation: "ty-tan-ik" },
+           "which": { translation: "qaysi", meaning: "bog'lovchi", pronunciation: "wich" },
+           "most": { translation: "eng", meaning: "eng ko'p", pronunciation: "mohst" },
+           "at the time": { translation: "o'sha paytda", meaning: "o'sha vaqtda", pronunciation: "at dha tym" },
+           "no longer": { translation: "endi", meaning: "endi emas", pronunciation: "noh long-ger" },
+           "makes": { translation: "suratga oladi", meaning: "qiladi", pronunciation: "meyks" },
+           "just": { translation: "faqat", meaning: "faqatgina", pronunciation: "juhst" },
+           "america": { translation: "Amerika", meaning: "Amerika qit'asi", pronunciation: "uh-mer-i-kuh" },
+           "now": { translation: "endi", meaning: "hozir", pronunciation: "now" },
+           "whole": { translation: "butun", meaning: "to'liq", pronunciation: "hohl" },
+           "has become": { translation: "aylandi", meaning: "aylangan", pronunciation: "haz bi-kuhm" },
+           "center": { translation: "markaziga", meaning: "markaz", pronunciation: "sen-ter" },
+           "global": { translation: "global", meaning: "butun dunyo", pronunciation: "gloh-buhl" },
+           "dream": { translation: "orzular", meaning: "orzu", pronunciation: "dreem" },
+           "industry": { translation: "sanoatining", meaning: "sanoat", pronunciation: "in-duh-stree" },
+           "culture": { translation: "madaniyat", meaning: "madaniyat", pronunciation: "kuhl-cher" },
+           "live": { translation: "yashayapmiz", meaning: "yashash", pronunciation: "liv" },
+           "with": { translation: "bilan", meaning: "birga", pronunciation: "with" },
+           "did not create": { translation: "yaratmadi", meaning: "yaratmagan", pronunciation: "did not kree-eyt" },
+           "has become": { translation: "aylandi", meaning: "aylangan", pronunciation: "haz bi-kuhm" },
+           "big": { translation: "katta", meaning: "ulkan", pronunciation: "big" },
+           "part": { translation: "qismiga", meaning: "bo'lak", pronunciation: "part" },
+           "whether": { translation: "yoqadimi", meaning: "mi", pronunciation: "weth-er" },
+           "we": { translation: "bizga", meaning: "kishilik olmoshi", pronunciation: "wee" },
+           "like": { translation: "yoqadimi", meaning: "yoqtirish", pronunciation: "lyk" },
+           "or": { translation: "yoki", meaning: "yoxud", pronunciation: "or" },
+           "not": { translation: "yo'qmi", meaning: "inkor", pronunciation: "not" },
+           "changed": { translation: "o'zgartirdi", meaning: "o'zgartirilgan", pronunciation: "cheynjd" },
+           "way": { translation: "tarzini", meaning: "yo'l", pronunciation: "wey" },
+           "dream": { translation: "orzu qilish", meaning: "orzu", pronunciation: "dreem" },
+           "think": { translation: "o'ylash", meaning: "fikrlash", pronunciation: "think" },
+           "mountain": { translation: "tog'", meaning: "tog'", pronunciation: "mown-tin" },
+           "logo": { translation: "logotipida", meaning: "belgi", pronunciation: "loh-goh" },
+           "originally": { translation: "dastlab", meaning: "aslida", pronunciation: "uh-rij-uh-nuh-lee" },
+           "24": { translation: "24", meaning: "yigirma to'rt", pronunciation: "twen-tee-for" },
+           "stars": { translation: "yulduz", meaning: "yulduzlar", pronunciation: "starz" },
+           "representing": { translation: "ifodalaydi", meaning: "ifodalayotgan", pronunciation: "rep-ri-zent-ing" },
+           "actors": { translation: "aktyorni", meaning: "aktyorlar", pronunciation: "ak-terz" },
+           "who": { translation: "kim", meaning: "qaysi", pronunciation: "hoo" },
+           "signed": { translation: "imzolagan", meaning: "imzolangan", pronunciation: "synd" },
+           "contracts": { translation: "shartnoma", meaning: "shartnomalar", pronunciation: "kon-trakts" },
+           "later": { translation: "keyinchalik", meaning: "so'ngroq", pronunciation: "ley-ter" },
+           "was changed": { translation: "o'zgartirildi", meaning: "o'zgartirilgan", pronunciation: "woz cheynjd" },
+           "22": { translation: "22", meaning: "yigirma ikki", pronunciation: "twen-tee-too" },
+           "exact": { translation: "aniq", meaning: "to'g'ri", pronunciation: "ig-zakt" },
+           "reason": { translation: "sababi", meaning: "sabab", pronunciation: "ree-zuhn" },
+           "remains": { translation: "qolmoqda", meaning: "qolgan", pronunciation: "ri-meynz" },
+           "mystery": { translation: "sirligicha", meaning: "sir", pronunciation: "mis-tuh-ree" },
+
+           // Bicycle matni
+           "first": { translation: "birinchi", meaning: "birinchi", pronunciation: "ferst" },
+           "bicycle": { translation: "velosiped", meaning: "ikki g'ildirakli transport vositasi", pronunciation: "by-si-kuhl" },
+           "covid": { translation: "Kovid", meaning: "COVID-19 kasalligi", pronunciation: "koh-vid" },
+           "coming": { translation: "kelayotgan", meaning: "kelayotgan", pronunciation: "kuhm-ing" },
+           "climate": { translation: "iqlim", meaning: "havo sharoiti", pronunciation: "kly-mit" },
+           "crisis": { translation: "inqirozi", meaning: "tanglik", pronunciation: "kry-sis" },
+           "are getting": { translation: "tobora ommalashib bormoqda", meaning: "bo'lib bormoqda", pronunciation: "ar get-ing" },
+           "more": { translation: "ko'proq", meaning: "qo'shimcha", pronunciation: "mor" },
+           "popular": { translation: "ommabop", meaning: "mashhur", pronunciation: "pop-yuh-ler" },
+           "where": { translation: "qayerdan", meaning: "qaysi joydan", pronunciation: "wair" },
+           "come from": { translation: "kelgan", meaning: "kelib chiqmoq", pronunciation: "kuhm frum" },
+           "who": { translation: "kim", meaning: "qaysi", pronunciation: "hoo" },
+           "invented": { translation: "ixtiro qilgan", meaning: "ixtiro qilingan", pronunciation: "in-vent-id" },
+           "velocipede": { translation: "velosiped", meaning: "eski velosiped turi", pronunciation: "vuh-los-uh-peed" },
+           "story": { translation: "hikoyasi", meaning: "ertak", pronunciation: "stor-ee" },
+           "did you know": { translation: "bilarmidingiz", meaning: "bilasizmi", pronunciation: "did yoo noh" },
+           "that": { translation: "ki", meaning: "bog'lovchi", pronunciation: "that" },
+           "railway": { translation: "temir yo'l", meaning: "temir yo'l", pronunciation: "reyl-wey" },
+           "locomotive": { translation: "lokomotivdan", meaning: "lokomotiv", pronunciation: "loh-kuh-moh-tiv" },
+           "may be": { translation: "bo'lishi mumkin", meaning: "ehtimol", pronunciation: "mey bee" },
+           "surprising": { translation: "ajablanarli", meaning: "hayratlanarli", pronunciation: "ser-pry-zing" },
+           "two-wheeler": { translation: "ikki g'ildirakli transport vositasi", meaning: "ikki g'ildirakli", pronunciation: "too-weel-er" },
+           "has come a long way": { translation: "uzoq yo'lni bosib o'tdi", meaning: "katta rivojlanishga erishgan", pronunciation: "haz kuhm uh long wey" },
+           "since": { translation: "beri", meaning: "dan beri", pronunciation: "sins" },
+           "first made": { translation: "birinchi marta yasalganidan", meaning: "birinchi qilingan", pronunciation: "ferst meyd" },
+           "scottish": { translation: "shotlandiyalik", meaning: "Shotlandiyaga oid", pronunciation: "skot-ish" },
+           "blacksmith": { translation: "temirchi", meaning: "temirchi", pronunciation: "blak-smith" },
+           "kirkpatrick": { translation: "Kirkpatrick", meaning: "Kirkpatrick (ism)", pronunciation: "kerk-pat-rik" },
+           "macmillan": { translation: "MacMillan", meaning: "MacMillan (familiya)", pronunciation: "mak-mil-uhn" },
+           "1839": { translation: "1839", meaning: "bir ming sakkiz yuz o'ttiz to'qqiz", pronunciation: "ey-teen-ther-tee-nyn" },
+           "got": { translation: "olgan", meaning: "olgan", pronunciation: "got" },
+           "his": { translation: "o'z", meaning: "uning", pronunciation: "hiz" },
+           "idea": { translation: "g'oyasini", meaning: "fikr", pronunciation: "y-dee-uh" },
+           "older": { translation: "eski", meaning: "qadimiyroq", pronunciation: "ohl-der" },
+           "wooden": { translation: "yog'och", meaning: "yog'ochdan yasalgan", pronunciation: "wood-n" },
+           "vehicle": { translation: "transport vositasidan", meaning: "transport vositasi", pronunciation: "vee-i-kuhl" },
+           "hobby horse": { translation: "xobbi ot", meaning: "yog'och ot (bolalar o'yinchog'i)", pronunciation: "hob-ee hors" },
+           "two": { translation: "ikkita", meaning: "ikki soni", pronunciation: "too" },
+           "wheels": { translation: "g'ildiragi", meaning: "g'ildiraklar", pronunciation: "weelz" },
+           "rider": { translation: "haydovchi", meaning: "minuvchi", pronunciation: "ry-der" },
+           "push": { translation: "itarishi", meaning: "itarish", pronunciation: "poosh" },
+           "feet": { translation: "oyoqlari", meaning: "oyoqlar (ko'plik)", pronunciation: "feet" },
+           "move forward": { translation: "oldinga siljish", meaning: "oldinga harakatlanish", pronunciation: "moov for-werd" },
+           "however": { translation: "biroq", meaning: "shunga qaramay", pronunciation: "how-ev-er" },
+           "not very safe": { translation: "juda xavfsiz emas edi", meaning: "juda xavfsiz emas", pronunciation: "not ver-ee seyf" },
+           "because": { translation: "chunki", meaning: "sababli", pronunciation: "bi-koz" },
+           "no steering": { translation: "rul yo'q edi", meaning: "rul yo'q", pronunciation: "noh steer-ing" },
+           "no brakes": { translation: "tormoz yo'q edi", meaning: "tormoz yo'q", pronunciation: "noh breyks" },
+           "who was called": { translation: "kim deb nomlangan", meaning: "nomlangan", pronunciation: "hoo woz kawld" },
+           "mad": { translation: "Telba", meaning: "aqldan ozgan", pronunciation: "mad" },
+           "pate": { translation: "Pate", meaning: "Pate (laqab)", pronunciation: "peyt" },
+           "made": { translation: "kiritdi", meaning: "qilgan", pronunciation: "meyd" },
+           "some": { translation: "ba'zi", meaning: "bir nechta", pronunciation: "suhm" },
+           "important": { translation: "muhim", meaning: "ahamiyatli", pronunciation: "im-por-tuhnt" },
+           "changes": { translation: "o'zgarishlar", meaning: "o'zgarishlar (ko'plik)", pronunciation: "cheyn-jiz" },
+           "he": { translation: "u", meaning: "kishilik olmoshi", pronunciation: "hee" },
+           "added": { translation: "qo'shdi", meaning: "qo'shilgan", pronunciation: "ad-id" },
+           "system": { translation: "tizimini", meaning: "tizim", pronunciation: "sis-tuhm" },
+           "moving": { translation: "harakatlanuvchi", meaning: "harakatlanayotgan", pronunciation: "moov-ing" },
+           "bars": { translation: "panjalar", meaning: "panjaralar", pronunciation: "barz" },
+           "could": { translation: "mumkin edi", meaning: "qila olardi", pronunciation: "kood" },
+           "back": { translation: "orqa", meaning: "orqa", pronunciation: "bak" },
+           "turn": { translation: "aylantirish", meaning: "burish", pronunciation: "tern" },
+           "front": { translation: "Old", meaning: "old", pronunciation: "fruhnt" },
+           "now": { translation: "endi", meaning: "hozir", pronunciation: "now" },
+           "bike": { translation: "velosipedni", meaning: "velosiped", pronunciation: "byk" },
+           "steered": { translation: "boshqarish mumkin edi", meaning: "boshqarilgan", pronunciation: "steerd" },
+           "show": { translation: "ko'rsatish", meaning: "ko'rsatmoq", pronunciation: "shoh" },
+           "how": { translation: "qanday", meaning: "qanaqa", pronunciation: "how" },
+           "worked": { translation: "ishlashini", meaning: "ishlagan", pronunciation: "werkd" },
+           "rode": { translation: "bosib bordi", meaning: "minib ketgan", pronunciation: "rohd" },
+           "60": { translation: "60", meaning: "oltmish", pronunciation: "sik-stee" },
+           "miles": { translation: "mil", meaning: "masofa o'lchovi", pronunciation: "mylz" },
+           "glasgow": { translation: "Glazgoga", meaning: "Shotlandiya shahri", pronunciation: "glaz-goh" },
+           "difficult": { translation: "qiyin", meaning: "murakkab", pronunciation: "dif-i-kuhlt" },
+           "journey": { translation: "sayohat", meaning: "safarga chiqish", pronunciation: "jer-nee" },
+           "roads": { translation: "yo'llar", meaning: "yo'llar (ko'plik)", pronunciation: "rohd" },
+           "bad": { translation: "yomon", meaning: "yomon", pronunciation: "bad" },
+           "rubber": { translation: "rezina", meaning: "kauchuk", pronunciation: "ruh-ber" },
+           "tyres": { translation: "shinalar", meaning: "shinalar (ko'plik)", pronunciation: "tyrz" },
+           "springs": { translation: "amortizatorlar", meaning: "prujinalar", pronunciation: "springz" },
+           "improved": { translation: "yaxshilandi", meaning: "yaxshilangan", pronunciation: "im-proovd" },
+           "famous": { translation: "mashhur", meaning: "taniqli", pronunciation: "fey-muhs" },
+           "invention": { translation: "ixtirosi", meaning: "ixtiro", pronunciation: "in-ven-shuhn" },
+           "other": { translation: "boshqa", meaning: "qolgan", pronunciation: "uhth-er" },
+           "liked": { translation: "yoqdi", meaning: "yoqtirgan", pronunciation: "lykt" },
+           "idea": { translation: "g'oyasi", meaning: "fikr", pronunciation: "y-dee-uh" },
+           "25": { translation: "25", meaning: "yigirma besh", pronunciation: "twen-tee-fyv" },
+           "later": { translation: "o'tgach", meaning: "so'ngroq", pronunciation: "ley-ter" },
+           "frenchman": { translation: "fransuz", meaning: "Fransiyalik erkak", pronunciation: "fren-ch-muhn" },
+           "named": { translation: "ismli", meaning: "nomlangan", pronunciation: "neymd" },
+           "pierre": { translation: "Per", meaning: "Per (ism)", pronunciation: "pyer" },
+           "lallemant": { translation: "Lallemant", meaning: "Lallemant (familiya)", pronunciation: "lal-uh-mahnt" },
+           "designed": { translation: "loyihalashtirdi", meaning: "loyihalashtirilgan", pronunciation: "di-zynd" },
+           "pedals": { translation: "pedalli", meaning: "pedallar", pronunciation: "ped-uhlz" },
+           "1876": { translation: "1876", meaning: "bir ming sakkiz yuz yetmish olti", pronunciation: "ey-teen-sev-en-tee-siks" },
+           "h.j.": { translation: "H.J.", meaning: "H.J. (ismning qisqartmasi)", pronunciation: "eych-jey" },
+           "lawson": { translation: "Lawson", meaning: "Lawson (familiya)", pronunciation: "law-suhn" },
+           "added": { translation: "qo'shdi", meaning: "qo'shilgan", pronunciation: "ad-id" },
+           "chain drive": { translation: "zanjirli uzatmani", meaning: "zanjirli uzatma", pronunciation: "cheyn dryv" },
+           "much": { translation: "ancha", meaning: "juda ko'p", pronunciation: "muhch" },
+           "easier": { translation: "osonlashtirdi", meaning: "qulayroq", pronunciation: "ee-zee-er" },
+           "ride": { translation: "minishni", meaning: "minish", pronunciation: "ryd" },
+           "gears": { translation: "uzatmalar", meaning: "tishli g'ildiraklar", pronunciation: "geerz" },
+           "basic": { translation: "asosiy", meaning: "boshlang'ich", pronunciation: "bey-sik" },
+           "design": { translation: "dizayni", meaning: "loyihasi", pronunciation: "di-zyn" },
+           "has not changed": { translation: "o'zgarmadi", meaning: "o'zgarmagan", pronunciation: "haz not cheynjd" },
+           "since then": { translation: "o'shandan beri", meaning: "o'sha vaqtdan beri", pronunciation: "sins then" },
+           "studies": { translation: "Tadqiqotlar", meaning: "tadqiqotlar (ko'plik)", pronunciation: "stuhd-eez" },
+           "show": { translation: "ko'rsatadiki", meaning: "ko'rsatmoq", pronunciation: "shoh" },
+           "regular": { translation: "muntazam", meaning: "doimiy", pronunciation: "reg-yuh-ler" },
+           "cycling": { translation: "velosiped haydash", meaning: "velosiped minish", pronunciation: "sy-kling" },
+           "can add": { translation: "qo'shishi mumkin", meaning: "qo'shishi mumkin", pronunciation: "kan ad" },
+           "3-5": { translation: "3-5", meaning: "uch-besh", pronunciation: "three-fyv" },
+           "years": { translation: "yil", meaning: "yillar", pronunciation: "yeerz" },
+           "your": { translation: "umringizga", meaning: "sizning", pronunciation: "yur" },
+           "life": { translation: "hayot", meaning: "yashash", pronunciation: "lyf" },
+           "also": { translation: "shuningdek", meaning: "ham", pronunciation: "ol-soh" },
+           "keeps": { translation: "tutadi", meaning: "saqlaydi", pronunciation: "keeps" },
+           "heart": { translation: "yuragingizni", meaning: "yurak", pronunciation: "hart" },
+           "healthy": { translation: "sog'lom", meaning: "kasalsiz", pronunciation: "hel-thee" },
+           "reduces": { translation: "kamaytiradi", meaning: "kamaytiradi", pronunciation: "ri-doo-siz" },
+           "stress": { translation: "stress", meaning: "ruhiy zo'riqish", pronunciation: "stres" },
+           "today": { translation: "bugungi kunda", meaning: "hozirgi kun", pronunciation: "tuh-day" },
+           "most": { translation: "eng", meaning: "eng ko'p", pronunciation: "mohst" },
+           "popular": { translation: "mashhur", meaning: "ommabop", pronunciation: "pop-yuh-ler" },
+           "types": { translation: "turlaridan", meaning: "turlar", pronunciation: "typs" },
+           "transport": { translation: "transport", meaning: "transport", pronunciation: "trans-port" },
+           "world": { translation: "dunyodagi", meaning: "dunyo", pronunciation: "werld" },
+           "especially": { translation: "ayniqsa", meaning: "xususan", pronunciation: "i-spesh-uh-lee" },
+           "developing": { translation: "rivojlanayotgan", meaning: "rivojlanayotgan", pronunciation: "di-vel-uh-ping" },
+           "countries": { translation: "mamlakatlarda", meaning: "mamlakatlar", pronunciation: "kuhn-treez" },
+           "cheap": { translation: "arzon", meaning: "arzon", pronunciation: "cheep" },
+           "does not": { translation: "qilmaydi", meaning: "qilmaydi", pronunciation: "duhz not" },
+           "pollute": { translation: "ifloslantirmaydi", meaning: "ifloslantirmoq", pronunciation: "puh-loot" },
+           "easy": { translation: "oson", meaning: "qulay", pronunciation: "ee-zee" },
+           "use": { translation: "foydalanish", meaning: "ishlatish", pronunciation: "yoos" },
+           "future": { translation: "kelajakda", meaning: "kelajak", pronunciation: "fyoo-cher" },
+           "could become": { translation: "bo'lishi mumkin", meaning: "aylanishi mumkin", pronunciation: "kood bi-kuhm" },
+           "best": { translation: "eng yaxshi", meaning: "a'lo", pronunciation: "best" },
+           "travel": { translation: "sayohat", meaning: "safarga chiqish", pronunciation: "trav-uhl" },
+           "big": { translation: "yirik", meaning: "katta", pronunciation: "big" },
+           "cities": { translation: "shaharlarda", meaning: "shaharlar", pronunciation: "sit-eez" },
+           "thanks": { translation: "Rahmat", meaning: "minnatdorchilik", pronunciation: "thanks" },
+           "pate": { translation: "Pate", meaning: "Pate (ism)", pronunciation: "peyt" }
+       };
+
+       const modal = document.getElementById("wordModal");
+       const span = document.getElementsByClassName("close-button")[0];
+       const modalWord = document.getElementById("modalWord");
+       const modalTranslation = document.getElementById("modalTranslation");
+        
+       // So'zlarni bosish mumkin qilish funksiyasi
+       function makeWordsClickable(textSectionId) {
+           const textSection = document.getElementById(textSectionId);
+           // Har bir .sentence spanini topamiz
+           textSection.querySelectorAll('.sentence').forEach(sentenceSpan => {
+               let originalText = sentenceSpan.textContent;
+               let newHtml = '';
+               // So'zlarni va tinish belgilarini ajratish uchun regex
+               // \b\w+\b so'z chegarasidagi harflarni, [.,!?;:\s]+ esa tinish belgilari va bo'shliqlarni topadi
+               const parts = originalText.split(/(\b\w+\b|[.,!?;:\s]+)/g);
+
+               parts.forEach(part => {
+                   if (part.trim() === '') {
+                       newHtml += part; // Bo'shliqlarni saqlaymiz
+                       return;
+                   }
+                   // So'zni lug'atda qidirish uchun tinish belgilarini olib tashlaymiz va kichik harfga o'tkazamiz
+                   const cleanedWord = part.replace(/[.,!?;:]/g, '').toLowerCase();
+                   if (words[cleanedWord]) {
+                       // Agar so'z lug'atda bo'lsa, uni .word klassi bilan span ichiga olamiz
+                       newHtml += `<span class="word" data-word="${cleanedWord}">${part}</span>`;
+                   } else {
+                       newHtml += part; // Aks holda, so'zni o'zgarishsiz qoldiramiz
+                   }
+               });
+               sentenceSpan.innerHTML = newHtml; // Yangilangan HTMLni span ichiga joylaymiz
+           });
+       }
+       
+       // Dastlab inglizcha matn uchun so'zlarni bosish mumkin qilamiz
+       makeWordsClickable('english-text');
+
+       // Inglizcha matn bo'limiga click event listener qo'shamiz
+       document.getElementById('english-text').addEventListener('click', function(event) {
+           // Agar bosilgan element .word klassiga ega bo'lsa
+           if (event.target.classList.contains('word')) {
+               const word = event.target.dataset.word; // data-word atributidagi so'zni olamiz
+               const wordInfo = words[word]; // Lug'atdan so'z ma'lumotlarini olamiz
+               if (wordInfo) {
+                   // Modal oynadagi elementlarni ma'lumotlar bilan to'ldiramiz
+                   modalWord.textContent = `Word: ${event.target.textContent.trim()}`; // Asl so'zni ko'rsatamiz
+                   modalTranslation.textContent = `Translation: ${wordInfo.translation}`;
+                   
+                   modal.style.display = "block"; // Modal oynani ko'rsatamiz
+               }
+           }
+       });
+
+       // Modal oynani yopish tugmasi
+       span.onclick = function() {
+           modal.style.display = "none";
+       }
+
+       // Modal oynadan tashqarida bosilganda oynani yopish
+       window.onclick = function(event) {
+           if (event.target == modal) {
+               modal.style.display = "none";
+           }
+       }
+
+       // Matnni o'qish funksiyasi (erkak ovozi va tezlik 0.8)
+       function speakSentence(button) {
+           const sentenceSpan = button.nextElementSibling; // Gap spanini olamiz
+           if (sentenceSpan && responsiveVoice.isPlaying()) {
+               responsiveVoice.cancel(); // Agar o'qiyotgan bo'lsa, to'xtatamiz
+           } else if (sentenceSpan) {
+               // UK English Male ovozi va 0.8 tezlikda o'qish
+               responsiveVoice.speak(sentenceSpan.textContent, "UK English Male", {rate: 0.8});
+           }
+       }
+
+       const toggleButton = document.getElementById('toggle-lang-button');
+       const englishText = document.getElementById('english-text');
+       const uzbekText = document.getElementById('uzbek-text');
+       let isEnglish = true;
+
+       toggleButton.addEventListener('click', function() {
+           if (isEnglish) {
+               englishText.style.display = 'none';
+               uzbekText.style.display = 'block';
+               toggleButton.textContent = 'English';
+               // O'zbekcha matn uchun so'zlarni bosish mumkin qilamiz
+               makeWordsClickable('uzbek-text');
+           } else {
+               englishText.style.display = 'block';
+               uzbekText.style.display = 'none';
+               toggleButton.textContent = 'O\'zbekcha';
+               // Inglizcha matn uchun so'zlarni bosish mumkin qilamiz
+               makeWordsClickable('english-text');
+           }
+           isEnglish = !isEnglish;
+       });
+
+       // Kun/Tun rejimi funksiyasi
+       const toggleThemeButton = document.getElementById('toggle-theme-button');
+       let currentThemeIndex = 0; // 0: light, 1: dark, 2: sepia
+       const themes = ['light-mode', 'dark-mode', 'sepia-mode'];
+       const themeButtonTexts = ['Qorong\'u rejim', 'Qizg\'ich rejim', 'Kun rejimi']; // Keyingi rejimni ko'rsatadi
+
+       toggleThemeButton.addEventListener('click', function() {
+           // Joriy rejim klassini olib tashlash
+           document.body.classList.remove(themes[currentThemeIndex]);
+
+           // Keyingi rejimga o'tish
+           currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+           
+           // Yangi rejim klassini qo'shish
+           if (themes[currentThemeIndex] !== 'light-mode') { // 'light-mode' uchun alohida klass shart emas, chunki u default
+               document.body.classList.add(themes[currentThemeIndex]);
+           }
+
+           // Tugma matnini yangilash
+           toggleThemeButton.textContent = themeButtonTexts[currentThemeIndex];
+       });
+
+       // ResponsiveVoice'ni ishga tushirish
+       responsiveVoice.enableSpeech();
+   </script>
+</body>
+</html>
