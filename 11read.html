@@ -1,0 +1,543 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interaktiv Matn</title>
+    <script src="https://code.responsivevoice.org/responsivevoice.js?key=ftro4Sxr"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f0f5f5;
+            color: #333;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: #c0c0c0;
+        }
+        body.sepia-mode {
+            background-color: #d8c0a0;
+            color: #4a3b2e;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #fcfcfc;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        body.dark-mode .container {
+            background: #282828;
+            box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+        }
+        body.sepia-mode .container {
+            background: #e0d0b8;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .text-section {
+            margin-bottom: 20px;
+        }
+        .word {
+            cursor: pointer;
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted #007bff;
+        }
+        body.dark-mode .word {
+            border-bottom-color: #99bbff;
+        }
+        body.sepia-mode .word {
+            border-bottom-color: #b08e6d;
+        }
+        .word:hover {
+            color: #0056b3;
+        }
+        body.dark-mode .word:hover {
+            color: #ccddee;
+        }
+        body.sepia-mode .word:hover {
+            color: #8a6d51;
+        }
+        .tooltip {
+            display: none;
+            position: absolute;
+            bottom: 120%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: black;
+            color: white;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 10px;
+            z-index: 1000;
+            white-space: nowrap;
+            font-size: 14px;
+        }
+        .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: black transparent transparent transparent;
+        }
+        .word:hover .tooltip {
+            display: block;
+        }
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .button-group button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .button-group button:hover {
+            background-color: #0056b3;
+        }
+        #dynamic-image {
+            display: block;
+            margin: 0 auto 30px auto;
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+        h2 {
+            text-align: center;
+            color: #007bff;
+            margin-bottom: 25px;
+        }
+        body.dark-mode h2 {
+            color: #99bbff;
+        }
+        body.sepia-mode h2 {
+            color: #b08e6d;
+        }
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+<img id="dynamic-image" src="https://image.pollinations.ai/prompt/800x400/modern%20city%20life%20and%20country%20life%20with%20space%20exploration" alt="A modern image showing city and country life alongside space exploration.">
+        
+        <div id="english-text" class="text-section">
+            <h2>Affiliate in the community?</h2>
+            <p>
+                <span class="sentence">City life is cool; but is country life cooler?</span>
+            </p>
+            <p>
+                <span class="sentence">Apparently yes.</span>
+                <span class="sentence">After the terrible Covid-19 epidemic of 2020, lots of people would like to leave their city and live in the country.</span>
+                <span class="sentence">More and more people in Britain want to live in the country, and this is causing more and more problems in some rural areas.</span>
+            </p>
+            <p>
+                <span class="sentence">The population of British cities has been falling for years.</span>
+                <span class="sentence">Cities like Liverpool and Glasgow have lost about 30% of their population in 30 years.</span>
+                <span class="sentence">But Britain’s population is still growing.</span>
+                <span class="sentence">Where are the people going?</span>
+            </p>
+            <p>
+                <span class="sentence">Answer: to the country.</span>
+            </p>
+            <p>
+                <span class="sentence">The English countryside has a classic image.</span>
+                <span class="sentence">People imagine that life in the country is slow and calm; that there are no traffic jams, no pollution, and no crime.</span>
+                <span class="sentence">In some places, this is true; but in others it is not.</span>
+            </p>
+            <p>
+                <span class="sentence">Small towns and villages are becoming more and more popular; people have more space and most houses have gardens.</span>
+                <span class="sentence">But problems are growing.</span>
+                <span class="sentence">Lots of people want to live in the country and work in the city; so more and more people travel long distances each day to go to work.</span>
+                <span class="sentence">Of course they don’t use buses (they are too slow) or trains (they don’t stop in the country); they use cars.</span>
+                <span class="sentence">And although they live in the country, they want to use supermarkets and good fast roads…. but they do not want to see them or hear them.</span>
+                <span class="sentence">Besides, lots of young people say that life in the country is boring: there is not enough to do, there are not enough activities and excitement.</span>
+            </p>
+            <p>
+                <span class="sentence">Little villages now have traffic problems in the morning, just like big cities!</span>
+                <span class="sentence">And they are getting worse.</span>
+            </p>
+            <p>
+                <span class="sentence">The problems are very complicated!</span>
+                <span class="sentence">If everyone moves into the country, large parts of the countryside will disappear!</span>
+                <span class="sentence">People leave cities and big towns to escape from urban problems; but more and more, they are bringing their problems with them.</span>
+            </p>
+            <p>
+                <span class="sentence">On warm summer days, and cold winter days, air pollution can be a big problem in large parts of the south of England, not just in London.</span>
+                <span class="sentence">Traffic jams are now often part of life, even in the country; crime has become a serious problem in rural areas.</span>
+            </p>
+            <p>
+                <span class="sentence">Perhaps there is hope for the future.</span>
+                <span class="sentence">Soon Britain’s population will stop rising.</span>
+                <span class="sentence">From about the year 2030, it will perhaps start to fall.</span>
+                <span class="sentence">In 100 year’s time, there will be less people in Britain than today - perhaps two million less.</span>
+                <span class="sentence">No doubt there will be less pollution too; oil and petrol will probably be rare by then.</span>
+            </p>
+            <p>
+                <span class="sentence">Fact:</span>
+                <span class="sentence">Studies show that people in countryside areas often live longer because they have less stress, more physical activity, and cleaner air.</span>
+            </p>
+            <h2>A Short History Of Spacecraft Landings</h2>
+            <p>
+                <span class="sentence">On The Moon</span>
+            </p>
+            <p>
+                <span class="sentence">A block of birds fly in front of the full moon over the city center in Tallinn, Estonia, Oct. 17, 2024.</span>
+            </p>
+            <p>
+                <span class="sentence">A Short History of Moon Landings ●✓</span>
+            </p>
+            <p>
+                <span class="sentence">Many years have passed since the first spacecraft landed on the moon in 1966.</span>
+                <span class="sentence">Since then, different countries have tried to land on the moon.</span>
+                <span class="sentence">Some missions succeeded, while others failed.</span>
+                <span class="sentence">Here is a short history of some important moon landings.</span>
+            </p>
+            <h2>First Victories</h2>
+            <p>
+                <span class="sentence">The Soviet Union’s Luna 9 was the first spacecraft to land on the moon.</span>
+                <span class="sentence">It touched the surface in 1966 after many failed attempts.</span>
+                <span class="sentence">NASA said Luna 9 was the first to carry out a soft landing and to send photos of the moon’s surface to Earth.</span>
+                <span class="sentence">The landing also proved that the moon’s surface was solid and could support a spacecraft.</span>
+            </p>
+            <p>
+                <span class="sentence">In May 1966, the United States followed with Surveyor 1.</span>
+                <span class="sentence">NASA called it the first of seven robotic spacecraft sent to the moon to collect data for the Apollo missions.</span>
+                <span class="sentence">The soft landing of Surveyor 1 was one of NASA’s great early successes.</span>
+            </p>
+            <p>
+                <span class="sentence">Both the U.S. and the Soviet Union had more successful robotic landings.</span>
+                <span class="sentence">After that, they focused on sending humans to The moon.</span>
+            </p>
+            <p>
+                <span class="sentence">In 1969, NASA’s Apollo 11 successfully landed Neil Armstrong and Buzz Aldrin on the moon.</span>
+                <span class="sentence">The Apollo program sent 12 astronauts to explore the moon across six missions.</span>
+                <span class="sentence">The last mission, Apollo 17, was in 1972.</span>
+            </p>
+            <p>
+                <span class="sentence">The U.S. is still the only country to have landed humans on the moon.</span>
+                <span class="sentence">NASA’s Artemis program hopes to return astronauts to the lunar surface by 2026.</span>
+            </p>
+            <h2>China Expands Space Efforts</h2>
+            <p>
+                <span class="sentence">In 2013, China became the third country to land a spacecraft on the moon.</span>
+                <span class="sentence">It sent a rover, Yutu, to explore the surface.</span>
+            </p>
+            <p>
+                <span class="sentence">China continued its space success in 2019 when the Yutu-2 rover landed on the far side of the moon—a place no spacecraft had reached before.</span>
+                <span class="sentence">In 2020, China successfully returned moon samples to Earth, collecting 1.7 kilograms of rock and soil.</span>
+                <span class="sentence">In 2024, another mission returned samples from the far side of the moon.</span>
+                <span class="sentence">China has said it aims to send astronauts to the moon by 2030.</span>
+            </p>
+            <h2>Russia’s Landing Failure</h2>
+            <p>
+                <span class="sentence">In 2023, Russia attempted its first moon landing in nearly 50 years with Luna 25.</span>
+                <span class="sentence">The spacecraft was supposed to land near the lunar south pole, but it crashed.</span>
+            </p>
+            <p>
+                <span class="sentence">The country’s last successful mission was Luna 24 in 1976, which brought moon rocks back to Earth.</span>
+            </p>
+            <h2>India Succeeds on Second Attempt</h2>
+            <p>
+                <span class="sentence">India’s first lander crashed in 2019, but in 2023, it succeeded on its second attempt.</span>
+                <span class="sentence">The Chandrayaan-3 spacecraft landed safely, making India the fourth nation to complete a moon landing.</span>
+            </p>
+            <h2>Japan Lands Sideways</h2>
+            <p>
+                <span class="sentence">In January 2024, Japan became the fifth country to land a spacecraft on the moon.</span>
+                <span class="sentence">However, the SLIM spacecraft landed sideways, causing power and communication problems.</span>
+                <span class="sentence">Even though the lander was not in the right position, it was able to operate for a short time.</span>
+            </p>
+            <h2>The Future of Moon Exploration</h2>
+            <p>
+                <span class="sentence">Today, many countries are planning new moon missions.</span>
+                <span class="sentence">NASA, China, and other space agencies hope to send astronauts back to the moon soon.</span>
+            </p>
+            <p>
+                <span class="sentence">Maybe one day, humans will live on the moon!</span>
+            </p>
+            <p>
+                <span class="sentence">---</span>
+            </p>
+            <p>
+                <span class="sentence">Fact:</span>
+            </p>
+            <p>
+                <span class="sentence">NASA (National Aeronautics and Space Administration) was founded on July 29, 1958 by the U.S. government.</span>
+                <span class="sentence">It replaced an earlier space organization called NACA (National Advisory Committee for Aeronautics).</span>
+            </p>
+        </div>
+        
+        <div id="uzbek-text" class="text-section" style="display:none;">
+            <h2>Jamiyatdagi Hamkor?</h2>
+            <p>
+                <span class="sentence">Shahar hayoti ajoyib; lekin qishloq hayoti undan ham ajoyibroqmi?</span>
+            </p>
+            <p>
+                <span class="sentence">Shubhasiz, ha.</span>
+                <span class="sentence">2020-yildagi dahshatli Covid-19 epidemiyasidan so'ng, ko'p odamlar shaharlarini tark etib, qishloqda yashashni xohlashadi.</span>
+                <span class="sentence">Britaniyada tobora ko'proq odamlar qishloqda yashashni xohlayapti, bu esa ba'zi qishloq joylarida ko'proq muammolarga sabab bo'lmoqda.</span>
+            </p>
+            <p>
+                <span class="sentence">Britaniya shaharlarining aholisi yillar davomida kamayib bormoqda.</span>
+                <span class="sentence">Liverpul va Glazgo kabi shaharlar 30 yil ichida o'z aholisining taxminan 30 foizini yo'qotdi.</span>
+                <span class="sentence">Ammo Britaniya aholisi hali ham o'sib bormoqda.</span>
+                <span class="sentence">Odamlar qayerga ketmoqda?</span>
+            </p>
+            <p>
+                <span class="sentence">Javob: qishloqqa.</span>
+            </p>
+            <p>
+                <span class="sentence">Angliya qishloqlari klassik tasavvurga ega.</span>
+                <span class="sentence">Odamlar qishloqdagi hayot sekin va sokin deb o'ylashadi; u yerda tirbandliklar, ifloslanish va jinoyat yo'q.</span>
+                <span class="sentence">Ba'zi joylarda bu haqiqat; lekin boshqa joylarda emas.</span>
+            </p>
+            <p>
+                <span class="sentence">Kichik shaharlar va qishloqlar tobora ommalashib bormoqda; odamlar ko'proq joyga ega va aksariyat uylarning bog'lari bor.</span>
+                <span class="sentence">Ammo muammolar o'sib bormoqda.</span>
+                <span class="sentence">Ko'p odamlar qishloqda yashashni va shaharda ishlashni xohlashadi; shuning uchun tobora ko'proq odamlar har kuni ishga borish uchun uzoq masofalarga sayohat qilishadi.</span>
+                <span class="sentence">Albatta, ular avtobuslardan (ular juda sekin) yoki poyezdlardan (ular qishloqda to'xtamaydi) foydalanmaydi; ular mashinadan foydalanishadi.</span>
+                <span class="sentence">Va garchi ular qishloqda yashasa-da, ular supermarketlar va yaxshi tezkor yo'llardan foydalanishni xohlashadi... lekin ularni ko'rishni yoki eshitishni xohlashmaydi.</span>
+                <span class="sentence">Bundan tashqari, ko'plab yoshlar qishloqdagi hayotni zerikarli deb aytishadi: qiladigan ishlar, tadbirlar va hayajon yetarli emas.</span>
+            </p>
+            <p>
+                <span class="sentence">Endi kichik qishloqlarda ham ertalab tirbandlik muammolari bor, xuddi katta shaharlar kabi!</span>
+                <span class="sentence">Va ular yomonlashib bormoqda.</span>
+            </p>
+            <p>
+                <span class="sentence">Muammolar juda murakkab!</span>
+                <span class="sentence">Agar hamma qishloqqa ko'chib o'tsa, qishloq joylarining katta qismi yo'q bo'lib ketadi!</span>
+                <span class="sentence">Odamlar shahar muammolaridan qochish uchun shaharlar va katta shaharlarni tark etishadi; lekin tobora ko'proq ular muammolarini o'zlari bilan olib kelishmoqda.</span>
+            </p>
+            <p>
+                <span class="sentence">Issiq yoz kunlarida va sovuq qish kunlarida havo ifloslanishi Angliyaning janubidagi katta qismlarida, nafaqat Londonda, katta muammo bo'lishi mumkin.</span>
+                <span class="sentence">Tirbandliklar endi hatto qishloqda ham hayotning bir qismiga aylanib bormoqda; jinoyat qishloq joylarida jiddiy muammoga aylandi.</span>
+            </p>
+            <p>
+                <span class="sentence">Balki kelajak uchun umid bordir.</span>
+                <span class="sentence">Tez orada Britaniya aholisi o'sishdan to'xtaydi.</span>
+                <span class="sentence">Taxminan 2030-yildan boshlab, u kamayishni boshlaydi.</span>
+                <span class="sentence">100 yildan so'ng, Britaniyada bugungidan kamroq odamlar bo'ladi - ehtimol ikki millionga kamroq.</span>
+                <span class="sentence">Shubhasiz, ifloslanish ham kamayadi; neft va benzin o'shanda kamyob bo'lib qoladi.</span>
+            </p>
+            <p>
+                <span class="sentence">Fakt:</span>
+                <span class="sentence">Tadqiqotlar shuni ko'rsatadiki, qishloq joylaridagi odamlar kamroq stress, ko'proq jismoniy faollik va toza havo tufayli ko'pincha uzoqroq umr ko'rishadi.</span>
+            </p>
+            <h2>Oydagi kosmik kemalar qo'nishining qisqacha tarixi</h2>
+            <p>
+                <span class="sentence">Oydagi kosmik kemalar qo'nishining qisqacha tarixi</span>
+            </p>
+            <p>
+                <span class="sentence">2024-yil 17-oktabr, Tallin, Estoniya. Bir guruh qushlar to'lin oy oldidan shahar markazi ustidan uchib o'tmoqda.</span>
+            </p>
+            <p>
+                <span class="sentence">Oydagi qo'nishlarning qisqacha tarixi ●✓</span>
+            </p>
+            <p>
+                <span class="sentence">1966-yilda birinchi kosmik kema oyga qo'nganidan beri ko'p yillar o'tdi.</span>
+                <span class="sentence">Shundan beri turli mamlakatlar oyga qo'nishga harakat qilishdi.</span>
+                <span class="sentence">Ba'zi missiyalar muvaffaqiyatli yakunlandi, ba'zilari esa muvaffaqiyatsizlikka uchradi.</span>
+                <span class="sentence">Bu yerda ba'zi muhim oy qo'nishlarining qisqacha tarixi berilgan.</span>
+            </p>
+            <h2>Birinchi G'alabalar</h2>
+            <p>
+                <span class="sentence">Sovet Ittifoqining "Luna 9" kosmik kemasi oyga qo'ngan birinchi kosmik kema bo'ldi.</span>
+                <span class="sentence">U ko'p muvaffaqiyatsiz urinishlardan so'ng 1966-yilda oy yuzasiga yetib bordi.</span>
+                <span class="sentence">NASAning aytishicha, "Luna 9" yumshoq qo'nishni amalga oshirgan va oy yuzasining fotosuratlarini Yerga yuborgan birinchi kema bo'lgan.</span>
+                <span class="sentence">Qo'nish, shuningdek, oy yuzasi qattiq ekanligini va kosmik kemani ko'tara olishini isbotladi.</span>
+            </p>
+            <p>
+                <span class="sentence">1966-yil may oyida Qo'shma Shtatlar "Surveyor 1" bilan unga ergashdi.</span>
+                <span class="sentence">NASA uni "Apollon" missiyalari uchun ma'lumot to'plash maqsadida oyga yuborilgan yetti robotli kosmik kemaning birinchisi deb atadi.</span>
+                <span class="sentence">"Surveyor 1" ning yumshoq qo'nishi NASAning dastlabki katta muvaffaqiyatlaridan biri bo'ldi.</span>
+            </p>
+            <p>
+                <span class="sentence">AQSh va Sovet Ittifoqi ham ko'proq muvaffaqiyatli robotli qo'nishlarni amalga oshirdi.</span>
+                <span class="sentence">Shundan so'ng, ular odamlarni Oyga yuborishga e'tibor qaratishdi.</span>
+            </p>
+            <p>
+                <span class="sentence">1969-yilda NASAning "Apollon 11" missiyasi Nil Armstrong va Bazz Oldrinni oyga muvaffaqiyatli qo'ndirdi.</span>
+                <span class="sentence">"Apollon" dasturi oltita missiya davomida oyni o'rganish uchun 12 nafar astronavtni yubordi.</span>
+                <span class="sentence">Oxirgi missiya - "Apollon 17" 1972-yilda bo'lgan.</span>
+            </p>
+            <p>
+                <span class="sentence">AQSh hali ham oyga odam qo'ndirgan yagona davlatdir.</span>
+                <span class="sentence">NASAning "Artemis" dasturi 2026-yilgacha astronavtlarni oy yuzasiga qaytarishga umid qilmoqda.</span>
+            </p>
+            <h2>Xitoyning Kengayib Borayotgan Kosmik Harakatlari</h2>
+            <p>
+                <span class="sentence">2013-yilda Xitoy oyga kosmik kema qo'ndirgan uchinchi davlatga aylandi.</span>
+                <span class="sentence">U oy yuzasini o'rganish uchun "Yutu" nomli roverni yubordi.</span>
+            </p>
+            <p>
+                <span class="sentence">Xitoy 2019-yilda "Yutu-2" roveri oyning narigi tomoniga qo'nganida kosmik muvaffaqiyatini davom ettirdi – bu joyga ilgari hech qanday kosmik kema yetib bormagan edi.</span>
+                <span class="sentence">2020-yilda Xitoy 1.7 kilogramm tosh va tuproq yig'ib, oy namunalarini Yerga muvaffaqiyatli qaytardi.</span>
+                <span class="sentence">2024-yilda yana bir missiya oyning narigi tomonidan namunalar qaytardi.</span>
+                <span class="sentence">Xitoy 2030-yilgacha oyga astronavtlarni yuborishni maqsad qilganini aytdi.</span>
+            </p>
+            <h2>Rossiyaning Muvaffaqiyatsiz Qo'nishi</h2>
+            <p>
+                <span class="sentence">2023-yilda Rossiya 50 yil ichida birinchi marta "Luna 25" bilan oyga qo'nishga urindi.</span>
+                <span class="sentence">Kosmik kema oyning janubiy qutbi yaqiniga qo'nishi kerak edi, ammo u qulab tushdi.</span>
+            </p>
+            <p>
+                <span class="sentence">Mamlakatning oxirgi muvaffaqiyatli missiyasi 1976-yildagi "Luna 24" bo'lib, u oy toshlarini Yerga qaytargan edi.</span>
+            </p>
+            <h2>Hindiston Ikkinchi Urinishda Muvaffaqiyatga Erishdi</h2>
+            <p>
+                <span class="sentence">Hindistonning birinchi landeri 2019-yilda qulab tushdi, ammo 2023-yilda ikkinchi urinishida muvaffaqiyatga erishdi.</span>
+                <span class="sentence">"Chandrayaan-3" kosmik kemasi xavfsiz qo'ndi va Hindistonni oyga qo'nishni yakunlagan to'rtinchi davlatga aylantirdi.</span>
+            </p>
+            <h2>Yaponiya Yonboshiga Qo'ndi</h2>
+            <p>
+                <span class="sentence">2024-yil yanvar oyida Yaponiya oyga kosmik kema qo'ndirgan beshinchi davlatga aylandi.</span>
+                <span class="sentence">Biroq, "SLIM" kosmik kemasi yonboshiga qo'nib, quvvat va aloqa muammolariga sabab bo'ldi.</span>
+                <span class="sentence">Lander to'g'ri holatda bo'lmasa-da, u qisqa vaqt davomida ishlay oldi.</span>
+            </p>
+            <h2>Oyni O'rganishning Kelajagi</h2>
+            <p>
+                <span class="sentence">Bugungi kunda ko'plab mamlakatlar yangi oy missiyalarini rejalashtirmoqda.</span>
+                <span class="sentence">NASA, Xitoy va boshqa kosmik agentliklar tez orada astronavtlarni oyga qaytarishga umid qilmoqda.</span>
+            </p>
+            <p>
+                <span class="sentence">Balki bir kun kelib, odamlar oyda yashar!</span>
+            </p>
+            <p>
+                <span class="sentence">---</span>
+            </p>
+            <p>
+                <span class="sentence">Fakt:</span>
+            </p>
+            <p>
+                <span class="sentence">NASA (National Aeronautics and Space Administration) 1958-yil 29-iyulda AQSh hukumati tomonidan tashkil etilgan.</span>
+                <span class="sentence">U NACA (National Advisory Committee for Aeronautics) deb nomlangan avvalgi kosmik tashkilotni almashtirdi.</span>
+            </p>
+        </div>
+        <div class="button-group">
+            <button id="toggle-lang-button">O'zbekcha</button>
+            <button id="toggle-theme-button">Qorong'u rejim</button>
+        </div>
+    </div>
+    <script>
+        const originalTexts = {};
+
+        const words = {
+            "city": "shahar", "life": "hayoti", "is": "bu", "cool": "ajoyib", "but": "ammo", "is": "bu", "country": "qishloq", "life": "hayoti", "cooler": "ajoyibroq", "apparently": "shubhasiz", "yes": "ha", "after": "keyin", "the": "bu", "terrible": "dahshatli", "covid-19": "Covid-19", "epidemic": "epidemiyasi", "of": "ning", "2020": "2020", "lots": "ko'p", "of": "ning", "people": "odamlar", "would": "xohlaydi", "like": "istaydi", "to": "ga", "leave": "tark etish", "their": "o'zlarining", "city": "shahar", "and": "va", "live": "yashash", "in": "da", "the": "bu", "country": "qishloq", "more": "ko'proq", "and": "va", "more": "ko'proq", "people": "odamlar", "in": "da", "britain": "Britaniya", "want": "xohlashadi", "to": "ga", "live": "yashash", "in": "da", "the": "bu", "country": "qishloq", "and": "va", "this": "bu", "is": "bu", "causing": "sabab bo'lmoqda", "more": "ko'proq", "and": "va", "more": "ko'proq", "problems": "muammolar", "in": "da", "some": "ba'zi", "rural": "qishloq", "areas": "joylari", "the": "bu", "population": "aholisi", "of": "ning", "british": "Britaniya", "cities": "shaharlari", "has": "bor", "been": "bo'lgan", "falling": "kamayib bormoqda", "for": "uchun", "years": "yillar", "cities": "shaharlar", "like": "kabi", "liverpool": "Liverpul", "and": "va", "glasgow": "Glazgo", "have": "bor", "lost": "yo'qotdi", "about": "taxminan", "30%": "30%", "of": "ning", "their": "o'zlarining", "population": "aholisi", "in": "da", "30": "30", "years": "yillar", "but": "ammo", "britain’s": "Britaniyaning", "population": "aholisi", "is": "dir", "still": "hali ham", "growing": "o'sib bormoqda", "where": "qayerga", "are": "dir", "the": "bu", "people": "odamlar", "going": "ketmoqda", "answer": "javob", "to": "ga", "the": "bu", "country": "qishloq", "the": "bu", "english": "Angliya", "countryside": "qishloqlari", "has": "ega", "a": "bir", "classic": "klassik", "image": "tasavvurga", "people": "odamlar", "imagine": "o'ylashadi", "that": "bu", "life": "hayot", "in": "da", "the": "bu", "country": "qishloq", "is": "dir", "slow": "sekin", "and": "va", "calm": "sokin", "that": "bu", "there": "u yerda", "are": "dir", "no": "yo'q", "traffic": "tirbandliklar", "jams": "tiqilinchlar", "no": "yo'q", "pollution": "ifloslanish", "and": "va", "no": "yo'q", "crime": "jinoyat", "in": "da", "some": "ba'zi", "places": "joylarda", "this": "bu", "is": "dir", "true": "haqiqat", "but": "ammo", "in": "da", "others": "boshqa joylarda", "it": "bu", "is": "dir", "not": "emas", "small": "kichik", "towns": "shaharlar", "and": "va", "villages": "qishloqlar", "are": "dir", "becoming": "aylanib bormoqda", "more": "ko'proq", "and": "va", "more": "ko'proq", "popular": "ommabop", "people": "odamlar", "have": "ega", "more": "ko'proq", "space": "joy", "and": "va", "most": "aksariyat", "houses": "uylar", "have": "ega", "gardens": "bog'lar", "but": "ammo", "problems": "muammolar", "are": "dir", "growing": "o'sib bormoqda", "lots": "ko'p", "of": "ning", "people": "odamlar", "want": "xohlashadi", "to": "ga", "live": "yashash", "in": "da", "the": "bu", "country": "qishloq", "and": "va", "work": "ishlash", "in": "da", "the": "bu", "city": "shahar", "so": "shuning uchun", "more": "ko'proq", "and": "va", "more": "ko'proq", "people": "odamlar", "travel": "sayohat qilishadi", "long": "uzoq", "distances": "masofalar", "each": "har", "day": "kun", "to": "ga", "go": "borish", "to": "ga", "work": "ish", "of": "ning", "course": "albatta", "they": "ular", "don't": "foydalanmaydi", "use": "foydalanish", "buses": "avtobuslar", "they": "ular", "are": "dir", "too": "juda", "slow": "sekin", "or": "yoki", "trains": "poyezdlar", "they": "ular", "don't": "to'xtamaydi", "stop": "to'xtash", "in": "da", "the": "bu", "country": "qishloq", "they": "ular", "use": "foydalanishadi", "cars": "mashinalar", "and": "va", "although": "garchi", "they": "ular", "live": "yashasada", "in": "da", "the": "bu", "country": "qishloq", "they": "ular", "want": "xohlashadi", "to": "ga", "use": "foydalanish", "supermarkets": "supermarketlar", "and": "va", "good": "yaxshi", "fast": "tezkor", "roads": "yo'llar", "but": "ammo", "they": "ular", "do": "xohlashmaydi", "not": "emas", "want": "xohlash", "to": "ga", "see": "ko'rish", "them": "ularni", "or": "yoki", "hear": "eshitish", "them": "ularni", "besides": "bundan tashqari", "lots": "ko'p", "of": "ning", "young": "yosh", "people": "odamlar", "say": "aytishadi", "that": "bu", "life": "hayot", "in": "da", "the": "bu", "country": "qishloq", "is": "dir", "boring": "zerikarli", "there": "u yerda", "is": "dir", "not": "emas", "enough": "yetarli", "to": "ga", "do": "qilish", "there": "u yerda", "are": "dir", "not": "emas", "enough": "yetarli", "activities": "tadbirlar", "and": "va", "excitement": "hayajon", "little": "kichik", "villages": "qishloqlar", "now": "endi", "have": "ega", "traffic": "tirbandlik", "problems": "muammolar", "in": "da", "the": "bu", "morning": "ertalab", "just": "xuddi", "like": "kabi", "big": "katta", "cities": "shaharlar", "and": "va", "they": "ular", "are": "dir", "getting": "aylanib bormoqda", "worse": "yomonroq", "the": "bu", "problems": "muammolar", "are": "dir", "very": "juda", "complicated": "murakkab", "if": "agar", "everyone": "hamma", "moves": "ko'chib o'tsa", "into": "ga", "the": "bu", "country": "qishloq", "large": "katta", "parts": "qismlari", "of": "ning", "the": "bu", "countryside": "qishloq joylari", "will": "bo'ladi", "disappear": "yo'qolib ketadi", "people": "odamlar", "leave": "tark etishadi", "cities": "shaharlar", "and": "va", "big": "katta", "towns": "shaharlar", "to": "ga", "escape": "qochish", "from": "dan", "urban": "shahar", "problems": "muammolar", "but": "ammo", "more": "ko'proq", "and": "va", "more": "ko'proq", "they": "ular", "are": "dir", "bringing": "olib kelishmoqda", "their": "o'zlarining", "problems": "muammolar", "with": "bilan", "them": "ular", "on": "da", "warm": "issiq", "summer": "yoz", "days": "kunlari", "and": "va", "cold": "sovuq", "winter": "qish", "days": "kunlari", "air": "havo", "pollution": "ifloslanishi", "can": "mumkin", "be": "bo'lish", "a": "bir", "big": "katta", "problem": "muammo", "in": "da", "large": "katta", "parts": "qismlari", "of": "ning", "the": "bu", "south": "janubiy", "of": "ning", "england": "Angliya", "not": "emas", "just": "faqat", "in": "da", "london": "London", "traffic": "tirbandliklar", "jams": "tiqilinchlar", "are": "dir", "now": "endi", "often": "ko'pincha", "part": "qismi", "of": "ning", "life": "hayot", "even": "hatto", "in": "da", "the": "bu", "country": "qishloq", "crime": "jinoyat", "has": "aylanib", "become": "aylandi", "a": "bir", "serious": "jiddiy", "problem": "muammo", "in": "da", "rural": "qishloq", "areas": "joylari", "perhaps": "balki", "there": "bor", "is": "dir", "hope": "umid", "for": "uchun", "the": "bu", "future": "kelajak", "soon": "tez orada", "britain’s": "Britaniyaning", "population": "aholisi", "will": "to'xtaydi", "stop": "to'xtash", "rising": "o'sish", "from": "dan", "about": "taxminan", "the": "bu", "year": "yil", "2030": "2030", "it": "u", "will": "boshlaydi", "perhaps": "ehtimol", "start": "boshlash", "to": "ga", "fall": "kamayish", "in": "da", "100": "100", "year’s": "yil", "time": "vaqt", "there": "bor", "will": "bo'ladi", "be": "bo'lish", "less": "kamroq", "people": "odamlar", "in": "da", "britain": "Britaniya", "than": "ko'ra", "today": "bugun", "perhaps": "ehtimol", "two": "ikki", "million": "million", "less": "kamroq", "no": "yo'q", "doubt": "shubha", "there": "bor", "will": "bo'ladi", "be": "bo'lish", "less": "kamroq", "pollution": "ifloslanish", "too": "ham", "oil": "neft", "and": "va", "petrol": "benzin", "will": "bo'ladi", "probably": "ehtimol", "be": "bo'lish", "rare": "kamyob", "by": "o'sha paytga kelib", "then": "o'shanda", "fact": "fakt", "studies": "tadqiqotlar", "show": "ko'rsatadi", "that": "bu", "people": "odamlar", "in": "da", "countryside": "qishloq", "areas": "joylari", "often": "ko'pincha", "live": "yashashadi", "longer": "uzoqroq", "because": "chunki", "they": "ular", "have": "bor", "less": "kamroq", "stress": "stress", "more": "ko'proq", "physical": "jismoniy", "activity": "faollik", "and": "va", "cleaner": "toza", "air": "havo", "a": "bir", "short": "qisqa", "history": "tarixi", "of": "ning", "spacecraft": "kosmik kema", "landings": "qo'nishlar", "on": "da", "the": "bu", "moon": "oy", "a": "bir", "block": "guruh", "of": "ning", "birds": "qushlar", "fly": "uchib o'tadi", "in": "da", "front": "oldidan", "of": "ning", "the": "bu", "full": "to'lin", "moon": "oy", "over": "ustidan", "the": "bu", "city": "shahar", "center": "markazi", "in": "da", "tallinn": "Tallinn", "estonia": "Estoniya", "oct": "oktabr", "17": "17", "2024": "2024", "a": "bir", "short": "qisqa", "history": "tarixi", "of": "ning", "moon": "oy", "landings": "qo'nishlar", "many": "ko'p", "years": "yillar", "have": "o'tdi", "passed": "o'tgan", "since": "beri", "the": "bu", "first": "birinchi", "spacecraft": "kosmik kema", "landed": "qo'ngan", "on": "da", "the": "bu", "moon": "oy", "in": "da", "1966": "1966", "since": "beri", "then": "undan", "different": "turli", "countries": "mamlakatlar", "have": "qilishdi", "tried": "harakat qilish", "to": "ga", "land": "qo'nish", "on": "da", "the": "bu", "moon": "oy", "some": "ba'zi", "missions": "missiyalar", "succeeded": "muvaffaqiyatli yakunlandi", "while": "esa", "others": "boshqalar", "failed": "muvaffaqiyatsizlikka uchradi", "here": "bu yerda", "is": "berilgan", "a": "bir", "short": "qisqa", "history": "tarixi", "of": "ning", "some": "ba'zi", "important": "muhim", "moon": "oy", "landings": "qo'nishlari", "first": "birinchi", "victories": "g'alabalar", "the": "bu", "soviet": "Sovet", "union’s": "Ittifoqining", "luna": "Luna", "9": "9", "was": "bo'lgan", "the": "bu", "first": "birinchi", "spacecraft": "kosmik kema", "to": "ga", "land": "qo'nish", "on": "da", "the": "bu", "moon": "oy", "it": "u", "touched": "yetib bordi", "the": "bu", "surface": "yuzasiga", "in": "da", "1966": "1966", "after": "so'ng", "many": "ko'p", "failed": "muvaffaqiyatsiz", "attempts": "urinishlar", "nasa": "NASA", "said": "aytishicha", "luna": "Luna", "9": "9", "was": "bo'lgan", "the": "bu", "first": "birinchi", "to": "ga", "carry": "amalga oshirish", "out": "o'tish", "a": "bir", "soft": "yumshoq", "landing": "qo'nish", "and": "va", "to": "ga", "send": "yuborish", "photos": "fotosuratlar", "of": "ning", "the": "bu", "moon’s": "oyning", "surface": "yuzasi", "to": "ga", "earth": "Yer", "the": "bu", "landing": "qo'nish", "also": "shuningdek", "proved": "isbotladi", "that": "bu", "the": "bu", "moon’s": "oyning", "surface": "yuzasi", "was": "bo'lgan", "solid": "qattiq", "and": "va", "could": "oldi", "support": "ko'tara olish", "a": "bir", "spacecraft": "kosmik kemani", "in": "da", "may": "may", "1966": "1966", "the": "bu", "united": "Qo'shma", "states": "Shtatlar", "followed": "ergashdi", "with": "bilan", "surveyor": "Surveyor", "1": "1", "nasa": "NASA", "called": "atadi", "it": "uni", "the": "bu", "first": "birinchisi", "of": "ning", "seven": "yetti", "robotic": "robotli", "spacecraft": "kosmik kema", "sent": "yuborilgan", "to": "ga", "the": "bu", "moon": "oy", "to": "ga", "collect": "to'plash", "data": "ma'lumotlar", "for": "uchun", "the": "bu", "apollo": "Apollon", "missions": "missiyalar", "the": "bu", "soft": "yumshoq", "landing": "qo'nish", "of": "ning", "surveyor": "Surveyor", "1": "1", "was": "bo'lgan", "one": "bir", "of": "ning", "nasa’s": "NASAning", "great": "katta", "early": "dastlabki", "successes": "muvaffaqiyatlar", "both": "ham", "the": "bu", "u.s": "AQSh", "and": "va", "the": "bu", "soviet": "Sovet", "union": "Ittifoqi", "had": "amalga oshirdi", "more": "ko'proq", "successful": "muvaffaqiyatli", "robotic": "robotli", "landings": "qo'nishlar", "after": "so'ng", "that": "bu", "they": "ular", "focused": "e'tibor qaratishdi", "on": "ga", "sending": "yuborish", "humans": "odamlar", "to": "ga", "the": "bu", "moon": "Oy", "in": "da", "1969": "1969", "nasa’s": "NASAning", "apollo": "Apollon", "11": "11", "successfully": "muvaffaqiyatli", "landed": "qo'ndirdi", "neil": "Nil", "armstrong": "Armstrong", "and": "va", "buzz": "Bazz", "aldrin": "Oldrinni", "on": "da", "the": "bu", "moon": "oy", "the": "bu", "apollo": "Apollon", "program": "dasturi", "sent": "yubordi", "12": "12", "astronauts": "astronavtlarni", "to": "ga", "explore": "o'rganish", "the": "bu", "moon": "oy", "across": "davomida", "six": "oltita", "missions": "missiyalar", "the": "bu", "last": "oxirgi", "mission": "missiya", "apollo": "Apollon", "17": "17", "was": "bo'lgan", "in": "da", "1972": "1972", "the": "bu", "u.s": "AQSh", "is": "dir", "still": "hali ham", "the": "bu", "only": "yagona", "country": "davlat", "to": "ga", "have": "qilgan", "landed": "qo'ndirgan", "humans": "odamlar", "on": "da", "the": "bu", "moon": "oy", "nasa’s": "NASAning", "artemis": "Artemis", "program": "dasturi", "hopes": "umid qilmoqda", "to": "ga", "return": "qaytarish", "astronauts": "astronavtlar", "to": "ga", "the": "bu", "lunar": "oy", "surface": "yuzasi", "by": "gacha", "2026": "2026", "china": "Xitoy", "expands": "kengaytirmoqda", "space": "kosmik", "efforts": "harakatlar", "in": "da", "2013": "2013", "china": "Xitoy", "became": "aylandi", "the": "bu", "third": "uchinchi", "country": "davlat", "to": "ga", "land": "qo'ndirish", "a": "bir", "spacecraft": "kosmik kema", "on": "da", "the": "bu", "moon": "oy", "it": "u", "sent": "yubordi", "a": "bir", "rover": "rover", "yutu": "Yutu", "to": "ga", "explore": "o'rganish", "the": "bu", "surface": "yuzasi", "china": "Xitoy", "continued": "davom ettirdi", "its": "o'zining", "space": "kosmik", "success": "muvaffaqiyat", "in": "da", "2019": "2019", "when": "qachon", "the": "bu", "yutu-2": "Yutu-2", "rover": "roveri", "landed": "qo'ndi", "on": "da", "the": "bu", "far": "narigi", "side": "tomon", "of": "ning", "the": "bu", "moon": "oy", "a": "bir", "place": "joy", "no": "hech qanday", "spacecraft": "kosmik kema", "had": "bo'lmagan", "reached": "yetib bormagan", "before": "ilgari", "in": "da", "2020": "2020", "china": "Xitoy", "successfully": "muvaffaqiyatli", "returned": "qaytardi", "moon": "oy", "samples": "namunalari", "to": "ga", "earth": "Yer", "collecting": "yig'ib", "1.7": "1.7", "kilograms": "kilogramm", "of": "ning", "rock": "tosh", "and": "va", "soil": "tuproq", "in": "da", "2024": "2024", "another": "yana bir", "mission": "missiya", "returned": "qaytardi", "samples": "namunalar", "from": "dan", "the": "bu", "far": "narigi", "side": "tomon", "of": "ning", "the": "bu", "moon": "oy", "china": "Xitoy", "has": "aytdi", "said": "aytgan", "it": "u", "aims": "maqsad qilgan", "to": "ga", "send": "yuborish", "astronauts": "astronavtlar", "to": "ga", "the": "bu", "moon": "oy", "by": "gacha", "2030": "2030", "russia’s": "Rossiyaning", "landing": "qo'nish", "failure": "muvaffaqiyatsizligi", "in": "da", "2023": "2023", "russia": "Rossiya", "attempted": "urindi", "its": "o'zining", "first": "birinchi", "moon": "oy", "landing": "qo'nish", "in": "da", "nearly": "qariyb", "50": "50", "years": "yil", "with": "bilan", "luna": "Luna", "25": "25", "the": "bu", "spacecraft": "kosmik kema", "was": "kerak edi", "supposed": "kerakli", "to": "ga", "land": "qo'nish", "near": "yaqinida", "the": "bu", "lunar": "oy", "south": "janubiy", "pole": "qutbi", "but": "ammo", "it": "u", "crashed": "qulab tushdi", "the": "bu", "country’s": "mamlakatning", "last": "oxirgi", "successful": "muvaffaqiyatli", "mission": "missiyasi", "was": "bo'lgan", "luna": "Luna", "24": "24", "in": "da", "1976": "1976", "which": "bu", "brought": "qaytargan", "moon": "oy", "rocks": "toshlari", "back": "orqaga", "to": "ga", "earth": "Yer", "india": "Hindiston", "succeeds": "muvaffaqiyatga erishdi", "on": "da", "second": "ikkinchi", "attempt": "urinish", "india’s": "Hindistonning", "first": "birinchi", "lander": "lander", "crashed": "qulab tushdi", "in": "da", "2019": "2019", "but": "ammo", "in": "da", "2023": "2023", "it": "u", "succeeded": "muvaffaqiyatga erishdi", "on": "da", "its": "o'zining", "second": "ikkinchi", "attempt": "urinish", "the": "bu", "chandrayaan-3": "Chandrayaan-3", "spacecraft": "kosmik kema", "landed": "qo'ndi", "safely": "xavfsiz", "making": "aylantirdi", "india": "Hindistonni", "the": "bu", "fourth": "to'rtinchi", "nation": "davlat", "to": "ga", "complete": "yakunlash", "a": "bir", "moon": "oy", "landing": "qo'nish", "japan": "Yaponiya", "lands": "qo'ndi", "sideways": "yonboshiga", "in": "da", "january": "yanvar", "2024": "2024", "japan": "Yaponiya", "became": "aylandi", "the": "bu", "fifth": "beshinchi", "country": "davlat", "to": "ga", "land": "qo'ndirish", "a": "bir", "spacecraft": "kosmik kema", "on": "da", "the": "bu", "moon": "oy", "however": "biroq", "the": "bu", "slim": "SLIM", "spacecraft": "kosmik kema", "landed": "qo'ndi", "sideways": "yonboshiga", "causing": "sabab bo'ldi", "power": "quvvat", "and": "va", "communication": "aloqa", "problems": "muammolar", "even": "hatto", "though": "garchi", "the": "bu", "lander": "lander", "was": "bo'lmagan", "not": "emas", "in": "da", "the": "bu", "right": "to'g'ri", "position": "holat", "it": "u", "was": "oldi", "able": "qodir", "to": "ga", "operate": "ishlash", "for": "uchun", "a": "bir", "short": "qisqa", "time": "vaqt", "the": "bu", "future": "kelajagi", "of": "ning", "moon": "oy", "exploration": "o'rganish", "today": "bugungi kunda", "many": "ko'p", "countries": "mamlakatlar", "are": "rejalashtirmoqda", "planning": "rejalash", "new": "yangi", "moon": "oy", "missions": "missiyalar", "nasa": "NASA", "china": "Xitoy", "and": "va", "other": "boshqa", "space": "kosmik", "agencies": "agentliklar", "hope": "umid qilmoqda", "to": "ga", "send": "yuborish", "astronauts": "astronavtlar", "back": "orqaga", "to": "ga", "the": "bu", "moon": "oy", "soon": "tez orada", "maybe": "balki", "one": "bir", "day": "kun", "humans": "odamlar", "will": "yashaydi", "live": "yashash", "on": "da", "the": "bu", "moon": "oy", "nasa": "NASA", "national": "Milliy", "aeronautics": "Aviatsiya", "and": "va", "space": "Kosmik", "administration": "Boshqaruvi", "was": "tashkil etilgan", "founded": "asos solingan", "on": "da", "july": "iyul", "29": "29", "1958": "1958", "by": "tomonidan", "the": "bu", "u.s": "AQSh", "government": "hukumati", "it": "u", "replaced": "almashtirdi", "an": "bir", "earlier": "avvalgi", "space": "kosmik", "organization": "tashkilot", "called": "deb nomlangan", "naca": "NACA", "national": "Milliy", "advisory": "Maslahat", "committee": "Qo'mitasi", "for": "uchun", "aeronautics": "Aviatsiya"
+        };
+        
+        const uzbekToEnglish = {
+"shahar": "city", "hayoti": "life", "ajoyib": "cool", "lekin": "but", "qishloq": "country", "undan": "from it", "ham": "also", "ajoyibroqmi": "is it cooler?", "shubhasiz": "apparently", "ha": "yes", "2020-yildagi": "in 2020", "dahshatli": "terrible", "covid-19": "Covid-19", "epidemiyasidan": "epidemic", "so'ng": "after", "ko'p": "lots of", "odamlar": "people", "shaharlarini": "their city", "tark": "to leave", "etib": "and", "yashashni": "to live", "xohlashadi": "would like", "britaniyada": "in Britain", "tobora": "more and more", "ko'proq": "more", "yashashni": "to live", "xohlayapti": "want", "bu": "this", "esa": "and", "ba'zi": "some", "qishloq": "rural", "joylarida": "in areas", "ko'proq": "more and more", "muammolarga": "problems", "sabab": "is causing", "bo'lmoqda": "is being", "shaharlarining": "cities'", "aholisi": "population", "yillar": "for years", "davomida": "during", "kamayib": "falling", "bormoqda": "is going", "liverpul": "Liverpool", "va": "and", "glazgo": "Glasgow", "kabi": "like", "shaharlar": "cities", "30": "30", "yil": "years", "ichida": "in", "o'z": "their", "aholisining": "population", "taxminan": "about", "30": "30%", "foizini": "percent", "yo'qotdi": "have lost", "ammo": "but", "aholisi": "population", "hali": "still", "o'sib": "growing", "bormoqda": "is going", "qayerga": "where", "ketmoqda": "going", "javob": "answer", "qishloqqa": "to the country", "angliya": "English", "qishloqlari": "countryside", "klassik": "classic", "tasavvurga": "image", "ega": "has", "odamlar": "people", "hayot": "life", "sekin": "slow", "va": "and", "sokin": "calm", "deb": "that", "o'ylashadi": "imagine", "u": "there", "yerda": "at the place", "tirbandliklar": "traffic jams", "ifloslanish": "pollution", "jinoyat": "crime", "yo'q": "no", "ba'zi": "some", "joylarda": "in places", "bu": "this", "haqiqat": "is true", "boshqa": "others", "emas": "is not", "kichik": "small", "shaharlar": "towns", "qishloqlar": "villages", "ommabop": "popular", "aylanib": "becoming", "odamlar": "people", "ko'proq": "more", "joyga": "space", "ega": "have", "aksariyat": "most", "uylarning": "houses", "bog'lari": "gardens", "muammolar": "problems", "o'sib": "growing", "ko'p": "lots of", "yashashni": "to live", "ishlashni": "and work", "xohlashadi": "want to", "shuning": "so", "uchun": "for", "sayoh": "travel", "qilishadi": "do", "uzoq": "long", "masofalarga": "distances", "har": "each", "ishga": "to work", "borish": "to go", "albatta": "of course", "ular": "they", "avtobuslardan": "buses", "foydalanmaydi": "don't use", "ular": "they", "juda": "too", "sekin": "slow", "yoki": "or", "poyezdlardan": "trains", "ular": "they", "qishloqda": "in the country", "to'xtamaydi": "don't stop", "ular": "they", "mashinadan": "cars", "foydalanishadi": "use", "garchi": "although", "yashasa-da": "they live", "supermarketlar": "supermarkets", "yaxshi": "good", "tezkor": "fast", "yo'llardan": "roads", "foydalanishni": "to use", "xohlashadi": "they want", "lekin": "but", "ularni": "them", "ko'rishni": "to see", "yoki": "or", "eshitishni": "to hear", "xohlashmaydi": "they do not want", "bundan": "besides", "tashqari": "also", "yoshlar": "young people", "zerikarli": "boring", "deb": "that", "aytishadi": "say", "qiladigan": "to do", "ishlar": "things", "tadbirlar": "activities", "hayajon": "excitement", "yetarli": "enough", "emas": "not", "endi": "now", "kichik": "little", "qishloqlarda": "in villages", "ertalab": "in the morning", "tirbandlik": "traffic", "muammolari": "problems", "xuddi": "just like", "katta": "big", "shaharlar": "cities", "kabi": "as", "va": "and", "yomonlashib": "getting worse", "muammolar": "problems", "juda": "very", "murakkab": "complicated", "agar": "if", "hamma": "everyone", "qishloqqa": "to the country", "ko'chib": "moves", "o'tsa": "into", "qishloq": "countryside", "joylarining": "areas'", "katta": "large", "qismi": "parts", "yo'q": "will", "bo'lib": "be", "ketadi": "disappear", "odamlar": "people", "shahar": "urban", "muammolaridan": "from problems", "qochish": "to escape", "uchun": "for", "shaharlar": "cities", "katta": "big", "shaharlarni": "towns", "tark": "leave", "etishadi": "do", "lekin": "but", "tobora": "more and more", "ular": "they", "muammolarini": "their problems", "o'zlari": "with them", "bilan": "with", "olib": "are bringing", "kelishmoqda": "coming", "issiq": "warm", "yoz": "summer", "kunlarida": "on days", "sovuq": "cold", "qish": "winter", "kunlarida": "on days", "havo": "air", "ifloslanishi": "pollution", "angliyaning": "England's", "janubidagi": "in the south", "katta": "large", "qismlarida": "in parts", "faqat": "just", "londonda": "in London", "emas": "not", "katta": "a big", "muammo": "problem", "bo'lishi": "can be", "mumkin": "possible", "tirbandliklar": "traffic jams", "endi": "now", "hatto": "even", "qishloqda": "in the country", "hayotning": "life's", "bir": "a", "qismiga": "part", "aylanib": "are becoming", "bormoqda": "is going", "jinoyat": "crime", "qishloq": "rural", "joylarida": "in areas", "jiddiy": "a serious", "muammoga": "problem", "aylandi": "has become", "balki": "perhaps", "kelajak": "the future", "uchun": "for", "umid": "hope", "bordir": "there is", "tez": "soon", "orada": "at once", "britaniya": "Britain's", "aholisi": "population", "o'sishdan": "from rising", "to'xtaydi": "will stop", "taxminan": "from about", "2030-yildan": "the year 2030", "boshlab": "starting", "u": "it", "ehtimol": "perhaps", "kamayishni": "to fall", "boshlaydi": "will start", "100": "in 100", "yildan": "from years", "so'ng": "time", "britaniyada": "in Britain", "bugungidan": "than today", "kamroq": "less", "odamlar": "people", "bo'ladi": "will be", "ehtimol": "perhaps", "ikki": "two", "millionga": "million", "kamroq": "less", "shubhasiz": "no doubt", "ifloslanish": "pollution", "ham": "too", "kamayadi": "will be less", "neft": "oil", "benzin": "petrol", "o'shanda": "by then", "kamyob": "rare", "bo'lib": "will be", "qoladi": "stay", "fakt": "fact", "tadqiqotlar": "studies", "shuni": "that", "ko'rsatadiki": "show", "joylaridagi": "in areas", "odamlar": "people", "kamroq": "less", "stress": "stress", "ko'proq": "more", "jismoniy": "physical", "faollik": "activity", "va": "and", "toza": "cleaner", "havo": "air", "tufayli": "because of", "ko'pincha": "often", "uzoqroq": "longer", "umr": "life", "ko'rishadi": "live", "oydagi": "on the moon", "kosmik": "spacecraft", "kemalar": "landings", "qo'nishining": "of", "qisqacha": "short", "tarixi": "history", "oydagi": "on the moon", "kemalar": "spacecraft", "qo'nishining": "landings", "qisqacha": "short", "tarixi": "history", "2024-yil": "Oct. 17, 2024", "17-oktabr": "17, 2024", "tallin": "Tallinn", "estoniya": "Estonia", "bir": "a", "guruh": "block of", "qushlar": "birds", "to'lin": "full", "oy": "moon", "oldidan": "in front of", "shahar": "city", "markazi": "center", "ustidan": "over the", "uchib": "fly", "o'tmoqda": "in front of", "qo'nishlarning": "moon landings'", "qisqacha": "short", "tarixi": "history", "1966-yilda": "in 1966", "birinchi": "the first", "kema": "spacecraft", "oyga": "on the moon", "qo'nganidan": "landed", "beri": "since", "ko'p": "many", "yillar": "years", "o'tdi": "have passed", "shundan": "since then", "turli": "different", "mamlakatlar": "countries", "oyga": "on the moon", "qo'nishga": "to land", "harakat": "tried", "qilishdi": "did", "ba'zi": "some", "missiyalar": "missions", "muvaffaqiyatli": "successfully", "yakunlandi": "succeeded", "ba'zilari": "others", "esa": "while", "muvaffaqiyatsizlikka": "to failure", "uchradi": "failed", "bu": "here", "yerda": "is", "ba'zi": "some", "muhim": "important", "qo'nishlarining": "moon landings'", "qisqacha": "short", "tarixi": "history", "berilgan": "is given", "birinchi": "first", "g'alabalar": "victories", "sovet": "Soviet", "ittifoqining": "Union's", "luna": "Luna", "9": "9", "kosmik": "spacecraft", "kemasi": "was", "oyga": "on the moon", "qo'ngan": "landed", "birinchi": "first", "kosmik": "spacecraft", "kema": "the", "bo'ldi": "became", "ko'p": "many", "muvaffaqiyatsiz": "failed", "urinishlardan": "attempts", "so'ng": "after", "1966-yilda": "in 1966", "oy": "moon", "yuzasiga": "the surface", "yetib": "reached", "bordi": "did", "nasa": "NASA", "ning": "s", "aytishicha": "said", "luna": "Luna", "9": "9", "yumshoq": "a soft", "qo'nishni": "landing", "amalga": "to carry", "oshirgan": "out", "fotosuratlarini": "photos", "yerga": "to Earth", "yuborgan": "sent", "birinchi": "the first", "kema": "spacecraft", "bo'lgan": "was", "qo'nish": "the landing", "shuningdek": "also", "oy": "the moon's", "yuzasi": "surface", "qattiq": "solid", "ekanligini": "was", "kosmik": "spacecraft", "kemani": "a", "ko'tara": "could support", "olishini": "and", "isbotladi": "proved", "1966-yil": "In May 1966", "may": "May", "oyida": "in", "qo'shma": "United", "shtatlar": "States", "surveyor": "Surveyor", "1": "1", "bilan": "with", "unga": "to it", "ergashdi": "followed", "nasa": "NASA", "uni": "it", "apollon": "Apollo", "missiyalari": "missions", "uchun": "for", "ma'lumot": "data", "to'plash": "to collect", "maqsadida": "for the purpose of", "oyga": "to the moon", "yuborilgan": "sent", "yetti": "seven", "robotli": "robotic", "kosmik": "spacecraft", "kemasi": "first of", "birinchisi": "the first", "deb": "called", "atadi": "named", "surveyor": "Surveyor", "1": "1", "ning": "s", "yumshoq": "soft", "qo'nishi": "landing", "nasa": "NASA", "ning": "s", "dastlabki": "early", "katta": "great", "muvaffaqiyatlaridan": "successes", "biri": "one of", "bo'ldi": "was", "aqsh": "the U.S.", "sovet": "the Soviet", "ittifoqi": "Union", "ham": "also", "ko'proq": "more", "muvaffaqiyatli": "successful", "robotli": "robotic", "qo'nishlarni": "landings", "amalga": "carried", "oshirdi": "out", "shundan": "after that", "ular": "they", "odamlarni": "humans", "oyga": "to the moon", "yuborishga": "on sending", "e'tibor": "focused", "qaratishdi": "did", "1969-yilda": "In 1969", "nasa": "NASA's", "ning": "s", "apollon": "Apollo", "11": "11", "missiyasi": "mission", "nil": "Neil", "armstrong": "Armstrong", "va": "and", "bazz": "Buzz", "oldrinni": "Aldrin", "oyga": "on the moon", "muvaffaqiyatli": "successfully", "qo'ndirdi": "landed", "apollon": "The Apollo", "dasturi": "program", "oltita": "across six", "missiya": "missions", "davomida": "during", "oyni": "the moon", "o'rganish": "to explore", "uchun": "for", "12": "12", "nafar": "people", "astronavtni": "astronauts", "yubordi": "sent", "oxirgi": "The last", "missiya": "mission", "apollon": "Apollo", "17": "17", "1972-yilda": "in 1972", "bo'lgan": "was", "aqsh": "The U.S.", "hali": "still", "ham": "also", "oyga": "on the moon", "odam": "humans", "qo'ndirgan": "to have landed", "yagona": "the only", "davlatdir": "country", "nasa": "NASA's", "ning": "s", "artemis": "Artemis", "dasturi": "program", "2026-yilgacha": "by 2026", "astronavtlarni": "astronauts", "oy": "lunar", "yuzasiga": "to the surface", "qaytarishga": "to return", "umid": "hopes", "qilmoqda": "is doing", "xitoyning": "China's", "kengayib": "expanding", "borayotgan": "is going", "kosmik": "space", "harakatlari": "efforts", "2013-yilda": "In 2013", "xitoy": "China", "oyga": "on the moon", "qo'ndirgan": "to land", "uchinchi": "the third", "davlatga": "country", "aylandi": "became", "u": "it", "oy": "the surface", "yuzasini": "to explore", "o'rganish": "to explore", "uchun": "for", "yutu": "Yutu", "nomli": "named", "roverni": "a rover", "yubordi": "sent", "xitoy": "China", "2019-yilda": "in 2019", "yutu-2": "the Yutu-2", "roveri": "rover", "oyning": "the moon's", "narigi": "far", "tomoniga": "side", "qo'nganida": "when landed", "kosmik": "space", "muvaffaqiyatini": "success", "davom": "continued", "ettirdi": "did", "bu": "a place", "joyga": "to which", "ilgari": "before", "hech": "no", "qanday": "any", "kosmik": "spacecraft", "kema": "the", "yetib": "had reached", "bormagan": "not gone", "edi": "was", "2020-yilda": "In 2020", "xitoy": "China", "1.7": "1.7", "kilogramm": "kilograms", "tosh": "rock", "tuproq": "soil", "yig'ib": "collecting", "oy": "moon", "namunalarini": "samples", "yerga": "to Earth", "muvaffaqiyatli": "successfully", "qaytardi": "returned", "2024-yilda": "In 2024", "yana": "another", "bir": "one", "missiya": "mission", "oyning": "the moon's", "narigi": "far", "tomonidan": "from the side", "namunalar": "samples", "qaytardi": "returned", "xitoy": "China", "2030-yilgacha": "by 2030", "oyga": "to the moon", "astronavtlarni": "astronauts", "yuborishni": "to send", "maqsad": "aims", "qilganini": "has said it", "aytdi": "said", "rossiyaning": "Russia's", "muvaffaqiyatsiz": "landing failure", "qo'nishi": "failure", "2023-yilda": "In 2023", "rossiya": "Russia", "qariyb": "nearly", "50": "50", "yil": "years", "ichida": "in", "birinchi": "first", "marta": "time", "luna": "Luna", "25": "25", "bilan": "with", "oyga": "moon", "qo'nishga": "landing", "urindi": "attempted", "kema": "The spacecraft", "oyning": "the lunar", "janubiy": "south", "qutbi": "pole", "yaqiniga": "near", "qo'nishi": "to land", "kerak": "was supposed to", "edi": "was", "ammo": "but", "u": "it", "qulab": "crashed", "tushdi": "fell", "mamlakatning": "The country's", "oxirgi": "last", "muvaffaqiyatli": "successful", "missiyasi": "mission was", "1976-yildagi": "in 1976", "luna": "Luna", "24": "24", "bo'lib": "was", "u": "which", "oy": "moon", "toshlarini": "rocks", "yerga": "to Earth", "qaytargan": "brought back", "edi": "was", "hindiston": "India", "ikkinchi": "on second", "urinishda": "attempt", "muvaffaqiyatga": "success", "erishdi": "succeeds", "hindistonning": "India's", "birinchi": "first", "lander": "lander", "2019-yilda": "in 2019", "qulab": "crashed", "tushdi": "fell", "ammo": "but", "2023-yilda": "in 2023", "u": "it", "ikkinchi": "its second", "urinishida": "on attempt", "muvaffaqiyatga": "succeeded", "erishdi": "did", "chandrayaan-3": "The Chandrayaan-3", "kemasi": "spacecraft", "xavfsiz": "safely", "qo'ndi": "landed", "hindistonni": "India", "qo'nishni": "a moon landing", "yakunlagan": "to complete", "to'rtinchi": "the fourth", "davlatga": "nation", "aylantirdi": "making", "yaponiya": "Japan", "yonboshiga": "sideways", "qo'ndi": "lands", "2024-yil": "In January 2024", "yanvar": "January", "oyida": "in", "yaponiya": "Japan", "oyga": "on the moon", "qo'ndirgan": "to land", "beshinchi": "the fifth", "davlatga": "country", "aylandi": "became", "biroq": "however", "slim": "the SLIM", "kosmik": "spacecraft", "kemasi": "was", "yonboshiga": "sideways", "qo'nib": "landed", "quvvat": "power", "aloqa": "communication", "muammolariga": "problems", "sabab": "causing", "bo'ldi": "did", "lander": "the lander", "to'g'ri": "in the right", "holatda": "position", "bo'lmasa-da": "even though it was not", "u": "it", "qisqa": "a short", "vaqt": "time", "davomida": "for", "ishlay": "to operate", "oldi": "was able", "oyni": "moon", "o'rganishning": "exploration's", "kelajagi": "future", "bugungi": "today", "kunda": "in day", "ko'plab": "many", "mamlakatlar": "countries", "yangi": "new", "oy": "moon", "missiyalarini": "missions", "rejalashtirmoqda": "are planning", "nasa": "NASA", "xitoy": "China", "boshqa": "other", "kosmik": "space", "agentliklar": "agencies", "tez": "soon", "orada": "at once", "astronavtlarni": "astronauts", "oyga": "to the moon", "qaytarishga": "back", "umid": "hope", "qilmoqda": "are doing", "balki": "maybe", "bir": "one", "kun": "day", "odamlar": "humans", "oyda": "on the moon", "yashar": "will live", "fakt": "fact", "nasa": "NASA", "national": "National", "aeronautics": "Aeronautics", "space": "Space", "administration": "Administration", "1958-yil": "on July 29, 1958", "29-iyulda": "July 29", "aqsh": "the U.S.", "hukumati": "government", "tomonidan": "by", "tashkil": "founded", "etilgan": "was", "u": "it", "naca": "NACA", "national": "National", "advisory": "Advisory", "committee": "Committee", "aeronautics": "Aeronautics", "deb": "called", "nomlangan": "named", "avvalgi": "an earlier", "kosmik": "space", "tashkilotni": "organization", "almashtirdi": "replaced"
+        };
+        
+        let isEnglish = true;
+
+        // Boshlang'ich matnlarni saqlab olish
+        document.addEventListener('DOMContentLoaded', () => {
+            const englishSentences = document.getElementById('english-text').querySelectorAll('.sentence');
+            englishSentences.forEach((sentenceSpan, index) => {
+                originalTexts[`en-${index}`] = sentenceSpan.textContent;
+            });
+            const uzbekSentences = document.getElementById('uzbek-text').querySelectorAll('.sentence');
+            uzbekSentences.forEach((sentenceSpan, index) => {
+                originalTexts[`uz-${index}`] = sentenceSpan.textContent;
+            });
+            
+            // Sahifani yuklaganda inglizcha matnni interaktiv qilish
+            makeWordsClickable('english-text');
+        });
+
+        function makeWordsClickable(textSectionId) {
+            const textSection = document.getElementById(textSectionId);
+            const isCurrentEnglish = textSectionId === 'english-text';
+
+            textSection.querySelectorAll('.sentence').forEach((sentenceSpan, index) => {
+                // Avval matnni asl holatiga qaytarish
+                sentenceSpan.textContent = originalTexts[isCurrentEnglish ? `en-${index}` : `uz-${index}`];
+                let originalText = sentenceSpan.textContent;
+                let newHtml = '';
+                
+                const parts = originalText.split(/(\b[\w'-]+\b|[.,!?;:\s]+)/g);
+                
+                parts.forEach(part => {
+                    if (part.trim() === '') {
+                        newHtml += part;
+                        return;
+                    }
+                    
+                    const cleanedWord = part.replace(/[.,!?;:]/g, '').toLowerCase();
+                    let tooltipText;
+                    
+                    if (isCurrentEnglish) {
+                        tooltipText = words[cleanedWord];
+                    } else {
+                        tooltipText = uzbekToEnglish[cleanedWord];
+                    }
+                    
+                    if (tooltipText) {
+                        const onClickFunction = isCurrentEnglish ? `responsiveVoice.speak('${cleanedWord}', 'UK English Male', {rate: 0.8});` : '';
+                        newHtml += `<span class="word" onclick="${onClickFunction}">${part}<span class="tooltip">${tooltipText}</span></span>`;
+                    } else {
+                        newHtml += part;
+                    }
+                });
+                sentenceSpan.innerHTML = newHtml;
+            });
+        }
+        
+        const toggleButton = document.getElementById('toggle-lang-button');
+        const englishText = document.getElementById('english-text');
+        const uzbekText = document.getElementById('uzbek-text');
+        
+        toggleButton.addEventListener('click', function() {
+            if (isEnglish) {
+                englishText.style.display = 'none';
+                uzbekText.style.display = 'block';
+                toggleButton.textContent = 'English';
+                isEnglish = false;
+                makeWordsClickable('uzbek-text');
+            } else {
+                englishText.style.display = 'block';
+                uzbekText.style.display = 'none';
+                toggleButton.textContent = 'O\'zbekcha';
+                isEnglish = true;
+                makeWordsClickable('english-text');
+            }
+        });
+
+        const toggleThemeButton = document.getElementById('toggle-theme-button');
+        let currentThemeIndex = 0;
+        const themes = ['light-mode', 'dark-mode', 'sepia-mode'];
+        const themeButtonTexts = ['Qorong\'u rejim', 'Qizg\'ich rejim', 'Kun rejimi'];
+        
+        toggleThemeButton.addEventListener('click', function() {
+            document.body.classList.remove(themes[currentThemeIndex]);
+            currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+            
+            if (themes[currentThemeIndex] !== 'light-mode') {
+                document.body.classList.add(themes[currentThemeIndex]);
+            }
+            toggleThemeButton.textContent = themeButtonTexts[currentThemeIndex];
+        });
+        
+        responsiveVoice.enableSpeech();
+    </script>
+</body>
+</html>
