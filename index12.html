@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infrequent Meanings</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Asosiy ranglar va fon */
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Kun rejimi */
+        body.light-mode {
+            background-color: #f0f2f5;
+            color: #333;
+        }
+
+        /* Tun rejimi */
+        body.dark-mode {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-grow: 1;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+        }
+
+        .slider-wrapper {
+            width: 100%;
+            max-width: 500px;
+            margin-bottom: 20px;
+        }
+
+        .slider {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: inherit;
+        }
+
+        .slider input[type="range"] {
+            flex-grow: 1;
+            -webkit-appearance: none;
+            height: 8px;
+            border-radius: 5px;
+            background: #ddd;
+            outline: none;
+            opacity: 0.7;
+            transition: opacity .2s;
+        }
+
+        .slider input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #40c4ff;
+            cursor: pointer;
+        }
+
+        .slider input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #40c4ff;
+            cursor: pointer;
+        }
+
+        .card {
+            position: relative;
+            width: 80%;
+            max-width: 400px;
+            height: 600px;
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 0 0 16px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 10px;
+            perspective: 1000px;
+            overflow: hidden;
+            transition: transform 0.3s ease, left 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+            left: 0;
+            color: inherit;
+        }
+
+        /* Tun rejimi uchun karta ranglari */
+        body.dark-mode .card {
+            --card-bg: #34495e;
+            color: #ecf0f1;
+        }
+
+        /* Kun rejimi uchun karta ranglari */
+        body.light-mode .card {
+            --card-bg: white;
+            color: #333;
+        }
+
+
+        .card::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            pointer-events: none;
+        }
+
+        .card-inner {
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front,
+        .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-front .image {
+            display: none;
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+        }
+
+        .top-circle,
+        .bottom-circle {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            height: 100px;
+            background-color: #40c4ff;
+            border-radius: 0 0 100% 100%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .top-circle {
+            top: 0;
+            transform: translate(-50%, -50%);
+        }
+
+        .bottom-circle {
+            bottom: 0;
+            transform: translate(-50%, 50%) rotate(180deg);
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .word-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .en-word {
+            font-size: 32px;
+            font-weight: bold;
+            color: inherit;
+            text-align: center;
+        }
+
+        .uz-word {
+            font-size: 22px;
+            font-weight: bold;
+            color: red;
+            text-align: center;
+            padding: 0 10px;
+        }
+
+        .pronunciation {
+            font-size: 16px;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        .type {
+            background-color: #40c4ff;
+            color: white;
+            font-size: 15px;
+            padding: 1px 2px;
+            border-radius: 5px;
+        }
+
+        .definition {
+            text-align: center;
+            color: #808080;
+            font-size: 10px;
+            line-height: 1.4;
+            max-width: 90%;
+        }
+
+        .uzbek-hint,
+        .uzbek-definition {
+            font-size: 12px;
+            color: #a0a0a0;
+            margin-top: 5px;
+            text-align: center;
+            padding: 0 10px;
+        }
+
+
+        .card-buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            padding: 20px;
+        }
+
+        #next-button,
+        #audio-button {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            background-color: #40c4ff;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+        }
+
+        #next-button:hover,
+        #audio-button:hover {
+            background-color: #29b6f6;
+        }
+
+        .image {
+            width: 150px;
+            height: 150px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .card.swiping-left {
+            left: -100%;
+            transform: rotate(-10deg);
+        }
+
+        .card.swiping-right {
+            left: 100%;
+            transform: rotate(10deg);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 80%;
+            color: #333;
+        }
+
+        body.dark-mode .modal-content {
+            background-color: #34495e;
+            color: #ecf0f1;
+        }
+
+
+        #close-modal {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #40c4ff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #close-modal:hover {
+            background-color: #29b6f6;
+        }
+
+        /* Kun/Tun tugmasi */
+        #theme-toggle {
+            background: linear-gradient(135deg, #FFD700, #FFA500); /* Oltin va to'q sariq gradient */
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px; /* Kichikroq o'lcham */
+            height: 50px; /* Kichikroq o'lcham */
+            font-size: 24px; /* Kattaroq belgi */
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Yaxshiroq soya */
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative; /* Aura effekti uchun */
+            overflow: hidden; /* Aura effekti chegarasi */
+        }
+
+        #theme-toggle:hover {
+            transform: translateY(-2px); /* Hover effektida biroz ko'tarilish */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        #theme-toggle::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            opacity: 0;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s ease-out, height 0.4s ease-out, opacity 0.4s ease-out;
+        }
+
+        #theme-toggle:active::before {
+            width: 120%;
+            height: 120%;
+            opacity: 1;
+        }
+
+        /* Taymer uslublari */
+        .timer-container {
+            margin-top: auto;
+            margin-bottom: 5px; /* Kichikroq pastki margin */
+            padding: 2px 5px; /* Kichikroq padding */
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: auto; /* Avtomatik kenglik */
+            max-width: 200px; /* Kichikroq maksimal kenglik */
+            box-sizing: border-box;
+        }
+
+        .timer-display {
+            font-size: 2.5em; /* Kichikroq shrift o'lchami */
+            font-weight: bold;
+            background: linear-gradient(to right, #ff7e5f, #feb47b, #86a8e7, #91eae4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: pulse 2s infinite alternate;
+            text-shadow: 0 0 8px rgba(255, 126, 95, 0.4), 0 0 16px rgba(254, 180, 123, 0.4), 0 0 24px rgba(134, 168, 231, 0.4); /* Yengilroq soyalar */
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(1.05);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body class="light-mode">
+    <div class="container">
+        <div class="header">
+            <div class="slider-wrapper">
+                <div class="slider">
+                    <span id="slider-value">1 / 30</span>
+                    <input type="range" id="word-slider" min="0" value="0">
+                    <span id="slider-max">30</span>
+                </div>
+            </div>
+            <button id="theme-toggle" class="rounded-full w-10 h-10 flex items-center justify-center shadow-md">
+                ☀️
+            </button>
+        </div>
+
+
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <div class="top-circle"></div>
+                    <div class="content">
+                        <div class="word-container">
+                            <div class="word en-word"></div> <span class="pronunciation" id="pronunciation"></span>
+                            <div class="uzbek-hint" id="uzbek-hint"></div>
+                        </div>
+                        <div class="type" id="type-front"></div>
+                    </div>
+                    <div class="bottom-circle"></div>
+                    <div class="definition">Ta'rifni ko'rish uchun bosing</div>
+                </div>
+                <div class="card-back">
+                    <div class="top-circle"></div>
+                    <img src="https://placehold.co/150x150/40c4ff/ffffff?text=Image" alt="Rasm" class="image"
+                        id="back-image">
+                    <div class="content">
+                        <div class="word uz-word"></div>
+                        <div class="type" id="type-back"></div>
+                        <div class="uzbek-definition" id="uzbek-definition"></div>
+                    </div>
+                    <div class="bottom-circle"></div>
+                    <div class="definition">Ta'rif tarjimasi</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-buttons">
+            <button id="audio-button">Ovoz</button>
+            <button id="next-button">Keyingi</button>
+        </div>
+
+        <!-- Taymer qismi -->
+        <div class="timer-container">
+            <div class="timer-display" id="timer-display">00:00</div>
+        </div>
+    </div>
+
+    <div id="instruction-modal" class="modal">
+        <div class="modal-content">
+            <h2>Fleshcarddan foydalanish bo'yicha yo'riqnoma</h2>
+            <p>&#x25B6; O'ngga sursangiz oldingi so'zga qaytasiz.</p>
+            <p>&#x25C0; Chapga sursangiz so'z yodlangan hisoblanadi va qayta chiqmaydi.</p>
+            <p>&#x1F504; Kartani ustiga bosing va so'zning inglizcha ma'nosini ko'rasiz.</p>
+            <p>&#x1F50A; "Ovoz" tugmasini bosib, kartaning hozirgi tomonidagi matnni eshitasiz (old tomonda inglizcha so'zni, orqa tomonda inglizcha ta'rifni).</p>
+            <button id="close-modal">Tushunarli</button>
+        </div>
+    </div>
+
+    <script src="https://code.responsivevoice.org/responsivevoice.js?key=ftro4Sxr"></script>
+    <script>
+        const card = document.querySelector('.card');
+        const type = document.querySelector('.type');
+        const slider = document.querySelector('.slider input[type="range"]');
+        const sliderValue = document.getElementById('slider-value');
+        const sliderMax = document.getElementById('slider-max');
+        const nextButton = document.getElementById('next-button');
+        const audioButton = document.getElementById('audio-button');
+        const backImage = document.getElementById('back-image');
+        const pronunciationElement = document.querySelector('.pronunciation');
+        const uzbekHintElement = document.getElementById('uzbek-hint');
+        const uzbekDefinitionElement = document.getElementById('uzbek-definition');
+        const instructionModal = document.getElementById('instruction-modal');
+        const closeModalButton = document.getElementById('close-modal');
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        const PIXABAY_API_KEY = "49146347-e05e26bd1aae0010e8163774c";
+
+        const learnedWords = [];
+let words = [
+  { "english": "Brick", "definition": "a hard block of baked clay used for building walls, houses etc", "uzbekDefinition": "devorlar, uylar va hokazolarni qurishda ishlatiladigan pishirilgan loydan tayyorlangan qattiq blok", "uzbek": "g‘isht", "type": "ot" },
+  { "english": "Concrete", "definition": "a substance used for building that is made by mixing sand, small stones, cement, and water", "uzbekDefinition": "qum, mayda toshlar, tsement va suvni aralashtirish orqali tayyorlanadigan qurilish materiali", "uzbek": "beton", "type": "ot" },
+  { "english": "Visible", "definition": "something that is visible can be seen", "uzbekDefinition": "ko‘rinadigan narsa — ko‘rish mumkin bo‘lgan narsa", "uzbek": "ko‘rinadigan", "type": "sifat" },
+  { "english": "Amount", "definition": "a quantity of something such as time, money, or a substance", "uzbekDefinition": "vaqt, pul yoki biror moddaning miqdori", "uzbek": "miqdor", "type": "ot" },
+  { "english": "T a n", "definition": "if you tan, or if the sun tans you, your skin becomes darker because you spend time in the sun", "uzbekDefinition": "agar siz quyoshda toblansangiz yoki quyosh sizni toblasa, teringiz quyoshda vaqt o‘tkazganingiz sababli qorayadi", "uzbek": "quyoshda qoraymoq", "type": "fe’l" },
+  { "english": "Dentistry", "definition": "the medical study of the mouth and teeth, or the work of a dentist", "uzbekDefinition": "og‘iz va tishlarni o‘rganish bilan shug‘ullanuvchi tibbiyot sohasi yoki stomatologning ishi", "uzbek": "stomatologiya", "type": "ot" },
+  { "english": "Matter", "definition": "the material that everything in the universe is made of, including solids, liquids, and gases", "uzbekDefinition": "koinotdagi hamma narsalarni tashkil etuvchi material, qattiqlar, suyuqliklar va gazlar", "uzbek": "modda", "type": "ot" },
+  { "english": "Emit", "definition": "to send out gas, heat, light, sound etc", "uzbekDefinition": "gaz, issiqlik, yorug‘lik, tovush va hokazolarni chiqarish", "uzbek": "chiqarmoq, tarqatmoq", "type": "fe’l" },
+  { "english": "Chilly", "definition": "chilly weather or places are cold enough to make you feel uncomfortable", "uzbekDefinition": "salqin yoki sovuq ob-havo yoki joylar odamni noqulay his qiladigan darajada sovuq bo‘ladi", "uzbek": "salqin, sovuq", "type": "sifat" },
+  { "english": "Stove", "definition": "a piece of kitchen equipment on which you cook food in pots and pans, and that contains an oven", "uzbekDefinition": "idishlarda va tovada ovqat pishiriladigan hamda ichida pech bo‘ladigan oshxona jihozi", "uzbek": "pech, plita", "type": "ot" },
+  { "english": "Condense", "definition": "if a gas condenses, or is condensed, it becomes a liquid", "uzbekDefinition": "agar gaz kondensatlansa yoki kondensatsiyalansa, u suyuqlikka aylanadi", "uzbek": "quyuqlashmoq, kondensatsiyalamoq", "type": "fe’l" },
+  { "english": "Circular", "definition": "shaped like a circle", "uzbekDefinition": "aylana shakliga ega", "uzbek": "dumaloq, aylana shaklidagi", "type": "sifat" },
+  { "english": "Distribute", "definition": "to share things among a group of people, especially in a planned way", "uzbekDefinition": "ayniqsa rejalashtirilgan tarzda narsalarni odamlar guruhiga taqsimlash", "uzbek": "taqsimlamoq, bo‘lib bermoq", "type": "fe’l" },
+  { "english": "Ceiling", "definition": "the inner surface of the top part of a room", "uzbekDefinition": "xonaning yuqori qismidagi ichki sirt", "uzbek": "shift", "type": "ot" }
+]
+        function shuffleWords() {
+            words = words.sort(() => Math.random() - 0.5);
+        }
+        shuffleWords();
+
+        let currentIndex = 0;
+
+        slider.min = 0;
+        slider.max = words.length - 1;
+        slider.value = 0;
+        sliderMax.textContent = words.length;
+
+        async function getPixabayImage(query) {
+            const url = `https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=${query}&image_type=photo`;
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                return (data.hits.length > 0) ? data.hits[0].webformatURL : "https://placehold.co/150x150/40c4ff/ffffff?text=Image";
+            } catch (error) {
+                console.error("Pixabay API error:", error);
+                return "https://placehold.co/150x150/40c4ff/ffffff?text=Image";
+            }
+        }
+
+        async function updateCard(index) {
+            if (words.length === 0) {
+                document.querySelector('.card-front .en-word').textContent = "Barcha so'zlar yodlandi!";
+                pronunciationElement.textContent = "";
+                type.textContent = "";
+                uzbekHintElement.textContent = "";
+                backImage.src = "https://placehold.co/150x150/40c4ff/ffffff?text=Image";
+                document.querySelector('.card-back .uz-word').textContent = "";
+                uzbekDefinitionElement.textContent = "";
+                document.querySelector('.card-back .type').textContent = "";
+                slider.value = 0;
+                sliderMax.textContent = 0;
+                sliderValue.textContent = "0 / 0";
+                return;
+            }
+
+            if (index < 0) {
+                index = 0;
+            } else if (index >= words.length) {
+                index = words.length - 1;
+            }
+
+            document.querySelector('.card-front .en-word').textContent = words[index].english;
+            pronunciationElement.textContent = words[index].pronunciation;
+            type.textContent = words[index].type;
+            uzbekHintElement.textContent = words[index].uzbek;
+
+            document.querySelector('.card-back .uz-word').textContent = words[index].definition;
+            uzbekDefinitionElement.textContent = words[index].uzbekDefinition;
+            document.querySelector('.card-back .type').textContent = words[index].type;
+
+            slider.value = index;
+            sliderValue.textContent = `${index + 1} / ${words.length}`;
+            currentIndex = index;
+
+            const imageUrl = await getPixabayImage(words[index].english);
+            backImage.src = imageUrl;
+
+            checkAndDownloadAudio(words[index].english);
+
+            // Yangi so'z yuklanganda kartani old tomonga qaytarish
+            card.classList.remove('flipped');
+        }
+
+        async function checkAndDownloadAudio(audioFile) {
+            console.log("Audio check/download for:", audioFile);
+        }
+
+        // Kartani bosish orqali aylantirish
+        card.addEventListener('click', function () {
+            this.classList.toggle('flipped');
+        });
+
+        slider.addEventListener('input', function () {
+            updateCard(parseInt(this.value));
+        });
+
+        nextButton.addEventListener('click', function () {
+            currentIndex++;
+            if (currentIndex >= words.length) {
+                shuffleWords();
+                currentIndex = 0;
+            }
+            updateCard(currentIndex);
+        });
+
+        function speak(text) {
+            responsiveVoice.speak(text, "US English Male", { rate: 0.9 });
+        }
+
+        audioButton.addEventListener('click', function () {
+            if (card.classList.contains('flipped')) {
+                speak(words[currentIndex].definition);
+            } else {
+                speak(words[currentIndex].english);
+            }
+        });
+
+        let startX = 0;
+        let endX = 0;
+
+        card.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+        });
+
+        card.addEventListener('touchend', (e) => {
+            endX = e.changedTouches[0].clientX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const deltaX = endX - startX;
+            if (deltaX > 50) { // O'ngga surish (Endi "Keyingi" tugmasi kabi ishlaydi)
+                card.classList.add('swiping-right');
+                setTimeout(() => {
+                    currentIndex++; // "Keyingi" tugmasi kabi indeksni oshirish
+                    if (currentIndex >= words.length) {
+                        shuffleWords();
+                        currentIndex = 0;
+                    }
+                    updateCard(currentIndex); // Kartani va slayderni yangilash
+                    card.classList.remove('swiping-right');
+                    card.style.left = '';
+                    card.style.transform = '';
+                }, 300);
+            } else if (deltaX < -50) { // Chapga surish (Yodlangan deb belgilash va keyingiga o'tish)
+                const learnedWord = words.splice(currentIndex, 1)[0];
+                learnedWords.push(learnedWord);
+                console.log("Yodlangan so'zlar:", learnedWords);
+
+                if (words.length === 0) {
+                    showCustomAlert("Barcha so'zlar yodlandi! Yangi so'zlar qo'shishingiz mumkin.");
+                    updateCard(-1);
+                    return;
+                }
+
+                if (currentIndex >= words.length) {
+                    currentIndex = 0;
+                }
+
+                updateCard(currentIndex); // Slayderni yangilash
+
+                card.classList.add('swiping-left');
+                setTimeout(() => {
+                    card.classList.remove('swiping-left');
+                    card.style.left = '';
+                    card.style.transform = '';
+                }, 300);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            closeModalButton.addEventListener("click", function () {
+                instructionModal.style.display = "none";
+            });
+            instructionModal.style.display = "flex"; // Sahifa yuklanganda modalni ko'rsatish
+            updateCard(0); // Birinchi kartani yuklash
+            startTimer(); // Taymerni avtomatik boshlash
+        });
+
+        // Kun/Tun rejimi funksiyasi
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            body.classList.toggle('light-mode');
+            if (body.classList.contains('dark-mode')) {
+                themeToggle.textContent = '🌙';
+                themeToggle.style.background = 'linear-gradient(135deg, #4b6cb7, #182848)'; /* Tun rejimi uchun gradient */
+            } else {
+                themeToggle.textContent = '☀️';
+                themeToggle.style.background = 'linear-gradient(135deg, #FFD700, #FFA500)'; /* Kun rejimi uchun gradient */
+            }
+        });
+
+        // Taymer funksiyasi
+        const timerDisplay = document.getElementById('timer-display');
+        let timerInterval;
+        let totalSeconds = 0;
+        let isTimerRunning = false;
+
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+        }
+
+        function startTimer() {
+            if (!isTimerRunning) {
+                isTimerRunning = true;
+                timerInterval = setInterval(() => {
+                    totalSeconds++;
+                    timerDisplay.textContent = formatTime(totalSeconds);
+                }, 1000);
+            }
+        }
+
+        // Custom Alert modal
+        function showCustomAlert(message) {
+            const existingAlert = document.getElementById('custom-alert-modal');
+            if (existingAlert) {
+                existingAlert.remove();
+            }
+
+            const alertModal = document.createElement('div');
+            alertModal.id = 'custom-alert-modal';
+            alertModal.className = 'modal';
+            alertModal.innerHTML = `
+                <div class="modal-content">
+                    <p>${message}</p>
+                    <button id="close-alert-modal" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md">OK</button>
+                </div>
+            `;
+            document.body.appendChild(alertModal);
+            alertModal.style.display = 'flex';
+
+            document.getElementById('close-alert-modal').addEventListener('click', () => {
+                alertModal.style.display = 'none';
+                alertModal.remove();
+            });
+        }
+    </script>
+</body>
+
+</html>
