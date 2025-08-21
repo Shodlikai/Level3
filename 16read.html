@@ -1,0 +1,847 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interaktiv Matn</title>
+    <script src="https://code.responsivevoice.org/responsivevoice.js?key=ftro4Sxr"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f0f5f5;
+            color: #333;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: #c0c0c0;
+        }
+        body.sepia-mode {
+            background-color: #d8c0a0;
+            color: #4a3b2e;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #fcfcfc;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        body.dark-mode .container {
+            background: #282828;
+            box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+        }
+        body.sepia-mode .container {
+            background: #e0d0b8;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .text-section {
+            margin-bottom: 20px;
+        }
+        .word {
+            cursor: pointer;
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted #007bff;
+        }
+        body.dark-mode .word {
+            border-bottom-color: #99bbff;
+        }
+        body.sepia-mode .word {
+            border-bottom-color: #b08e6d;
+        }
+        .word:hover {
+            color: #0056b3;
+        }
+        body.dark-mode .word:hover {
+            color: #ccddee;
+        }
+        body.sepia-mode .word:hover {
+            color: #8a6d51;
+        }
+        .tooltip {
+            display: none;
+            position: absolute;
+            bottom: 120%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: black;
+            color: white;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 10px;
+            z-index: 1000;
+            white-space: nowrap;
+            font-size: 14px;
+        }
+        .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: black transparent transparent transparent;
+        }
+        .word:hover .tooltip {
+            display: block;
+        }
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .button-group button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .button-group button:hover {
+            background-color: #0056b3;
+        }
+        #dynamic-image {
+            display: block;
+            margin: 0 auto 30px auto;
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+        h2 {
+            text-align: center;
+            color: #007bff;
+            margin-bottom: 25px;
+        }
+        body.dark-mode h2 {
+            color: #99bbff;
+        }
+        body.sepia-mode h2 {
+            color: #b08e6d;
+        }
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+  
+<img id="dynamic-image" src="https://image.pollinations.ai/prompt/800x400/A%20powerful%20and%20symbolic%20collage%20in%20a%20muted,%20serious%20tone%20showing%20the%20contrast%20between%20a%20child's%20lost%20education%20(a%20lonely%20desk%20in%20an%20empty%20classroom)%20and%20harsh%20child%20labor%20(small,%20shadowy%20figures%20working%20in%20a%20field%20or%20factory).%20Next%20to%20this,%20show%20a%20family%20of%20refugees%20walking%20along%20a%20dangerous%20path,%20carrying%20their%20belongings,%20with%20a%20blurry%20border%20fence%20in%20the%20background.%20Style%20of%20a%20poignant%20documentary%20photography." alt="A collage depicting child labor and the refugee crisis" class="mx-auto my-4 rounded-lg">
+        
+        <div id="english-text" class="text-section">
+            <h2>Child Labour – A Serious Problem</h2>
+            <p>
+                <span class="sentence">Child labour happens when children work for money.</span>
+                <span class="sentence">In the past, children always helped their families, but child labour became a big problem during the Industrial Revolution in 18th century England.</span>
+            </p>
+            <h2>Child Labour in the Past</h2>
+            <p>
+                <span class="sentence">During the Industrial Revolution, many young children worked in factories and mines.</span>
+                <span class="sentence">They worked long hours for very little money.</span>
+                <span class="sentence">Factories were dirty and had bad air.</span>
+                <span class="sentence">In mines, children had to crawl through small tunnels because adults could not fit inside.</span>
+                <span class="sentence">The work was dangerous and often made children sick.</span>
+            </p>
+            <p>
+                <span class="sentence">Most children had to work because their families were poor and needed money to survive.</span>
+            </p>
+            <p>
+                <span class="sentence">In the 19th century, things started to improve.</span>
+                <span class="sentence">More children went to school and had better lives.</span>
+                <span class="sentence">The famous English writer Charles Dickens wrote "Oliver Twist", a book that showed how factory work hurt children.</span>
+            </p>
+            <h2>Child Labour Today</h2>
+            <p>
+                <span class="sentence">Even though many countries have laws that forbid child labour, millions of children still have to work.</span>
+                <span class="sentence">This happens mostly in Asia, Africa, and Latin America.</span>
+            </p>
+            <p>
+                <span class="sentence">Many children work in factories, farms, and on the streets.</span>
+                <span class="sentence">Some sell things, work as tour guides, or beg for money.</span>
+            </p>
+            <p>
+                <span class="sentence">According to the United Nations, there are about 200 million child workers worldwide.</span>
+                <span class="sentence">Of these, about 100 million work in dangerous jobs.</span>
+                <span class="sentence">Every year, over 22,000 children die in work accidents.</span>
+            </p>
+            <h2>Child Labour in Agriculture</h2>
+            <p>
+                <span class="sentence">Many children in poor countries work on farms.</span>
+                <span class="sentence">In Brazil, for example, children as young as four years old work on sugar plantations.</span>
+            </p>
+            <p>
+                <span class="sentence">Other children live in slums and work on city streets doing small jobs, such as polishing shoes, washing cars, or carrying luggage.</span>
+            </p>
+            <h2>The Worst Forms of Child Labour</h2>
+            <p>
+                <span class="sentence">Some children are forced to do terrible jobs.</span>
+                <span class="sentence">Some are forced into prostitution, while others are made to fight in wars.</span>
+            </p>
+            <p>
+                <span class="sentence">During the 1980s, for example, thousands of children in Iran were used as soldiers in the war against Iraq.</span>
+            </p>
+            <p>
+                <span class="sentence">Child labour is still a big problem in many countries.</span>
+                <span class="sentence">While life has improved for some children, millions still work in dangerous conditions.</span>
+                <span class="sentence">Governments and organizations are working to stop child labour and give children a better future.</span>
+            </p>
+            <p>
+                <span class="sentence">---</span>
+            </p>
+            <p>
+                <span class="sentence">Fact:</span>
+                <span class="sentence">In some poor countries, children as young as 4 years old are forced to work in dangerous conditions, such as sugar plantations in Brazil.</span>
+            </p>
+            <p>
+                <span class="sentence">---</span>
+            </p>
+            <h3>Refugees – People Forced to Leave Their Homes</h3>
+            <p>
+                <span class="sentence">Rafugees are people who leave their country because of wars, political problems, or religious conflicts.</span>
+                <span class="sentence">They run away because they fear for their lives or face danger from their government.</span>
+                <span class="sentence">Some people lose their homes but stay in their own country.</span>
+                <span class="sentence">They people are called displaced persons.</span>
+            </p>
+            <h3>How Many Refugees Are Their Today?</h3>
+            <p>
+                <span class="sentence">There are about 12 million refugees in the world today.</span>
+                <span class="sentence">The highest number was during the Balkan conflict in the 1990s, when there were 18 million refugees.</span>
+            </p>
+            <p>
+                <span class="sentence">Over 800,000 people become refugees every year, mostly escaping wars and conflicts in Africa and the Middle East.</span>
+                <span class="sentence">In 2011, thousands of people fled from North African dictatorships during the Arab Spring.</span>
+                <span class="sentence">In 1994, hundreds of thousands of Rwandans ran away from genocide and terror.</span>
+            </p>
+            <h3>Countries with the Most Refugees</h3>
+            <p>
+                <span class="sentence">Afghanistan has the highest number of refugees — almost 3 million.</span>
+                <span class="sentence">Most Afghan refugees go to Pakistan, while others have moved to Germany (over 500,000) and the United States (over 250,000).</span>
+            </p>
+            <p>
+                <span class="sentence">Other countries with many refugees include:</span>
+            </p>
+            <p>
+                <span class="sentence">★ Iraq and Somalia — Over 1 million refugees</span>
+                <span class="sentence">★ Sudan and Congo — Over 500,000 refugees each</span>
+                <span class="sentence">★ Kurds and Palestinians — Over 10 million people without a country</span>
+            </p>
+            <p>
+                <span class="sentence">Not all refugees leave because of war.</span>
+                <span class="sentence">In the Horn of Africa, over 12 million people have lost their homes because of drought.</span>
+            </p>
+            <p>
+                <span class="sentence">In total, over 40 million people are homeless worldwide due to conflicts.</span>
+                <span class="sentence">Many of may never be able to return home.</span>
+            </p>
+            <h3>Who is a Refugee?</h3>
+            <p>
+                <span class="sentence">International law defines a refugee as a person who has five other homes and return for many reasons.</span>
+                <span class="sentence">Refugees are protected by the Geneva Convention, they cannot be forced to go back to their country.</span>
+            </p>
+            <p>
+                <span class="sentence">The UNHCR (United Nations High Commissioner for Refugees) help refugee.</span>
+            </p>
+            <p>
+                <span class="sentence">◆ Helping them return home if possible</span>
+                <span class="sentence">- Helping them stay and live in a new country</span>
+                <span class="sentence">- Protecting their rights</span>
+            </p>
+            <p>
+                <span class="sentence">Many countries do not give refugees the same rights as citizens.</span>
+            </p>
+            <p>
+                <span class="sentence">It is often difficult to separate refugees from economic immigrants.</span>
+                <span class="sentence">Refugees flee for safety, while economic immigrants leave to find better jobs and income.</span>
+            </p>
+            <p>
+                <span class="sentence">Refugees leave their countries because of wars, political problems, or natural disasters.</span>
+                <span class="sentence">The United Nations and other organizations help them find safety and a better future.</span>
+                <span class="sentence">However, many refugees struggle to find a new home, and some may never return to their homeland.</span>
+            </p>
+            <p>
+                <span class="sentence">Fact:</span>
+                <span class="sentence">Around 50% of refugees are children, many of whom travel without their parents.</span>
+            </p>
+        </div>
+        
+        <div id="uzbek-text" class="text-section" style="display:none;">
+            <h2>Bolalar Mehnat — Jiddiy Muammo</h2>
+            <p>
+                <span class="sentence">Bolalar mehnat bolalar pul uchun ishlaganda sodir bo'ladi.</span>
+                <span class="sentence">Ilgari bolalar har doim oilalariga yordam berishgan, ammo 18-asr Angliyadagi Sanoat inqilobi davrida bolalar mehnati katta muammoga aylandi.</span>
+            </p>
+            <h2>O'tmishdagi bolalar mehnati</h2>
+            <p>
+                <span class="sentence">Sanoat inqilobi davrida ko'plab yosh bolalar fabrikalar va konlarda ishlagan.</span>
+                <span class="sentence">Ular juda oz pul evaziga uzoq soatlar ishlashardi.</span>
+                <span class="sentence">Fabrikalar iflos va havosi yomon edi.</span>
+                <span class="sentence">Konlarda bolalar kichik tunnellardan emaklab o'tishga majbur bo'lishardi, chunki kattalar sig'masdi.</span>
+                <span class="sentence">Ish xavfli edi va ko'pincha bolalarni kasal qilar edi.</span>
+            </p>
+            <p>
+                <span class="sentence">Ko'pchilik bolalar ishlashga majbur edi, chunki oilalari kambag'al edi va tirik qolish uchun pulga muhtoj edi.</span>
+            </p>
+            <p>
+                <span class="sentence">19-asrda vaziyat yaxshilana boshladi.</span>
+                <span class="sentence">Ko'proq bolalar maktabga borishdi va yaxshiroq hayot kechirishdi.</span>
+                <span class="sentence">Mashhur ingliz yozuvchisi Charlz Dikkens "Oliver Twist" kitobini yozgan, u zavod ishi bolalarga qanchalik zarar yetkazganini ko'rsatgan.</span>
+            </p>
+            <h2>Bugungi kunda bolalar mehnati</h2>
+            <p>
+                <span class="sentence">Garchi ko'plab mamlakatlarda bolalar mehnatini taqiqlovchi qonunlar mavjud bo'lsa-da, millionlab bolalar hali ham ishlashga majbur.</span>
+                <span class="sentence">Bu ko'pincha Osiyo, Afrika va Lotin Amerikasida sodir bo'ladi.</span>
+            </p>
+            <p>
+                <span class="sentence">Ko'pgina bolalar fabrikalarda, fermer xo'jaliklarida va ko'chalarda ishlaydi.</span>
+                <span class="sentence">Ba'zilar narsalar sotadi, gid bo'lib ishlaydi yoki pul so'raydi.</span>
+            </p>
+            <p>
+                <span class="sentence">Birlashgan Millatlar Tashkilotining ma'lumotlariga ko'ra, butun dunyo bo'ylab 200 millionga yaqin bola ishchi bor.</span>
+                <span class="sentence">Ulardan 100 millionga yaqini xavfli ishlarda ishlaydi.</span>
+                <span class="sentence">Har yili 22,000 dan ortiq bola ish joyidagi baxtsiz hodisalarda vafot etadi.</span>
+            </p>
+            <h2>Qishloq xo'jaligida bolalar mehnati</h2>
+            <p>
+                <span class="sentence">Kambag'al mamlakatlardagi ko'plab bolalar fermalarda ishlaydi.</span>
+                <span class="sentence">Masalan, Braziliyada to'rt yoshgacha bo'lgan bolalar shakar plantatsiyalarida ishlaydi.</span>
+            </p>
+            <p>
+                <span class="sentence">Boshqa bolalar esa gettolarda yashab, shahar ko'chalarida poyabzal tozalash, mashina yuvish yoki yuk ko'tarish kabi kichik ishlarni bajarishadi.</span>
+            </p>
+            <h2>Bolalar mehnatining eng yomon shakllari</h2>
+            <p>
+                <span class="sentence">Ba'zi bolalar dahshatli ishlarni qilishga majbur bo'ladi.</span>
+                <span class="sentence">Ba'zilar fohishalikka majburlanadi, boshqalari esa urushlarda jang qilishga majbur bo'ladi.</span>
+            </p>
+            <p>
+                <span class="sentence">Masalan, 1980-yillarda Eronlik minglab bolalar Iroqqa qarshi urushda askar sifatida ishlatilgan.</span>
+            </p>
+            <p>
+                <span class="sentence">Bolalar mehnati ko'plab mamlakatlarda hali ham katta muammo bo'lib qolmoqda.</span>
+                <span class="sentence">Ba'zi bolalar uchun hayot yaxshilangan bo'lsa-da, millionlab bolalar hali ham xavfli sharoitlarda ishlamoqda.</span>
+                <span class="sentence">Hukumatlar va tashkilotlar bolalar mehnatini to'xtatish va bolalarga yaxshiroq kelajak berish uchun ishlamoqda.</span>
+            </p>
+            <p>
+                <span class="sentence">---</span>
+            </p>
+            <p>
+                <span class="sentence">Fakt:</span>
+                <span class="sentence">Ba'zi kambag'al mamlakatlarda, masalan, Braziliyadagi shakar plantatsiyalarida 4 yoshgacha bo'lgan bolalar xavfli sharoitlarda ishlashga majburlanadi.</span>
+            </p>
+            <p>
+                <span class="sentence">---</span>
+            </p>
+            <h3>Qochqinlar - Uylarini Tark Etishga Majbur Bo'lgan Odamlar</h3>
+            <p>
+                <span class="sentence">Qochqinlar - bu urushlar, siyosiy muammolar yoki diniy nizolar tufayli o'z vatanini tark etgan odamlar.</span>
+                <span class="sentence">Ular o'z hayotlari uchun qo'rqqanlari yoki hukumatlari tomonidan xavfga duch kelganliklari sababli qochib ketishadi.</span>
+                <span class="sentence">Ba'zi odamlar uylarini yo'qotadi, ammo o'z vatanlarida qolishadi.</span>
+                <span class="sentence">Bu odamlar majburiy ko'chirilgan shaxslar deb ataladi.</span>
+            </p>
+            <h3>Bugungi kunda qochqinlar soni qancha?</h3>
+            <p>
+                <span class="sentence">Bugungi kunda dunyoda 12 millionga yaqin qochqin bor.</span>
+                <span class="sentence">Eng yuqori ko'rsatkich 1990-yillarda Bolqon mojarosi davrida bo'lgan, o'shanda 18 million qochqin bo'lgan.</span>
+            </p>
+            <p>
+                <span class="sentence">Har yili 800,000 dan ortiq odam qochqinga aylanadi, ular asosan Afrika va Yaqin Sharqdagi urushlar va mojarolardan qochishadi.</span>
+                <span class="sentence">2011-yilda minglab odamlar Arab bahori davrida Shimoliy Afrikadagi diktaturalardan qochib ketishdi.</span>
+                <span class="sentence">1994-yilda yuz minglab Ruandaliklar genotsid va terrorchilikdan qochishgan.</span>
+            </p>
+            <h3>Eng ko'p qochqinlarga ega mamlakatlar</h3>
+            <p>
+                <span class="sentence">Afg'oniston eng ko'p qochqinlar soniga ega - deyarli 3 million.</span>
+                <span class="sentence">Aksariyat afg'on qochqinlari Pokistonga boradi, boshqalari esa Germaniyaga (500,000 dan ortiq) va AQShga (250,000 dan ortiq) ko'chib o'tgan.</span>
+            </p>
+            <p>
+                <span class="sentence">Ko'plab qochqinlarga ega bo'lgan boshqa mamlakatlar qatoriga quyidagilar kiradi:</span>
+            </p>
+            <p>
+                <span class="sentence">★ Iroq va Somali - 1 milliondan ortiq qochqin</span>
+                <span class="sentence">★ Sudan va Kongo - har birida 500,000 dan ortiq qochqin</span>
+                <span class="sentence">★ Kurdlar va Falastinliklar - mamlakati bo'lmagan 10 milliondan ortiq odam</span>
+            </p>
+            <p>
+                <span class="sentence">Barcha qochqinlar urush tufayli ketmaydi.</span>
+                <span class="sentence">Afrika shoxida qurg'oqchilik tufayli 12 milliondan ortiq odam o'z uylarini yo'qotgan.</span>
+            </p>
+            <p>
+                <span class="sentence">Umuman olganda, butun dunyo bo'ylab 40 milliondan ortiq odam mojarolar tufayli uysiz qolgan.</span>
+                <span class="sentence">Ularning ko'pchiligi hech qachon uylariga qayta olmasligi mumkin.</span>
+            </p>
+            <h3>Qochqin kim?</h3>
+            <p>
+                <span class="sentence">Xalqaro qonunchilik qochqinni beshta boshqa uyi bor va ko'plab sabablarga ko'ra qaytib kela olmaydigan shaxs sifatida belgilaydi.</span>
+                <span class="sentence">Qochqinlar Jeneva konventsiyasi bilan himoyalangan, ular o'z mamlakatlariga qaytishga majburlana olmaydi.</span>
+            </p>
+            <p>
+                <span class="sentence">BMT Qochqinlar bo'yicha Oliy Komissarligi (UNHCR) qochqinlarga yordam beradi.</span>
+            </p>
+            <p>
+                <span class="sentence">◆ Agar mumkin bo'lsa, ularga uylariga qaytishga yordam berish</span>
+                <span class="sentence">- Ularga yangi mamlakatda qolish va yashashga yordam berish</span>
+                <span class="sentence">- Ularning huquqlarini himoya qilish</span>
+            </p>
+            <p>
+                <span class="sentence">Ko'plab mamlakatlar qochqinlarga fuqarolarga beriladigan huquqlarni bermaydi.</span>
+            </p>
+            <p>
+                <span class="sentence">Qochqinlarni iqtisodiy muhojirlardan ajratish ko'pincha qiyin.</span>
+                <span class="sentence">Qochqinlar xavfsizlik uchun qochadi, iqtisodiy muhojirlar esa yaxshiroq ish va daromad topish uchun ketadi.</span>
+            </p>
+            <p>
+                <span class="sentence">Qochqinlar o'z vatanlarini urushlar, siyosiy muammolar yoki tabiiy ofatlar tufayli tark etishadi.</span>
+                <span class="sentence">Birlashgan Millatlar Tashkiloti va boshqa tashkilotlar ularga xavfsizlik va yaxshiroq kelajak topishga yordam beradi.</span>
+                <span class="sentence">Biroq, ko'plab qochqinlar yangi uy topishda qiynaladi va ba'zilari o'z vatanlariga hech qachon qaytmasligi mumkin.</span>
+            </p>
+            <p>
+                <span class="sentence">Fakt:</span>
+                <span class="sentence">Qochqinlarning 50% ga yaqini bolalar, ularning ko'pchiligi ota-onalarisiz sayohat qiladi.</span>
+            </p>
+        </div>
+        
+        <div class="button-group">
+            <button id="toggle-lang-button">O'zbekcha</button>
+            <button id="toggle-theme-button">Qorong'u rejim</button>
+        </div>
+    </div>
+    <script>
+        const originalTexts = {};
+
+        const words = {
+            "child": "bola", "labour": "mehnat", "a": "bir", "serious": "jiddiy", "problem": "muammo",
+            "happens": "sodir bo'ladi", "when": "qachon", "children": "bolalar", "work": "ishlash",
+            "for": "uchun", "money": "pul", "in": "da", "the": "bu", "past": "o'tmish", "always": "har doim",
+            "helped": "yordam berishgan", "their": "ularning", "families": "oilalar", "but": "ammo",
+            "became": "aylandi", "big": "katta", "during": "davrida", "industrial": "sanoat",
+            "revolution": "inqilob", "18th": "18-asr", "century": "asr", "england": "Angliya",
+            "many": "ko'plab", "young": "yosh", "worked": "ishlagan", "factories": "fabrikalar",
+            "and": "va", "mines": "konlar", "they": "ular", "long": "uzoq", "hours": "soatlar",
+            "very": "juda", "little": "oz", "were": "edi", "dirty": "iflos", "had": "bor edi",
+            "bad": "yomon", "air": "havo", "had": "majbur edi", "to": "uchun", "crawl": "emaklash",
+            "through": "orqali", "small": "kichik", "tunnels": "tunnellar", "because": "chunki",
+            "adults": "kattalar", "could": "mumkin", "not": "emas", "fit": "sig'ish", "inside": "ichkariga",
+            "was": "edi", "dangerous": "xavfli", "often": "ko'pincha", "made": "qildi", "sick": "kasal",
+            "most": "ko'pchilik", "had": "edi", "to": "uchun", "work": "ishlash", "their": "ularning",
+            "families": "oilalar", "poor": "kambag'al", "needed": "muhtoj edi", "to": "uchun",
+            "survive": "tirik qolish", "19th": "19-asr", "century": "asr", "things": "vaziyatlar",
+            "started": "boshladi", "improve": "yaxshilanish", "more": "ko'proq", "went": "bordi",
+            "school": "maktab", "better": "yaxshiroq", "lives": "hayot", "the": "bu", "famous": "mashhur",
+            "english": "ingliz", "writer": "yozuvchi", "charles": "Charlz", "dickens": "Dikkens",
+            "wrote": "yozgan", "oliver": "Oliver", "twist": "Tvist", "book": "kitob", "that": "bu",
+            "showed": "ko'rsatgan", "how": "qanday", "factory": "zavod", "hurt": "zarar yetkazgan",
+            "even": "garchi", "though": "bo'lsa-da", "many": "ko'plab", "countries": "mamlakatlar",
+            "have": "mavjud", "laws": "qonunlar", "forbid": "taqiqlovchi", "millions": "millionlab",
+            "still": "hali ham", "to": "uchun", "work": "ishlash", "this": "bu", "mostly": "ko'pincha",
+            "in": "da", "asia": "Osiyo", "africa": "Afrika", "latin": "Lotin", "america": "Amerika",
+            "many": "ko'pgina", "children": "bolalar", "factories": "fabrikalar", "farms": "fermer xo'jaliklari",
+            "on": "da", "streets": "ko'chalar", "some": "ba'zilar", "sell": "sotadi", "things": "narsalar",
+            "as": "sifatida", "tour": "tur", "guides": "gidlar", "or": "yoki", "beg": "so'raydi",
+            "for": "uchun", "money": "pul", "according": "bo'yicha", "to": "ga", "united": "birlashgan",
+            "nations": "millatlar", "there": "mavjud", "are": "bor", "about": "taxminan", "200": "200",
+            "million": "million", "child": "bola", "workers": "ishchilar", "worldwide": "butun dunyo bo'ylab",
+            "of": "dan", "these": "ular", "about": "taxminan", "100": "100", "work": "ishlaydi",
+            "dangerous": "xavfli", "jobs": "ishlar", "every": "har", "year": "yili", "over": "dan ortiq",
+            "22,000": "22,000", "die": "vafot etadi", "in": "da", "accidents": "baxtsiz hodisalar",
+            "agriculture": "qishloq xo'jaligi", "in": "da", "poor": "kambag'al", "countries": "mamlakatlar",
+            "work": "ishlaydi", "on": "da", "farms": "fermer xo'jaliklari", "brazil": "Braziliya",
+            "for": "uchun", "example": "masalan", "as": "sifatida", "young": "yosh", "as": "sifatida",
+            "four": "to'rt", "years": "yosh", "old": "eski", "work": "ishlaydi", "on": "da",
+            "sugar": "shakar", "plantations": "plantatsiyalar", "other": "boshqa", "children": "bolalar",
+            "live": "yashaydi", "in": "da", "slums": "gettolarda", "work": "ishlaydi", "on": "da",
+            "city": "shahar", "streets": "ko'chalar", "doing": "bajarish", "small": "kichik", "jobs": "ishlar",
+            "such": "kabi", "as": "sifatida", "polishing": "tozalash", "shoes": "poyabzallar",
+            "washing": "yuvish", "cars": "mashinalar", "or": "yoki", "carrying": "ko'tarish", "luggage": "yuk",
+            "the": "bu", "worst": "eng yomon", "forms": "shakllari", "of": "ning", "child": "bola",
+            "are": "dir", "forced": "majbur bo'ladi", "to": "uchun", "do": "qilish", "terrible": "dahshatli",
+            "some": "ba'zilar", "are": "dir", "forced": "majburlanadi", "into": "ga", "prostitution": "fohishalik",
+            "while": "esa", "others": "boshqalar", "are": "dir", "made": "majbur bo'ladi", "to": "uchun",
+            "fight": "jang qilish", "in": "da", "wars": "urushlar", "during": "davrida", "the": "bu",
+            "1980s": "1980-yillar", "for": "uchun", "example": "masalan", "thousands": "minglab",
+            "children": "bolalar", "in": "da", "iran": "Eron", "were": "edi", "used": "ishlatilgan",
+            "as": "sifatida", "soldiers": "askar", "in": "da", "the": "bu", "war": "urush", "against": "qarshi",
+            "iraq": "Iroq", "is": "dir", "still": "hali ham", "a": "bir", "big": "katta", "problem": "muammo",
+            "in": "da", "many": "ko'plab", "countries": "mamlakatlar", "while": "esa", "life": "hayot",
+            "has": "bor", "improved": "yaxshilangan", "for": "uchun", "some": "ba'zi", "millions": "millionlab",
+            "work": "ishlamoqda", "in": "da", "dangerous": "xavfli", "conditions": "sharoitlar",
+            "governments": "hukumatlar", "organizations": "tashkilotlar", "are": "dir", "working": "ishlamoqda",
+            "to": "uchun", "stop": "to'xtatish", "give": "berish", "a": "bir", "better": "yaxshiroq",
+            "future": "kelajak", "fact": "fakt", "in": "da", "some": "ba'zi", "poor": "kambag'al",
+            "countries": "mamlakatlar", "children": "bolalar", "as": "sifatida", "young": "yosh", "as": "sifatida",
+            "4": "4", "years": "yosh", "old": "eski", "are": "dir", "forced": "majburlanadi", "to": "uchun",
+            "work": "ishlash", "in": "da", "dangerous": "xavfli", "conditions": "sharoitlar", "such": "kabi",
+            "as": "sifatida", "sugar": "shakar", "plantations": "plantatsiyalar", "brazil": "Braziliya",
+            "refugees": "qochqinlar", "people": "odamlar", "forced": "majbur bo'lgan", "to": "uchun",
+            "leave": "tark etish", "their": "ularning", "homes": "uylar", "are": "dir", "who": "kim",
+            "country": "mamlakat", "because": "tufayli", "of": "ning", "wars": "urushlar", "political": "siyosiy",
+            "problems": "muammolar", "or": "yoki", "religious": "diniy", "conflicts": "nizolar", "they": "ular",
+            "run": "qochish", "away": "ketish", "fear": "qo'rqishadi", "for": "uchun", "their": "ularning",
+            "lives": "hayotlar", "face": "duch kelish", "danger": "xavf", "from": "dan", "government": "hukumat",
+            "some": "ba'zi", "lose": "yo'qotadi", "their": "ularning", "homes": "uylar", "but": "ammo",
+            "stay": "qolish", "in": "da", "their": "ularning", "own": "o'z", "country": "mamlakat",
+            "are": "dir", "called": "deb ataladi", "displaced": "ko'chirilgan", "persons": "shaxslar",
+            "how": "qancha", "many": "ko'plab", "are": "dir", "their": "ularning", "today": "bugun",
+            "there": "mavjud", "are": "dir", "about": "taxminan", "12": "12", "million": "million", "in": "da",
+            "the": "bu", "world": "dunyo", "highest": "eng yuqori", "number": "soni", "was": "edi",
+            "during": "davrida", "balkan": "Bolqon", "conflict": "mojaro", "in": "da", "the": "bu",
+            "1990s": "1990-yillar", "when": "o'shanda", "there": "mavjud", "were": "edi", "18": "18",
+            "million": "million", "over": "dan ortiq", "800,000": "800,000", "people": "odamlar",
+            "become": "aylanadi", "refugees": "qochqinlar", "every": "har", "year": "yili",
+            "mostly": "asosan", "escaping": "qochish", "wars": "urushlar", "and": "va",
+            "conflicts": "mojarolar", "in": "da", "africa": "Afrika", "the": "bu", "middle": "Yaqin",
+            "east": "Sharq", "2011": "2011", "thousands": "minglab", "people": "odamlar", "fled": "qochib ketishdi",
+            "from": "dan", "north": "Shimoliy", "african": "afrikalik", "dictatorships": "diktaturalar",
+            "during": "davrida", "the": "bu", "arab": "Arab", "spring": "bahor", "1994": "1994",
+            "hundreds": "yuzlab", "of": "dan", "thousands": "minglab", "rwandans": "Ruandaliklar",
+            "ran": "qochgan", "away": "ketgan", "from": "dan", "genocide": "genotsid", "terror": "terrorchilik",
+            "countries": "mamlakatlar", "with": "bilan", "the": "bu", "most": "eng ko'p", "refugees": "qochqinlar",
+            "afghanistan": "Afg'oniston", "has": "ega", "the": "bu", "highest": "eng yuqori", "number": "soni",
+            "almost": "deyarli", "3": "3", "million": "million", "most": "aksariyat", "afghan": "afg'on",
+            "go": "boradi", "to": "ga", "pakistan": "Pokiston", "while": "esa", "others": "boshqalar",
+            "have": "bor", "moved": "ko'chib o'tgan", "to": "ga", "germany": "Germaniya", "over": "dan ortiq",
+            "500,000": "500,000", "and": "va", "united": "birlashgan", "states": "shtatlar",
+            "250,000": "250,000", "other": "boshqa", "countries": "mamlakatlar", "with": "bilan",
+            "many": "ko'plab", "include": "kiradi", "iraq": "Iroq", "somalia": "Somali", "sudan": "Sudan",
+            "congo": "Kongo", "each": "har birida", "kurds": "Kurdlar", "palestinians": "Falastinliklar",
+            "without": "bo'lmagan", "country": "mamlakat", "not": "emas", "all": "barcha", "refugees": "qochqinlar",
+            "leave": "ketadi", "because": "tufayli", "of": "ning", "war": "urush", "in": "da",
+            "the": "bu", "horn": "shox", "of": "ning", "africa": "Afrika", "over": "dan ortiq",
+            "12": "12", "million": "million", "people": "odamlar", "have": "bor", "lost": "yo'qotgan",
+            "their": "ularning", "homes": "uylar", "because": "tufayli", "of": "ning", "drought": "qurg'oqchilik",
+            "in": "da", "total": "jami", "over": "dan ortiq", "40": "40", "million": "million",
+            "people": "odamlar", "are": "dir", "homeless": "uysiz", "worldwide": "butun dunyo bo'ylab",
+            "due": "tufayli", "to": "ga", "conflicts": "mojarolar", "many": "ko'pchiligi", "of": "dan",
+            "may": "mumkin", "never": "hech qachon", "be": "bo'lish", "able": "qodir", "to": "uchun",
+            "return": "qaytish", "home": "uy", "who": "kim", "is": "dir", "a": "bir", "refugee": "qochqin",
+            "international": "xalqaro", "law": "qonunchilik", "defines": "belgilaydi", "a": "bir",
+            "refugee": "qochqin", "as": "sifatida", "a": "bir", "person": "shaxs", "who": "kim", "has": "ega",
+            "five": "beshta", "other": "boshqa", "homes": "uy", "and": "va", "return": "qaytish",
+            "for": "uchun", "many": "ko'plab", "reasons": "sabablar", "are": "dir", "protected": "himoyalangan",
+            "by": "tomonidan", "the": "bu", "geneva": "Jeneva", "convention": "konventsiya", "they": "ular",
+            "cannot": "mumkin emas", "be": "bo'lish", "forced": "majburlangan", "to": "uchun", "go": "ketish",
+            "back": "qaytib", "to": "ga", "their": "ularning", "country": "mamlakat",
+            "unhcr": "BMT Qochqinlar bo'yicha Oliy Komissarligi", "united": "Birlashgan",
+            "nations": "Millatlar", "high": "Oliy", "commissioner": "Komissarligi", "for": "uchun",
+            "refugees": "Qochqinlar", "help": "yordam beradi", "refugee": "qochqin", "helping": "yordam berish",
+            "them": "ularga", "return": "qaytish", "home": "uyga", "if": "agar", "possible": "mumkin bo'lsa",
+            "stay": "qolish", "live": "yashash", "in": "da", "a": "bir", "new": "yangi", "country": "mamlakat",
+            "protecting": "himoya qilish", "their": "ularning", "rights": "huquqlar", "many": "ko'plab",
+            "countries": "mamlakatlar", "do": "qiladi", "not": "emas", "give": "beradi", "the": "bu",
+            "same": "bir xil", "rights": "huquqlar", "as": "sifatida", "citizens": "fuqarolar", "it": "u",
+            "is": "dir", "often": "ko'pincha", "difficult": "qiyin", "to": "uchun", "separate": "ajratish",
+            "refugees": "qochqinlar", "from": "dan", "economic": "iqtisodiy", "immigrants": "muhojirlar",
+            "flee": "qochish", "for": "uchun", "safety": "xavfsizlik", "while": "esa", "economic": "iqtisodiy",
+            "immigrants": "muhojirlar", "leave": "ketishadi", "to": "uchun", "find": "topish",
+            "better": "yaxshiroq", "jobs": "ishlar", "and": "va", "income": "daromad", "leave": "tark etishadi",
+            "their": "ularning", "countries": "mamlakatlar", "because": "tufayli", "of": "ning", "wars": "urushlar",
+            "political": "siyosiy", "problems": "muammolar", "or": "yoki", "natural": "tabiiy",
+            "disasters": "ofatlar", "the": "bu", "united": "birlashgan", "nations": "millatlar",
+            "and": "va", "other": "boshqa", "organizations": "tashkilotlar", "help": "yordam beradi",
+            "them": "ularga", "find": "topish", "safety": "xavfsizlik", "a": "bir", "better": "yaxshiroq",
+            "future": "kelajak", "however": "biroq", "many": "ko'plab", "refugees": "qochqinlar",
+            "struggle": "qiynaladi", "to": "uchun", "find": "topish", "a": "bir", "new": "yangi",
+            "home": "uy", "and": "va", "some": "ba'zilar", "may": "mumkin", "never": "hech qachon",
+            "return": "qaytish", "to": "ga", "their": "ularning", "homeland": "vatani", "fact": "fakt",
+            "around": "atrofida", "50%": "50%", "of": "dan", "refugees": "qochqinlar", "are": "dir",
+            "children": "bolalar", "many": "ko'pchiligi", "of": "dan", "whom": "ular", "travel": "sayohat qiladi",
+            "without": "siz", "their": "ularning", "parents": "ota-onalar"
+        };
+        
+        const uzbekToEnglish = {
+            "bolalar": "children", "mehnat": "labour", "jiddiy": "serious", "muammo": "problem",
+            "sodir": "happen", "bo'ladi": "is", "pul": "money", "uchun": "for",
+            "ishlaganda": "when they work", "ilgari": "in the past", "har": "every", "doim": "time",
+            "oilalariga": "to their families", "yordam": "help", "berishgan": "given",
+            "ammo": "but", "18-asr": "18th century", "angliyadagi": "in England",
+            "sanoat": "industrial", "inqilobi": "revolution", "davrida": "during",
+            "katta": "big", "muammoga": "to a problem", "aylandi": "became", "o'tmishdagi": "in the past",
+            "ko'plab": "many", "yosh": "young", "fabrikalar": "factories",
+            "va": "and", "konlarda": "in mines", "ishlagan": "worked",
+            "ular": "they", "juda": "very", "oz": "little", "pul": "money",
+            "evaziga": "for", "uzoq": "long", "soatlar": "hours", "ishlashardi": "worked",
+            "iflos": "dirty", "havosi": "its air", "yomon": "bad", "edi": "was",
+            "konlarda": "in mines", "kichik": "small", "tunnellardan": "from tunnels",
+            "emaklab": "crawling", "o'tishga": "to pass", "majbur": "forced",
+            "bo'lishardi": "were", "chunki": "because", "kattalar": "adults",
+            "sig'masdi": "could not fit", "ish": "work", "xavfli": "dangerous",
+            "ko'pincha": "often", "bolalarni": "children", "kasal": "sick",
+            "qilar": "made", "edi": "was", "ko'pchilik": "most",
+            "ishlashga": "to work", "majbur": "forced", "edi": "was", "chunki": "because",
+            "oilalari": "their families", "kambag'al": "poor", "edi": "was",
+            "tirik": "alive", "qolish": "to stay", "uchun": "for", "pulga": "to money",
+            "muhtoj": "needed", "edi": "was", "19-asrda": "in the 19th century",
+            "vaziyat": "things", "yaxshilana": "to improve", "boshladi": "started",
+            "ko'proq": "more", "maktabga": "to school", "borishdi": "went",
+            "yaxshiroq": "better", "hayot": "life", "kechirishdi": "lived",
+            "mashhur": "famous", "ingliz": "English", "yozuvchisi": "writer",
+            "charlz": "Charles", "dikkens": "Dickens", "oliver": "Oliver",
+            "twist": "Twist", "kitobini": "his book", "yozgan": "wrote",
+            "u": "he", "zavod": "factory", "ishi": "work", "bolalarga": "to children",
+            "qanchalik": "how much", "zarar": "harm", "yetkazganini": "it hurt",
+            "ko'rsatgan": "showed", "bugungi": "today's", "kunda": "day",
+            "garchi": "even though", "ko'plab": "many", "mamlakatlarda": "in countries",
+            "mehnatini": "labour", "taqiqlovchi": "forbidding", "qonunlar": "laws",
+            "mavjud": "exist", "bo'lsa-da": "though", "millionlab": "millions of",
+            "hali": "still", "ham": "also", "ishlashga": "to work",
+            "majbur": "forced", "bu": "this", "ko'pincha": "mostly", "osiyo": "Asia",
+            "afrika": "Africa", "latin": "Latin", "amerikasida": "in America",
+            "sodir": "happens", "bo'ladi": "is", "ko'pgina": "many", "fabrikalarda": "in factories",
+            "fermer": "farmer", "xo'jaliklarida": "in farms", "ko'chalarda": "on the streets",
+            "ishlaydi": "works", "ba'zilar": "some", "narsalar": "things", "sotadi": "sell",
+            "gid": "guide", "bo'lib": "as", "ishlaydi": "work", "yoki": "or", "pul": "money",
+            "so'raydi": "beg", "birlashgan": "united", "millatlar": "nations",
+            "tashkilotining": "of the organization", "ma'lumotlariga": "according to the data",
+            "ko'ra": "is", "butun": "all over", "dunyo": "world", "bo'ylab": "on", "200": "200",
+            "millionga": "to million", "yaqin": "close", "bola": "child", "ishchi": "worker",
+            "bor": "there are", "ulardan": "from them", "100": "100", "millionga": "to million",
+            "yaqini": "close", "xavfli": "dangerous", "ishlarda": "in jobs",
+            "har": "every", "yili": "year", "22,000": "22,000", "ortiq": "more",
+            "ish": "work", "joyidagi": "at the place", "baxtsiz": "unlucky",
+            "hodisalarda": "in accidents", "vafot": "died", "etadi": "is",
+            "qishloq": "village", "xo'jaligida": "in the economy",
+            "kambag'al": "poor", "mamlakatlardagi": "in countries",
+            "fermalarda": "on farms", "ishlaydi": "work",
+            "masalan": "for example", "braziliyada": "in Brazil", "to'rt": "four",
+            "yoshgacha": "up to age", "bo'lgan": "who are",
+            "bolalar": "children", "shakar": "sugar",
+            "plantatsiyalarida": "on plantations", "ishlaydi": "work", "boshqa": "other",
+            "esa": "and", "gettolarda": "in slums", "yashab": "living", "shahar": "city",
+            "ko'chalarida": "on streets", "poyabzal": "shoes",
+            "tozalash": "polishing", "mashina": "car", "yuvish": "washing",
+            "yoki": "or", "yuk": "luggage", "ko'tarish": "carrying", "kabi": "like",
+            "kichik": "small", "ishlarni": "jobs", "bajarishadi": "they do",
+            "mehnatining": "of labour", "eng": "most", "yomon": "bad",
+            "shakllari": "forms", "dahshatli": "terrible", "ishlarni": "jobs",
+            "qilishga": "to do", "majbur": "forced", "bo'ladi": "is",
+            "ba'zilar": "some", "fohishalikka": "to prostitution", "majburlanadi": "are forced",
+            "boshqalari": "others", "urushlarda": "in wars", "jang": "fight",
+            "qilishga": "to do", "majbur": "forced", "bo'ladi": "is",
+            "masalan": "for example", "1980-yillarda": "in the 1980s",
+            "eronlik": "Iranian", "minglab": "thousands of", "askarlar": "soldiers",
+            "sifatida": "as", "ishlatilgan": "used", "iroqqa": "to Iraq",
+            "qarshi": "against", "urushda": "in the war", "hali": "still",
+            "katta": "big", "muammo": "problem", "bo'lib": "being",
+            "qolmoqda": "remains", "ba'zi": "some", "hayot": "life",
+            "yaxshilangan": "has improved", "bo'lsa-da": "although",
+            "millionlab": "millions of", "xavfli": "dangerous",
+            "sharoitlarda": "in conditions", "ishlamoqda": "are working",
+            "hukumatlar": "governments", "va": "and",
+            "tashkilotlar": "organizations", "to'xtatish": "to stop",
+            "yaxshiroq": "better", "kelajak": "future", "berish": "to give",
+            "uchun": "for", "ishlamoqda": "are working", "fakt": "fact",
+            "ba'zi": "some", "kambag'al": "poor", "mamlakatlarda": "in countries",
+            "masalan": "for example", "braziliyadagi": "in Brazil",
+            "shakar": "sugar", "plantatsiyalarida": "on plantations",
+            "4": "4", "yoshgacha": "up to age", "bo'lgan": "who are",
+            "bolalar": "children", "xavfli": "dangerous", "sharoitlarda": "in conditions",
+            "ishlashga": "to work", "majburlanadi": "are forced",
+            "qochqinlar": "refugees", "uylarini": "their homes", "tark": "leave",
+            "etishga": "to do", "majbur": "forced", "bo'lgan": "who are",
+            "odamlar": "people", "bu": "this", "urushlar": "wars", "siyosiy": "political",
+            "muammolar": "problems", "yoki": "or", "diniy": "religious",
+            "nizolar": "conflicts", "tufayli": "due to", "o'z": "their own", "vatanini": "country",
+            "tark": "leave", "etgan": "have done", "odamlar": "people",
+            "ular": "they", "o'z": "their own", "hayotlari": "lives", "uchun": "for",
+            "qo'rqqanlari": "they are scared", "yoki": "or", "hukumatlari": "their governments",
+            "tomonidan": "by", "xavfga": "to danger", "duch": "face", "kelganliklari": "they have come",
+            "sababli": "because of", "qochib": "run", "ketishadi": "away",
+            "ba'zi": "some", "odamlar": "people", "uylarini": "their homes", "yo'qotadi": "lose",
+            "ammo": "but", "o'z": "their own", "vatanlarida": "in their country",
+            "qolishadi": "stay", "bu": "these", "odamlar": "people",
+            "majburiy": "forced", "ko'chirilgan": "displaced", "shaxslar": "persons",
+            "deb": "as", "ataladi": "are called", "bugungi": "today's", "kunda": "day",
+            "soni": "number", "qancha": "how many", "dunyoda": "in the world",
+            "12": "12", "millionga": "to million", "yaqin": "close",
+            "qochqin": "refugee", "bor": "there is", "eng": "most", "yuqori": "high",
+            "ko'rsatkich": "indicator", "1990-yillarda": "in the 1990s", "bolqon": "Balkan",
+            "mojarosi": "conflict", "davrida": "during", "bo'lgan": "was",
+            "o'shanda": "at that time", "18": "18", "million": "million",
+            "qochqin": "refugee", "bo'lgan": "was", "har": "every", "yili": "year",
+            "800,000": "800,000", "ortiq": "more than", "odam": "person",
+            "qochqinga": "to refugee", "aylanadi": "becomes", "ular": "they",
+            "asosan": "mostly", "afrika": "Africa", "va": "and", "yaqin": "near",
+            "sharqdagi": "in the East", "urushlar": "wars", "va": "and",
+            "mojarolardan": "from conflicts", "qochishadi": "flee",
+            "2011-yilda": "in 2011", "minglab": "thousands of", "odamlar": "people",
+            "arab": "Arab", "bahori": "spring", "davrida": "during",
+            "shimoliy": "North", "afrikadagi": "in Africa", "diktaturalardan": "from dictatorships",
+            "qochib": "running", "ketishdi": "went away", "1994-yilda": "in 1994",
+            "yuz": "hundred", "minglab": "thousands of", "ruandaliklar": "Rwandans",
+            "genotsid": "genocide", "terrorchilikdan": "from terror",
+            "qochishgan": "fled", "eng": "most", "ko'p": "many",
+            "qochqinlarga": "to refugees", "ega": "have", "mamlakatlar": "countries",
+            "afg'oniston": "Afghanistan", "eng": "most", "ko'p": "many",
+            "soniga": "to the number", "ega": "has", "deyarli": "almost",
+            "3": "3", "million": "million", "aksariyat": "most",
+            "afg'on": "Afghan", "pokistonga": "to Pakistan", "boradi": "go",
+            "boshqalari": "others", "esa": "and", "germaniyaga": "to Germany",
+            "500,000": "500,000", "ortiq": "more than", "aqshga": "to the USA",
+            "250,000": "250,000", "ko'chib": "moving", "o'tgan": "have passed",
+            "boshqa": "other", "mamlakatlar": "countries", "qatoriga": "among",
+            "quyidagilar": "the following", "kiradi": "are included", "iroq": "Iraq",
+            "va": "and", "somali": "Somalia", "milliondan": "from a million",
+            "ortiq": "more", "sudam": "Sudan", "va": "and", "kongo": "Congo",
+            "har": "every", "birida": "in one", "ortiq": "more", "kurdlar": "Kurds",
+            "va": "and", "falastinliklar": "Palestinians", "mamlakati": "country",
+            "bo'lmagan": "without", "odam": "person", "barcha": "all",
+            "urush": "war", "tufayli": "due to", "ketmaydi": "do not leave",
+            "afrika": "Africa", "shoxida": "in the horn", "qurg'oqchilik": "drought",
+            "tufayli": "due to", "milliondan": "from million", "ortiq": "more",
+            "odam": "person", "o'z": "their own", "uylarini": "homes", "yo'qotgan": "have lost",
+            "umuman": "in general", "olganda": "speaking", "butun": "all over",
+            "dunyo": "world", "bo'ylab": "on", "milliondan": "from million", "ortiq": "more",
+            "odam": "person", "mojarolar": "conflicts", "tufayli": "due to",
+            "uysiz": "homeless", "qolgan": "remained", "ularning": "their",
+            "ko'pchiligi": "most of them", "hech": "never", "qachon": "when",
+            "uylariga": "to their homes", "qayta": "to return", "olmasligi": "cannot",
+            "mumkin": "may be", "qochqin": "refugee", "kim": "who",
+            "xalqaro": "international", "qonunchilik": "law", "qochqinni": "refugee",
+            "beshta": "five", "boshqa": "other", "uyi": "home", "bor": "has",
+            "va": "and", "ko'plab": "many", "sabablarga": "to reasons",
+            "ko'ra": "according to", "qaytibo'lmaydigan": "cannot return",
+            "shaxs": "person", "sifatida": "as", "belgilaydi": "defines",
+            "jeneva": "Geneva", "konventsiyasi": "Convention", "bilan": "with",
+            "himoyalangan": "protected", "ular": "they", "o'z": "their own",
+            "mamlakatlariga": "to countries", "qaytishga": "to return",
+            "majburlana": "are forced", "olmaydi": "cannot", "bmt": "UN",
+            "qochqinlar": "refugees", "bo'yicha": "according to",
+            "oliy": "high", "komissarligi": "commissioner",
+            "unhcr": "UNHCR", "qochqinlarga": "to refugees",
+            "yordam": "help", "beradi": "gives", "agar": "if", "mumkin": "possible",
+            "bo'lsa": "is", "ularga": "to them", "uylariga": "to their homes",
+            "qaytishga": "to return", "yordam": "help", "berish": "to give",
+            "ularga": "to them", "yangi": "new", "mamlakatda": "in a country",
+            "qolish": "to stay", "va": "and", "yashashga": "to live", "huquqlarini": "their rights",
+            "himoya": "protection", "qilish": "to do", "ko'plab": "many",
+            "mamlakatlar": "countries", "fuqarolarga": "to citizens",
+            "beriladigan": "which is given", "huquqlarni": "rights",
+            "bermaydi": "do not give", "qochqinlarni": "refugees",
+            "iqtisodiy": "economic", "muhojirlardan": "from immigrants",
+            "ajratish": "to separate", "ko'pincha": "often", "qiyin": "difficult",
+            "qochqinlar": "refugees", "xavfsizlik": "safety",
+            "uchun": "for", "qochadi": "flee", "iqtisodiy": "economic",
+            "muhojirlar": "immigrants", "esa": "and", "yaxshiroq": "better",
+            "ish": "work", "va": "and", "daromad": "income", "topish": "to find",
+            "ketadi": "leave", "o'z": "their own", "vatanlarini": "countries",
+            "urushlar": "wars", "siyosiy": "political", "muammolar": "problems",
+            "yoki": "or", "tabiiy": "natural", "ofatlar": "disasters",
+            "tufayli": "due to", "tark": "leave", "etishadi": "do",
+            "birlashgan": "united", "millatlar": "nations", "tashkiloti": "organization",
+            "va": "and", "boshqa": "other", "tashkilotlar": "organizations",
+            "ularga": "to them", "xavfsizlik": "safety", "va": "and", "yaxshiroq": "better",
+            "kelajak": "future", "topishga": "to find", "yordam": "help",
+            "beradi": "gives", "biroq": "however", "ko'plab": "many",
+            "yangi": "new", "uy": "home", "topishda": "in finding", "qiynaladi": "struggle",
+            "ba'zilari": "some of them", "o'z": "their own", "vatanlariga": "to their homeland",
+            "hech": "never", "qachon": "when", "qaytmasligi": "will not return",
+            "mumkin": "may", "fakt": "fact", "qochqinlarning": "of refugees",
+            "50%": "50%", "ga": "to", "yaqini": "close", "bolalar": "children",
+            "ularning": "their", "ko'pchiligi": "most", "ota-onalarisiz": "without parents",
+            "sayohat": "travel", "qiladi": "do"
+        };
+        
+        let isEnglish = true;
+
+        // Boshlang'ich matnlarni saqlab olish
+        document.addEventListener('DOMContentLoaded', () => {
+            const englishSentences = document.getElementById('english-text').querySelectorAll('.sentence');
+            englishSentences.forEach((sentenceSpan, index) => {
+                originalTexts[`en-${index}`] = sentenceSpan.textContent;
+            });
+            const uzbekSentences = document.getElementById('uzbek-text').querySelectorAll('.sentence');
+            uzbekSentences.forEach((sentenceSpan, index) => {
+                originalTexts[`uz-${index}`] = sentenceSpan.textContent;
+            });
+            
+            // Sahifani yuklaganda inglizcha matnni interaktiv qilish
+            makeWordsClickable('english-text');
+        });
+
+        function makeWordsClickable(textSectionId) {
+            const textSection = document.getElementById(textSectionId);
+            const isCurrentEnglish = textSectionId === 'english-text';
+
+            textSection.querySelectorAll('.sentence').forEach((sentenceSpan, index) => {
+                // Avval matnni asl holatiga qaytarish
+                sentenceSpan.textContent = originalTexts[isCurrentEnglish ? `en-${index}` : `uz-${index}`];
+                let originalText = sentenceSpan.textContent;
+                let newHtml = '';
+                
+                const parts = originalText.split(/(\b[\w'-]+\b|[.,!?;:—★£]+\s*)/g);
+                
+                parts.forEach(part => {
+                    if (part.trim() === '' || part === '—' || part === '★' || part.includes('£') || part.includes('◆') || part.includes('-')) {
+                        newHtml += part;
+                        return;
+                    }
+                    
+                    const cleanedWord = part.replace(/[.,!?;:—★£◆-]/g, '').toLowerCase().trim();
+                    let tooltipText;
+                    
+                    if (isCurrentEnglish) {
+                        tooltipText = words[cleanedWord];
+                    } else {
+                        tooltipText = uzbekToEnglish[cleanedWord];
+                    }
+                    
+                    if (tooltipText) {
+                        const onClickFunction = isCurrentEnglish ? `responsiveVoice.speak('${cleanedWord}', 'UK English Male', {rate: 0.8});` : '';
+                        newHtml += `<span class="word" onclick="${onClickFunction}">${part}<span class="tooltip">${tooltipText}</span></span>`;
+                    } else {
+                        newHtml += part;
+                    }
+                });
+                sentenceSpan.innerHTML = newHtml;
+            });
+        }
+        
+        const toggleButton = document.getElementById('toggle-lang-button');
+        const englishText = document.getElementById('english-text');
+        const uzbekText = document.getElementById('uzbek-text');
+        
+        toggleButton.addEventListener('click', function() {
+            if (isEnglish) {
+                englishText.style.display = 'none';
+                uzbekText.style.display = 'block';
+                toggleButton.textContent = 'English';
+                isEnglish = false;
+                makeWordsClickable('uzbek-text');
+            } else {
+                englishText.style.display = 'block';
+                uzbekText.style.display = 'none';
+                toggleButton.textContent = 'O\'zbekcha';
+                isEnglish = true;
+                makeWordsClickable('english-text');
+            }
+        });
+
+        const toggleThemeButton = document.getElementById('toggle-theme-button');
+        let currentThemeIndex = 0;
+        const themes = ['light-mode', 'dark-mode', 'sepia-mode'];
+        const themeButtonTexts = ['Qorong\'u rejim', 'Qizg\'ich rejim', 'Kun rejimi'];
+        
+        toggleThemeButton.addEventListener('click', function() {
+            document.body.classList.remove(themes[currentThemeIndex]);
+            currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+            
+            if (themes[currentThemeIndex] !== 'light-mode') {
+                document.body.classList.add(themes[currentThemeIndex]);
+            }
+            toggleThemeButton.textContent = themeButtonTexts[currentThemeIndex];
+        });
+        
+        responsiveVoice.enableSpeech();
+    </script>
+</body>
+</html>
